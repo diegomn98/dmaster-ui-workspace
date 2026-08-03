@@ -1,0 +1,51 @@
+:host {
+  display: block;
+
+  // Los demos se adaptan a su contenedor, no al viewport.
+  container-type: inline-size;
+}
+
+.demo {
+  margin: 0;
+  display: grid;
+  gap: var(--dm-space-3);
+}
+
+.demo__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.01em;
+  color: var(--dm-fg);
+
+  // Marcador de demo: barrita vertical con el gradiente de marca.
+  &::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0.1875rem;
+    height: 0.9375rem;
+    border-radius: var(--dm-radius-full);
+    background: var(--dm-gradient-brand);
+  }
+}
+
+.demo__preview {
+  display: block;
+  padding: var(--dm-space-8) var(--dm-space-6);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+
+  // Retícula de puntos de marca (coherente con el Overview), con un
+  // desvanecido radial para que el patrón respire y no compita con el
+  // componente demostrado.
+  background-color: var(--dm-bg-subtle);
+  background-image:
+    radial-gradient(ellipse at center, transparent 45%, var(--dm-bg-subtle) 95%),
+    radial-gradient(color-mix(in srgb, var(--dm-fg) 8%, transparent) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    14px 14px;
+  overflow-x: auto;
+}

@@ -1,0 +1,290 @@
+@use 'mixins';
+
+:host {
+  display: grid;
+  gap: var(--dm-space-8);
+}
+
+// ---- Hero ------------------------------------------------------------------
+.ov__hero {
+  position: relative;
+  display: grid;
+  gap: var(--dm-space-3);
+  justify-items: start;
+  padding-top: var(--dm-space-4);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -4rem;
+    left: -2rem;
+    width: 20rem;
+    height: 20rem;
+    background: radial-gradient(circle, rgb(99 102 241 / 14%), transparent 65%);
+    pointer-events: none;
+  }
+}
+
+.ov__logo {
+  width: 3rem;
+  height: 3rem;
+  filter: drop-shadow(0 2px 6px rgb(99 102 241 / 35%));
+}
+
+.ov__title {
+  font-size: clamp(1.875rem, 4vw, 2.5rem);
+  font-weight: var(--dm-font-bold);
+  letter-spacing: -0.02em;
+  line-height: var(--dm-leading-tight);
+  background: var(--dm-gradient-brand);
+  background-clip: text;
+  color: transparent;
+}
+
+.ov__lead {
+  max-width: 44rem;
+  font-size: var(--dm-text-base);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+}
+
+// ---- Grid ------------------------------------------------------------------
+.ov__grid {
+  display: grid;
+  gap: var(--dm-space-4);
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+
+.ov__tile {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--dm-shadow-sm);
+
+  @include mixins.transition(transform, box-shadow, border-color);
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--dm-shadow-md);
+    border-color: color-mix(in srgb, var(--dm-primary) 40%, var(--dm-border));
+
+    .ov__arrow {
+      opacity: 1;
+      transform: translateX(2px);
+    }
+
+    .ov__preview {
+      background-color: color-mix(in srgb, var(--dm-primary) 3%, var(--dm-bg-subtle));
+    }
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+// Zona de preview con retícula de puntos (patrón de marca)
+.ov__preview {
+  display: grid;
+  place-items: center;
+  height: 8.5rem;
+  padding: var(--dm-space-4);
+  border-bottom: 1px solid var(--dm-border);
+  background-color: var(--dm-bg-subtle);
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--dm-fg) 8%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 14px 14px;
+  overflow: hidden;
+
+  @include mixins.transition(background-color);
+}
+
+.ov__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: var(--dm-space-3) var(--dm-space-4);
+}
+
+.ov__name {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.01em;
+}
+
+.ov__arrow {
+  width: 1rem;
+  height: 1rem;
+  margin-left: auto;
+  color: var(--dm-primary);
+  opacity: 0.35;
+
+  @include mixins.transition(opacity, transform);
+}
+
+// ---- Mini-previews ---------------------------------------------------------
+.ov__accent {
+  color: var(--dm-primary);
+}
+
+.ov__mini-media {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-3);
+  width: 80%;
+}
+
+.ov__mini-media dm-skeleton:first-child {
+  width: auto;
+  flex-shrink: 0;
+}
+
+.ov__mini-lines {
+  flex: 1;
+  min-width: 0;
+}
+
+.ov__mini-row {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-3);
+}
+
+.ov__mini-stack {
+  display: grid;
+  gap: var(--dm-space-2);
+}
+
+.ov__avatars {
+  display: flex;
+
+  dm-avatar {
+    border: 2px solid var(--dm-bg-subtle);
+
+    + dm-avatar {
+      margin-left: -0.625rem;
+    }
+  }
+}
+
+.ov__mini-card {
+  display: grid;
+  gap: var(--dm-space-2);
+  width: 80%;
+}
+
+.ov__mini-field {
+  width: 85%;
+}
+
+// Mock del tooltip
+.ov__tooltip-mock {
+  display: grid;
+  justify-items: center;
+  gap: var(--dm-space-2);
+}
+
+.ov__tooltip-bubble {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-tooltip-bg);
+  color: var(--dm-tooltip-fg);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  box-shadow: var(--dm-shadow-md);
+}
+
+.ov__tooltip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--dm-border-strong);
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-bg-elevated);
+  color: var(--dm-fg-muted);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+}
+
+// Mock del dialog
+.ov__dialog-mock {
+  display: grid;
+  place-items: center;
+  width: 82%;
+  padding: var(--dm-space-3);
+  border-radius: var(--dm-radius-md);
+  background: rgb(0 0 0 / 22%);
+}
+
+.ov__dialog-panel {
+  display: grid;
+  gap: var(--dm-space-2);
+  width: 100%;
+  padding: var(--dm-space-3);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-lg);
+}
+
+.ov__dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--dm-space-1);
+  margin-top: var(--dm-space-1);
+}
+
+// Mock del toast
+.ov__toast-mock {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  width: 75%;
+  padding: var(--dm-space-2) var(--dm-space-3);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-md);
+}
+
+.ov__toast-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  flex-shrink: 0;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-success);
+}
+
+// Piezas genéricas de mocks
+.ov__mock-line {
+  display: block;
+  height: 0.375rem;
+  width: 100%;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-muted);
+
+  &--title {
+    width: 45%;
+    background: var(--dm-border-strong);
+  }
+}
+
+.ov__mock-chip {
+  display: inline-block;
+  width: 2rem;
+  height: 0.875rem;
+  border-radius: var(--dm-radius-sm);
+  background: var(--dm-bg-muted);
+
+  &--primary {
+    background: var(--dm-primary);
+  }
+}

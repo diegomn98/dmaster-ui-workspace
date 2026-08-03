@@ -1,0 +1,91 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.buttons }}</p>
+  <h1 class="page__title">Loading Button</h1>
+  <p class="page__lead" [innerHTML]="i18n.t().loadingButtonPage.lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmLoadingButtonComponent &#125; from 'ngx-dmaster-ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-loading-button
+      [variant]="pgVariant()"
+      [size]="pgSize()"
+      [state]="pgState()"
+      [disabled]="pgDisabled()"
+    >
+      {{ pgLabel() }}
+    </dm-loading-button>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().loadingButtonPage.demos.variants" [code]="variantsCode">
+    <div class="demo-row">
+      <dm-loading-button>Primary</dm-loading-button>
+      <dm-loading-button variant="secondary">Secondary</dm-loading-button>
+      <dm-loading-button variant="outline">Outline</dm-loading-button>
+      <dm-loading-button variant="ghost">Ghost</dm-loading-button>
+      <dm-loading-button variant="danger">Danger</dm-loading-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().loadingButtonPage.demos.sizes" [code]="sizesCode">
+    <div class="demo-row">
+      <dm-loading-button size="sm">Small</dm-loading-button>
+      <dm-loading-button size="md">Medium</dm-loading-button>
+      <dm-loading-button size="lg">Large</dm-loading-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().loadingButtonPage.demos.states" [code]="statesCode">
+    <div class="demo-row">
+      <dm-loading-button>Idle</dm-loading-button>
+      <dm-loading-button state="loading" loadingLabel="Saving…">Saving</dm-loading-button>
+      <dm-loading-button state="success" successLabel="Saved">Saved</dm-loading-button>
+      <dm-loading-button variant="danger" state="error" errorLabel="Failed">
+        Failed
+      </dm-loading-button>
+      <dm-loading-button [disabled]="true">Disabled</dm-loading-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().loadingButtonPage.demos.async" [code]="asyncCode">
+    <dm-loading-button
+      [state]="demoState()"
+      loadingLabel="Saving…"
+      successLabel="Saved"
+      (clicked)="runAsyncDemo()"
+    >
+      {{ i18n.t().loadingButtonPage.asyncButtonLabel }}
+    </dm-loading-button>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="i18n.t().loadingButtonPage.apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="i18n.t().loadingButtonPage.defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of i18n.t().loadingButtonPage.a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

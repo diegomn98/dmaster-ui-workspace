@@ -1,0 +1,66 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.primitives }}</p>
+  <h1 class="page__title">Avatar</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmAvatarComponent &#125; from 'ngx-dmaster-ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-avatar
+      [src]="pgSrc()"
+      alt="Diego Maestro"
+      [initials]="pgInitials()"
+      [size]="pgSize()"
+      [shape]="pgShape()"
+    />
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-row">
+      <dm-avatar initials="DM" size="sm" />
+      <dm-avatar initials="DM" size="md" />
+      <dm-avatar initials="DM" size="lg" />
+      <dm-avatar initials="DM" [size]="64" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['fallbackHeading']" [code]="fallbackCode">
+    <div class="demo-row">
+      <dm-avatar [src]="demoSrc" alt="Diego Maestro" initials="DM" />
+      <dm-avatar initials="DM" alt="Diego Maestro" />
+      <dm-avatar />
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

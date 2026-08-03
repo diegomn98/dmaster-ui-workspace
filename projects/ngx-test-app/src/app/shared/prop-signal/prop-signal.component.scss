@@ -1,0 +1,88 @@
+@use 'mixins';
+
+:host {
+  display: block;
+  container-type: inline-size;
+}
+
+.props {
+  display: grid;
+  gap: var(--dm-space-4) var(--dm-space-5);
+  padding: var(--dm-space-5);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+
+  // Lavado de marca muy sutil que se desvanece desde el borde superior.
+  background-color: var(--dm-bg-subtle);
+  background-image: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--dm-primary) 3%, transparent),
+    transparent 4rem
+  );
+
+  @include mixins.container-above(28rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include mixins.container-above(44rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.props__field {
+  display: grid;
+  gap: var(--dm-space-2);
+  align-content: start;
+}
+
+.props__label {
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  letter-spacing: 0.01em;
+  color: var(--dm-fg-muted);
+}
+
+.props__select,
+.props__input {
+  height: var(--dm-control-height);
+  padding-inline: var(--dm-space-3);
+  border: 1px solid var(--dm-border-strong);
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-bg-elevated);
+  color: var(--dm-fg);
+  font-size: var(--dm-text-sm);
+  box-shadow: var(--dm-shadow-sm);
+
+  @include mixins.transition(border-color, box-shadow);
+
+  &:hover {
+    border-color: var(--dm-fg-subtle);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--dm-primary);
+    box-shadow:
+      var(--dm-shadow-sm),
+      0 0 0 3px var(--dm-primary-subtle);
+  }
+}
+
+.props__select {
+  cursor: pointer;
+}
+
+.props__input::placeholder {
+  color: var(--dm-fg-subtle);
+}
+
+.props__input[type='number'] {
+  font-variant-numeric: tabular-nums;
+}
+
+// El toggle es dm-switch (dogfooding de la librería); solo lo alineamos
+// con la altura de los demás controles.
+.props__switch {
+  align-self: start;
+  margin-top: calc((var(--dm-control-height) - 1.5rem) / 2);
+}

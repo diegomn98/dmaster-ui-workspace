@@ -1,0 +1,35 @@
+<section class="home__hero">
+  <p class="home__badge">v0.1.0 · Angular 20+</p>
+  <h1 class="home__title">ngx-dmaster-ui</h1>
+  <p class="home__subtitle">{{ i18n.t().home.subtitle }}</p>
+  <div class="home__actions">
+    <a routerLink="/components" class="home__cta">{{ i18n.t().home.cta }}</a>
+  </div>
+</section>
+
+<section class="home__features" [attr.aria-label]="i18n.t().home.featuresAria">
+  <article class="home__card">
+    <h2>{{ i18n.t().home.features.signalsTitle }}</h2>
+    <p [innerHTML]="i18n.t().home.features.signalsBody"></p>
+  </article>
+  <article class="home__card">
+    <h2>{{ i18n.t().home.features.themingTitle }}</h2>
+    <p [innerHTML]="i18n.t().home.features.themingBody"></p>
+  </article>
+  <article class="home__card">
+    <h2>{{ i18n.t().home.features.responsiveTitle }}</h2>
+    <p [innerHTML]="i18n.t().home.features.responsiveBody"></p>
+  </article>
+</section>
+
+<section class="home__start" [attr.aria-label]="i18n.t().home.startTitle">
+  <h2>{{ i18n.t().home.startTitle }}</h2>
+  <pre class="home__code"><code>npm install ngx-dmaster-ui</code></pre>
+  <pre class="home__code"><code>// app.config.ts
+providers: [
+  provideDmasterUI(&#123;
+    theme: 'auto',
+    density: 'comfortable',
+  &#125;),
+]</code></pre>
+</section>

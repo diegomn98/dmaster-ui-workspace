@@ -1,0 +1,78 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.layout }}</p>
+  <h1 class="page__title">Card</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmCardComponent &#125; from 'ngx-dmaster-ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-card
+      [appearance]="pgAppearance()"
+      [padding]="pgPadding()"
+      [interactive]="pgInteractive()"
+      style="width: 100%; max-width: 20rem"
+    >
+      <div class="card-demo__content">
+        <dm-badge variant="primary">{{ pgAppearance() }}</dm-badge>
+        <h3 class="card-demo__title">{{ page().labels['cardTitle'] }}</h3>
+        <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
+      </div>
+    </dm-card>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.appearances" [code]="appearancesCode">
+    <div class="demo-grid">
+      <dm-card>
+        <h3 class="card-demo__title">elevated</h3>
+        <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
+      </dm-card>
+      <dm-card appearance="outlined">
+        <h3 class="card-demo__title">outlined</h3>
+        <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
+      </dm-card>
+      <dm-card appearance="flat">
+        <h3 class="card-demo__title">flat</h3>
+        <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
+      </dm-card>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['interactiveHeading']" [code]="interactiveCode">
+    <dm-card [interactive]="true" style="max-width: 20rem">
+      <h3 class="card-demo__title">{{ page().labels['interactiveHeading'] }}</h3>
+      <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

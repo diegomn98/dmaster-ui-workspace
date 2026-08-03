@@ -1,0 +1,57 @@
+{
+  "name": "ngx-dmaster",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve ngx-test-app",
+    "build": "ng build ngx-dmaster-ui",
+    "build:app": "ng build ngx-test-app",
+    "watch": "ng build ngx-dmaster-ui --watch --configuration development",
+    "test": "ng test ngx-dmaster-ui --no-watch",
+    "test:app": "ng test ngx-test-app --no-watch",
+    "lint": "ng lint",
+    "lint:styles": "stylelint \"projects/**/*.scss\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/cdk": "^20.2.14",
+    "@angular/common": "^20.3.0",
+    "@angular/compiler": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@angular/forms": "^20.3.0",
+    "@angular/platform-browser": "^20.3.0",
+    "@angular/router": "^20.3.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^20.3.32",
+    "@angular/cli": "^20.3.32",
+    "@angular/compiler-cli": "^20.3.0",
+    "angular-eslint": "21.0.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "jsdom": "^30.0.1",
+    "ng-packagr": "^20.3.0",
+    "prettier": "^3.9.6",
+    "stylelint": "^17.14.1",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "8.46.4",
+    "vitest": "^4.1.10"
+  }
+}

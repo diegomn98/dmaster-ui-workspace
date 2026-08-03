@@ -1,0 +1,6 @@
+// Los estilos de página de docs (.page__*, .demo-*) son globales: ver
+// src/styles/_docs.scss. Aquí solo queda el layout del host.
+:host {
+  display: grid;
+  gap: var(--dm-space-12);
+}

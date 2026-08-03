@@ -1,0 +1,43 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.overlays }}</p>
+  <h1 class="page__title">Dialog</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmDialogService, DIALOG_DATA, DialogRef &#125; from 'ngx-dmaster-ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div class="demo-row">
+      <dm-loading-button (clicked)="open()">{{ page().labels['open'] }}</dm-loading-button>
+      <span class="demo-output">{{ page().labels['result'] }}: {{ lastResult() }}</span>
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="content-title">
+  <h2 class="page__section-title" id="content-title">DIALOG_DATA · DialogRef</h2>
+  <app-code-snippet [code]="contentCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

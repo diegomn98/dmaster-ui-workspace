@@ -1,0 +1,18 @@
+// Global stylesheet of the docs dashboard.
+// 'index' resolves to the library styles via stylePreprocessorOptions.includePaths.
+@use 'index';
+@use './styles/docs';
+
+html {
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+code,
+pre,
+kbd {
+  font-family: var(--dm-font-mono);
+}

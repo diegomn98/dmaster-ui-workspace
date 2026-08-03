@@ -1,0 +1,53 @@
+<div class="props" role="group" [attr.aria-label]="i18n.t().shared.playgroundControls">
+  @for (control of controls(); track control.key) {
+    <div class="props__field">
+      <label class="props__label" [for]="'prop-' + control.key">{{ control.label }}</label>
+
+      @switch (control.type) {
+        @case ('select') {
+          <select
+            class="props__select"
+            [id]="'prop-' + control.key"
+            (change)="onSelect(control.key, $event)"
+          >
+            @for (option of control.options ?? []; track option.value) {
+              <option [value]="option.value" [selected]="option.value === str(control.key)">
+                {{ option.label }}
+              </option>
+            }
+          </select>
+        }
+        @case ('number') {
+          <input
+            class="props__input"
+            type="number"
+            [id]="'prop-' + control.key"
+            [value]="num(control.key)"
+            [min]="control.min ?? null"
+            [max]="control.max ?? null"
+            [step]="control.step ?? null"
+            (input)="onNumber(control.key, $event)"
+          />
+        }
+        @case ('text') {
+          <input
+            class="props__input"
+            type="text"
+            [id]="'prop-' + control.key"
+            [value]="str(control.key)"
+            [placeholder]="control.placeholder ?? ''"
+            (input)="onText(control.key, $event)"
+          />
+        }
+        @case ('boolean') {
+          <dm-switch
+            class="props__switch"
+            [inputId]="'prop-' + control.key"
+            [checked]="bool(control.key)"
+            (checkedChange)="set(control.key, $event)"
+          />
+        }
+      }
+    </div>
+  }
+</div>

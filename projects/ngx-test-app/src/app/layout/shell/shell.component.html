@@ -1,0 +1,148 @@
+<header class="shell__header">
+  <div class="shell__header-group">
+    <button
+      type="button"
+      class="shell__icon-btn shell__menu-btn"
+      (click)="toggleSidebar()"
+      [attr.aria-expanded]="sidebarOpen()"
+      aria-controls="shell-sidebar"
+      [attr.aria-label]="sidebarOpen() ? i18n.t().shell.closeNav : i18n.t().shell.openNav"
+    >
+      @if (sidebarOpen()) {
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M18 6 6 18M6 6l12 12" />
+        </svg>
+      } @else {
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      }
+    </button>
+
+    <a routerLink="/" class="shell__brand" (click)="closeSidebar()">
+      <svg class="shell__brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id="dm-logo-g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#6366f1" />
+            <stop offset="0.55" stop-color="#8b5cf6" />
+            <stop offset="1" stop-color="#a855f7" />
+          </linearGradient>
+          <linearGradient id="dm-logo-s" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#ffffff" stop-opacity="0.22" />
+            <stop offset="0.5" stop-color="#ffffff" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <rect width="64" height="64" rx="16" fill="url(#dm-logo-g)" />
+        <rect width="64" height="64" rx="16" fill="url(#dm-logo-s)" />
+        <circle cx="27" cy="38" r="9.5" fill="none" stroke="#fff" stroke-width="6.5" />
+        <path d="M36.75 14v34" stroke="#fff" stroke-width="6.5" stroke-linecap="round" />
+        <circle cx="47.5" cy="45" r="4.25" fill="#fff" />
+      </svg>
+      <span class="shell__brand-name">ngx-dmaster-ui</span>
+    </a>
+  </div>
+
+  <div class="shell__header-group">
+    <select
+      class="shell__lang-select"
+      [attr.aria-label]="i18n.t().shell.languageLabel"
+      (change)="onLocaleChange($event)"
+    >
+      @for (option of locales; track option.value) {
+        <option [value]="option.value" [selected]="option.value === i18n.locale()">
+          {{ option.label }}
+        </option>
+      }
+    </select>
+
+    <button
+      type="button"
+      class="shell__icon-btn"
+      (click)="theme.toggle()"
+      [attr.aria-label]="
+        theme.resolvedTheme() === 'dark'
+          ? i18n.t().shell.switchToLight
+          : i18n.t().shell.switchToDark
+      "
+    >
+      @if (theme.resolvedTheme() === 'dark') {
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"
+          />
+        </svg>
+      } @else {
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
+        </svg>
+      }
+    </button>
+  </div>
+</header>
+
+<div class="shell__layout">
+  @if (sidebarOpen()) {
+    <div class="shell__backdrop" (click)="closeSidebar()" aria-hidden="true"></div>
+  }
+
+  <aside id="shell-sidebar" class="shell__sidebar" [class.shell__sidebar--open]="sidebarOpen()">
+    <nav class="shell__nav" [attr.aria-label]="i18n.t().shell.navAria">
+      @for (section of sections(); track section.label) {
+        <section class="shell__nav-section">
+          <h2 class="shell__nav-title">{{ section.label }}</h2>
+          <ul class="shell__nav-list">
+            @for (item of section.items; track item.path) {
+              <li>
+                <a
+                  class="shell__nav-link"
+                  [routerLink]="item.path"
+                  routerLinkActive="shell__nav-link--active"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  (click)="closeSidebar()"
+                >
+                  {{ item.label }}
+                </a>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+    </nav>
+  </aside>
+
+  <main class="shell__main">
+    <div class="shell__content">
+      <router-outlet />
+    </div>
+  </main>
+</div>

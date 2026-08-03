@@ -1,0 +1,37 @@
+<div class="api-table__scroll" tabindex="0">
+  <table class="api-table">
+    <caption class="api-table__caption">
+      {{
+        caption()
+      }}
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col">{{ i18n.t().shared.api.name }}</th>
+        <th scope="col">{{ i18n.t().shared.api.type }}</th>
+        <th scope="col">{{ i18n.t().shared.api.default }}</th>
+        <th scope="col">{{ i18n.t().shared.api.description }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of rows(); track row.name) {
+        <tr>
+          <td>
+            <code class="api-table__name">{{ row.name }}</code>
+          </td>
+          <td>
+            <code class="api-table__type">{{ row.type }}</code>
+          </td>
+          <td>
+            @if (row.default) {
+              <code class="api-table__type">{{ row.default }}</code>
+            } @else {
+              <span class="api-table__empty" aria-hidden="true">—</span>
+            }
+          </td>
+          <td class="api-table__desc">{{ row.description }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

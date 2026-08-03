@@ -1,0 +1,143 @@
+@use 'mixins';
+
+// Altura de la barra superior del bloque de código.
+$bar-height: 2.5rem;
+
+:host {
+  display: block;
+}
+
+.snippet {
+  position: relative;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-subtle);
+
+  // Barra superior integrada (solo CSS): chip de lenguaje a la izquierda y
+  // botón de copiar a la derecha, sobre una franja ligeramente entintada.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: $bar-height;
+    border-bottom: 1px solid var(--dm-border);
+    border-radius: calc(var(--dm-radius-lg) - 1px) calc(var(--dm-radius-lg) - 1px) 0 0;
+    background: color-mix(in srgb, var(--dm-fg) 3%, transparent);
+    pointer-events: none;
+  }
+}
+
+.snippet__lang {
+  position: absolute;
+  top: 0;
+  left: var(--dm-space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  height: $bar-height;
+  font-size: var(--dm-text-xs);
+  font-family: var(--dm-font-mono);
+  font-weight: var(--dm-font-medium);
+  letter-spacing: 0.02em;
+  color: var(--dm-fg-muted);
+  user-select: none;
+
+  // Punto con el gradiente de marca, a modo de indicador del lenguaje.
+  &::before {
+    content: '';
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: var(--dm-radius-full);
+    background: var(--dm-gradient-brand);
+  }
+}
+
+.snippet__copy {
+  position: absolute;
+  top: 0.375rem;
+  right: 0.375rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--dm-radius-md);
+  background: transparent;
+  color: var(--dm-fg-muted);
+  cursor: pointer;
+
+  @include mixins.transition(background-color, color, border-color, box-shadow, transform);
+  @include mixins.touch-target;
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  &:hover {
+    color: var(--dm-fg);
+    border-color: var(--dm-border);
+    background: var(--dm-bg-elevated);
+    box-shadow: var(--dm-shadow-sm);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+
+  &--done {
+    color: var(--dm-success);
+    border-color: color-mix(in srgb, var(--dm-success) 35%, transparent);
+    background: var(--dm-success-subtle);
+
+    &:hover {
+      color: var(--dm-success);
+      border-color: color-mix(in srgb, var(--dm-success) 35%, transparent);
+      background: var(--dm-success-subtle);
+      box-shadow: none;
+    }
+
+    svg {
+      animation: snippet-check-in var(--dm-duration-slow) var(--dm-ease-snappy);
+
+      @include mixins.reduced-motion {
+        animation: none;
+      }
+    }
+  }
+}
+
+// Pop del check al copiar: aparece pequeño, rebota y asienta.
+@keyframes snippet-check-in {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+
+  60% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.snippet__pre {
+  margin: 0;
+  padding: var(--dm-space-4);
+  padding-top: calc(#{$bar-height} + var(--dm-space-4));
+  overflow-x: auto;
+  font-family: var(--dm-font-mono);
+  font-size: 0.8125rem;
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg);
+  tab-size: 2;
+}

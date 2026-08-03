@@ -1,0 +1,144 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm"
+  },
+  "newProjectRoot": "projects",
+  "schematics": {
+    "@schematics/angular:component": {
+      "style": "scss",
+      "changeDetection": "OnPush"
+    }
+  },
+  "projects": {
+    "ngx-dmaster-ui": {
+      "projectType": "library",
+      "root": "projects/ngx-dmaster-ui",
+      "sourceRoot": "projects/ngx-dmaster-ui/src",
+      "prefix": "dm",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-dmaster-ui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-dmaster-ui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ngx-dmaster-ui/tsconfig.spec.json",
+            "buildTarget": "ngx-test-app:build:development",
+            "runner": "vitest"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-dmaster-ui/**/*.ts",
+              "projects/ngx-dmaster-ui/**/*.html"
+            ],
+            "eslintConfig": "projects/ngx-dmaster-ui/eslint.config.js"
+          }
+        }
+      }
+    },
+    "ngx-test-app": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ngx-test-app",
+      "sourceRoot": "projects/ngx-test-app/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "projects/ngx-test-app/src/main.ts",
+            "tsConfig": "projects/ngx-test-app/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": ["projects/ngx-dmaster-ui/src/lib/styles"]
+            },
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "projects/ngx-test-app/public"
+              }
+            ],
+            "styles": [
+              "node_modules/@angular/cdk/overlay-prebuilt.css",
+              "projects/ngx-test-app/src/styles.scss"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kB",
+                  "maximumError": "10kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "ngx-test-app:build:production"
+            },
+            "development": {
+              "buildTarget": "ngx-test-app:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular/build:extract-i18n"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/ngx-test-app/tsconfig.spec.json",
+            "buildTarget": "ngx-test-app:build:development",
+            "runner": "vitest"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ngx-test-app/**/*.ts",
+              "projects/ngx-test-app/**/*.html"
+            ],
+            "eslintConfig": "projects/ngx-test-app/eslint.config.js"
+          }
+        }
+      }
+    }
+  }
+}

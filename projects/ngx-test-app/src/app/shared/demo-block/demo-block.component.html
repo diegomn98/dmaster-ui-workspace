@@ -1,0 +1,13 @@
+<figure class="demo">
+  @if (heading()) {
+    <figcaption class="demo__heading">{{ heading() }}</figcaption>
+  }
+
+  <div class="demo__preview">
+    <ng-content />
+  </div>
+
+  @if (code()) {
+    <app-code-snippet class="demo__code" [code]="code()" [language]="language()" />
+  }
+</figure>

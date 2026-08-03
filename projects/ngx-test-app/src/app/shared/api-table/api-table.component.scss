@@ -1,0 +1,91 @@
+@use 'mixins';
+
+:host {
+  display: block;
+}
+
+.api-table__scroll {
+  overflow-x: auto;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-sm);
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.api-table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  font-size: var(--dm-text-sm);
+
+  th,
+  td {
+    padding: var(--dm-space-3) var(--dm-space-4);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  // Separadores internos más suaves que el borde exterior.
+  td {
+    border-bottom: 1px solid color-mix(in srgb, var(--dm-border) 60%, transparent);
+  }
+
+  thead th {
+    font-size: 0.8125rem;
+    font-weight: var(--dm-font-medium);
+    color: var(--dm-fg-muted);
+    background: color-mix(in srgb, var(--dm-fg) 3%, transparent);
+    border-bottom: 1px solid var(--dm-border);
+  }
+
+  tbody tr {
+    @include mixins.transition(background-color);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--dm-fg) 2%, transparent);
+    }
+
+    &:last-child td {
+      border-bottom: none;
+    }
+  }
+}
+
+.api-table__caption {
+  @include mixins.visually-hidden;
+}
+
+// Chip del nombre de la prop: tinte y borde del tono de marca.
+.api-table__name {
+  display: inline-block;
+  padding: 0.1875rem 0.4375rem;
+  border: 1px solid color-mix(in srgb, var(--dm-primary) 22%, transparent);
+  border-radius: var(--dm-radius-sm);
+  background: color-mix(in srgb, var(--dm-primary) 6%, transparent);
+  font-family: var(--dm-font-mono);
+  font-size: 0.75rem;
+  font-weight: var(--dm-font-medium);
+  line-height: var(--dm-leading-tight);
+  color: var(--dm-primary);
+  white-space: nowrap;
+}
+
+.api-table__type {
+  font-family: var(--dm-font-mono);
+  font-size: 0.8125rem;
+  color: var(--dm-fg-muted);
+}
+
+.api-table__empty {
+  color: var(--dm-fg-subtle);
+}
+
+.api-table__desc {
+  color: var(--dm-fg-muted);
+  line-height: var(--dm-leading-relaxed);
+  min-width: 14rem;
+}

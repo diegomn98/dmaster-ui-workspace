@@ -1,0 +1,225 @@
+// ============================================================================
+// Estilos globales de las páginas de documentación.
+// Globales (no encapsulados) a propósito:
+//  1) los comparten todas las páginas de componente, y
+//  2) parte del contenido llega vía [innerHTML] (traducciones con <code>),
+//     al que los estilos encapsulados de Angular no llegan.
+// ============================================================================
+@use 'mixins';
+
+// ---- Cabecera de página ----------------------------------------------------
+.page__header {
+  display: grid;
+  gap: var(--dm-space-3);
+  justify-items: start;
+}
+
+.page__category {
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dm-primary);
+}
+
+.page__title {
+  font-size: clamp(1.875rem, 4vw, 2.5rem);
+  font-weight: var(--dm-font-bold);
+  letter-spacing: -0.02em;
+  line-height: var(--dm-leading-tight);
+}
+
+.page__lead {
+  max-width: 44rem;
+  font-size: var(--dm-text-base);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+}
+
+.page__header app-code-snippet {
+  justify-self: stretch;
+}
+
+// ---- Secciones -------------------------------------------------------------
+.page__section {
+  display: grid;
+  gap: var(--dm-space-5);
+}
+
+.page__section-title {
+  font-size: var(--dm-text-xl);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.01em;
+  padding-bottom: var(--dm-space-3);
+  border-bottom: 1px solid var(--dm-border);
+}
+
+.page__subsection-title {
+  margin-top: var(--dm-space-2);
+  font-size: var(--dm-text-base);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.01em;
+}
+
+.page__section-desc {
+  font-size: var(--dm-text-sm);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+  max-width: 44rem;
+}
+
+.page__playground-preview {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  min-height: 10rem;
+  padding: var(--dm-space-6);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+
+  // Retícula de puntos de marca (coherente con el Overview y los demos),
+  // desvanecida radialmente para no competir con el componente en vivo.
+  background-color: var(--dm-bg-subtle);
+  background-image:
+    radial-gradient(ellipse at center, transparent 45%, var(--dm-bg-subtle) 95%),
+    radial-gradient(color-mix(in srgb, var(--dm-fg) 8%, transparent) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    14px 14px;
+  overflow-x: auto;
+}
+
+.page__list {
+  display: grid;
+  gap: var(--dm-space-2);
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  font-size: var(--dm-text-sm);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+
+  li {
+    position: relative;
+    padding-left: var(--dm-space-5);
+
+    // Marcador custom: punto con el gradiente de marca.
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0.25rem;
+      top: 0.625em;
+      width: 0.3125rem;
+      height: 0.3125rem;
+      border-radius: var(--dm-radius-full);
+      background: var(--dm-gradient-brand);
+    }
+  }
+}
+
+// ---- Código inline (también el que llega por [innerHTML]) ------------------
+.page__lead code,
+.page__section-desc code,
+.page__list code,
+.home__card code {
+  padding: 0.1em 0.4em;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-sm);
+  background: var(--dm-bg-muted);
+  font-family: var(--dm-font-mono);
+  font-size: 0.8125em;
+  color: var(--dm-fg);
+}
+
+// Layout de host de las páginas de componente (host: { class: 'docs-page' }).
+.docs-page {
+  display: grid;
+  gap: var(--dm-space-12);
+}
+
+// ---- Layouts de demos ------------------------------------------------------
+.demo-grid {
+  display: grid;
+  gap: var(--dm-space-4);
+
+  @include mixins.respond-to(md) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dm-space-3);
+}
+
+.demo-stack {
+  display: grid;
+  gap: var(--dm-space-4);
+  justify-items: start;
+
+  dm-skeleton {
+    width: 100%;
+  }
+}
+
+.demo-card {
+  display: grid;
+  gap: var(--dm-space-4);
+  width: 100%;
+  max-width: 24rem;
+}
+
+.demo-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-3);
+
+  dm-skeleton:first-child {
+    width: auto;
+    flex-shrink: 0;
+  }
+}
+
+.demo-card__lines {
+  display: grid;
+  gap: var(--dm-space-2);
+  flex: 1;
+  min-width: 0;
+}
+
+// Contenido de ejemplo dentro de dm-card
+.card-demo__content {
+  display: grid;
+  gap: var(--dm-space-2);
+  justify-items: start;
+}
+
+.card-demo__title {
+  margin: 0;
+  font-size: var(--dm-text-base);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.01em;
+}
+
+.card-demo__body {
+  margin: 0;
+  font-size: var(--dm-text-sm);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+}
+
+// Salida en vivo de valores (páginas de forms): lectura tipo "readout"
+// sobre fondo sólido para que respire encima de la retícula de puntos.
+.demo-output {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border: 1px dashed var(--dm-border-strong);
+  border-radius: var(--dm-radius-sm);
+  background: var(--dm-bg);
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-muted);
+}

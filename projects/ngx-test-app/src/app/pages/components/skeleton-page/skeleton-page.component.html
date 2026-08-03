@@ -1,0 +1,96 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.primitives }}</p>
+  <h1 class="page__title">Skeleton</h1>
+  <p class="page__lead" [innerHTML]="i18n.t().skeletonPage.lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmSkeletonComponent &#125; from 'ngx-dmaster-ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-skeleton
+      [variant]="pgVariant()"
+      [animation]="pgAnimation()"
+      [rounded]="pgRounded()"
+      [width]="pgWidth()"
+      [height]="pgHeight()"
+      [count]="pgCount()"
+    />
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.basic" [code]="basicCode">
+    <dm-skeleton />
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.variants" [code]="variantsCode">
+    <div class="demo-stack">
+      <dm-skeleton />
+      <dm-skeleton variant="rectangular" height="6rem" />
+      <dm-skeleton variant="rounded" rounded="lg" height="6rem" />
+      <dm-skeleton variant="circular" [width]="56" [height]="56" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.animations" [code]="animationsCode">
+    <div class="demo-stack">
+      <dm-skeleton animation="pulse" height="2.5rem" variant="rounded" />
+      <dm-skeleton animation="wave" height="2.5rem" variant="rounded" />
+      <dm-skeleton animation="none" height="2.5rem" variant="rounded" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.paragraph" [code]="paragraphCode">
+    <dm-skeleton [count]="3" />
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.card" [code]="cardCode">
+    <div class="demo-card">
+      <div class="demo-card__header">
+        <dm-skeleton variant="circular" [width]="48" [height]="48" />
+        <div class="demo-card__lines">
+          <dm-skeleton width="40%" />
+          <dm-skeleton width="65%" />
+        </div>
+      </div>
+      <dm-skeleton variant="rounded" height="9rem" animation="wave" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.fluid" [code]="fluidCode">
+    <dm-skeleton
+      variant="rounded"
+      width="clamp(8rem, 60%, 24rem)"
+      height="clamp(3rem, 8vw, 5rem)"
+    />
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="i18n.t().skeletonPage.apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="i18n.t().skeletonPage.defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of i18n.t().skeletonPage.a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

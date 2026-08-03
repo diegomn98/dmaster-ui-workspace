@@ -1,0 +1,128 @@
+<header class="ov__hero">
+  <svg class="ov__logo" viewBox="0 0 64 64" aria-hidden="true">
+    <defs>
+      <linearGradient id="ov-logo-g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#6366f1" />
+        <stop offset="0.55" stop-color="#8b5cf6" />
+        <stop offset="1" stop-color="#a855f7" />
+      </linearGradient>
+      <linearGradient id="ov-logo-s" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0.22" />
+        <stop offset="0.5" stop-color="#ffffff" stop-opacity="0" />
+      </linearGradient>
+    </defs>
+    <rect width="64" height="64" rx="16" fill="url(#ov-logo-g)" />
+    <rect width="64" height="64" rx="16" fill="url(#ov-logo-s)" />
+    <circle cx="27" cy="38" r="9.5" fill="none" stroke="#fff" stroke-width="6.5" />
+    <path d="M36.75 14v34" stroke="#fff" stroke-width="6.5" stroke-linecap="round" />
+    <circle cx="47.5" cy="45" r="4.25" fill="#fff" />
+  </svg>
+
+  <h1 class="ov__title">{{ i18n.t().shell.nav.overview }}</h1>
+  <p class="ov__lead">{{ page().lead }}</p>
+  <dm-badge variant="primary" [pill]="true">
+    {{ tiles().length }} {{ page().labels['count'] }}
+  </dm-badge>
+</header>
+
+<div class="ov__grid">
+  @for (tile of tiles(); track tile.id) {
+    <a class="ov__tile" [routerLink]="tile.route" [attr.aria-label]="tile.name">
+      <div class="ov__preview" inert>
+        @switch (tile.id) {
+          @case ('skeleton') {
+            <div class="ov__mini-media">
+              <dm-skeleton variant="circular" [width]="30" [height]="30" />
+              <div class="ov__mini-lines">
+                <dm-skeleton [count]="2" />
+              </div>
+            </div>
+          }
+          @case ('spinner') {
+            <dm-spinner size="lg" class="ov__accent" />
+          }
+          @case ('badge') {
+            <div class="ov__mini-row">
+              <dm-badge variant="success" [dot]="true">Active</dm-badge>
+              <dm-badge variant="primary" appearance="outline" [pill]="true">v0.1.0</dm-badge>
+            </div>
+          }
+          @case ('avatar') {
+            <div class="ov__avatars">
+              <dm-avatar initials="DM" />
+              <dm-avatar initials="UI" />
+              <dm-avatar />
+            </div>
+          }
+          @case ('card') {
+            <dm-card appearance="elevated" padding="sm" class="ov__mini-card">
+              <dm-skeleton animation="none" width="55%" />
+              <dm-skeleton animation="none" [count]="1" />
+            </dm-card>
+          }
+          @case ('loading-button') {
+            <dm-loading-button state="loading">Saving</dm-loading-button>
+          }
+          @case ('switch') {
+            <div class="ov__mini-row">
+              <dm-switch [checked]="true" ariaLabel="on" />
+              <dm-switch ariaLabel="off" />
+            </div>
+          }
+          @case ('checkbox') {
+            <div class="ov__mini-stack">
+              <dm-checkbox [checked]="true" ariaLabel="checked" />
+              <dm-checkbox [indeterminate]="true" ariaLabel="mixed" />
+            </div>
+          }
+          @case ('form-field') {
+            <dm-form-field label="Email" class="ov__mini-field">
+              <input dmInput placeholder="you@example.com" />
+            </dm-form-field>
+          }
+          @case ('tooltip') {
+            <div class="ov__tooltip-mock">
+              <span class="ov__tooltip-bubble">Tooltip</span>
+              <span class="ov__tooltip-trigger">?</span>
+            </div>
+          }
+          @case ('dialog') {
+            <div class="ov__dialog-mock">
+              <div class="ov__dialog-panel">
+                <span class="ov__mock-line ov__mock-line--title"></span>
+                <span class="ov__mock-line"></span>
+                <div class="ov__dialog-actions">
+                  <span class="ov__mock-chip"></span>
+                  <span class="ov__mock-chip ov__mock-chip--primary"></span>
+                </div>
+              </div>
+            </div>
+          }
+          @case ('toast') {
+            <div class="ov__toast-mock">
+              <span class="ov__toast-dot"></span>
+              <span class="ov__mock-line"></span>
+            </div>
+          }
+        }
+      </div>
+
+      <div class="ov__meta">
+        <span class="ov__name">{{ tile.name }}</span>
+        <dm-badge size="sm" appearance="outline">{{ tile.category }}</dm-badge>
+        <svg
+          class="ov__arrow"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M5 12h14m-6-6 6 6-6 6" />
+        </svg>
+      </div>
+    </a>
+  }
+</div>
