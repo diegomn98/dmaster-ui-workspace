@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ngx-test-app",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["ng", "serve", "ngx-test-app", "--port", "4200"],
+      "port": 4200
+    }
+  ]
+}

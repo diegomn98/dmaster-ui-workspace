@@ -1,0 +1,16 @@
+{
+  "extends": ["stylelint-config-standard-scss"],
+  "ignoreFiles": ["dist/**", "node_modules/**", "coverage/**"],
+  "rules": {
+    "selector-class-pattern": [
+      "^[a-z]([a-z0-9-]+)?(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+)?$",
+      {
+        "message": "Se esperan clases BEM en kebab-case (bloque__elemento--modificador)"
+      }
+    ],
+    "custom-property-pattern": "^dm-[a-z0-9-]+$",
+    "no-descending-specificity": null,
+    "scss/comment-no-empty": null,
+    "value-keyword-case": ["lower", { "ignoreProperties": ["/^--dm-font-/", "font-family"] }]
+  }
+}
