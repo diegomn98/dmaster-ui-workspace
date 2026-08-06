@@ -68,9 +68,14 @@ $topbar-height: 4rem;
 }
 
 .home__brand-name {
+  display: none;
   font-size: var(--dm-text-sm);
   font-weight: var(--dm-font-semibold);
   letter-spacing: -0.01em;
+
+  @include mixins.respond-to(sm) {
+    display: inline;
+  }
 }
 
 // En móvil los links no caben (el hero ya lleva los mismos CTAs): desde sm.
@@ -108,25 +113,26 @@ $topbar-height: 4rem;
 .home__topbar-actions {
   display: flex;
   align-items: center;
-  gap: var(--dm-space-2);
+  gap: var(--dm-space-1);
   margin-left: auto;
-}
 
-// En móvil el top bar se queda con lo esencial: marca, GitHub y tema.
-// La paleta entra en md; el selector de idioma (ancho fijo) espera a lg.
-.home__topbar-palette {
-  display: none;
-
-  @include mixins.respond-to(md) {
-    display: inline-flex;
+  @include mixins.respond-to(sm) {
+    gap: var(--dm-space-2);
   }
 }
 
-.home__topbar-lang {
-  display: none;
+// Paleta ("Theme"), idioma, GitHub y tema: visibles a CUALQUIER ancho. En
+// móvil hace sitio el nombre de la marca (queda el monograma) y se aprietan
+// gaps y el ancho del select.
+.home__topbar-palette {
+  display: inline-flex;
+}
 
-  @include mixins.respond-to(lg) {
-    display: grid; // display natural del host de dm-select
+.home__topbar-lang {
+  display: grid; // display natural del host de dm-select
+  width: 7.25rem;
+
+  @include mixins.respond-to(sm) {
     width: 8.5rem;
   }
 }
