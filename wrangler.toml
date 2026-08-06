@@ -3,3 +3,4 @@ compatibility_date = "2025-01-01"
 
 [assets]
 directory = "./dist/ngx-test-app/browser"
+not_found_handling = "single-page-application"
