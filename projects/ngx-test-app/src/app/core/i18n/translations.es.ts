@@ -76,35 +76,65 @@ export const ES: DashboardTranslations = {
     api: { name: 'Nombre', type: 'Tipo', default: 'Default', description: 'Descripción' },
   },
   home: {
-    versionBadge: 'v0.1.0 · Angular 20+',
-    title: '@dmaster/ui',
-    heroLine1: 'Construye más rápido con',
-    heroLine2: 'componentes Angular top.',
+    navDocs: 'Docs',
+    navComponents: 'Componentes',
+    footerRights: 'Licencia MIT © 2026 Diego Maestro',
+    versionBadge: 'v0.1.2',
+    heroChipAngular: 'Angular 20+',
+    heroChipMit: 'Licencia MIT',
+    heroLine1: 'La librería de componentes',
+    heroLine2: 'que Angular merece.',
     subtitle:
       'Librería de componentes Angular 20 moderna. Standalone, basada en signals, inspirada en HeroUI — con dark mode, theming real y accesibilidad de fábrica desde el primer componente.',
     ctaPrimary: 'Empezar',
     ctaSecondary: 'Ver componentes',
+    copyAria: 'Copiar el comando de instalación',
     stats: {
       components: 'componentes',
       tests: 'tests, 100% en verde',
       externalDeps: 'dependencias externas de UI',
       externalDepsValue: 'Cero',
+      standalone: 'standalone, tipado, OnPush',
+      standaloneValue: '100%',
     },
-    showcaseAria: 'Muestra en vivo',
-    showcaseTitle: 'Un kit de componentes completo',
-    showcaseSubtitle:
-      'Todos los componentes usan CSS variables y funcionan en light y dark mode sin configurar nada.',
+    galleryEyebrow: 'Componentes',
     galleryTitle: 'Un kit de componentes completo',
     gallerySubtitle:
-      'Todos los componentes están en vivo aquí abajo — tematizados con CSS variables, responsive y accesibles por defecto. Explora, tuneja, publica.',
+      'Todos los componentes de abajo están en vivo — tematizados con CSS variables, responsive y accesibles por defecto. Haz clic en cualquier tile para abrir su documentación.',
+    galleryViewAll: 'Ver todos los componentes',
+    codeEyebrow: 'Código',
+    codeTitle: 'Menos código, mejor UI.',
+    codeLead:
+      'Componentes reales, código real — cópialo tal cual en tu app. Sin wrappers, sin config, sin sorpresas.',
+    codeTabs: {
+      profile: 'Perfil',
+      pricing: 'Precios',
+      settings: 'Ajustes',
+    },
+    themingEyebrow: 'Theming',
+    themingTitle: 'Hazlo tuyo.',
+    themingLead:
+      'Cada color es una variable CSS. Elige una paleta y todo el sitio cambia de piel al instante, sin rebuild ni configuración.',
+    themingHint: 'Pruébalo: este selector mueve los design tokens reales de esta misma página.',
+    themingSwatchesAria: 'Paletas de color',
     featuresAria: 'Características',
+    featuresEyebrow: 'Por qué @dmaster/ui',
+    featuresTitle: 'Construida como un producto, no como una demo.',
+    featuresLead:
+      'Cada componente llega con las pequeñas decisiones ya tomadas: estados, teclado, movimiento, densidad, dark mode.',
     features: {
       signalsTitle: 'Signals primero',
       signalsBody:
         'API construida con <code>input()</code>, <code>output()</code> y <code>model()</code>. <code>OnPush</code> por defecto y compatible con zoneless.',
+      zonelessTitle: 'Zoneless-ready',
+      zonelessBody:
+        'Sin zone.js en ninguna parte. La detección de cambios la mueven las signals y <code>OnPush</code>: lista hoy para el futuro zoneless de Angular.',
       themingTitle: 'Theming real',
       themingBody:
         'CSS custom properties como única fuente de theming: tokens <code>--dm-*</code>, light y dark, y densidades <code>compact · comfortable · spacious</code>.',
+      depsTitle: 'Cero dependencias de UI',
+      depsBody:
+        'Angular + CDK, nada más. Sin fuentes de iconos, sin frameworks CSS, sin motor de temas en runtime: un bundle ligero que envejece bien.',
       responsiveTitle: 'Responsive por defecto',
       responsiveBody:
         'Mobile-first, container queries donde aportan, touch targets de 44px y respeto de <code>prefers-reduced-motion</code>.',

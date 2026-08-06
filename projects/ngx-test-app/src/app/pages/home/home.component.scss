@@ -1,51 +1,247 @@
 @use 'mixins';
 
+$topbar-height: 4rem;
+
 :host {
-  display: grid;
-  gap: var(--dm-space-16);
+  display: block;
+  min-height: 100dvh;
   overflow-x: clip;
 }
 
+// Contenedor centrado de la landing (más ancho que la columna de docs).
+.home__container {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: var(--dm-space-4);
+
+  @include mixins.respond-to(md) {
+    padding-inline: var(--dm-space-8);
+  }
+}
+
 // =============================================================================
-// HERO — split (copy | preview panel)
+// TOP BAR — header propio de la landing (sin sidebar)
 // =============================================================================
+.home__topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--dm-z-sticky);
+  border-bottom: 1px solid var(--dm-border);
+  background: color-mix(in srgb, var(--dm-bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.home__topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-4);
+  height: $topbar-height;
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: var(--dm-space-4);
+
+  @include mixins.respond-to(md) {
+    padding-inline: var(--dm-space-8);
+  }
+}
+
+.home__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--dm-radius-sm);
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.home__brand-mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 2px rgb(99 102 241 / 35%));
+}
+
+.home__brand-name {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.01em;
+}
+
+// En móvil los links no caben (el hero ya lleva los mismos CTAs): desde sm.
+.home__topbar-nav {
+  display: none;
+
+  @include mixins.respond-to(sm) {
+    display: flex;
+    align-items: center;
+    gap: var(--dm-space-1);
+    margin-left: var(--dm-space-2);
+  }
+}
+
+.home__topbar-link {
+  padding: var(--dm-space-2) var(--dm-space-3);
+  border-radius: var(--dm-radius-full);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg-muted);
+  text-decoration: none;
+
+  @include mixins.transition(background-color, color);
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.home__topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  margin-left: auto;
+}
+
+// En móvil el top bar se queda con lo esencial: marca, GitHub y tema.
+// La paleta entra en md; el selector de idioma (ancho fijo) espera a lg.
+.home__topbar-palette {
+  display: none;
+
+  @include mixins.respond-to(md) {
+    display: inline-flex;
+  }
+}
+
+.home__topbar-lang {
+  display: none;
+
+  @include mixins.respond-to(lg) {
+    display: grid; // display natural del host de dm-select
+    width: 8.5rem;
+  }
+}
+
+.home__topbar-github {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--dm-radius-full);
+  color: var(--dm-fg-muted);
+  text-decoration: none;
+
+  @include mixins.transition(background-color, color);
+  @include mixins.touch-target;
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.home__topbar-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--dm-radius-md);
+  background: transparent;
+  color: var(--dm-fg-muted);
+  cursor: pointer;
+
+  @include mixins.transition(background-color, color);
+  @include mixins.touch-target;
+
+  svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+// Contenido principal: ritmo vertical de secciones.
+.home__main {
+  display: grid;
+  gap: var(--dm-space-16);
+  padding-block: var(--dm-space-16);
+}
+
+// Shared: eyebrow label above section titles.
+.home__eyebrow {
+  margin: 0;
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--dm-primary);
+}
+
+// =============================================================================
+// HERO — full-bleed wrapper: las decoraciones ocupan TODO el ancho del
+// viewport y se funden antes de cualquier borde, así no se percibe ningún
+// "cuadro" detrás del contenido.
+// =============================================================================
+.home__hero-bleed {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+// Dot-grid: máscara elíptica muy suave, centrada arriba.
+.home__hero-dots {
+  position: absolute;
+  inset: 0 0 25%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(circle, var(--dm-border) 1px, transparent 1.5px);
+  background-size: 1.5rem 1.5rem;
+  mask-image: radial-gradient(ellipse 55% 55% at 50% 15%, black 15%, transparent 68%);
+}
+
 .home__hero {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: var(--dm-space-10);
-  padding-block: var(--dm-space-12) var(--dm-space-6);
+  padding-block: var(--dm-space-12) var(--dm-space-12);
 
   @include mixins.respond-to(lg) {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    padding-block: var(--dm-space-16) var(--dm-space-8);
-  }
-
-  // Ambient gradient blobs — very soft, sit behind everything.
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    pointer-events: none;
-    z-index: -1;
-    filter: blur(50px);
-  }
-
-  &::before {
-    top: -6rem;
-    left: -8rem;
-    width: 38rem;
-    height: 38rem;
-    background: radial-gradient(circle, rgb(0 111 238 / 22%), transparent 65%);
-  }
-
-  &::after {
-    top: -2rem;
-    right: -8rem;
-    width: 32rem;
-    height: 32rem;
-    background: radial-gradient(circle, rgb(168 85 247 / 18%), transparent 65%);
+    padding-block: var(--dm-space-20, 5rem) var(--dm-space-16);
   }
 }
 
@@ -54,16 +250,61 @@
   gap: var(--dm-space-5);
   justify-items: start;
   text-align: left;
+
+  // Entrada escalonada al cargar: cada bloque sube y aparece en cascada.
+  > * {
+    animation: home-rise 0.6s var(--dm-ease-out) both;
+  }
+
+  > :nth-child(1) {
+    animation-delay: 0.05s;
+  }
+
+  > :nth-child(2) {
+    animation-delay: 0.12s;
+  }
+
+  > :nth-child(3) {
+    animation-delay: 0.19s;
+  }
+
+  > :nth-child(4) {
+    animation-delay: 0.26s;
+  }
+
+  > :nth-child(5) {
+    animation-delay: 0.33s;
+  }
+}
+
+@keyframes home-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.home__hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dm-space-2);
 }
 
 .home__title {
   margin: 0;
-  font-size: clamp(2.75rem, 8vw, 4.5rem);
+  font-size: clamp(2.5rem, 7.5vw, 4.25rem);
   font-weight: var(--dm-font-bold);
   letter-spacing: -0.035em;
-  line-height: 1.03;
+  line-height: 1.05;
   display: grid;
   gap: 0.05em;
+  text-wrap: balance;
 }
 
 .home__title-line {
@@ -74,6 +315,7 @@
   background: var(--dm-gradient-brand);
   background-clip: text;
   color: transparent;
+  padding-bottom: 0.08em; // evita que el clip recorte descendentes (g, y…)
 }
 
 .home__subtitle {
@@ -82,6 +324,7 @@
   font-size: var(--dm-text-lg);
   line-height: var(--dm-leading-relaxed);
   color: var(--dm-fg-muted);
+  text-wrap: pretty;
 }
 
 .home__actions {
@@ -99,13 +342,14 @@
   }
 }
 
-// Inline install snippet in the hero — subtle, one-line, no borders.
+// Inline install snippet in the hero — one line, pill, with copy button.
 .home__hero-install {
   display: inline-flex;
   align-items: center;
   gap: var(--dm-space-2);
+  max-width: 100%;
   margin-top: var(--dm-space-2);
-  padding: var(--dm-space-2) var(--dm-space-4);
+  padding: var(--dm-space-2) var(--dm-space-2) var(--dm-space-2) var(--dm-space-4);
   border: 1px solid var(--dm-border);
   border-radius: var(--dm-radius-full);
   background: var(--dm-bg);
@@ -113,6 +357,10 @@
   font-size: var(--dm-text-sm);
   color: var(--dm-fg);
   box-shadow: var(--dm-shadow-sm);
+
+  code {
+    @include mixins.truncate;
+  }
 }
 
 .home__hero-install-prompt {
@@ -120,62 +368,200 @@
   font-weight: var(--dm-font-bold);
 }
 
+.home__hero-copy-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-muted);
+  color: var(--dm-fg-muted);
+  cursor: pointer;
+
+  @include mixins.transition(background-color, color);
+  @include mixins.touch-target;
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  &:hover {
+    background: var(--dm-primary-subtle);
+    color: var(--dm-primary);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+
+  &--done {
+    background: var(--dm-success-subtle, var(--dm-bg-muted));
+    color: var(--dm-success, currentcolor);
+  }
+}
+
+// Live region: feedback audible siempre, visible solo tras copiar.
+.home__hero-copied {
+  font-family: inherit;
+  font-size: var(--dm-text-xs);
+  color: var(--dm-success, var(--dm-fg-muted));
+  white-space: nowrap;
+
+  &:empty {
+    display: none;
+  }
+}
+
 // -----------------------------------------------------------------------------
-// Hero preview panel — a mini "window" with live components
+// Hero preview panel — un mini "window" con componentes vivos. El glow ya NO
+// vive dentro de la ventana (antes era un ::before con z-index:-1 que teñía el
+// interior de lila): ahora son hermanos ABSOLUTOS detrás de la ventana, así el
+// interior queda limpio. En lg la ventana gira levemente y flota.
 // -----------------------------------------------------------------------------
 .home__hero-preview {
-  display: none;
+  display: block;
+  position: relative;
+  width: 100%;
+  max-width: 26rem;
+  justify-self: center;
+  animation: home-hero-preview-in 0.75s var(--dm-ease-out) 0.15s both;
 
   @include mixins.respond-to(lg) {
-    display: block;
-    position: relative;
+    max-width: none;
+    justify-self: stretch;
+  }
+}
+
+@keyframes home-hero-preview-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// Halo de color detrás de la ventana (difuminado, pulso muy sutil).
+.home__hero-preview-glow {
+  position: absolute;
+  inset: 8% 4%;
+  z-index: 0;
+  border-radius: var(--dm-radius-2xl, 1.5rem);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--dm-primary) 55%, transparent),
+    rgb(139 92 246 / 35%),
+    rgb(168 85 247 / 40%)
+  );
+  filter: blur(38px);
+  opacity: 0.75;
+  animation: hero-glow-pulse 7s var(--dm-ease-in-out, ease-in-out) infinite;
+}
+
+// Orbes de acento que flotan detrás de la ventana (profundidad).
+.home__hero-preview-orb {
+  position: absolute;
+  z-index: 0;
+  border-radius: var(--dm-radius-full);
+  filter: blur(2px);
+  opacity: 0.9;
+
+  &--a {
+    width: 3rem;
+    height: 3rem;
+    top: -0.75rem;
+    right: 12%;
+    background: radial-gradient(circle at 35% 30%, #a855f7, #7c3aed);
+    animation: hero-orb-a 9s var(--dm-ease-in-out, ease-in-out) infinite;
+  }
+
+  &--b {
+    width: 2rem;
+    height: 2rem;
+    bottom: 4%;
+    left: -0.5rem;
+    background: radial-gradient(circle at 35% 30%, #38bdf8, var(--dm-primary));
+    animation: hero-orb-b 11s var(--dm-ease-in-out, ease-in-out) infinite;
   }
 }
 
 .home__hero-preview-window {
   position: relative;
+  z-index: 1; // por encima del glow y los orbes
   border-radius: var(--dm-radius-xl);
   background: var(--dm-bg);
   border: 1px solid var(--dm-border);
-  box-shadow: var(--dm-shadow-xl, 0 24px 48px -12px rgb(0 0 0 / 24%));
+  box-shadow: var(--dm-shadow-lg);
   overflow: hidden;
-  transform: rotate(-1deg);
-  transition: transform var(--dm-duration-slow, 400ms) var(--dm-ease-out);
 
-  &:hover {
-    transform: rotate(0deg);
+  @include mixins.respond-to(lg) {
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 6%) inset,
+      var(--dm-shadow-xl, 0 24px 48px -12px rgb(0 0 0 / 24%));
+    transform-origin: center;
+    animation: hero-card-float 8s var(--dm-ease-in-out, ease-in-out) infinite;
+
+    &:hover {
+      animation-play-state: paused;
+      transform: rotate(0deg) translateY(0);
+    }
+  }
+}
+
+// Animaciones del hero preview (todas se apagan en reduced-motion, al final).
+@keyframes hero-card-float {
+  0%,
+  100% {
+    transform: rotate(-1.4deg) translateY(0);
   }
 
-  // Glow behind the window.
-  &::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    z-index: -1;
-    background: linear-gradient(
-      135deg,
-      rgb(99 102 241 / 45%),
-      rgb(139 92 246 / 25%),
-      rgb(0 111 238 / 40%)
-    );
-    border-radius: inherit;
-    filter: blur(24px);
+  50% {
+    transform: rotate(-0.4deg) translateY(-0.6rem);
+  }
+}
+
+@keyframes hero-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(0.98);
+  }
+
+  50% {
     opacity: 0.85;
+    transform: scale(1.02);
   }
 }
 
-.home__hero-preview-chrome {
-  display: flex;
-  gap: 0.4rem;
-  padding: var(--dm-space-3) var(--dm-space-4);
-  border-bottom: 1px solid var(--dm-border);
-  background: var(--dm-bg-subtle);
+@keyframes hero-orb-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-0.5rem, 0.9rem);
+  }
 }
 
-.home__hero-preview-dot {
-  width: 0.7rem;
-  height: 0.7rem;
-  border-radius: var(--dm-radius-full);
+@keyframes hero-orb-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(0.6rem, -0.7rem);
+  }
 }
 
 .home__hero-preview-body {
@@ -243,15 +629,15 @@
 // =============================================================================
 .home__stats {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--dm-space-4);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--dm-space-5) var(--dm-space-4);
   padding: var(--dm-space-6);
   border: 1px solid var(--dm-border);
   border-radius: var(--dm-radius-xl);
   background: var(--dm-bg-subtle);
 
-  @include mixins.respond-to(sm) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  @include mixins.respond-to(md) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -260,7 +646,7 @@
   gap: var(--dm-space-1);
   justify-items: start;
 
-  @include mixins.respond-to(sm) {
+  @include mixins.respond-to(md) {
     &:not(:first-child) {
       padding-left: var(--dm-space-5);
       border-left: 1px solid var(--dm-border);
@@ -284,7 +670,7 @@
 }
 
 // =============================================================================
-// Component gallery
+// Section head (gallery, features)
 // =============================================================================
 .home__section-head {
   display: grid;
@@ -299,6 +685,7 @@
   font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   font-weight: var(--dm-font-bold);
   letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .home__section-lead {
@@ -307,8 +694,12 @@
   font-size: var(--dm-text-base);
   line-height: var(--dm-leading-relaxed);
   color: var(--dm-fg-muted);
+  text-wrap: pretty;
 }
 
+// =============================================================================
+// Component gallery — clickable tiles with live previews
+// =============================================================================
 .home__gallery-grid {
   display: grid;
   gap: var(--dm-space-4);
@@ -325,22 +716,36 @@
 
 .home__gallery-tile {
   display: grid;
+  grid-template-rows: auto 1fr;
   gap: var(--dm-space-3);
-  min-height: 12rem;
+  min-height: 11rem;
   padding: var(--dm-space-5);
   border: 1px solid var(--dm-border);
   border-radius: var(--dm-radius-xl);
   background: var(--dm-bg);
+  text-decoration: none;
+  color: inherit;
   transition:
     border-color var(--dm-duration-base) var(--dm-ease-out),
+    box-shadow var(--dm-duration-base) var(--dm-ease-out),
     transform var(--dm-duration-base) var(--dm-ease-out);
 
   &:hover {
     border-color: var(--dm-primary);
     transform: translateY(-2px);
+    box-shadow: 0 12px 32px -16px color-mix(in srgb, var(--dm-primary) 45%, transparent);
   }
 
-  @include mixins.respond-to(lg) {
+  &:hover .home__gallery-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+
+  @include mixins.respond-to(sm) {
     &--wide {
       grid-column: span 2;
     }
@@ -348,6 +753,10 @@
 }
 
 .home__gallery-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dm-space-2);
   margin: 0;
   font-size: var(--dm-text-xs);
   font-weight: var(--dm-font-semibold);
@@ -356,11 +765,26 @@
   color: var(--dm-fg-subtle);
 }
 
+// Flecha que aparece al hacer hover sobre el tile (desliza desde la izquierda).
+.home__gallery-arrow {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  color: var(--dm-primary);
+  opacity: 0;
+  transform: translateX(-0.25rem);
+
+  @include mixins.transition(opacity, transform);
+
+  @include mixins.reduced-motion {
+    transform: none;
+  }
+}
+
 .home__gallery-preview {
   display: grid;
   place-items: start;
   gap: var(--dm-space-3);
-  flex: 1;
   min-height: 0;
 
   &--center {
@@ -384,6 +808,14 @@
   }
 }
 
+.home__gallery-tabs {
+  width: min(100%, 22rem);
+}
+
+.home__gallery-select {
+  width: min(100%, 12rem);
+}
+
 .home__gallery-field {
   width: 100%;
   min-width: 0;
@@ -403,6 +835,429 @@
   }
 }
 
+.home__gallery-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--dm-space-8);
+}
+
+// =============================================================================
+// Code showcase — tab switcher + live preview | source code
+// =============================================================================
+.home__code-card {
+  overflow: hidden;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-2xl, 1.5rem);
+  background: var(--dm-bg);
+  box-shadow: var(--dm-shadow-sm);
+}
+
+.home__code-tabs {
+  display: block;
+  padding: var(--dm-space-4) var(--dm-space-4) 0;
+}
+
+.home__code-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+
+  @include mixins.respond-to(lg) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  }
+}
+
+// Escenario del componente vivo: lienzo con textura de puntos, centrado. El
+// color base va aparte del patrón para poder recolocarlo en modo oscuro.
+.home__code-stage {
+  display: grid;
+  place-items: center;
+  min-height: 22rem;
+  padding: var(--dm-space-8) var(--dm-space-6);
+  background-color: var(--dm-bg-subtle);
+  background-image: radial-gradient(circle, var(--dm-border) 1px, transparent 1.5px);
+  background-size: 1.25rem 1.25rem;
+
+  @include mixins.respond-to(lg) {
+    border-right: 1px solid var(--dm-border);
+  }
+}
+
+// Las tres cards demo comparten ancho y ritmo vertical.
+.home__code-card-demo,
+.home__code-pricing,
+.home__code-settings {
+  display: grid;
+  gap: var(--dm-space-5);
+  width: min(100%, 22rem);
+  text-align: left;
+}
+
+// --- Profile ---------------------------------------------------------------
+.home__code-profile {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--dm-space-3);
+
+  h3 {
+    margin: 0;
+    font-size: var(--dm-text-base);
+    font-weight: var(--dm-font-semibold);
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--dm-text-xs);
+    color: var(--dm-fg-muted);
+  }
+}
+
+.home__code-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--dm-space-2);
+  margin: 0;
+  padding: var(--dm-space-4) 0;
+  border-block: 1px solid var(--dm-border);
+
+  div {
+    display: grid;
+    gap: 0.1rem;
+    justify-items: center;
+  }
+
+  dt {
+    font-size: var(--dm-text-lg);
+    font-weight: var(--dm-font-bold);
+    letter-spacing: -0.02em;
+  }
+
+  dd {
+    margin: 0;
+    font-size: var(--dm-text-xs);
+    color: var(--dm-fg-muted);
+  }
+}
+
+.home__code-profile-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--dm-space-3);
+}
+
+// --- Pricing ---------------------------------------------------------------
+.home__code-pricing {
+  justify-items: start;
+}
+
+.home__code-price {
+  margin: 0;
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg-muted);
+
+  strong {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    font-weight: var(--dm-font-bold);
+    letter-spacing: -0.03em;
+    color: var(--dm-fg);
+  }
+}
+
+.home__code-features {
+  display: grid;
+  gap: var(--dm-space-3);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--dm-space-2);
+    font-size: var(--dm-text-sm);
+    color: var(--dm-fg);
+
+    &::before {
+      content: '✓';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.125rem;
+      height: 1.125rem;
+      border-radius: var(--dm-radius-full);
+      background: var(--dm-primary-subtle);
+      color: var(--dm-primary);
+      font-size: 0.7rem;
+      font-weight: var(--dm-font-bold);
+    }
+  }
+}
+
+// --- Settings --------------------------------------------------------------
+.home__code-settings {
+  gap: var(--dm-space-4);
+}
+
+.home__code-settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dm-space-3);
+
+  h3 {
+    margin: 0;
+    font-size: var(--dm-text-base);
+    font-weight: var(--dm-font-semibold);
+  }
+}
+
+.home__code-settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dm-space-4);
+
+  > div {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--dm-text-sm);
+    font-weight: var(--dm-font-medium);
+    color: var(--dm-fg);
+  }
+
+  span {
+    font-size: var(--dm-text-xs);
+    color: var(--dm-fg-muted);
+  }
+}
+
+// El snippet se aplana (sin borde/radio/sombra propios) y rellena su columna;
+// separador horizontal en móvil, vertical (border-right del stage) en lg.
+.home__code-snippet {
+  display: block;
+  min-width: 0;
+
+  /* stylelint-disable selector-pseudo-element-no-unknown -- Angular ::ng-deep */
+  ::ng-deep .snippet {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: none;
+    border-top: 1px solid var(--dm-border);
+    border-radius: 0;
+    box-shadow: none;
+
+    @include mixins.respond-to(lg) {
+      border-top: none;
+    }
+  }
+
+  ::ng-deep .snippet__pre {
+    flex: 1;
+    margin: 0;
+  }
+  /* stylelint-enable selector-pseudo-element-no-unknown */
+}
+
+// Modo oscuro: las superficies "card" que usan --dm-bg (#09090b) coinciden con
+// el fondo de la página y se funden (el borde al 8% no basta). Se elevan a
+// --dm-bg-subtle. Dentro del code card, los paneles (stage + snippet) BAJAN a
+// --dm-bg para leerse como recuadros hundidos frente al marco elevado, y se
+// refuerzan los separadores. Sólo tocamos `background` en los tiles para no
+// pisar el borde primary del hover.
+:host-context([data-dm-theme='dark']) {
+  .home__gallery-tile,
+  .home__theming-card {
+    background: var(--dm-bg-subtle);
+  }
+
+  .home__code-card {
+    background: var(--dm-bg-subtle);
+    border-color: rgb(255 255 255 / 12%);
+  }
+
+  .home__code-stage {
+    background-color: var(--dm-bg);
+    border-right-color: rgb(255 255 255 / 12%);
+  }
+
+  /* stylelint-disable selector-pseudo-element-no-unknown -- Angular ::ng-deep */
+  .home__code-snippet ::ng-deep .snippet {
+    background: var(--dm-bg);
+    border-top-color: rgb(255 255 255 / 12%);
+  }
+
+  .home__code-snippet ::ng-deep .snippet__bar {
+    background: var(--dm-bg);
+  }
+  /* stylelint-enable selector-pseudo-element-no-unknown */
+}
+
+// =============================================================================
+// Theming — live palette switcher
+// =============================================================================
+.home__theming {
+  display: grid;
+  gap: var(--dm-space-8);
+  align-items: center;
+  padding: var(--dm-space-8) var(--dm-space-6);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-2xl, 1.5rem);
+  background:
+    radial-gradient(circle at 85% 15%, var(--dm-primary-subtle), transparent 55%),
+    var(--dm-bg-subtle);
+
+  @include mixins.respond-to(lg) {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    padding: var(--dm-space-10) var(--dm-space-10);
+  }
+}
+
+.home__theming-copy {
+  display: grid;
+  gap: var(--dm-space-4);
+  justify-items: start;
+
+  .home__section-title,
+  .home__section-lead {
+    text-align: left;
+  }
+}
+
+.home__theming-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dm-space-2) var(--dm-space-3);
+  margin-top: var(--dm-space-2);
+}
+
+.home__swatch {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--dm-space-1);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--dm-fg-muted);
+  font-family: inherit;
+  cursor: pointer;
+
+  @include mixins.touch-target;
+
+  &:hover .home__swatch-chip {
+    transform: scale(1.1);
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    .home__swatch-chip {
+      box-shadow:
+        0 0 0 2px var(--dm-bg),
+        0 0 0 4px var(--dm-primary);
+    }
+  }
+
+  &--active .home__swatch-chip {
+    box-shadow:
+      0 0 0 2px var(--dm-bg),
+      0 0 0 3.5px var(--dm-home-swatch);
+  }
+
+  &--active .home__swatch-label {
+    color: var(--dm-fg);
+    font-weight: var(--dm-font-semibold);
+  }
+}
+
+.home__swatch-chip {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-home-swatch);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 18%);
+
+  @include mixins.transition(transform, box-shadow);
+}
+
+.home__swatch-label {
+  font-size: 0.625rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.home__theming-hint {
+  margin: 0;
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg-subtle);
+  font-style: italic;
+}
+
+// Tarjeta de preview: todo en color primary — muestra la paleta activa.
+.home__theming-preview {
+  display: grid;
+}
+
+.home__theming-card {
+  display: grid;
+  gap: var(--dm-space-4);
+  width: 100%;
+  max-width: 24rem;
+  justify-self: center;
+  padding: var(--dm-space-6);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-xl);
+  background: var(--dm-bg);
+  box-shadow: var(--dm-shadow-lg);
+}
+
+.home__theming-card-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--dm-space-3);
+  padding-bottom: var(--dm-space-3);
+  border-bottom: 1px solid var(--dm-border);
+}
+
+.home__theming-card-title {
+  margin: 0;
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+}
+
+.home__theming-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dm-space-2);
+}
+
+.home__theming-bar {
+  height: 0.5rem;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-muted);
+  overflow: hidden;
+}
+
+.home__theming-bar-fill {
+  display: block;
+  width: 68%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--dm-primary);
+
+  @include mixins.transition(background-color);
+}
+
 // =============================================================================
 // Features grid
 // =============================================================================
@@ -415,7 +1270,7 @@
   }
 
   @include mixins.respond-to(lg) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -424,7 +1279,7 @@
   gap: var(--dm-space-3);
   align-content: start;
 
-  h2 {
+  h3 {
     margin: 0;
     font-size: var(--dm-text-lg);
     font-weight: var(--dm-font-semibold);
@@ -498,31 +1353,17 @@
 }
 
 // =============================================================================
-// Final CTA strip — big, gradient, high-impact
+// Final CTA strip — superficie limpia (sin tintes radiales), foco en el copy.
 // =============================================================================
 .home__cta {
-  position: relative;
   padding: var(--dm-space-10) var(--dm-space-6);
   border-radius: var(--dm-radius-2xl, 1.5rem);
-  overflow: hidden;
-  isolation: isolate;
-  background:
-    radial-gradient(circle at 30% 20%, rgb(99 102 241 / 18%), transparent 55%),
-    radial-gradient(circle at 80% 80%, rgb(168 85 247 / 20%), transparent 55%), var(--dm-bg-subtle);
+  background: var(--dm-bg-subtle);
   border: 1px solid var(--dm-border);
 
   @include mixins.respond-to(md) {
     padding: var(--dm-space-12) var(--dm-space-10);
   }
-}
-
-.home__cta-glow {
-  position: absolute;
-  inset: -30%;
-  z-index: -1;
-  background: radial-gradient(circle, rgb(0 111 238 / 25%) 0%, transparent 60%);
-  filter: blur(40px);
-  pointer-events: none;
 }
 
 .home__cta-content {
@@ -537,10 +1378,12 @@
   font-size: clamp(1.75rem, 4vw, 2.75rem);
   font-weight: var(--dm-font-bold);
   letter-spacing: -0.025em;
-  line-height: 1.1;
+  line-height: 1.15;
+  padding-bottom: 0.08em;
   background: var(--dm-gradient-brand);
   background-clip: text;
   color: transparent;
+  text-wrap: balance;
 }
 
 .home__cta-lead {
@@ -555,4 +1398,137 @@
 .home__cta-content .home__actions {
   justify-content: center;
   margin-top: var(--dm-space-2);
+}
+
+// =============================================================================
+// FOOTER
+// =============================================================================
+.home__footer {
+  border-top: 1px solid var(--dm-border);
+  background: var(--dm-bg-subtle);
+}
+
+.home__footer-inner {
+  display: grid;
+  gap: var(--dm-space-4);
+  justify-items: center;
+  text-align: center;
+  padding-block: var(--dm-space-8);
+
+  @include mixins.respond-to(md) {
+    grid-template-columns: auto 1fr auto;
+    place-items: center start;
+    text-align: left;
+  }
+}
+
+.home__footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--dm-space-1);
+
+  @include mixins.respond-to(md) {
+    justify-self: center;
+  }
+}
+
+.home__footer-link {
+  padding: var(--dm-space-1) var(--dm-space-3);
+  border-radius: var(--dm-radius-full);
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg-muted);
+  text-decoration: none;
+
+  @include mixins.transition(background-color, color);
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.home__footer-rights {
+  margin: 0;
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-subtle);
+}
+
+// =============================================================================
+// SCROLL REVEAL — la directiva `appReveal` añade `reveal--in` al entrar en el
+// viewport; el bloque sube y aparece. Los grids con hijos (galería, features)
+// no funden su caja: escalonan los hijos.
+// =============================================================================
+.reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity 0.6s var(--dm-ease-out),
+    transform 0.6s var(--dm-ease-out);
+  transition-delay: var(--dm-reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal--in {
+  opacity: 1;
+  transform: none;
+}
+
+// Grids escalonados: la caja no se oculta; sus hijos entran en cascada.
+.home__gallery-grid.reveal,
+.home__features.reveal {
+  opacity: 1;
+  transform: none;
+
+  > * {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity 0.5s var(--dm-ease-out),
+      transform 0.5s var(--dm-ease-out);
+  }
+}
+
+.home__gallery-grid.reveal--in,
+.home__features.reveal--in {
+  > * {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@for $i from 1 through 9 {
+  .home__gallery-grid.reveal--in > :nth-child(#{$i}) {
+    transition-delay: #{($i - 1) * 55}ms;
+  }
+}
+
+@for $i from 1 through 6 {
+  .home__features.reveal--in > :nth-child(#{$i}) {
+    transition-delay: #{($i - 1) * 55}ms;
+  }
+}
+
+// Sin movimiento: todo visible de inmediato, cero animación.
+@include mixins.reduced-motion {
+  .home__hero-copy > *,
+  .home__hero-preview,
+  .home__hero-preview-window,
+  .home__hero-preview-glow,
+  .home__hero-preview-orb {
+    animation: none;
+  }
+
+  .reveal,
+  .reveal--in,
+  .home__gallery-grid.reveal > *,
+  .home__features.reveal > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
