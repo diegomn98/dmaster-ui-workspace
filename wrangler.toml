@@ -1,3 +1,5 @@
 name = "dmaster-ui"
-pages_build_output_dir = "dist/ngx-test-app/browser"
 compatibility_date = "2025-01-01"
+
+[assets]
+directory = "./dist/ngx-test-app/browser"
