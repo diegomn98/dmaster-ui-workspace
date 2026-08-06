@@ -107,9 +107,21 @@ projects/ngx-dmaster-ui/src/
 
 ## El dashboard (`ngx-test-app`)
 
-Documentación viva con layout tipo docs: shell (`layout/shell/`) con sidebar (drawer con hamburguesa < 1024px, columna estática desde `lg`), header sticky con logo + selector de idioma (`dm-select` bordered/sm, dogfooding) + theme toggle, y páginas lazy en `pages/`.
+**Arquitectura de rutas (patrón HeroUI/MUI)**: la landing (`/`, `pages/home/`) vive FUERA del shell — página full-bleed sin sidebar, con top bar propio (logo + links Docs/Components + palette picker + idioma + theme toggle) y footer. El resto de rutas (`/getting-started`, `/components/**`) comparten `ShellComponent` como **layout route** (`app.routes.ts`: ruta `''` con `component: ShellComponent` y las docs como `children`). `app.ts` solo renderiza `<router-outlet />`.
 
-**Marca**: el logo es el monograma "d." sobre tile con gradiente índigo→violeta. Vive en `public/favicon.svg` y como SVG inline en el shell (`#dm-logo-*`) y en el hero del Overview (`#ov-logo-*` — ids únicos por documento). La página **Overview** (`/components`, `pages/overview/`) es el escaparate con un tile por componente y preview en vivo; el CTA de la home apunta ahí.
+Shell de docs (`layout/shell/`): sidebar (drawer con hamburguesa < 1024px, columna estática desde `lg`), header sticky con logo + selector de idioma (`dm-select` bordered/sm, dogfooding; bajo `sm` se muda al pie del drawer porque no cabe en el header) + theme toggle, y páginas lazy en `pages/`.
+
+**Marca**: el logo es el monograma "d." sobre tile con gradiente índigo→violeta. Vive en `public/favicon.svg` y como SVG inline en el shell (`#dm-logo-*`), en el top bar de la landing (`#hm-logo-*`) y en el hero del Overview (`#ov-logo-*` — ids únicos por documento). La página **Overview** (`/components`, `pages/overview/`) es el escaparate con un tile por componente y preview en vivo; el CTA de la home apunta ahí.
+
+**Landing** (`pages/home/`): hero split con preview viva + fondo full-bleed (dot-grid con máscara en `.home__hero-bleed`; el hero y el CTA final NO llevan tinte de color de fondo — se quitaron a propósito), stats, galería de tiles clicables (routerLink a cada docs page, previews `inert`), **sección de código en vivo** (`.home__code`: `dm-tabs` como control segmentado — sin panels, se autooculta el slot vacío — que conmuta a la vez el preview vivo con `@switch` y el `demoCode()` mostrado en `app-code-snippet`), sección theming con las paletas en vivo (`PaletteService`), features, install y CTA (superficie plana). Budget `anyComponentStyle` del build de la app subido a 26/30 kB por esta página.
+
+**Card del hero**: el glow/orbes de color son hermanos ABSOLUTOS detrás de `.home__hero-preview-window` (z-index 0) — NO un `::before` hijo con z-index negativo (eso teñía el interior de lila porque se pinta sobre el fondo blanco). La ventana va a z-index 1 con fondo opaco. En `lg` flota con `hero-card-float`.
+
+**Animaciones**: entrada escalonada del hero al cargar (`home-rise` con delays por `nth-child`), float/pulse del preview, y **scroll-reveal** vía la directiva `appReveal` (`shared/reveal.directive.ts`): IntersectionObserver que añade `reveal--in` al entrar en viewport; el índice opcional (`appReveal="2"`) escala el retardo (`--dm-reveal-delay`). Los grids (galería, features) escalonan sus hijos con `nth-child`. Todo se apaga con `prefers-reduced-motion` (guard al final del SCSS). Nota: el IntersectionObserver no dispara en el panel de preview headless (no compone frames), pero sí en navegadores reales.
+
+**Ejemplos del code showcase**: `Profile` (avatar+badge+stats+botones), `Pricing` (badge+precio+features con check ✓ CSS+botón) y `Settings` (switches+checkbox+Save) — cada uno con su card `dm-card` real y su código en `demoCodeMap` (home.ts). Son deliberadamente "de producto" (no primitivos sueltos) para captar mejor.
+
+**Modo oscuro del landing**: varias superficies "card" usan `--dm-bg` (#09090b) = fondo de página y se fundían (el borde al 8% no basta). En el bloque `:host-context([data-dm-theme='dark'])` del SCSS: gallery-tile / theming-card / code-card se elevan a `--dm-bg-subtle`; dentro del code card los paneles (stage + snippet) bajan a `--dm-bg` (recuadros hundidos) con separadores al 12% blanco. En los tiles SOLO se cambia `background` (no `border-color`) para no pisar el borde primary del hover.
 
 Los estilos compartidos de las páginas de docs (`.page__*`, `.demo-*`, chips de código inline) son **globales** en `src/styles/_docs.scss` (importado desde `styles.scss`). Es a propósito: parte del contenido llega por `[innerHTML]` (traducciones con `<code>`) y los estilos encapsulados de Angular no alcanzan a los nodos insertados así. El SCSS de cada página solo define su `:host`.
 

@@ -67,30 +67,39 @@ $bar-height: 2.75rem;
 [data-lang='html'] .snippet__lang-dot {
   --dm-lang-color: #e44d26;
 }
+
 [data-lang='ts'] .snippet__lang-dot {
   --dm-lang-color: #3178c6;
 }
+
 [data-lang='typescript'] .snippet__lang-dot {
   --dm-lang-color: #3178c6;
 }
+
 [data-lang='scss'] .snippet__lang-dot {
   --dm-lang-color: #c76494;
 }
+
 [data-lang='css'] .snippet__lang-dot {
   --dm-lang-color: #264de4;
 }
+
 [data-lang='js'] .snippet__lang-dot {
   --dm-lang-color: #ca8a04;
 }
+
 [data-lang='javascript'] .snippet__lang-dot {
   --dm-lang-color: #ca8a04;
 }
+
 [data-lang='bash'] .snippet__lang-dot {
   --dm-lang-color: #16a34a;
 }
+
 [data-lang='sh'] .snippet__lang-dot {
   --dm-lang-color: #16a34a;
 }
+
 [data-lang='shell'] .snippet__lang-dot {
   --dm-lang-color: #16a34a;
 }

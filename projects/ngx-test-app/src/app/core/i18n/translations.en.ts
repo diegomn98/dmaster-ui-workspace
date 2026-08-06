@@ -76,35 +76,65 @@ export const EN: DashboardTranslations = {
     api: { name: 'Name', type: 'Type', default: 'Default', description: 'Description' },
   },
   home: {
-    versionBadge: 'v0.1.0 · Angular 20+',
-    title: '@dmaster/ui',
-    heroLine1: 'Build faster with',
-    heroLine2: 'beautiful Angular UI.',
+    navDocs: 'Docs',
+    navComponents: 'Components',
+    footerRights: 'MIT license © 2026 Diego Maestro',
+    versionBadge: 'v0.1.2',
+    heroChipAngular: 'Angular 20+',
+    heroChipMit: 'MIT license',
+    heroLine1: 'The component library',
+    heroLine2: 'Angular deserves.',
     subtitle:
       'A modern Angular 20 component library. Standalone, signals-based, HeroUI-inspired — with dark mode, real theming and accessibility baked in from the very first component.',
     ctaPrimary: 'Get started',
     ctaSecondary: 'Browse components',
+    copyAria: 'Copy install command',
     stats: {
       components: 'components',
       tests: 'tests, 100% passing',
       externalDeps: 'external UI dependencies',
       externalDepsValue: 'Zero',
+      standalone: 'standalone, typed, OnPush',
+      standaloneValue: '100%',
     },
-    showcaseAria: 'Live showcase',
-    showcaseTitle: 'A complete component kit',
-    showcaseSubtitle:
-      'Every piece is themed with CSS variables and works in light and dark mode out of the box.',
+    galleryEyebrow: 'Components',
     galleryTitle: 'A complete component kit',
     gallerySubtitle:
-      'Every component is live below — themed via CSS variables, responsive, and accessible by default. Explore, tweak, ship.',
+      'Every component below is live — themed via CSS variables, responsive, and accessible by default. Click any tile to open its docs.',
+    galleryViewAll: 'View all components',
+    codeEyebrow: 'Code',
+    codeTitle: 'Less code, better UI.',
+    codeLead:
+      'Real components, real code — copy it straight into your app. No wrappers, no config, no surprises.',
+    codeTabs: {
+      profile: 'Profile',
+      pricing: 'Pricing',
+      settings: 'Settings',
+    },
+    themingEyebrow: 'Theming',
+    themingTitle: 'Make it yours.',
+    themingLead:
+      'Every color is a CSS variable. Pick a palette — the whole site re-skins instantly, with no rebuild and no configuration.',
+    themingHint: 'Try it: this switcher drives the real design tokens of this very page.',
+    themingSwatchesAria: 'Color palettes',
     featuresAria: 'Features',
+    featuresEyebrow: 'Why @dmaster/ui',
+    featuresTitle: 'Built like a product, not a demo.',
+    featuresLead:
+      'Every component ships with the small decisions already made — states, keyboard, motion, density, dark mode.',
     features: {
       signalsTitle: 'Signals first',
       signalsBody:
         'API built with <code>input()</code>, <code>output()</code> and <code>model()</code>. <code>OnPush</code> by default and zoneless-ready.',
+      zonelessTitle: 'Zoneless-ready',
+      zonelessBody:
+        'No zone.js anywhere. Change detection is driven by signals and <code>OnPush</code> — ready today for Angular’s zoneless future.',
       themingTitle: 'Real theming',
       themingBody:
         'CSS custom properties as the single theming source: <code>--dm-*</code> tokens, light and dark, and <code>compact · comfortable · spacious</code> densities.',
+      depsTitle: 'Zero UI dependencies',
+      depsBody:
+        'Angular + CDK, nothing else. No icon fonts, no CSS frameworks, no runtime theme engine — a lean bundle that ages well.',
       responsiveTitle: 'Responsive by default',
       responsiveBody:
         'Mobile-first, container queries where they help, 44px touch targets and <code>prefers-reduced-motion</code> support.',

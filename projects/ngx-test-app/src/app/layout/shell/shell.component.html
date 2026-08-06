@@ -164,6 +164,20 @@
         </section>
       }
     </nav>
+
+    <!-- Bajo `sm` el selector de idioma no cabe en el header: vive aquí. -->
+    <div class="shell__sidebar-footer">
+      <p class="shell__nav-title">{{ i18n.t().shell.languageLabel }}</p>
+      <dm-select
+        class="shell__sidebar-lang"
+        variant="bordered"
+        size="sm"
+        [items]="locales"
+        [value]="i18n.locale()"
+        (valueChange)="onLocaleChange($event)"
+        [ariaLabel]="i18n.t().shell.languageLabel"
+      />
+    </div>
   </aside>
 
   <main class="shell__main">

@@ -66,9 +66,15 @@ $sidebar-width: 16rem;
 }
 
 // El dm-select del selector de idioma tiene un ancho fijo que da cabida al
-// texto más largo ("Français"); el resto lo pone el propio componente.
+// texto más largo ("Français"). Bajo `sm` no cabe en el header (desbordaba y
+// empujaba el toggle de tema fuera de pantalla): ahí vive en el pie del drawer.
 .shell__lang-select {
-  width: 8.5rem;
+  display: none;
+
+  @include mixins.respond-to(sm) {
+    display: grid; // display natural del host de dm-select
+    width: 8.5rem;
+  }
 }
 
 // GitHub pill: HeroUI-style — full-rounded, sutil bordered chip con icono +
@@ -201,6 +207,23 @@ $sidebar-width: 16rem;
 .shell__nav {
   display: grid;
   gap: var(--dm-space-6);
+}
+
+// Pie del drawer: selector de idioma en móvil (bajo `sm` no cabe en el header).
+.shell__sidebar-footer {
+  display: grid;
+  gap: var(--dm-space-1);
+  margin-top: var(--dm-space-6);
+  padding-top: var(--dm-space-4);
+  border-top: 1px solid var(--dm-border);
+
+  @include mixins.respond-to(sm) {
+    display: none;
+  }
+}
+
+.shell__sidebar-lang {
+  padding-inline: var(--dm-space-3);
 }
 
 .shell__nav-title {

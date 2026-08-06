@@ -4,8 +4,9 @@
     {
       "name": "ngx-test-app",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["ng", "serve", "ngx-test-app", "--port", "4200"],
-      "port": 4200
+      "runtimeArgs": ["ng", "serve", "ngx-test-app", "--port", "4201"],
+      "port": 4201,
+      "autoPort": false
     }
   ]
 }
