@@ -4,7 +4,7 @@
   <p class="page__lead" [innerHTML]="page().lead"></p>
   <app-code-snippet
     language="ts"
-    code="import &#123; DmSwitchComponent &#125; from 'ngx-dmaster-ui';"
+    code="import &#123; DmSwitchComponent &#125; from '@dmaster/ui';"
   />
 </header>
 
@@ -41,7 +41,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode">
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode" language="ts">
     <div class="demo-row">
       <dm-switch [formControl]="formControl">{{ page().labels['notifications'] }}</dm-switch>
       <span class="demo-output">{{ page().labels['formValue'] }}: {{ formValue() }}</span>

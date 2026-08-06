@@ -1,0 +1,229 @@
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmAccordionComponent, DmAccordionItemComponent, DmAccordionVariant } from '@dmaster/ui';
+
+import { LocaleService } from '../../../core/i18n/locale.service';
+import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
+import { ApiTableRow } from '../../../shared/api-table/api-table.types';
+import { CodeSnippetComponent } from '../../../shared/code-snippet/code-snippet.component';
+import { DemoBlockComponent } from '../../../shared/demo-block/demo-block.component';
+import { PropSignalComponent } from '../../../shared/prop-signal/prop-signal.component';
+import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal.types';
+
+@Component({
+  selector: 'app-accordion-page',
+  imports: [
+    DmAccordionComponent,
+    DmAccordionItemComponent,
+    DemoBlockComponent,
+    ApiTableComponent,
+    CodeSnippetComponent,
+    PropSignalComponent,
+  ],
+  templateUrl: './accordion-page.component.html',
+  host: { class: 'docs-page' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AccordionPageComponent {
+  protected readonly i18n = inject(LocaleService);
+  protected readonly page = computed(() => this.i18n.t().pages.accordion);
+
+  // Playground
+  protected readonly playground = signal<PropValues>({
+    variant: 'light',
+    selectionMode: 'single',
+    disabled: false,
+  });
+
+  protected readonly controls: PropControl[] = [
+    {
+      key: 'variant',
+      label: 'variant',
+      type: 'select',
+      options: [
+        { label: 'light', value: 'light' },
+        { label: 'bordered', value: 'bordered' },
+        { label: 'shadow', value: 'shadow' },
+        { label: 'splitted', value: 'splitted' },
+      ],
+    },
+    {
+      key: 'selectionMode',
+      label: 'selectionMode',
+      type: 'select',
+      options: [
+        { label: 'single', value: 'single' },
+        { label: 'multiple', value: 'multiple' },
+      ],
+    },
+    { key: 'disabled', label: 'disabled', type: 'boolean' },
+  ];
+
+  protected readonly pgVariant = computed(() => this.playground()['variant'] as DmAccordionVariant);
+  protected readonly pgMode = computed(
+    () => this.playground()['selectionMode'] as 'single' | 'multiple',
+  );
+  protected readonly pgDisabled = computed(() => this.playground()['disabled'] as boolean);
+  protected readonly pgExpanded = signal<string[]>(['features']);
+
+  protected readonly playgroundCode = computed(() => {
+    const attrs: string[] = [];
+    if (this.pgVariant() !== 'light') attrs.push(`variant="${this.pgVariant()}"`);
+    if (this.pgMode() !== 'single') attrs.push(`selectionMode="${this.pgMode()}"`);
+    if (this.pgDisabled()) attrs.push('[disabled]="true"');
+    return [
+      `<dm-accordion${attrs.length ? ' ' + attrs.join(' ') : ''}>`,
+      '  <dm-accordion-item value="features" title="Features">',
+      '    Signals-first, zoneless-ready, HeroUI styling.',
+      '  </dm-accordion-item>',
+      '  <dm-accordion-item value="a11y" title="Accessibility">',
+      '    ARIA-compliant, full keyboard navigation.',
+      '  </dm-accordion-item>',
+      '  <dm-accordion-item value="theming" title="Theming">',
+      '    Override any --dm-* token to re-skin.',
+      '  </dm-accordion-item>',
+      '</dm-accordion>',
+    ].join('\n');
+  });
+
+  // ---- Snippets ------------------------------------------------------------ //
+  protected readonly singleCode = [
+    '<dm-accordion selectionMode="single">',
+    '  <dm-accordion-item value="q1" title="How do I install @dmaster/ui?">',
+    '    npm install @dmaster/ui @angular/cdk @angular/forms',
+    '  </dm-accordion-item>',
+    '  <dm-accordion-item value="q2" title="Does it work with SSR?">',
+    '    Yes. Zoneless-ready and OnPush by default.',
+    '  </dm-accordion-item>',
+    '  <dm-accordion-item value="q3" title="Can I use a custom theme?">',
+    '    Override any --dm-* CSS variable.',
+    '  </dm-accordion-item>',
+    '</dm-accordion>',
+  ].join('\n');
+
+  protected readonly singleTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    '  imports: [DmAccordionComponent, DmAccordionItemComponent],',
+    '  template: `...`, // paste the HTML above',
+    '})',
+    'export class FaqComponent {}',
+  ].join('\n');
+
+  protected readonly multipleCode = [
+    '<dm-accordion selectionMode="multiple" [(expandedValues)]="open">',
+    '  <dm-accordion-item value="a" title="Alpha">…</dm-accordion-item>',
+    '  <dm-accordion-item value="b" title="Beta">…</dm-accordion-item>',
+    '  <dm-accordion-item value="c" title="Charlie">…</dm-accordion-item>',
+    '</dm-accordion>',
+  ].join('\n');
+
+  protected readonly multipleTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    '  imports: [DmAccordionComponent, DmAccordionItemComponent],',
+    '  template: `...`,',
+    '})',
+    'export class MultiAccordionComponent {',
+    "  open = signal<string[]>(['a', 'c']);",
+    '}',
+  ].join('\n');
+
+  protected readonly variantsCode = [
+    '<dm-accordion variant="light" />    <!-- default -->',
+    '<dm-accordion variant="bordered" />',
+    '<dm-accordion variant="shadow" />',
+    '<dm-accordion variant="splitted" />',
+  ].join('\n');
+
+  protected readonly disabledCode = [
+    '<dm-accordion>',
+    '  <dm-accordion-item value="a" title="Enabled">…</dm-accordion-item>',
+    '  <dm-accordion-item value="b" title="Disabled" [disabled]="true">',
+    '    You cannot open this item.',
+    '  </dm-accordion-item>',
+    '</dm-accordion>',
+  ].join('\n');
+
+  protected readonly iconCode = [
+    '<dm-accordion variant="splitted">',
+    '  <dm-accordion-item value="install" title="Installation">',
+    '    <!-- [dm-accordion-icon]: must be width="1em" height="1em" (inherits font-size) -->',
+    '    <svg dm-accordion-icon width="1em" height="1em" viewBox="0 0 24 24"',
+    '         fill="none" stroke="currentColor" stroke-width="2"',
+    '         stroke-linecap="round" stroke-linejoin="round">',
+    '      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>',
+    '      <polyline points="7 10 12 15 17 10"/>',
+    '      <line x1="12" y1="15" x2="12" y2="3"/>',
+    '    </svg>',
+    '    npm install @dmaster/ui @angular/cdk',
+    '  </dm-accordion-item>',
+    '  <dm-accordion-item value="setup" title="Setup">',
+    '    <svg dm-accordion-icon width="1em" height="1em" viewBox="0 0 24 24"',
+    '         fill="none" stroke="currentColor" stroke-width="2"',
+    '         stroke-linecap="round" stroke-linejoin="round">',
+    '      <circle cx="12" cy="12" r="3"/>',
+    '      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>',
+    '    </svg>',
+    '    Call provideDmasterUI() in your app config.',
+    '  </dm-accordion-item>',
+    '  <dm-accordion-item value="theme" title="Theme">',
+    '    <svg dm-accordion-icon width="1em" height="1em" viewBox="0 0 24 24"',
+    '         fill="none" stroke="currentColor" stroke-width="2"',
+    '         stroke-linecap="round" stroke-linejoin="round">',
+    '      <circle cx="12" cy="12" r="10"/>',
+    '      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+    '    </svg>',
+    '    Set data-dm-theme="light|dark" on &lt;html&gt;.',
+    '  </dm-accordion-item>',
+    '</dm-accordion>',
+  ].join('\n');
+
+  protected readonly defaultsCode = [
+    "import { provideAccordionDefaults } from '@dmaster/ui';",
+    '',
+    'providers: [',
+    "  provideAccordionDefaults({ variant: 'splitted', selectionMode: 'multiple' }),",
+    ']',
+  ].join('\n');
+
+  // Signals for demos
+  protected readonly multipleOpen = signal<string[]>(['a', 'c']);
+
+  protected readonly apiRows = computed<ApiTableRow[]>(() => {
+    const api = this.page().api;
+    return [
+      {
+        name: 'selectionMode',
+        type: "'single' | 'multiple'",
+        default: "'single'",
+        description: api['selectionMode'],
+      },
+      {
+        name: 'expandedValues',
+        type: 'string[]',
+        default: '[]',
+        description: api['expandedValues'],
+      },
+      {
+        name: 'variant',
+        type: "'light' | 'bordered' | 'shadow' | 'splitted'",
+        default: "'light'",
+        description: api['variant'],
+      },
+      { name: 'disabled', type: 'boolean', default: 'false', description: api['disabled'] },
+      { name: 'value (item)', type: 'string', default: '—', description: api['value'] },
+      { name: 'title (item)', type: 'string', default: "''", description: api['title'] },
+      { name: 'subtitle (item)', type: 'string', default: "''", description: api['subtitle'] },
+      {
+        name: '[dm-accordion-icon]',
+        type: 'content slot',
+        default: '—',
+        description: api['icon'],
+      },
+    ];
+  });
+}

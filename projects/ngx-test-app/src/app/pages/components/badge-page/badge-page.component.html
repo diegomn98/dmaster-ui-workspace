@@ -4,7 +4,7 @@
   <p class="page__lead" [innerHTML]="page().lead"></p>
   <app-code-snippet
     language="ts"
-    code="import &#123; DmBadgeComponent &#125; from 'ngx-dmaster-ui';"
+    code="import &#123; DmBadgeComponent &#125; from '@dmaster/ui';"
   />
 </header>
 
@@ -13,13 +13,7 @@
   <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
 
   <div class="page__playground-preview">
-    <dm-badge
-      [variant]="pgVariant()"
-      [appearance]="pgAppearance()"
-      [size]="pgSize()"
-      [pill]="pgPill()"
-      [dot]="pgDot()"
-    >
+    <dm-badge [color]="pgColor()" [variant]="pgVariant()" [size]="pgSize()" [radius]="pgRadius()">
       {{ pgText() }}
     </dm-badge>
   </div>
@@ -31,29 +25,27 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
+  <app-demo-block [heading]="page().labels['colorsHeading']" [code]="colorsCode">
     <div class="demo-row">
-      <dm-badge>Neutral</dm-badge>
-      <dm-badge variant="primary">Primary</dm-badge>
-      <dm-badge variant="success">Success</dm-badge>
-      <dm-badge variant="warning">Warning</dm-badge>
-      <dm-badge variant="danger">Danger</dm-badge>
+      @for (c of colors; track c) {
+        <dm-badge [color]="c">{{ c }}</dm-badge>
+      }
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.appearances" [code]="appearancesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
     <div class="demo-row">
-      <dm-badge variant="primary">subtle</dm-badge>
-      <dm-badge variant="primary" appearance="solid">solid</dm-badge>
-      <dm-badge variant="primary" appearance="outline">outline</dm-badge>
+      @for (v of variants; track v) {
+        <dm-badge color="primary" [variant]="v">{{ v }}</dm-badge>
+      }
     </div>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['dotHeading']" [code]="dotCode">
     <div class="demo-row">
-      <dm-badge variant="success" [dot]="true">Active</dm-badge>
-      <dm-badge variant="warning" [dot]="true">Degraded</dm-badge>
-      <dm-badge variant="danger" [dot]="true" [pill]="true">Down</dm-badge>
+      <dm-badge color="success" variant="dot">Active</dm-badge>
+      <dm-badge color="warning" variant="dot">Degraded</dm-badge>
+      <dm-badge color="danger" variant="dot">Down</dm-badge>
     </div>
   </app-demo-block>
 </section>

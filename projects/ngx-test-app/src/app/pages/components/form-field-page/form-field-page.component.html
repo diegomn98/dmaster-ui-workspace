@@ -4,7 +4,7 @@
   <p class="page__lead" [innerHTML]="page().lead"></p>
   <app-code-snippet
     language="ts"
-    code="import &#123; DmFormFieldComponent, DmInputDirective &#125; from 'ngx-dmaster-ui';"
+    code="import &#123; DmFormFieldComponent, DmInputDirective &#125; from '@dmaster/ui';"
   />
 </header>
 
@@ -33,7 +33,7 @@
 
   <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
     <dm-form-field
-      style="max-width: 20rem"
+      style="width: 100%; max-width: 20rem"
       [label]="page().labels['emailLabel']"
       [hint]="page().labels['emailHint']"
       [required]="true"
@@ -44,7 +44,7 @@
 
   <app-demo-block [heading]="i18n.t().common.demos.states" [code]="errorCode">
     <dm-form-field
-      style="max-width: 20rem"
+      style="width: 100%; max-width: 20rem"
       [label]="page().labels['emailLabel']"
       [error]="emailError()"
     >
@@ -60,7 +60,7 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['withTextarea']" [code]="textareaCode">
-    <dm-form-field style="max-width: 24rem" [label]="page().labels['messageLabel']">
+    <dm-form-field style="width: 100%; max-width: 24rem" [label]="page().labels['messageLabel']">
       <textarea dmInput rows="4"></textarea>
     </dm-form-field>
   </app-demo-block>

@@ -1,0 +1,140 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">Paginated Select</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+</header>
+
+<section class="page__section" aria-labelledby="import-title">
+  <h2 class="page__section-title" id="import-title">{{ i18n.t().common.importTitle }}</h2>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmPaginatedSelectComponent, DmPaginatedSelectLoadFn &#125; from '@dmaster/ui';"
+  />
+</section>
+
+<section class="page__section" aria-labelledby="usage-title">
+  <h2 class="page__section-title" id="usage-title">{{ i18n.t().common.usageTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.usageDesc }}</p>
+
+  <p class="page__section-desc">{{ page().labels['loadFnDesc'] }}</p>
+  <app-code-snippet language="ts" [code]="loadFnCode" />
+
+  <div class="page__playground-preview" style="margin-top: var(--dm-space-4)">
+    <div style="width: 100%; max-width: 22rem">
+      <dm-paginated-select
+        [label]="page().labels['assignee']"
+        [placeholder]="page().labels['pickOne']"
+        [loadFn]="loadFn"
+        [(value)]="playgroundValue"
+        [searchable]="true"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        [loadingLabel]="page().labels['loading']"
+        [emptyLabel]="page().labels['emptyLabel']"
+      />
+    </div>
+  </div>
+  <app-code-snippet language="html" [code]="infiniteCode" />
+</section>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 22rem">
+      <dm-paginated-select
+        [label]="page().labels['assignee']"
+        [placeholder]="page().labels['pickOne']"
+        [loadFn]="loadFn"
+        [(value)]="playgroundValue"
+        [color]="pgColor()"
+        [variant]="pgVariant()"
+        [size]="pgSize()"
+        [radius]="pgRadius()"
+        [loadMoreMode]="pgLoadMoreMode()"
+        [searchable]="pgSearchable()"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        [loadingLabel]="page().labels['loading']"
+        [loadMoreLabel]="page().labels['loadMore']"
+        [emptyLabel]="page().labels['emptyLabel']"
+        [disabled]="pgDisabled()"
+      />
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['buttonHeading']" [code]="buttonCode" language="html">
+    <div style="width: 100%; max-width: 22rem">
+      <dm-paginated-select
+        [label]="page().labels['assignee']"
+        [placeholder]="page().labels['pickOne']"
+        [loadFn]="loadFn"
+        [(value)]="buttonValue"
+        loadMoreMode="button"
+        [loadingLabel]="page().labels['loading']"
+        [loadMoreLabel]="page().labels['loadMore']"
+        [emptyLabel]="page().labels['emptyLabel']"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['searchHeading']" [code]="infiniteCode" language="html">
+    <div style="width: 100%; max-width: 22rem">
+      <dm-paginated-select
+        [label]="page().labels['assignee']"
+        [placeholder]="page().labels['pickOne']"
+        [loadFn]="loadFn"
+        [(value)]="searchValue"
+        variant="bordered"
+        [searchable]="true"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        [loadingLabel]="page().labels['loading']"
+        [emptyLabel]="page().labels['emptyLabel']"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['clearableHeading']"
+    [code]="clearableCode"
+    language="html"
+  >
+    <div style="width: 100%; max-width: 22rem">
+      <dm-paginated-select
+        [label]="page().labels['assignee']"
+        [placeholder]="page().labels['pickOne']"
+        [loadFn]="loadFn"
+        [(value)]="clearableValue"
+        [clearable]="true"
+        [searchable]="true"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        [loadingLabel]="page().labels['loading']"
+        [emptyLabel]="page().labels['emptyLabel']"
+      />
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

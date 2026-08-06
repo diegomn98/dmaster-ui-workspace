@@ -1,51 +1,211 @@
+@use 'mixins';
+
 :host {
   display: block;
-
-  // Los demos se adaptan a su contenedor, no al viewport.
   container-type: inline-size;
 }
 
+// ── Card ────────────────────────────────────────────────────────────────────
+// Una sola superficie serena y elevada. Hairline + radio amplio + sombra suave
+// en capas (el "flotar" caro de Linear/Stripe). Sin degradados de borde ni
+// adornos: la calma y el detalle micro son lo premium.
+
 .demo {
   margin: 0;
-  display: grid;
-  gap: var(--dm-space-3);
+  display: block;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-xl);
+  background: var(--dm-bg);
+  box-shadow: var(--dm-shadow-md);
+  overflow: hidden;
+
+  @include mixins.transition(box-shadow, border-color);
 }
 
-.demo__heading {
+// ── Header ──────────────────────────────────────────────────────────────────
+// Etiqueta discreta a la izquierda; control segmentado a la derecha. Hairline
+// inferior. Sin fondo tintado: respira con la propia superficie de la card.
+
+.demo__header {
   display: flex;
   align-items: center;
-  gap: var(--dm-space-2);
+  justify-content: flex-end;
+  gap: var(--dm-space-4);
+  min-height: 3.25rem;
+  padding: var(--dm-space-3) var(--dm-space-4) var(--dm-space-3) var(--dm-space-5);
+  border-bottom: 1px solid var(--dm-border);
+}
+
+.demo__title {
+  margin-right: auto;
+  min-width: 0;
+  overflow: hidden;
   font-size: var(--dm-text-sm);
   font-weight: var(--dm-font-semibold);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.006em;
   color: var(--dm-fg);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  // Marcador de demo: barrita vertical con el gradiente de marca.
-  &::before {
-    content: '';
-    flex-shrink: 0;
-    width: 0.1875rem;
-    height: 0.9375rem;
-    border-radius: var(--dm-radius-full);
-    background: var(--dm-gradient-brand);
+// ── dm-tabs segment switch (Preview / Code) ───────────────────────────────────
+// Thin wrapper so dm-tabs (display:block; width:100%) stays compact inside the
+// flex header row instead of stretching to fill the full available width.
+
+.demo__tabs-wrap {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+// ── Preview stage ────────────────────────────────────────────────────────────
+// Superficie limpia con un foco radial suave que "levanta" el componente en el
+// centro, como una foto de producto. Sin trama de puntos.
+
+.demo__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(var(--dm-space-8), 6cqi, var(--dm-space-12)) var(--dm-space-6);
+  min-height: 11.5rem;
+  overflow-x: auto;
+  background-color: var(--dm-bg-subtle);
+  background-image: radial-gradient(
+    72% 88% at 50% 38%,
+    color-mix(in srgb, var(--dm-bg) 85%, transparent) 0%,
+    transparent 72%
+  );
+  animation: demo-enter var(--dm-duration-base) var(--dm-ease-out) both;
+
+  @include mixins.reduced-motion {
+    animation: none;
   }
 }
 
-.demo__preview {
-  display: block;
-  padding: var(--dm-space-8) var(--dm-space-6);
-  border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-lg);
+.demo__stage-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
 
-  // Retícula de puntos de marca (coherente con el Overview), con un
-  // desvanecido radial para que el patrón respire y no compita con el
-  // componente demostrado.
-  background-color: var(--dm-bg-subtle);
-  background-image:
-    radial-gradient(ellipse at center, transparent 45%, var(--dm-bg-subtle) 95%),
-    radial-gradient(color-mix(in srgb, var(--dm-fg) 8%, transparent) 1px, transparent 1px);
-  background-size:
-    100% 100%,
-    14px 14px;
+// ── Code panel ───────────────────────────────────────────────────────────────
+
+.demo__code {
+  background: var(--dm-bg-subtle);
+  animation: demo-enter var(--dm-duration-base) var(--dm-ease-out) both;
+
+  @include mixins.reduced-motion {
+    animation: none;
+  }
+}
+
+// File tabs (solo multi-archivo): fila serena de pills. El activo se rellena
+// sutil y gana color de texto; sin cards elevadas ni subrayados.
+
+.demo__files {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: var(--dm-space-2) var(--dm-space-3);
+  border-bottom: 1px solid var(--dm-border);
   overflow-x: auto;
+}
+
+// Colores canónicos de cada lenguaje (dot indicator).
+// Se exponen como --dm-lang-color para que el ::before los consuma.
+
+.demo__file {
+  --dm-lang-color: var(--dm-fg-subtle);
+
+  &[data-lang='html'] {
+    --dm-lang-color: #e44d26;
+  }
+  &[data-lang='ts'] {
+    --dm-lang-color: #3178c6;
+  }
+  &[data-lang='scss'] {
+    --dm-lang-color: #c76494;
+  }
+  &[data-lang='js'] {
+    --dm-lang-color: #ca8a04;
+  }
+  &[data-lang='css'] {
+    --dm-lang-color: #264de4;
+  }
+  &[data-lang='bash'] {
+    --dm-lang-color: #16a34a;
+  }
+}
+
+.demo__file {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding: 0.3125rem 0.625rem;
+  border: 0;
+  border-radius: var(--dm-radius-md);
+  background: transparent;
+  color: var(--dm-fg-muted);
+  font-size: 0.6875rem;
+  font-family: var(--dm-font-mono);
+  font-weight: var(--dm-font-medium);
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  white-space: nowrap;
+
+  @include mixins.transition(color, background-color);
+
+  // Dot codificado por lenguaje
+  &::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border-radius: var(--dm-radius-full);
+    background: var(--dm-lang-color);
+    opacity: 0.35;
+
+    @include mixins.transition(opacity, transform);
+  }
+
+  &:hover:not(&--active) {
+    color: var(--dm-fg);
+    background: color-mix(in srgb, var(--dm-bg-elevated) 60%, transparent);
+
+    &::before {
+      opacity: 0.6;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--dm-ring);
+    outline-offset: 1px;
+  }
+
+  &--active {
+    color: var(--dm-fg);
+    background: var(--dm-bg-elevated);
+    box-shadow: var(--dm-shadow-sm);
+
+    &::before {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+}
+
+// ── Animación de entrada ─────────────────────────────────────────────────────
+@keyframes demo-enter {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
 }

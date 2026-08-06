@@ -1,0 +1,198 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.layout }}</p>
+  <h1 class="page__title">Accordion</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmAccordionComponent, DmAccordionItemComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 32rem">
+      <dm-accordion
+        [variant]="pgVariant()"
+        [selectionMode]="pgMode()"
+        [disabled]="pgDisabled()"
+        [(expandedValues)]="pgExpanded"
+      >
+        <dm-accordion-item value="features" title="Features">
+          Signals-first, zoneless-ready, HeroUI styling. Every component is
+          <code>OnPush</code> by default and works out of the box with dark mode.
+        </dm-accordion-item>
+        <dm-accordion-item value="a11y" title="Accessibility">
+          ARIA-compliant, full keyboard navigation. Panels use both
+          <code>aria-hidden</code> and <code>inert</code> when collapsed.
+        </dm-accordion-item>
+        <dm-accordion-item value="theming" title="Theming">
+          Override any <code>--dm-*</code> CSS variable to re-skin the whole library. No forking, no
+          build step.
+        </dm-accordion-item>
+      </dm-accordion>
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['single']" [code]="singleCode" [ts]="singleTs">
+    <div style="width: 100%; max-width: 32rem">
+      <dm-accordion selectionMode="single">
+        <dm-accordion-item value="q1" title="How do I install @dmaster/ui?">
+          npm install @dmaster/ui @angular/cdk @angular/forms
+        </dm-accordion-item>
+        <dm-accordion-item value="q2" title="Does it work with SSR?">
+          Yes. Zoneless-ready and OnPush by default — no zone.js required.
+        </dm-accordion-item>
+        <dm-accordion-item value="q3" title="Can I use a custom theme?">
+          Override any <code>--dm-*</code> CSS variable — no rebuild, no fork.
+        </dm-accordion-item>
+      </dm-accordion>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['multiple']" [code]="multipleCode" [ts]="multipleTs">
+    <div style="width: 100%; max-width: 32rem">
+      <dm-accordion selectionMode="multiple" [(expandedValues)]="multipleOpen">
+        <dm-accordion-item value="a" title="Alpha" subtitle="First item">
+          Multiple items can be open at the same time.
+        </dm-accordion-item>
+        <dm-accordion-item value="b" title="Beta" subtitle="Middle item">
+          Try clicking around and observe the two-way binding.
+        </dm-accordion-item>
+        <dm-accordion-item value="c" title="Charlie" subtitle="Last item">
+          Any combination is valid in multiple mode.
+        </dm-accordion-item>
+      </dm-accordion>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['variants']" [code]="variantsCode">
+    <div class="acc-variants">
+      <dm-accordion variant="light">
+        <dm-accordion-item value="a" title="Light (default)">Hairline separator.</dm-accordion-item>
+        <dm-accordion-item value="b" title="Second item">Airy and minimal.</dm-accordion-item>
+      </dm-accordion>
+      <dm-accordion variant="bordered">
+        <dm-accordion-item value="a" title="Bordered"
+          >One card, hairline dividers.</dm-accordion-item
+        >
+        <dm-accordion-item value="b" title="Second item">Clean and contained.</dm-accordion-item>
+      </dm-accordion>
+      <dm-accordion variant="shadow">
+        <dm-accordion-item value="a" title="Shadow">Elevated card, no border.</dm-accordion-item>
+        <dm-accordion-item value="b" title="Second item">Softer separation.</dm-accordion-item>
+      </dm-accordion>
+      <dm-accordion variant="splitted">
+        <dm-accordion-item value="a" title="Splitted">Each item is its own card.</dm-accordion-item>
+        <dm-accordion-item value="b" title="Second item">Independent and airy.</dm-accordion-item>
+      </dm-accordion>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['icon']" [code]="iconCode">
+    <div style="width: 100%; max-width: 32rem">
+      <dm-accordion variant="splitted">
+        <dm-accordion-item value="install" title="Installation">
+          <svg
+            dm-accordion-icon
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          npm install @dmaster/ui @angular/cdk
+        </dm-accordion-item>
+        <dm-accordion-item value="setup" title="Setup">
+          <svg
+            dm-accordion-icon
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
+          </svg>
+          Call provideDmasterUI() in your app config.
+        </dm-accordion-item>
+        <dm-accordion-item value="theme" title="Theme">
+          <svg
+            dm-accordion-icon
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path
+              d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+            />
+          </svg>
+          Set data-dm-theme="light|dark" on &lt;html&gt;.
+        </dm-accordion-item>
+      </dm-accordion>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
+    <div style="width: 100%; max-width: 32rem">
+      <dm-accordion>
+        <dm-accordion-item value="a" title="Enabled item">You can open this.</dm-accordion-item>
+        <dm-accordion-item value="b" title="Disabled item" [disabled]="true">
+          This item is skipped by keyboard nav and cannot be opened.
+        </dm-accordion-item>
+        <dm-accordion-item value="c" title="Another enabled item">
+          Also openable.
+        </dm-accordion-item>
+      </dm-accordion>
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

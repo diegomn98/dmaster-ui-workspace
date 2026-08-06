@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, input, model } from '@angular/core';
-import { DmSwitchComponent } from 'ngx-dmaster-ui';
+import { DmSelectComponent, DmSelectItem, DmSwitchComponent } from '@dmaster/ui';
 
 import { LocaleService } from '../../core/i18n/locale.service';
-import { PropControl, PropValues } from './prop-signal.types';
+import { PropControl, PropControlOption, PropValues } from './prop-signal.types';
 
 /**
  * Panel de controles interactivos para variar los inputs de un componente
@@ -11,7 +11,7 @@ import { PropControl, PropValues } from './prop-signal.types';
  */
 @Component({
   selector: 'app-prop-signal',
-  imports: [DmSwitchComponent],
+  imports: [DmSelectComponent, DmSwitchComponent],
   templateUrl: './prop-signal.component.html',
   styleUrl: './prop-signal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,8 +41,15 @@ export class PropSignalComponent {
     return this.values()[key] === true;
   }
 
-  protected onSelect(key: string, event: Event): void {
-    this.set(key, (event.target as HTMLSelectElement).value);
+  /** `PropControlOption` is a subset of `DmSelectItem`, so a straight cast works. */
+  protected toSelectItems(options: PropControlOption[] | undefined): DmSelectItem<string>[] {
+    return (options ?? []) as DmSelectItem<string>[];
+  }
+
+  protected onSelectValue(key: string, value: string | null): void {
+    if (value !== null) {
+      this.set(key, value);
+    }
   }
 
   protected onNumber(key: string, event: Event): void {

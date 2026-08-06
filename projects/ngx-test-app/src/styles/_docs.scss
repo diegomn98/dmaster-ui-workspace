@@ -15,18 +15,59 @@
 }
 
 .page__category {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-subtle);
   font-size: var(--dm-text-xs);
   font-weight: var(--dm-font-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--dm-primary);
+  letter-spacing: 0.04em;
+  color: var(--dm-fg-muted);
+
+  &::before {
+    content: '';
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: var(--dm-radius-full);
+    background: var(--dm-primary);
+  }
 }
 
 .page__title {
-  font-size: clamp(1.875rem, 4vw, 2.5rem);
+  font-size: clamp(2rem, 4.5vw, 3rem);
   font-weight: var(--dm-font-bold);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   line-height: var(--dm-leading-tight);
+}
+
+// ---- Meta bar con badges (a11y, keyboard, WCAG) ---------------------------
+.page__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dm-space-2);
+  margin-top: var(--dm-space-1);
+}
+
+.page__meta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg-muted);
+
+  svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    color: var(--dm-success);
+  }
 }
 
 .page__lead {
@@ -43,6 +84,7 @@
 // ---- Secciones -------------------------------------------------------------
 .page__section {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--dm-space-5);
 }
 
@@ -68,14 +110,16 @@
   max-width: 44rem;
 }
 
+// Panel de playground HeroUI: superficie plana, muy redondeada y aireada,
+// con sombra suave (coherente con app-demo-block).
 .page__playground-preview {
   display: grid;
   align-content: center;
   justify-items: start;
   min-height: 10rem;
-  padding: var(--dm-space-6);
+  padding: var(--dm-space-8) var(--dm-space-6);
   border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-lg);
+  border-radius: var(--dm-radius-xl);
 
   // Retícula de puntos de marca (coherente con el Overview y los demos),
   // desvanecida radialmente para no competir con el componente en vivo.
@@ -86,6 +130,7 @@
   background-size:
     100% 100%,
     14px 14px;
+  box-shadow: var(--dm-shadow-sm);
   overflow-x: auto;
 }
 
@@ -132,14 +177,37 @@
 }
 
 // Layout de host de las páginas de componente (host: { class: 'docs-page' }).
+// `minmax(0, 1fr)` permite que la columna encoja por debajo del contenido, de
+// modo que hijos anchos (la api-table con min-width, snippets) hagan scroll
+// interno en vez de desbordar la página en viewports estrechos.
 .docs-page {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--dm-space-12);
+}
+
+// Los hijos directos de los grids de docs deben poder encoger por debajo de su
+// contenido (min-width: auto es el default y bloquea el scroll interno de la
+// api-table / snippets en viewports estrechos).
+// Todos los grids de una columna del marco de docs (incluida la cabecera con su
+// snippet de import y el figure de demo-block) deben poder encoger para que los
+// hijos anchos —tablas, snippets— hagan scroll interno en vez de desbordar.
+.docs-page > *,
+.page__section > *,
+.page__header > *,
+.demo > * {
+  min-width: 0;
+}
+
+.page__header,
+.demo {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 // ---- Layouts de demos ------------------------------------------------------
 .demo-grid {
   display: grid;
+  width: 100%;
   gap: var(--dm-space-4);
 
   @include mixins.respond-to(md) {
@@ -151,11 +219,13 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: var(--dm-space-3);
 }
 
 .demo-stack {
   display: grid;
+  width: 100%;
   gap: var(--dm-space-4);
   justify-items: start;
 
@@ -210,6 +280,93 @@
   color: var(--dm-fg-muted);
 }
 
+// Superficie blanca para demos cuyo componente es casi invisible sobre la
+// retícula de puntos (p.ej. Skeleton). Provee contraste sin quitar el patrón
+// de fondo del panel exterior.
+.demo-surface {
+  background: var(--dm-bg);
+  border-radius: var(--dm-radius-lg);
+  padding: var(--dm-space-5);
+  width: 100%;
+  box-shadow: var(--dm-shadow-sm);
+}
+
+// ---- Skeleton demo layouts -------------------------------------------------
+.sk-card {
+  display: grid;
+  gap: var(--dm-space-4);
+}
+
+.sk-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-3);
+}
+
+.sk-card__info {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: var(--dm-space-2);
+}
+
+.sk-article {
+  display: grid;
+  gap: var(--dm-space-4);
+}
+
+.sk-anim-cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--dm-space-6);
+  align-items: start;
+}
+
+.sk-anim-col {
+  display: grid;
+  gap: var(--dm-space-3);
+}
+
+.sk-anim-label {
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  color: var(--dm-fg-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.sk-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--dm-space-3);
+}
+
+.sk-metric {
+  display: grid;
+  gap: var(--dm-space-3);
+  padding: var(--dm-space-4);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+}
+
+.sk-list {
+  display: grid;
+  gap: var(--dm-space-4);
+}
+
+.sk-list-item {
+  display: flex;
+  gap: var(--dm-space-3);
+  align-items: center;
+}
+
+.sk-list-item__body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: var(--dm-space-2);
+}
+
 // Salida en vivo de valores (páginas de forms): lectura tipo "readout"
 // sobre fondo sólido para que respire encima de la retícula de puntos.
 .demo-output {
@@ -221,5 +378,172 @@
   background: var(--dm-bg);
   font-family: var(--dm-font-mono);
   font-size: var(--dm-text-xs);
+  color: var(--dm-fg-muted);
+}
+
+// ---- Layouts específicos de demos de páginas nuevas ------------------------
+.acc-variants {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--dm-space-5);
+  width: 100%;
+}
+
+.tabs-variants {
+  display: grid;
+  gap: var(--dm-space-6);
+  width: 100%;
+}
+
+.radio-colors {
+  display: grid;
+  width: 100%;
+  gap: var(--dm-space-4);
+}
+
+// Readout line under a table/selection demo.
+.table-readout {
+  margin-top: var(--dm-space-3);
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg-muted);
+}
+
+// ---- Bloque de accesibilidad "premium" -------------------------------------
+// Grid de features en cards, mucho más visual que la lista <ul>.
+.a11y-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: var(--dm-space-3);
+  margin: var(--dm-space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.a11y-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--dm-space-3);
+  padding: var(--dm-space-4);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg);
+
+  &::before {
+    content: '';
+    grid-row: 1 / -1;
+    align-self: start;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: var(--dm-radius-md);
+    background-color: var(--dm-success-subtle);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2317c964' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6 9 17l-5-5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 1rem;
+  }
+}
+
+.a11y-item__title {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  color: var(--dm-fg);
+}
+
+.a11y-item__body {
+  font-size: var(--dm-text-sm);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+  grid-column: 2;
+
+  code {
+    padding: 0.1em 0.4em;
+    background: var(--dm-bg-muted);
+    border-radius: var(--dm-radius-sm);
+    font-family: var(--dm-font-mono);
+    font-size: 0.85em;
+  }
+}
+
+// ---- Anatomy: composición del componente en un bloque visual --------------
+// Muestra la jerarquía de un componente compuesto (ej. dm-tabs > dm-tab).
+.anatomy {
+  padding: var(--dm-space-6);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-xl);
+  background: var(--dm-bg-subtle);
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-sm);
+  line-height: 1.9;
+
+  .anatomy__root {
+    color: var(--dm-primary);
+    font-weight: var(--dm-font-semibold);
+  }
+
+  .anatomy__child {
+    padding-left: var(--dm-space-6);
+    color: var(--dm-fg);
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 1rem;
+      top: 0.75em;
+      width: 0.75rem;
+      height: 1px;
+      background: var(--dm-border-strong);
+    }
+  }
+
+  .anatomy__note {
+    color: var(--dm-fg-subtle);
+    font-family: var(--dm-font-sans);
+    font-size: var(--dm-text-xs);
+    margin-left: var(--dm-space-2);
+  }
+}
+
+// ---- Feature grid (destacados del componente) ------------------------------
+.feat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--dm-space-3);
+}
+
+.feat-item {
+  display: grid;
+  gap: var(--dm-space-2);
+  padding: var(--dm-space-4);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg);
+}
+
+.feat-item__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-primary-subtle);
+  color: var(--dm-primary);
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.feat-item__title {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  color: var(--dm-fg);
+}
+
+.feat-item__body {
+  font-size: var(--dm-text-sm);
+  line-height: var(--dm-leading-relaxed);
   color: var(--dm-fg-muted);
 }

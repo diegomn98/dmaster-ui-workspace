@@ -1,0 +1,166 @@
+@use 'mixins';
+
+:host {
+  display: inline-flex;
+}
+
+// ── Trigger ───────────────────────────────────────────────────────────────────
+
+.palette__trigger {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  height: 2rem;
+  padding: 0 var(--dm-space-3);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg);
+  color: var(--dm-fg-muted);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  cursor: pointer;
+
+  @include mixins.transition(background-color, color, border-color);
+  @include mixins.touch-target;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  &:hover,
+  &--open {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg);
+    border-color: var(--dm-border-strong, var(--dm-fg-subtle));
+  }
+
+  // Con paleta custom: borde en el color activo para reforzar el estado
+  &--custom {
+    border-color: color-mix(in srgb, var(--dm-primary) 50%, transparent);
+
+    &:hover,
+    &.palette__trigger--open {
+      border-color: color-mix(in srgb, var(--dm-primary) 80%, transparent);
+    }
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+// Círculo del color activo (sustituye al icono en estado custom)
+.palette__trigger-chip {
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--dm-radius-full);
+  flex-shrink: 0;
+  box-shadow:
+    0 0 0 1.5px var(--dm-bg),
+    0 0 0 2.5px color-mix(in srgb, var(--dm-primary) 50%, transparent);
+}
+
+.palette__trigger-label {
+  display: none;
+
+  @include mixins.respond-to(sm) {
+    display: inline;
+  }
+}
+
+// ── Panel ─────────────────────────────────────────────────────────────────────
+
+.palette__panel {
+  width: min(17rem, calc(100vw - 2rem));
+  padding: var(--dm-space-4);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-xl);
+  background: var(--dm-bg);
+  box-shadow: var(--dm-shadow-xl, 0 20px 40px -8px rgb(0 0 0 / 24%));
+  animation: palette-open var(--dm-duration-fast, 150ms) var(--dm-ease-out) both;
+}
+
+@keyframes palette-open {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.palette__heading {
+  margin: 0 0 var(--dm-space-3);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dm-fg-subtle);
+}
+
+.palette__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--dm-space-3) var(--dm-space-2);
+}
+
+// ── Swatch ────────────────────────────────────────────────────────────────────
+
+.palette__swatch {
+  display: grid;
+  justify-items: center;
+  gap: var(--dm-space-1);
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--dm-fg-muted);
+  font-family: inherit;
+
+  &:hover .palette__swatch-chip {
+    transform: scale(1.08);
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    .palette__swatch-chip {
+      box-shadow:
+        0 0 0 2px var(--dm-bg),
+        0 0 0 4px var(--dm-primary);
+    }
+  }
+
+  &--active .palette__swatch-chip {
+    box-shadow:
+      0 0 0 2px var(--dm-bg),
+      0 0 0 3.5px var(--dm-primary);
+  }
+
+  &--active .palette__swatch-label {
+    color: var(--dm-fg);
+    font-weight: var(--dm-font-semibold);
+  }
+}
+
+.palette__swatch-chip {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--dm-radius-full);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 18%);
+
+  @include mixins.transition(transform, box-shadow);
+}
+
+.palette__swatch-label {
+  font-size: 0.625rem;
+  line-height: 1.2;
+  color: currentcolor;
+  text-align: center;
+}

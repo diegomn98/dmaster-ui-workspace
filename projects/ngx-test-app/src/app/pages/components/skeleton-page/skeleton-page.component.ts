@@ -4,7 +4,7 @@ import {
   DmSkeletonComponent,
   DmSkeletonRounded,
   DmSkeletonVariant,
-} from 'ngx-dmaster-ui';
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -111,41 +111,74 @@ export class SkeletonPageComponent {
   });
 
   // ---- Snippets de los ejemplos --------------------------------------------
-  protected readonly basicCode = '<dm-skeleton />';
-
-  protected readonly variantsCode = [
-    '<dm-skeleton />',
-    '<dm-skeleton variant="rectangular" height="6rem" />',
-    '<dm-skeleton variant="rounded" rounded="lg" height="6rem" />',
-    '<dm-skeleton variant="circular" [width]="56" [height]="56" />',
-  ].join('\n');
-
-  protected readonly animationsCode = [
-    '<dm-skeleton animation="pulse" height="2.5rem" variant="rounded" />',
-    '<dm-skeleton animation="wave" height="2.5rem" variant="rounded" />',
-    '<dm-skeleton animation="none" height="2.5rem" variant="rounded" />',
-  ].join('\n');
-
-  protected readonly paragraphCode = '<dm-skeleton [count]="3" />';
-
-  protected readonly cardCode = [
+  protected readonly basicCode = [
+    '<!-- Profile card loading state -->',
     '<div class="card">',
     '  <div class="card__header">',
-    '    <dm-skeleton variant="circular" [width]="48" [height]="48" />',
-    '    <div class="card__lines">',
-    '      <dm-skeleton width="40%" />',
+    '    <dm-skeleton variant="circular" [width]="44" [height]="44" />',
+    '    <div class="card__info">',
+    '      <dm-skeleton width="45%" />',
     '      <dm-skeleton width="65%" />',
     '    </div>',
     '  </div>',
-    '  <dm-skeleton variant="rounded" height="9rem" animation="wave" />',
+    '  <dm-skeleton [count]="3" />',
+    '  <dm-skeleton width="30%" />',
     '</div>',
   ].join('\n');
 
-  protected readonly fluidCode =
-    '<dm-skeleton variant="rounded" width="clamp(8rem, 60%, 24rem)" height="clamp(3rem, 8vw, 5rem)" />';
+  protected readonly variantsCode = [
+    '<dm-skeleton />',
+    '<dm-skeleton variant="rounded" rounded="lg" height="5rem" />',
+    '<dm-skeleton variant="rectangular" height="5rem" />',
+    '<dm-skeleton variant="circular" [width]="48" [height]="48" />',
+  ].join('\n');
+
+  protected readonly animationsCode = [
+    '<!-- pulse (default) -->',
+    '<dm-skeleton animation="pulse" height="4.5rem" variant="rounded" rounded="lg" />',
+    '',
+    '<!-- wave shimmer -->',
+    '<dm-skeleton animation="wave" height="4.5rem" variant="rounded" rounded="lg" />',
+    '',
+    '<!-- static, no animation -->',
+    '<dm-skeleton animation="none" height="4.5rem" variant="rounded" rounded="lg" />',
+  ].join('\n');
+
+  protected readonly paragraphCode = [
+    '<!-- Article / blog card loading state -->',
+    '<div class="article-card">',
+    '  <dm-skeleton variant="rounded" rounded="lg" height="9rem" animation="wave" />',
+    '  <dm-skeleton width="75%" />',
+    '  <dm-skeleton [count]="3" />',
+    '</div>',
+  ].join('\n');
+
+  protected readonly cardCode = [
+    '<!-- Dashboard metric cards grid -->',
+    '@for (metric of [1, 2, 3, 4]; track metric) {',
+    '  <div class="metric-card">',
+    '    <dm-skeleton variant="circular" [width]="32" [height]="32" />',
+    '    <dm-skeleton width="60%" />',
+    '    <dm-skeleton width="40%" />',
+    '  </div>',
+    '}',
+  ].join('\n');
+
+  protected readonly fluidCode = [
+    '<!-- List / feed loading state -->',
+    '@for (item of items; track item) {',
+    '  <div class="list-item">',
+    '    <dm-skeleton variant="rounded" rounded="md" [width]="44" [height]="44" />',
+    '    <div class="list-item__body">',
+    '      <dm-skeleton width="48%" />',
+    '      <dm-skeleton width="65%" />',
+    '    </div>',
+    '  </div>',
+    '}',
+  ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideSkeletonDefaults } from 'ngx-dmaster-ui';",
+    "import { provideSkeletonDefaults } from '@dmaster/ui';",
     '',
     'providers: [',
     "  provideSkeletonDefaults({ animation: 'wave', rounded: 'lg' }),",

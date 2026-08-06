@@ -2,10 +2,7 @@
   <p class="page__category">{{ i18n.t().shell.nav.layout }}</p>
   <h1 class="page__title">Card</h1>
   <p class="page__lead" [innerHTML]="page().lead"></p>
-  <app-code-snippet
-    language="ts"
-    code="import &#123; DmCardComponent &#125; from 'ngx-dmaster-ui';"
-  />
+  <app-code-snippet language="ts" code="import &#123; DmCardComponent &#125; from '@dmaster/ui';" />
 </header>
 
 <section class="page__section" aria-labelledby="playground-title">
@@ -20,7 +17,7 @@
       style="width: 100%; max-width: 20rem"
     >
       <div class="card-demo__content">
-        <dm-badge variant="primary">{{ pgAppearance() }}</dm-badge>
+        <dm-badge color="primary">{{ pgAppearance() }}</dm-badge>
         <h3 class="card-demo__title">{{ page().labels['cardTitle'] }}</h3>
         <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
       </div>
@@ -52,7 +49,7 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['interactiveHeading']" [code]="interactiveCode">
-    <dm-card [interactive]="true" style="max-width: 20rem">
+    <dm-card [interactive]="true" style="width: 100%; max-width: 20rem">
       <h3 class="card-demo__title">{{ page().labels['interactiveHeading'] }}</h3>
       <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
     </dm-card>

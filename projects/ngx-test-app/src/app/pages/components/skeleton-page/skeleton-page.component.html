@@ -4,7 +4,7 @@
   <p class="page__lead" [innerHTML]="i18n.t().skeletonPage.lead"></p>
   <app-code-snippet
     language="ts"
-    code="import &#123; DmSkeletonComponent &#125; from 'ngx-dmaster-ui';"
+    code="import &#123; DmSkeletonComponent &#125; from '@dmaster/ui';"
   />
 </header>
 
@@ -13,14 +13,16 @@
   <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
 
   <div class="page__playground-preview">
-    <dm-skeleton
-      [variant]="pgVariant()"
-      [animation]="pgAnimation()"
-      [rounded]="pgRounded()"
-      [width]="pgWidth()"
-      [height]="pgHeight()"
-      [count]="pgCount()"
-    />
+    <div class="demo-surface" style="max-width: 28rem; margin-inline: auto">
+      <dm-skeleton
+        [variant]="pgVariant()"
+        [animation]="pgAnimation()"
+        [rounded]="pgRounded()"
+        [width]="pgWidth()"
+        [height]="pgHeight()"
+        [count]="pgCount()"
+      />
+    </div>
   </div>
 
   <app-prop-signal [controls]="controls" [(values)]="playground" />
@@ -30,50 +32,134 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
+  <!-- Profile card -->
   <app-demo-block [heading]="i18n.t().skeletonPage.demos.basic" [code]="basicCode">
-    <dm-skeleton />
+    <div class="demo-surface" style="max-width: 26rem">
+      <div class="sk-card">
+        <div class="sk-card__header">
+          <dm-skeleton variant="circular" [width]="44" [height]="44" />
+          <div class="sk-card__info">
+            <dm-skeleton width="45%" />
+            <dm-skeleton width="65%" />
+          </div>
+        </div>
+        <dm-skeleton [count]="3" />
+        <dm-skeleton width="30%" />
+      </div>
+    </div>
   </app-demo-block>
 
+  <!-- Variants -->
   <app-demo-block [heading]="i18n.t().skeletonPage.demos.variants" [code]="variantsCode">
-    <div class="demo-stack">
-      <dm-skeleton />
-      <dm-skeleton variant="rectangular" height="6rem" />
-      <dm-skeleton variant="rounded" rounded="lg" height="6rem" />
-      <dm-skeleton variant="circular" [width]="56" [height]="56" />
-    </div>
-  </app-demo-block>
-
-  <app-demo-block [heading]="i18n.t().skeletonPage.demos.animations" [code]="animationsCode">
-    <div class="demo-stack">
-      <dm-skeleton animation="pulse" height="2.5rem" variant="rounded" />
-      <dm-skeleton animation="wave" height="2.5rem" variant="rounded" />
-      <dm-skeleton animation="none" height="2.5rem" variant="rounded" />
-    </div>
-  </app-demo-block>
-
-  <app-demo-block [heading]="i18n.t().skeletonPage.demos.paragraph" [code]="paragraphCode">
-    <dm-skeleton [count]="3" />
-  </app-demo-block>
-
-  <app-demo-block [heading]="i18n.t().skeletonPage.demos.card" [code]="cardCode">
-    <div class="demo-card">
-      <div class="demo-card__header">
+    <div class="demo-surface" style="max-width: 26rem">
+      <div class="demo-stack">
+        <dm-skeleton />
+        <dm-skeleton variant="rounded" rounded="lg" height="5rem" />
+        <dm-skeleton variant="rectangular" height="5rem" />
         <dm-skeleton variant="circular" [width]="48" [height]="48" />
-        <div class="demo-card__lines">
-          <dm-skeleton width="40%" />
-          <dm-skeleton width="65%" />
+      </div>
+    </div>
+  </app-demo-block>
+
+  <!-- Animations side-by-side -->
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.animations" [code]="animationsCode">
+    <div class="demo-surface">
+      <div class="sk-anim-cols">
+        <div class="sk-anim-col">
+          <span class="sk-anim-label">pulse</span>
+          <dm-skeleton animation="pulse" height="4.5rem" variant="rounded" rounded="lg" />
+          <dm-skeleton animation="pulse" />
+          <dm-skeleton animation="pulse" width="70%" />
+        </div>
+        <div class="sk-anim-col">
+          <span class="sk-anim-label">wave</span>
+          <dm-skeleton animation="wave" height="4.5rem" variant="rounded" rounded="lg" />
+          <dm-skeleton animation="wave" />
+          <dm-skeleton animation="wave" width="70%" />
+        </div>
+        <div class="sk-anim-col">
+          <span class="sk-anim-label">none</span>
+          <dm-skeleton animation="none" height="4.5rem" variant="rounded" rounded="lg" />
+          <dm-skeleton animation="none" />
+          <dm-skeleton animation="none" width="70%" />
         </div>
       </div>
-      <dm-skeleton variant="rounded" height="9rem" animation="wave" />
     </div>
   </app-demo-block>
 
+  <!-- Article / blog card -->
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.paragraph" [code]="paragraphCode">
+    <div class="demo-surface" style="max-width: 28rem">
+      <div class="sk-article">
+        <dm-skeleton variant="rounded" rounded="lg" height="9rem" animation="wave" />
+        <dm-skeleton width="75%" />
+        <dm-skeleton [count]="3" />
+      </div>
+    </div>
+  </app-demo-block>
+
+  <!-- Dashboard metric grid -->
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.card" [code]="cardCode">
+    <div class="demo-surface">
+      <div class="sk-metrics">
+        <div class="sk-metric">
+          <dm-skeleton variant="circular" [width]="32" [height]="32" />
+          <dm-skeleton width="60%" />
+          <dm-skeleton width="40%" />
+        </div>
+        <div class="sk-metric">
+          <dm-skeleton variant="circular" [width]="32" [height]="32" />
+          <dm-skeleton width="55%" />
+          <dm-skeleton width="45%" />
+        </div>
+        <div class="sk-metric">
+          <dm-skeleton variant="circular" [width]="32" [height]="32" />
+          <dm-skeleton width="65%" />
+          <dm-skeleton width="35%" />
+        </div>
+        <div class="sk-metric">
+          <dm-skeleton variant="circular" [width]="32" [height]="32" />
+          <dm-skeleton width="50%" />
+          <dm-skeleton width="40%" />
+        </div>
+      </div>
+    </div>
+  </app-demo-block>
+
+  <!-- List view -->
   <app-demo-block [heading]="i18n.t().skeletonPage.demos.fluid" [code]="fluidCode">
-    <dm-skeleton
-      variant="rounded"
-      width="clamp(8rem, 60%, 24rem)"
-      height="clamp(3rem, 8vw, 5rem)"
-    />
+    <div class="demo-surface" style="max-width: 28rem">
+      <div class="sk-list">
+        <div class="sk-list-item">
+          <dm-skeleton variant="rounded" rounded="md" [width]="44" [height]="44" />
+          <div class="sk-list-item__body">
+            <dm-skeleton width="48%" />
+            <dm-skeleton width="65%" />
+          </div>
+        </div>
+        <div class="sk-list-item">
+          <dm-skeleton variant="rounded" rounded="md" [width]="44" [height]="44" />
+          <div class="sk-list-item__body">
+            <dm-skeleton width="62%" />
+            <dm-skeleton width="40%" />
+          </div>
+        </div>
+        <div class="sk-list-item">
+          <dm-skeleton variant="rounded" rounded="md" [width]="44" [height]="44" />
+          <div class="sk-list-item__body">
+            <dm-skeleton width="35%" />
+            <dm-skeleton width="55%" />
+          </div>
+        </div>
+        <div class="sk-list-item">
+          <dm-skeleton variant="rounded" rounded="md" [width]="44" [height]="44" />
+          <div class="sk-list-item__body">
+            <dm-skeleton width="55%" />
+            <dm-skeleton width="70%" />
+          </div>
+        </div>
+      </div>
+    </div>
   </app-demo-block>
 </section>
 

@@ -4,7 +4,7 @@
   <p class="page__lead" [innerHTML]="page().lead"></p>
   <app-code-snippet
     language="ts"
-    code="import &#123; DmCheckboxComponent &#125; from 'ngx-dmaster-ui';"
+    code="import &#123; DmCheckboxComponent &#125; from '@dmaster/ui';"
   />
 </header>
 
@@ -52,7 +52,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode">
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode" language="ts">
     <div class="demo-row">
       <dm-checkbox [formControl]="formControl">{{ page().labels['terms'] }}</dm-checkbox>
       <span class="demo-output">value: {{ formValue() }}</span>

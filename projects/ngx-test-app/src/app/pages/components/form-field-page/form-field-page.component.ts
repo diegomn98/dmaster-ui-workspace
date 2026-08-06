@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmFormFieldComponent, DmInputDirective } from 'ngx-dmaster-ui';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';

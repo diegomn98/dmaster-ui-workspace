@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmLoadingButtonComponent, DmToastService, DmToastVariant } from 'ngx-dmaster-ui';
+import { DmButtonComponent, DmToastService, DmToastVariant } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -12,7 +12,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
 @Component({
   selector: 'app-toast-page',
   imports: [
-    DmLoadingButtonComponent,
+    DmButtonComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -85,7 +85,7 @@ export class ToastPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideToastDefaults } from 'ngx-dmaster-ui';",
+    "import { provideToastDefaults } from '@dmaster/ui';",
     '',
     "providers: [provideToastDefaults({ duration: 6000, dismissLabel: 'Cerrar' })]",
   ].join('\n');

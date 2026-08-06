@@ -65,25 +65,55 @@ $sidebar-width: 16rem;
   }
 }
 
+// El dm-select del selector de idioma tiene un ancho fijo que da cabida al
+// texto más largo ("Français"); el resto lo pone el propio componente.
 .shell__lang-select {
-  height: 2.25rem;
-  padding-inline: var(--dm-space-2);
+  width: 8.5rem;
+}
+
+// GitHub pill: HeroUI-style — full-rounded, sutil bordered chip con icono +
+// texto opcional. Se oculta el label bajo sm para no comer sitio en móvil.
+.shell__github {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  height: 2rem;
+  padding: 0 var(--dm-space-3);
   border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-md);
-  background: transparent;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg);
   color: var(--dm-fg-muted);
   font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  text-decoration: none;
   cursor: pointer;
 
-  @include mixins.transition(border-color, color, background-color);
+  @include mixins.transition(background-color, color, border-color);
+  @include mixins.touch-target;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
 
   &:hover {
+    background: var(--dm-bg-muted);
     color: var(--dm-fg);
-    border-color: var(--dm-border-strong);
+    border-color: var(--dm-border-strong, var(--dm-fg-subtle));
   }
 
   &:focus-visible {
     @include mixins.focus-ring;
+  }
+}
+
+.shell__github-label {
+  display: none;
+
+  @include mixins.respond-to(sm) {
+    display: inline;
   }
 }
 
@@ -185,12 +215,14 @@ $sidebar-width: 16rem;
 
 .shell__nav-list {
   display: grid;
-  gap: 2px;
+  gap: var(--dm-space-1);
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+// Nav-link HeroUI: pill redondeada. Hover = tinte neutro sutil; activo =
+// fondo primary-subtle con texto primary.
 .shell__nav-link {
   display: block;
   padding: var(--dm-space-2) var(--dm-space-3);
@@ -202,7 +234,7 @@ $sidebar-width: 16rem;
   @include mixins.transition(background-color, color);
 
   &:hover {
-    background: var(--dm-bg-muted);
+    background: var(--dm-bg-subtle);
     color: var(--dm-fg);
   }
 
@@ -235,5 +267,22 @@ $sidebar-width: 16rem;
 
   @include mixins.respond-to(lg) {
     padding-top: var(--dm-space-10);
+  }
+}
+
+// ---- On This Page TOC column -----------------------------------------------
+// Hidden on smaller viewports; sticky column to the right of the content at xl+.
+.shell__toc-col {
+  display: none;
+
+  @include mixins.respond-to(xl) {
+    display: block;
+    width: 14rem;
+    flex-shrink: 0;
+    padding: var(--dm-space-10) var(--dm-space-4) var(--dm-space-10) var(--dm-space-2);
+    position: sticky;
+    top: $header-height;
+    height: calc(100dvh - #{$header-height});
+    overflow-y: auto;
   }
 }

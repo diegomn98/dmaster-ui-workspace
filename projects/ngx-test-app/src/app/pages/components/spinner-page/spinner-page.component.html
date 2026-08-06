@@ -4,7 +4,7 @@
   <p class="page__lead" [innerHTML]="page().lead"></p>
   <app-code-snippet
     language="ts"
-    code="import &#123; DmSpinnerComponent &#125; from 'ngx-dmaster-ui';"
+    code="import &#123; DmSpinnerComponent &#125; from '@dmaster/ui';"
   />
 </header>
 
@@ -34,7 +34,7 @@
 
   <app-demo-block [heading]="page().labels['inButton']" [code]="inButtonCode">
     <div class="demo-row">
-      <dm-loading-button state="loading" loadingLabel="Saving…">Save</dm-loading-button>
+      <dm-button state="loading" loadingLabel="Saving…">Save</dm-button>
       <span style="color: var(--dm-primary)"><dm-spinner /></span>
       <span style="color: var(--dm-danger)"><dm-spinner size="sm" /></span>
     </div>

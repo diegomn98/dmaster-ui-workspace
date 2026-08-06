@@ -1,15 +1,15 @@
-# ngx-dmaster — Workspace de la librería ngx-dmaster-ui
+# ngx-dmaster — Workspace de la librería @dmaster/ui
 
 Workspace Angular 20 con dos proyectos en `projects/`:
 
-- **`ngx-dmaster-ui`** — librería de componentes UI (publicable en npm como `ngx-dmaster-ui`).
+- **`@dmaster/ui`** — librería de componentes UI (publicable en npm como `@dmaster/ui`). Nombre del proyecto Angular: `dmaster-ui`. Directorio en disco: `projects/ngx-dmaster-ui/` (el directorio conserva el nombre histórico; la identidad pública es `@dmaster/ui`).
 - **`ngx-test-app`** — dashboard de documentación viva donde se prueba y documenta cada componente.
 
 ## Comandos
 
 ```bash
 npm start              # ng serve ngx-test-app (dev del dashboard, puerto 4200)
-npm run build          # ng build ngx-dmaster-ui (ng-packagr → dist/ngx-dmaster-ui)
+npm run build          # ng build dmaster-ui (ng-packagr → dist/dmaster-ui)
 npm run build:app      # ng build ngx-test-app
 npm test               # tests de la librería (Vitest, headless)
 npm run test:app       # tests del dashboard
@@ -24,13 +24,13 @@ Antes de dar por buena cualquier tarea: `npm run build && npm test && npm run te
 
 - **Tests con Vitest** vía el builder experimental `@angular/build:unit-test` (`runner: "vitest"`). Karma queda prohibido.
 - **Gotcha importante**: el target `test` de la librería usa `"buildTarget": "ngx-test-app:build:development"` en `angular.json`. Es intencional: el builder de ng-packagr no acepta `stylePreprocessorOptions`, y los SCSS de componentes resuelven `@use 'mixins'` gracias a los `includePaths` del build de la app. No lo "arregles" apuntándolo a la librería.
-- **`tsconfig.json` → paths**: `ngx-dmaster-ui` apunta al **código fuente** (`projects/ngx-dmaster-ui/src/public-api.ts`), no a `dist/`. El empaquetado real se valida con `npm run build`.
+- **`tsconfig.json` → paths**: `@dmaster/ui` apunta al **código fuente** (`projects/ngx-dmaster-ui/src/public-api.ts`), no a `dist/`. El empaquetado real se valida con `npm run build`.
 - **Zoneless**: el dashboard usa `provideZonelessChangeDetection()`. La librería no debe depender de zone.js jamás.
 - **Angular CDK** disponible como peer de la librería (los overlays lo usan: `cdk/overlay`, `cdk/dialog`, `cdk/portal`). `@angular/forms` también es peer (CVA de switch/checkbox). **Angular Material NO está instalado**.
 - **Overlays**: el consumidor debe cargar los estilos estructurales del CDK una vez — `"styles": ["node_modules/@angular/cdk/overlay-prebuilt.css", …]` (el dashboard ya lo hace). Los estilos de panel/backdrop del dialog son globales en `styles/_overlays.scss`; los de `.dm-input` en `styles/_forms.scss` (las directivas no pueden llevar hoja de estilos).
-- **Composición entre componentes de la lib** (p. ej. loading-button → spinner): importar desde el barrel del otro componente (`../../primitives/spinner`). Es la única excepción tolerada a la regla de no-relativos-profundos.
+- **Composición entre componentes de la lib** (p. ej. button → spinner): importar desde el barrel del otro componente (`../../primitives/spinner`). Es la única excepción tolerada a la regla de no-relativos-profundos.
 - El único copy integrado en la librería es `dismissLabel` del toast (override con `provideToastDefaults`); todo lo demás llega por inputs.
-- Nombre npm final: `ngx-dmaster-ui` (verificar disponibilidad con `npm view ngx-dmaster-ui` antes de publicar; publicar desde `dist/ngx-dmaster-ui`).
+- Nombre npm final: `@dmaster/ui` (paquete scoped bajo la organización `dmaster`; verificar disponibilidad con `npm view @dmaster/ui` antes de publicar; publicar desde `dist/dmaster-ui`).
 
 ## Estructura de la librería
 
@@ -47,16 +47,17 @@ projects/ngx-dmaster-ui/src/
     └── components/
         ├── primitives/
         │   ├── skeleton/          # patrón de referencia para TODO componente nuevo
-        │   ├── spinner/           # lo consume dm-loading-button
+        │   ├── spinner/           # lo consume dm-button
         │   ├── badge/
         │   └── avatar/
         ├── layout/
         │   └── card/              # container-type: inline-size
         ├── buttons/
-        │   └── loading-button/    # estados idle/loading/success/error, live region
-        ├── forms/                 # CVA: switch, checkbox; form-field + directiva dmInput
+        │   └── button/            # HeroUI color × variant + estados idle/loading/success/error, live region
+        ├── forms/                 # CVA: switch, checkbox, select; form-field + directiva dmInput
         │   ├── switch/            # prop-signal del dashboard lo dogfoodea
         │   ├── checkbox/
+        │   ├── select/            # combobox (CDK overlay + keyboard + typeahead + CVA)
         │   └── form-field/        # estilos de .dm-input en _forms.scss (global)
         └── overlays/              # CDK: requieren overlay-prebuilt.css en el consumidor
             ├── tooltip/           # directiva dmTooltip + panel interno
@@ -92,8 +93,10 @@ projects/ngx-dmaster-ui/src/
 - Unidades relativas (`rem`, `em`, `%`, `clamp()`); nada de `px` fijos salvo bordes 1px.
 - `prefers-reduced-motion`: los tokens `--dm-duration-*` se anulan globalmente en `_tokens.scss`; animaciones no basadas en esos tokens se apagan con `@include reduced-motion`.
 - Clases BEM (`bloque__elemento--modificador`); variantes de componente como data-attributes (`[data-variant='…']`), no como explosión de clases.
-- Estética: bordes 1px baja opacidad, radios 6–10px, sombras multicapa (`--dm-shadow-*`), micro-interacciones 150–200ms con `--dm-ease-*`. Referencias: shadcn/ui, Vercel Geist, Linear, Radix.
-- **Lenguaje visual de marca** (aplicar a componentes nuevos donde encaje): superficies "solid" con gradiente vertical sutil (`color-mix` con white 14–16% arriba) + highlight interior `var(--dm-sheen)`; toasts/overlays con glass (`color-mix` translúcido + `backdrop-filter: blur`); inset shadows suaves en tracks/inputs; press feedback con `scale(0.9)` en `:active`. Tokens de marca: `--dm-gradient-brand` (títulos hero, logo) y `--dm-sheen`.
+- **Lenguaje visual: HeroUI** (heroui.com). Rellenos PLANOS (colores sólidos vivos, SIN gradiente ni `--dm-sheen` en componentes), muy redondeado (radios `sm 8 / md 12 / lg 14 / xl 18`; chips a `full`), sombras difusas suaves, press elástico `scale(0.92–0.97)` con `--dm-ease-snappy`. `--dm-gradient-brand` se conserva SOLO en marca (logo, títulos hero del dashboard), nunca en componentes. `--dm-sheen` queda como token legado sin uso en componentes.
+- **Sistema de color × variante (HeroUI)**: tokens por color `--dm-{default|primary|secondary|success|warning|danger}` con `-hover`, `-fg` (texto sobre solid) y `-subtle` (relleno flat). Los componentes con variantes (button, badge) mapean el `data-color` a variables genéricas locales (`--dm-btn*` / `--dm-badge*`) y las variantes (`data-variant`) las consumen — así se evita la explosión color×variante en SCSS. La variante `shadow` proyecta un glow del propio color con `color-mix`.
+- **Separación marca / UI**: `--dm-primary` es **azul HeroUI** (`#006FEE` light / `#338EF7` dark) — es el color de UI (botones, links activos, focus ring, checked). `--dm-gradient-brand` (índigo→violeta) es la identidad de marca y **solo** se usa en el logo `dm.` y en los títulos hero (home, overview). No se mezclan.
+- **Button** (`dm-button`): `color` × `variant` (`solid|flat|faded|bordered|light|ghost|shadow`) + `radius` (**default `full`** = píldora, seña HeroUI) + `size` (32/40/48px, escala HeroUI) + estados idle/loading/success/error con live region. **Badge/Chip** (`dm-badge`): `color` × `variant` (`solid|flat|bordered|light|dot|shadow`) + `radius` + `size`; `dot` es una variante (no un boolean).
 
 ### Testing
 
@@ -104,7 +107,7 @@ projects/ngx-dmaster-ui/src/
 
 ## El dashboard (`ngx-test-app`)
 
-Documentación viva con layout tipo docs: shell (`layout/shell/`) con sidebar (drawer con hamburguesa < 1024px, columna estática desde `lg`), header sticky con logo + selector de idioma + theme toggle, y páginas lazy en `pages/`.
+Documentación viva con layout tipo docs: shell (`layout/shell/`) con sidebar (drawer con hamburguesa < 1024px, columna estática desde `lg`), header sticky con logo + selector de idioma (`dm-select` bordered/sm, dogfooding) + theme toggle, y páginas lazy en `pages/`.
 
 **Marca**: el logo es el monograma "d." sobre tile con gradiente índigo→violeta. Vive en `public/favicon.svg` y como SVG inline en el shell (`#dm-logo-*`) y en el hero del Overview (`#ov-logo-*` — ids únicos por documento). La página **Overview** (`/components`, `pages/overview/`) es el escaparate con un tile por componente y preview en vivo; el CTA de la home apunta ahí.
 
@@ -115,9 +118,11 @@ Componentes shared reutilizables en `shared/` (usarlos SIEMPRE en páginas de co
 - `app-demo-block` — render en vivo (content projection) + snippet copiable debajo (`heading`, `code`, `language`).
 - `app-code-snippet` — bloque de código copiable (`code`, `language`).
 - `app-api-table` — tabla de inputs/outputs (`rows: ApiTableRow[]`).
-- `app-prop-signal` — playground: controles (`PropControl[]`) + two-way `[(values)]` con un signal de la página.
+- `app-prop-signal` — playground: controles (`PropControl[]`) + two-way `[(values)]` con un signal de la página. Los controles `select` renderizan un `dm-select` (bordered/sm) y los `boolean` un `dm-switch` — dogfooding de la librería.
 
 **Gotcha**: en `prop-signal`, los `<select>` marcan la opción activa con `[selected]` en cada `<option>` (un `[value]` en el `<select>` se aplica antes de que existan las options y falla).
+
+**Gotcha (overflow)**: los grids de una columna del marco de docs (`.docs-page`, `.page__section`, `.page__header`, `.demo`) llevan `grid-template-columns: minmax(0, 1fr)` y sus hijos `min-width: 0` en `_docs.scss`. Es obligatorio: sin eso, un hijo ancho (la `api-table` con `min-width: 36rem`, un snippet con una línea larga) expande el track y desborda la página en viewports estrechos en vez de hacer scroll interno.
 
 ### Checklist: nuevo componente de la librería
 
@@ -147,4 +152,4 @@ Las páginas añadidas a partir de la v0.2 usan la interfaz genérica `SimplePag
 ## Roadmap
 
 1. Candidatos siguientes: `tabs` (composite), `dm-select`/`menu` (overlay + a11y dura), `radio-group`, `data-display/table`. Usar `skeleton/` (simple), `form-field/` (composite) y `tooltip/` (overlay) como plantillas según el tipo.
-2. Publicación en npm cuando haya masa crítica: verificar nombre, `npm run build` y publicar desde `dist/ngx-dmaster-ui`.
+2. Publicación en npm cuando haya masa crítica: verificar nombre, `npm run build` y publicar desde `dist/dmaster-ui`.

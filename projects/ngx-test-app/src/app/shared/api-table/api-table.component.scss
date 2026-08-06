@@ -4,10 +4,12 @@
   display: block;
 }
 
+// Contenedor HeroUI: superficie plana, muy redondeada por fuera y con una
+// sombra suave. El overflow recorta las esquinas de la tabla interna.
 .api-table__scroll {
   overflow-x: auto;
   border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-lg);
+  border-radius: var(--dm-radius-xl);
   background: var(--dm-bg-elevated);
   box-shadow: var(--dm-shadow-sm);
 
@@ -24,7 +26,7 @@
 
   th,
   td {
-    padding: var(--dm-space-3) var(--dm-space-4);
+    padding: var(--dm-space-3) var(--dm-space-5);
     text-align: left;
     vertical-align: top;
   }
@@ -38,7 +40,7 @@
     font-size: 0.8125rem;
     font-weight: var(--dm-font-medium);
     color: var(--dm-fg-muted);
-    background: color-mix(in srgb, var(--dm-fg) 3%, transparent);
+    background: var(--dm-bg-subtle);
     border-bottom: 1px solid var(--dm-border);
   }
 
@@ -46,7 +48,7 @@
     @include mixins.transition(background-color);
 
     &:hover {
-      background-color: color-mix(in srgb, var(--dm-fg) 2%, transparent);
+      background-color: color-mix(in srgb, var(--dm-fg) 3%, transparent);
     }
 
     &:last-child td {
@@ -62,10 +64,10 @@
 // Chip del nombre de la prop: tinte y borde del tono de marca.
 .api-table__name {
   display: inline-block;
-  padding: 0.1875rem 0.4375rem;
+  padding: 0.1875rem 0.5rem;
   border: 1px solid color-mix(in srgb, var(--dm-primary) 22%, transparent);
-  border-radius: var(--dm-radius-sm);
-  background: color-mix(in srgb, var(--dm-primary) 6%, transparent);
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-primary-subtle);
   font-family: var(--dm-font-mono);
   font-size: 0.75rem;
   font-weight: var(--dm-font-medium);

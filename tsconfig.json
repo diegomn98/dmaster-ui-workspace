@@ -8,7 +8,7 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "paths": {
-      "ngx-dmaster-ui": ["./projects/ngx-dmaster-ui/src/public-api.ts"]
+      "@dmaster/ui": ["./projects/ngx-dmaster-ui/src/public-api.ts"]
     },
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,

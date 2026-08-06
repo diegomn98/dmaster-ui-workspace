@@ -1,0 +1,161 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.dataDisplay }}</p>
+  <h1 class="page__title">Table</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmTableComponent, DmTableColumn &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%">
+      <dm-table
+        [columns]="columns"
+        [data]="members()"
+        [rowKey]="byId"
+        [density]="pgDensity()"
+        [variant]="pgVariant()"
+        [selectionMode]="pgSelection()"
+        [searchable]="pgSearchable()"
+        [pageSize]="pgPageSize()"
+        [hover]="pgHover()"
+        [(selectedKeys)]="pgSelected"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        [rowsPerPageLabel]="page().labels['rowsPerPage']"
+        caption="Team members"
+      />
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <!-- Full-featured: search + selection + pagination + toolbar action -->
+  <app-demo-block [heading]="page().labels['fullFeatured']" [code]="fullCode">
+    <div style="width: 100%">
+      <dm-table
+        [columns]="columns"
+        [data]="members()"
+        [rowKey]="byId"
+        selectionMode="multiple"
+        [searchable]="true"
+        [pageSize]="5"
+        [(selectedKeys)]="selected"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        [rowsPerPageLabel]="page().labels['rowsPerPage']"
+        caption="Team members"
+      >
+        <dm-button dmTableActions size="sm" variant="flat" color="primary">Invite</dm-button>
+      </dm-table>
+
+      <p class="table-readout">
+        @if (selectedNames()) {
+          {{ page().labels['selectedPrefix'] }}: {{ selectedNames() }}
+        } @else {
+          {{ page().labels['nothingSelected'] }}
+        }
+      </p>
+    </div>
+  </app-demo-block>
+
+  <!-- Selection (single) -->
+  <app-demo-block [heading]="page().labels['selection']" [code]="selectionCode">
+    <div style="width: 100%">
+      <dm-table
+        [columns]="fewColumns"
+        [data]="fewMembers()"
+        [rowKey]="byId"
+        selectionMode="single"
+        [(selectedKeys)]="selectedSingle"
+      />
+    </div>
+  </app-demo-block>
+
+  <!-- Pagination -->
+  <app-demo-block [heading]="page().labels['pagination']" [code]="paginationCode">
+    <div style="width: 100%">
+      <dm-table
+        [columns]="columns"
+        [data]="members()"
+        [rowKey]="byId"
+        [pageSize]="5"
+        [pageSizeOptions]="[5, 10, 25]"
+        [rowsPerPageLabel]="page().labels['rowsPerPage']"
+      />
+    </div>
+  </app-demo-block>
+
+  <!-- Densities -->
+  <app-demo-block [heading]="page().labels['densities']" [code]="densitiesCode">
+    <div class="demo-stack" style="width: 100%">
+      <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" density="compact" />
+      <dm-table
+        [columns]="fewColumns"
+        [data]="fewMembers()"
+        [rowKey]="byId"
+        density="comfortable"
+      />
+      <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" density="spacious" />
+    </div>
+  </app-demo-block>
+
+  <!-- Variants -->
+  <app-demo-block [heading]="page().labels['variants']" [code]="variantsCode">
+    <div class="demo-stack" style="width: 100%">
+      <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" variant="default" />
+      <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" variant="striped" />
+      <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" variant="bordered" />
+    </div>
+  </app-demo-block>
+
+  <!-- Loading & empty states -->
+  <app-demo-block [heading]="page().labels['states']" [code]="statesCode">
+    <div class="demo-stack" style="width: 100%">
+      <dm-button size="sm" variant="bordered" (clicked)="toggleLoading()">
+        {{ page().labels['toggleLoading'] }}
+      </dm-button>
+      <dm-table
+        [columns]="fewColumns"
+        [data]="fewMembers()"
+        [rowKey]="byId"
+        [loading]="loadingDemo()"
+        [loadingRows]="4"
+      />
+      <dm-table
+        [columns]="fewColumns"
+        [data]="[]"
+        [rowKey]="byId"
+        [emptyText]="page().labels['empty']"
+      />
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

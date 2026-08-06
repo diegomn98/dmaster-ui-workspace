@@ -1,0 +1,264 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.navigation }}</p>
+  <h1 class="page__title">Tabs</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmTabsComponent, DmTabComponent, DmTabPanelComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 30rem">
+      <dm-tabs
+        [variant]="pgVariant()"
+        [color]="pgColor()"
+        [size]="pgSize()"
+        [radius]="pgRadius()"
+        [placement]="pgPlacement()"
+        [fullWidth]="pgFullWidth()"
+        [divider]="pgDivider()"
+        [(selectedValue)]="pgSelected"
+      >
+        <dm-tab value="photos">Photos</dm-tab>
+        <dm-tab value="music">Music</dm-tab>
+        <dm-tab value="videos">Videos</dm-tab>
+        <dm-tab-panel value="photos">
+          <p>Preview and organize your photos here.</p>
+        </dm-tab-panel>
+        <dm-tab-panel value="music">
+          <p>Browse your music library.</p>
+        </dm-tab-panel>
+        <dm-tab-panel value="videos">
+          <p>Watch your videos and clips.</p>
+        </dm-tab-panel>
+      </dm-tabs>
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
+    <dm-tabs [(selectedValue)]="basicActive">
+      <dm-tab value="photos">Photos</dm-tab>
+      <dm-tab value="music">Music</dm-tab>
+      <dm-tab value="videos">Videos</dm-tab>
+      <dm-tab-panel value="photos">Photos content — a gallery would live here.</dm-tab-panel>
+      <dm-tab-panel value="music">Music content — playlists, artists, songs…</dm-tab-panel>
+      <dm-tab-panel value="videos">Videos content — clips, movies, series…</dm-tab-panel>
+    </dm-tabs>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['variants']" [code]="variantsCode">
+    <div class="tabs-variants">
+      <dm-tabs variant="solid" [(selectedValue)]="variantSel1">
+        <dm-tab value="a">Solid</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+      <dm-tabs variant="bordered" [(selectedValue)]="variantSel2">
+        <dm-tab value="a">Bordered</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+      <dm-tabs variant="light" [(selectedValue)]="variantSel3">
+        <dm-tab value="a">Light</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+      <dm-tabs variant="underlined" color="primary" [(selectedValue)]="variantSel4">
+        <dm-tab value="a">Underlined</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+      <dm-tabs variant="segment" radius="full" [fullWidth]="false" [(selectedValue)]="variantSel5">
+        <dm-tab value="a">Segment</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['segment']" [code]="segmentCode">
+    <dm-tabs variant="segment" radius="full" [fullWidth]="false" [(selectedValue)]="segmentView">
+      <dm-tab value="list">List</dm-tab>
+      <dm-tab value="grid">Grid</dm-tab>
+      <dm-tab value="map">Map</dm-tab>
+      <dm-tab-panel value="list">List view — items arranged in a single column.</dm-tab-panel>
+      <dm-tab-panel value="grid">Grid view — items laid out in a responsive grid.</dm-tab-panel>
+      <dm-tab-panel value="map">Map view — items plotted on a map.</dm-tab-panel>
+    </dm-tabs>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['segmentIcons']" [code]="segmentIconCode">
+    <dm-tabs
+      variant="segment"
+      radius="full"
+      [fullWidth]="false"
+      [(selectedValue)]="segmentIconView"
+    >
+      <dm-tab value="list">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="9" y1="6" x2="20" y2="6" />
+          <line x1="9" y1="12" x2="20" y2="12" />
+          <line x1="9" y1="18" x2="20" y2="18" />
+          <circle cx="4" cy="6" r="1" />
+          <circle cx="4" cy="12" r="1" />
+          <circle cx="4" cy="18" r="1" />
+        </svg>
+        <span>List</span>
+      </dm-tab>
+      <dm-tab value="grid">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>
+        <span>Grid</span>
+      </dm-tab>
+      <dm-tab value="map">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        <span>Map</span>
+      </dm-tab>
+      <dm-tab-panel value="list">List view — items arranged in a single column.</dm-tab-panel>
+      <dm-tab-panel value="grid">Grid view — items laid out in a responsive grid.</dm-tab-panel>
+      <dm-tab-panel value="map">Map view — items plotted on a map.</dm-tab-panel>
+    </dm-tabs>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+    <div class="tabs-variants">
+      <dm-tabs color="primary" [(selectedValue)]="colorPrimary">
+        <dm-tab value="a">Primary</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+      <dm-tabs color="secondary" [(selectedValue)]="colorSecondary">
+        <dm-tab value="a">Secondary</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+      <dm-tabs color="success" [(selectedValue)]="colorSuccess">
+        <dm-tab value="a">Success</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+      <dm-tabs color="warning" [(selectedValue)]="colorWarning">
+        <dm-tab value="a">Warning</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+      <dm-tabs color="danger" [(selectedValue)]="colorDanger">
+        <dm-tab value="a">Danger</dm-tab>
+        <dm-tab value="b">Item 2</dm-tab>
+        <dm-tab value="c">Item 3</dm-tab>
+      </dm-tabs>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode">
+    <div style="width: 100%; max-width: 32rem">
+      <dm-tabs [fullWidth]="true" variant="light" color="primary" [(selectedValue)]="fullWidthSel">
+        <dm-tab value="overview">Overview</dm-tab>
+        <dm-tab value="activity">Activity</dm-tab>
+        <dm-tab value="settings">Settings</dm-tab>
+        <dm-tab-panel value="overview">The overview panel spans the full width above.</dm-tab-panel>
+        <dm-tab-panel value="activity">Recent activity shows up here.</dm-tab-panel>
+        <dm-tab-panel value="settings">Tweak your preferences in settings.</dm-tab-panel>
+      </dm-tabs>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
+    <dm-tabs [(selectedValue)]="disabledSel">
+      <dm-tab value="active">Active</dm-tab>
+      <dm-tab value="soon" [disabled]="true">Coming soon</dm-tab>
+      <dm-tab value="reports">Reports</dm-tab>
+      <dm-tab-panel value="active">This tab is active and selectable.</dm-tab-panel>
+      <dm-tab-panel value="soon">You should not be able to reach this panel.</dm-tab-panel>
+      <dm-tab-panel value="reports">Reports live here.</dm-tab-panel>
+    </dm-tabs>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode">
+    <div style="width: 100%; max-width: 36rem">
+      <dm-tabs placement="start" variant="light" color="primary" [(selectedValue)]="section">
+        <dm-tab value="account">Account</dm-tab>
+        <dm-tab value="billing">Billing</dm-tab>
+        <dm-tab value="security">Security</dm-tab>
+        <dm-tab-panel value="account">
+          Manage your account details, avatar, display name and email preferences.
+        </dm-tab-panel>
+        <dm-tab-panel value="billing">
+          Update your payment method, review invoices and change your plan.
+        </dm-tab-panel>
+        <dm-tab-panel value="security">
+          Change your password, enable 2FA and manage active sessions.
+        </dm-tab-panel>
+      </dm-tabs>
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

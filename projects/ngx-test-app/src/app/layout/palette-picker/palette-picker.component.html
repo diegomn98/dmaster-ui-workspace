@@ -1,0 +1,70 @@
+<button
+  #trigger="cdkOverlayOrigin"
+  cdkOverlayOrigin
+  type="button"
+  class="palette__trigger"
+  [class.palette__trigger--open]="open()"
+  [class.palette__trigger--custom]="isCustom()"
+  [attr.aria-expanded]="open()"
+  [attr.aria-label]="i18n.t().shell.themeLabel"
+  (click)="toggle()"
+>
+  @if (isCustom()) {
+    <span
+      class="palette__trigger-chip"
+      [style.background]="activePreset()?.primary"
+      aria-hidden="true"
+    ></span>
+  } @else {
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.75"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path
+        d="M12 3a9 9 0 1 0 3 17.5c1-.5 1-2-.5-2.5-1-.3-1.5-1-1-2s1.5-1 2-1c3 0 5-2 5-4a8 8 0 0 0-8.5-8Z"
+      />
+      <circle cx="8" cy="10" r="1" fill="currentColor" />
+      <circle cx="12" cy="7" r="1" fill="currentColor" />
+      <circle cx="16" cy="10" r="1" fill="currentColor" />
+    </svg>
+  }
+  <span class="palette__trigger-label">{{ i18n.t().shell.themeLabel }}</span>
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="open()"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-transparent-backdrop"
+  [cdkConnectedOverlayOffsetY]="8"
+  [cdkConnectedOverlayPositions]="[
+    { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top' },
+    { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom' },
+  ]"
+  (backdropClick)="close()"
+>
+  <div class="palette__panel" role="dialog" [attr.aria-label]="i18n.t().shell.themeHeading">
+    <p class="palette__heading">{{ i18n.t().shell.themeHeading }}</p>
+    <div class="palette__grid">
+      @for (preset of presets; track preset.key) {
+        <button
+          type="button"
+          class="palette__swatch"
+          [class.palette__swatch--active]="palette.current() === preset.key"
+          [attr.aria-pressed]="palette.current() === preset.key"
+          [attr.aria-label]="preset.label"
+          (click)="pick(preset.key)"
+        >
+          <span class="palette__swatch-chip" [style.background]="preset.primary"></span>
+          <span class="palette__swatch-label">{{ preset.label }}</span>
+        </button>
+      }
+    </div>
+  </div>
+</ng-template>

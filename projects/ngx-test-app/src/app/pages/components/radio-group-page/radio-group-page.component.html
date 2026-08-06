@@ -1,0 +1,103 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">Radio Group</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmRadioGroupComponent, DmRadioComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-radio-group
+      name="plan"
+      [color]="pgColor()"
+      [size]="pgSize()"
+      [orientation]="pgOrientation()"
+      [disabled]="pgDisabled()"
+      [(value)]="pgValue"
+    >
+      <dm-radio value="free">Free</dm-radio>
+      <dm-radio value="pro">Pro</dm-radio>
+      <dm-radio value="enterprise">Enterprise</dm-radio>
+    </dm-radio-group>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <dm-radio-group name="plan-basic" [(value)]="plan">
+      <dm-radio value="free">Free</dm-radio>
+      <dm-radio value="pro">Pro</dm-radio>
+      <dm-radio value="enterprise">Enterprise</dm-radio>
+    </dm-radio-group>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+    <div class="radio-colors">
+      <dm-radio-group name="c-primary" color="primary" [(value)]="colorPick">
+        <dm-radio value="a">Primary</dm-radio>
+      </dm-radio-group>
+      <dm-radio-group name="c-secondary" color="secondary" [(value)]="colorPick">
+        <dm-radio value="a">Secondary</dm-radio>
+      </dm-radio-group>
+      <dm-radio-group name="c-success" color="success" [(value)]="colorPick">
+        <dm-radio value="a">Success</dm-radio>
+      </dm-radio-group>
+      <dm-radio-group name="c-warning" color="warning" [(value)]="colorPick">
+        <dm-radio value="a">Warning</dm-radio>
+      </dm-radio-group>
+      <dm-radio-group name="c-danger" color="danger" [(value)]="colorPick">
+        <dm-radio value="a">Danger</dm-radio>
+      </dm-radio-group>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['horizontal']" [code]="horizontalCode">
+    <dm-radio-group name="side-h" orientation="horizontal" [(value)]="side">
+      <dm-radio value="left">Left</dm-radio>
+      <dm-radio value="center">Center</dm-radio>
+      <dm-radio value="right">Right</dm-radio>
+    </dm-radio-group>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['forms']" [code]="formsCode">
+    <div class="demo-stack">
+      <dm-radio-group name="size-forms" [formControl]="sizeCtrl">
+        <dm-radio value="small">Small</dm-radio>
+        <dm-radio value="medium">Medium</dm-radio>
+        <dm-radio value="large">Large</dm-radio>
+      </dm-radio-group>
+      <span class="demo-output">value: {{ sizeCtrl.value }}</span>
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

@@ -2,10 +2,7 @@
   <p class="page__category">{{ i18n.t().shell.nav.overlays }}</p>
   <h1 class="page__title">Toast</h1>
   <p class="page__lead" [innerHTML]="page().lead"></p>
-  <app-code-snippet
-    language="ts"
-    code="import &#123; DmToastService &#125; from 'ngx-dmaster-ui';"
-  />
+  <app-code-snippet language="ts" code="import &#123; DmToastService &#125; from '@dmaster/ui';" />
 </header>
 
 <section class="page__section" aria-labelledby="playground-title">
@@ -13,7 +10,7 @@
   <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
 
   <div class="page__playground-preview">
-    <dm-loading-button (clicked)="show()">{{ page().labels['show'] }}</dm-loading-button>
+    <dm-button (clicked)="show()">{{ page().labels['show'] }}</dm-button>
   </div>
 
   <app-prop-signal [controls]="controls" [(values)]="playground" />
@@ -23,20 +20,20 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="page().labels['helpers']" [code]="helpersCode">
+  <app-demo-block [heading]="page().labels['helpers']" [code]="helpersCode" language="ts">
     <div class="demo-row">
-      <dm-loading-button variant="outline" (clicked)="toast.success(page().labels['message'])">
+      <dm-button variant="flat" (clicked)="toast.success(page().labels['message'])">
         success
-      </dm-loading-button>
-      <dm-loading-button variant="outline" (clicked)="toast.warning(page().labels['message'])">
+      </dm-button>
+      <dm-button variant="flat" (clicked)="toast.warning(page().labels['message'])">
         warning
-      </dm-loading-button>
-      <dm-loading-button variant="outline" (clicked)="toast.danger(page().labels['message'])">
+      </dm-button>
+      <dm-button variant="flat" (clicked)="toast.danger(page().labels['message'])">
         danger
-      </dm-loading-button>
-      <dm-loading-button variant="outline" (clicked)="showSticky()">
+      </dm-button>
+      <dm-button variant="flat" (clicked)="showSticky()">
         {{ page().labels['sticky'] }}
-      </dm-loading-button>
+      </dm-button>
     </div>
   </app-demo-block>
 </section>

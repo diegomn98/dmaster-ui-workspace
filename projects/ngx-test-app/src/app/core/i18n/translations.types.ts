@@ -30,30 +30,45 @@ export interface DashboardTranslations {
     switchToLight: string;
     switchToDark: string;
     languageLabel: string;
+    githubAria: string;
+    themeLabel: string;
+    themeHeading: string;
     nav: {
       intro: string;
       home: string;
       overview: string;
+      gettingStarted: string;
       primitives: string;
       layout: string;
       buttons: string;
       forms: string;
       overlays: string;
+      navigation: string;
+      dataDisplay: string;
       skeleton: string;
       spinner: string;
       badge: string;
       avatar: string;
       card: string;
-      loadingButton: string;
+      accordion: string;
+      button: string;
       switch: string;
       checkbox: string;
       formField: string;
+      select: string;
+      paginatedSelect: string;
+      radioGroup: string;
+      tabs: string;
+      table: string;
       tooltip: string;
       dialog: string;
       toast: string;
     };
   };
   common: {
+    importTitle: string;
+    usageTitle: string;
+    usageDesc: string;
     playgroundTitle: string;
     playgroundDesc: string;
     examplesTitle: string;
@@ -73,14 +88,34 @@ export interface DashboardTranslations {
     };
   };
   shared: {
+    copy: string;
     copyCode: string;
     copied: string;
     playgroundControls: string;
+    previewLabel: string;
+    codeLabel: string;
+    onThisPage: string;
     api: { name: string; type: string; default: string; description: string };
   };
   home: {
+    versionBadge: string;
+    title: string;
+    heroLine1: string;
+    heroLine2: string;
     subtitle: string;
-    cta: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    stats: {
+      components: string;
+      tests: string;
+      externalDeps: string;
+      externalDepsValue: string;
+    };
+    showcaseAria: string;
+    showcaseTitle: string;
+    showcaseSubtitle: string;
+    galleryTitle: string;
+    gallerySubtitle: string;
     featuresAria: string;
     features: {
       signalsTitle: string;
@@ -89,8 +124,55 @@ export interface DashboardTranslations {
       themingBody: string;
       responsiveTitle: string;
       responsiveBody: string;
+      a11yTitle: string;
+      a11yBody: string;
     };
     startTitle: string;
+    startLead: string;
+    startCta: string;
+    ctaTitle: string;
+    ctaLead: string;
+  };
+  gettingStarted: {
+    lead: string;
+    tocTitle: string;
+    stepLabel: string;
+    prevLabel: string;
+    nextLabel: string;
+    sections: {
+      intro: string;
+      installation: string;
+      styles: string;
+      providers: string;
+      firstComponent: string;
+      darkMode: string;
+      colors: string;
+      animation: string;
+      typescript: string;
+    };
+    introBody: string;
+    introHighlights: string[];
+    prerequisitesTitle: string;
+    prerequisitesBody: string;
+    prereqItems: string[];
+    installBody: string;
+    stylesBody: string;
+    stylesNote: string;
+    providersBody: string;
+    firstComponentBody: string;
+    darkModeBody: string;
+    darkModeItems: string[];
+    darkModeNote: string;
+    colorsBody: string;
+    colorsItems: string[];
+    colorsNote: string;
+    animationBody: string;
+    animationItems: string[];
+    animationNote: string;
+    typescriptBody: string;
+    whatsNextTitle: string;
+    whatsNextBody: string;
+    whatsNextCta: string;
   };
   skeletonPage: {
     lead: string;
@@ -114,14 +196,16 @@ export interface DashboardTranslations {
       count: string;
     };
   };
-  loadingButtonPage: {
+  buttonPage: {
     lead: string;
-    demos: { variants: string; sizes: string; states: string; async: string };
+    demos: { colors: string; variants: string; sizes: string; states: string; async: string };
     apiCaption: string;
     defaultsDesc: string;
     a11yItems: string[];
     api: {
+      color: string;
       variant: string;
+      radius: string;
       size: string;
       state: string;
       type: string;
@@ -139,9 +223,15 @@ export interface DashboardTranslations {
     badge: SimplePageTranslations;
     card: SimplePageTranslations;
     avatar: SimplePageTranslations;
+    accordion: SimplePageTranslations;
     switch: SimplePageTranslations;
     checkbox: SimplePageTranslations;
     formField: SimplePageTranslations;
+    select: SimplePageTranslations;
+    paginatedSelect: SimplePageTranslations;
+    radioGroup: SimplePageTranslations;
+    tabs: SimplePageTranslations;
+    table: SimplePageTranslations;
     tooltip: SimplePageTranslations;
     dialog: SimplePageTranslations;
     toast: SimplePageTranslations;

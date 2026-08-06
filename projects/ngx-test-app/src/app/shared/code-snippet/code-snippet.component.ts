@@ -2,16 +2,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  computed,
   inject,
   input,
   signal,
 } from '@angular/core';
 
 import { LocaleService } from '../../core/i18n/locale.service';
+import { highlight } from './syntax-highlight';
 
 /**
- * Bloque de código copiable. Sin resaltado de sintaxis (cero dependencias):
- * monospace + scroll horizontal controlado en pantallas estrechas.
+ * Bloque de código copiable. Syntax highlight naive por regex (cero deps):
+ * strings, tags/attrs (HTML), keywords (TS/JS), comentarios.
+ * Encaja en la paleta HeroUI del resto de la librería.
  */
 @Component({
   selector: 'app-code-snippet',
@@ -30,7 +33,20 @@ export class CodeSnippetComponent {
   /** Etiqueta del lenguaje mostrada en la esquina (`html`, `ts`, `bash`…). */
   readonly language = input<string>('');
 
+  /**
+   * Modo integrado: sin card propia (borde/sombra/barra). El copiar flota
+   * sobre el código. Lo usa `app-demo-block` para que el código respire dentro
+   * de su propia superficie en vez de anidar dos tarjetas.
+   */
+  readonly flat = input(false);
+
   protected readonly copied = signal(false);
+
+  /** Clave de lenguaje normalizada para el atributo data-lang y el highlight. */
+  protected readonly langKey = computed(() => this.language().toLowerCase());
+
+  /** HTML resaltado (memoizado por firma código+lang). */
+  protected readonly highlighted = computed(() => highlight(this.code(), this.langKey()));
 
   constructor() {
     this.destroyRef.onDestroy(() => clearTimeout(this.resetTimer));

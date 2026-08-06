@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmBadgeComponent, DmCardAppearance, DmCardComponent, DmCardPadding } from 'ngx-dmaster-ui';
+import { DmBadgeComponent, DmCardAppearance, DmCardComponent, DmCardPadding } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -79,7 +79,7 @@ export class CardPageComponent {
   protected readonly interactiveCode = '<dm-card [interactive]="true">…</dm-card>';
 
   protected readonly defaultsCode = [
-    "import { provideCardDefaults } from 'ngx-dmaster-ui';",
+    "import { provideCardDefaults } from '@dmaster/ui';",
     '',
     "providers: [provideCardDefaults({ appearance: 'outlined', padding: 'lg' })]",
   ].join('\n');

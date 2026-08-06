@@ -1,35 +1,335 @@
-<section class="home__hero">
-  <p class="home__badge">v0.1.0 · Angular 20+</p>
-  <h1 class="home__title">ngx-dmaster-ui</h1>
-  <p class="home__subtitle">{{ i18n.t().home.subtitle }}</p>
-  <div class="home__actions">
-    <a routerLink="/components" class="home__cta">{{ i18n.t().home.cta }}</a>
+<!-- ================================================================ -->
+<!-- HERO — split layout with live component preview on the right     -->
+<!-- ================================================================ -->
+<section class="home__hero" aria-labelledby="home-hero-title">
+  <div class="home__hero-copy">
+    <dm-badge color="primary" variant="flat" size="sm">
+      {{ i18n.t().home.versionBadge }}
+    </dm-badge>
+    <h1 class="home__title" id="home-hero-title">
+      <span class="home__title-line">{{ i18n.t().home.heroLine1 }}</span>
+      <span class="home__title-line home__title-line--gradient">
+        {{ i18n.t().home.heroLine2 }}
+      </span>
+    </h1>
+    <p class="home__subtitle">{{ i18n.t().home.subtitle }}</p>
+
+    <div class="home__actions">
+      <a routerLink="/getting-started" class="home__actions-link">
+        <dm-button color="primary" variant="shadow" size="lg">
+          {{ i18n.t().home.ctaPrimary }}
+        </dm-button>
+      </a>
+      <a routerLink="/components" class="home__actions-link">
+        <dm-button color="default" variant="bordered" size="lg">
+          {{ i18n.t().home.ctaSecondary }}
+        </dm-button>
+      </a>
+    </div>
+
+    <div class="home__hero-install" aria-label="Install command">
+      <span class="home__hero-install-prompt" aria-hidden="true">$</span>
+      <code>{{ installCode }}</code>
+    </div>
+  </div>
+
+  <!-- Preview panel — a mini "settings card" that dogfoods the components -->
+  <aside class="home__hero-preview" aria-label="Live component preview" inert>
+    <div class="home__hero-preview-window">
+      <div class="home__hero-preview-chrome" aria-hidden="true">
+        <span class="home__hero-preview-dot" style="background: #ff5f57"></span>
+        <span class="home__hero-preview-dot" style="background: #febc2e"></span>
+        <span class="home__hero-preview-dot" style="background: #28c840"></span>
+      </div>
+
+      <div class="home__hero-preview-body">
+        <div class="home__hero-preview-head">
+          <dm-avatar name="Diego Maestro" size="md" />
+          <div>
+            <p class="home__hero-preview-name">Diego Maestro</p>
+            <p class="home__hero-preview-role">Design engineer</p>
+          </div>
+          <dm-badge color="success" variant="flat" size="sm" class="home__hero-preview-badge">
+            Online
+          </dm-badge>
+        </div>
+
+        <div class="home__hero-preview-row">
+          <p class="home__hero-preview-label">Dark mode</p>
+          <dm-switch color="primary" [(ngModel)]="darkMode" ariaLabel="Toggle dark mode" />
+        </div>
+        <div class="home__hero-preview-row">
+          <p class="home__hero-preview-label">Auto-save</p>
+          <dm-switch color="success" [(ngModel)]="autoSave" ariaLabel="Toggle auto-save" />
+        </div>
+        <div class="home__hero-preview-row">
+          <p class="home__hero-preview-label">Email notifications</p>
+          <dm-switch color="secondary" [(ngModel)]="notify" ariaLabel="Toggle notifications" />
+        </div>
+
+        <div class="home__hero-preview-chips">
+          <dm-badge color="primary" variant="flat" size="sm">Signals</dm-badge>
+          <dm-badge color="secondary" variant="flat" size="sm">Zoneless</dm-badge>
+          <dm-badge color="success" variant="flat" size="sm">a11y</dm-badge>
+          <dm-badge color="warning" variant="flat" size="sm">Dark mode</dm-badge>
+        </div>
+
+        <div class="home__hero-preview-cta">
+          <dm-button color="default" variant="flat" size="sm">Cancel</dm-button>
+          <dm-button color="primary" variant="shadow" size="sm">Save changes</dm-button>
+        </div>
+      </div>
+    </div>
+  </aside>
+</section>
+
+<!-- ================================================================ -->
+<!-- STATS — a glance at the library                                  -->
+<!-- ================================================================ -->
+<section class="home__stats" aria-label="Library at a glance">
+  <div class="home__stat">
+    <span class="home__stat-value">13</span>
+    <span class="home__stat-label">{{ i18n.t().home.stats.components }}</span>
+  </div>
+  <div class="home__stat">
+    <span class="home__stat-value">64</span>
+    <span class="home__stat-label">{{ i18n.t().home.stats.tests }}</span>
+  </div>
+  <div class="home__stat">
+    <span class="home__stat-value">{{ i18n.t().home.stats.externalDepsValue }}</span>
+    <span class="home__stat-label">{{ i18n.t().home.stats.externalDeps }}</span>
   </div>
 </section>
 
-<section class="home__features" [attr.aria-label]="i18n.t().home.featuresAria">
-  <article class="home__card">
-    <h2>{{ i18n.t().home.features.signalsTitle }}</h2>
-    <p [innerHTML]="i18n.t().home.features.signalsBody"></p>
-  </article>
-  <article class="home__card">
-    <h2>{{ i18n.t().home.features.themingTitle }}</h2>
-    <p [innerHTML]="i18n.t().home.features.themingBody"></p>
-  </article>
-  <article class="home__card">
-    <h2>{{ i18n.t().home.features.responsiveTitle }}</h2>
-    <p [innerHTML]="i18n.t().home.features.responsiveBody"></p>
-  </article>
+<!-- ================================================================ -->
+<!-- COMPONENT GALLERY — mosaic of live components                    -->
+<!-- ================================================================ -->
+<section class="home__gallery" aria-labelledby="home-gallery-title">
+  <div class="home__section-head">
+    <h2 id="home-gallery-title" class="home__section-title">
+      {{ i18n.t().home.galleryTitle }}
+    </h2>
+    <p class="home__section-lead">{{ i18n.t().home.gallerySubtitle }}</p>
+  </div>
+
+  <div class="home__gallery-grid" inert>
+    <!-- Tile 1: Buttons -->
+    <article class="home__gallery-tile home__gallery-tile--wide">
+      <p class="home__gallery-name">Button</p>
+      <div class="home__gallery-preview home__gallery-preview--stack">
+        <div class="home__gallery-row">
+          <dm-button color="primary" variant="shadow" size="sm">Primary</dm-button>
+          <dm-button color="secondary" variant="shadow" size="sm">Secondary</dm-button>
+          <dm-button color="success" variant="flat" size="sm">Success</dm-button>
+        </div>
+        <div class="home__gallery-row">
+          <dm-button color="default" variant="bordered" size="sm">Bordered</dm-button>
+          <dm-button color="danger" variant="light" size="sm">Danger</dm-button>
+          <dm-button color="warning" variant="flat" size="sm">Warning</dm-button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Tile 2: Badge -->
+    <article class="home__gallery-tile">
+      <p class="home__gallery-name">Badge</p>
+      <div class="home__gallery-preview home__gallery-preview--center">
+        <div class="home__gallery-row home__gallery-row--wrap">
+          <dm-badge color="primary" variant="solid" size="sm">New</dm-badge>
+          <dm-badge color="success" variant="flat" size="sm">Live</dm-badge>
+          <dm-badge color="warning" variant="dot" size="sm">Beta</dm-badge>
+          <dm-badge color="danger" variant="bordered" size="sm">Alert</dm-badge>
+        </div>
+      </div>
+    </article>
+
+    <!-- Tile 3: Switch + Checkbox -->
+    <article class="home__gallery-tile">
+      <p class="home__gallery-name">Switch · Checkbox</p>
+      <div class="home__gallery-preview home__gallery-preview--stack">
+        <div class="home__gallery-row">
+          <dm-switch color="primary" [checked]="true" ariaLabel="On" />
+          <dm-switch color="success" [checked]="true" ariaLabel="Success" />
+          <dm-switch color="secondary" [checked]="false" ariaLabel="Off" />
+        </div>
+        <div class="home__gallery-row">
+          <dm-checkbox color="primary" [checked]="true" ariaLabel="Primary checked" />
+          <dm-checkbox color="success" [checked]="true" ariaLabel="Success checked" />
+          <dm-checkbox color="danger" [checked]="false" ariaLabel="Unchecked" />
+        </div>
+      </div>
+    </article>
+
+    <!-- Tile 4: Form field -->
+    <article class="home__gallery-tile home__gallery-tile--wide">
+      <p class="home__gallery-name">Form Field</p>
+      <div class="home__gallery-preview">
+        <dm-form-field
+          label="Email"
+          description="We’ll never share it."
+          class="home__gallery-field"
+        >
+          <input dmInput type="email" placeholder="you@example.com" [(ngModel)]="emailValue" />
+        </dm-form-field>
+      </div>
+    </article>
+
+    <!-- Tile 5: Avatar -->
+    <article class="home__gallery-tile">
+      <p class="home__gallery-name">Avatar</p>
+      <div class="home__gallery-preview home__gallery-preview--center">
+        <div class="home__gallery-avatars">
+          <dm-avatar name="Ada Lovelace" size="md" color="primary" />
+          <dm-avatar name="Alan Turing" size="md" color="success" />
+          <dm-avatar name="Grace Hopper" size="md" color="warning" />
+          <dm-avatar initials="+3" size="md" color="default" />
+        </div>
+      </div>
+    </article>
+
+    <!-- Tile 6: Skeleton -->
+    <article class="home__gallery-tile">
+      <p class="home__gallery-name">Skeleton</p>
+      <div class="home__gallery-preview home__gallery-preview--stack">
+        <dm-skeleton width="60%" height="0.85rem" />
+        <dm-skeleton width="90%" height="0.85rem" />
+        <dm-skeleton width="70%" height="0.85rem" />
+      </div>
+    </article>
+
+    <!-- Tile 7: Spinner -->
+    <article class="home__gallery-tile">
+      <p class="home__gallery-name">Spinner</p>
+      <div class="home__gallery-preview home__gallery-preview--center">
+        <div class="home__gallery-row">
+          <dm-spinner color="primary" size="md" />
+          <dm-spinner color="secondary" size="md" />
+          <dm-spinner color="success" size="md" />
+        </div>
+      </div>
+    </article>
+
+    <!-- Tile 8: Loading button -->
+    <article class="home__gallery-tile">
+      <p class="home__gallery-name">Button states</p>
+      <div class="home__gallery-preview home__gallery-preview--center">
+        <dm-button color="primary" variant="shadow" state="loading" loadingLabel="Loading">
+          Loading
+        </dm-button>
+      </div>
+    </article>
+  </div>
 </section>
 
-<section class="home__start" [attr.aria-label]="i18n.t().home.startTitle">
-  <h2>{{ i18n.t().home.startTitle }}</h2>
-  <pre class="home__code"><code>npm install ngx-dmaster-ui</code></pre>
-  <pre class="home__code"><code>// app.config.ts
-providers: [
-  provideDmasterUI(&#123;
-    theme: 'auto',
-    density: 'comfortable',
-  &#125;),
-]</code></pre>
+<!-- ================================================================ -->
+<!-- FEATURES — why choose @dmaster/ui                                -->
+<!-- ================================================================ -->
+<section class="home__features" [attr.aria-label]="i18n.t().home.featuresAria">
+  <dm-card appearance="outlined" padding="lg" class="home__feature-card">
+    <span class="home__feature-icon" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.75"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z" />
+      </svg>
+    </span>
+    <h2>{{ i18n.t().home.features.signalsTitle }}</h2>
+    <p [innerHTML]="i18n.t().home.features.signalsBody"></p>
+  </dm-card>
+  <dm-card appearance="outlined" padding="lg" class="home__feature-card">
+    <span class="home__feature-icon" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.75"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1 0-4h1a5 5 0 0 0 5-5c0-1.5-2-3-6-3Z"
+        />
+      </svg>
+    </span>
+    <h2>{{ i18n.t().home.features.themingTitle }}</h2>
+    <p [innerHTML]="i18n.t().home.features.themingBody"></p>
+  </dm-card>
+  <dm-card appearance="outlined" padding="lg" class="home__feature-card">
+    <span class="home__feature-icon" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.75"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <rect x="3" y="4" width="14" height="12" rx="2" />
+        <rect x="15" y="10" width="6" height="10" rx="1.5" />
+      </svg>
+    </span>
+    <h2>{{ i18n.t().home.features.responsiveTitle }}</h2>
+    <p [innerHTML]="i18n.t().home.features.responsiveBody"></p>
+  </dm-card>
+  <dm-card appearance="outlined" padding="lg" class="home__feature-card">
+    <span class="home__feature-icon" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.75"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18M3 12h18" />
+      </svg>
+    </span>
+    <h2>{{ i18n.t().home.features.a11yTitle }}</h2>
+    <p [innerHTML]="i18n.t().home.features.a11yBody"></p>
+  </dm-card>
+</section>
+
+<!-- ================================================================ -->
+<!-- INSTALL BLOCK                                                    -->
+<!-- ================================================================ -->
+<section class="home__start" aria-labelledby="home-start-title">
+  <div class="home__start-copy">
+    <h2 id="home-start-title" class="home__start-title">{{ i18n.t().home.startTitle }}</h2>
+    <p class="home__start-lead">{{ i18n.t().home.startLead }}</p>
+    <a routerLink="/getting-started" class="home__actions-link">
+      <dm-button color="primary" variant="flat">
+        {{ i18n.t().home.startCta }}
+      </dm-button>
+    </a>
+  </div>
+  <app-code-snippet class="home__start-snippet" [code]="installCode" language="bash" />
+</section>
+
+<!-- ================================================================ -->
+<!-- FINAL CTA STRIP — impactful closer                               -->
+<!-- ================================================================ -->
+<section class="home__cta" aria-labelledby="home-cta-title">
+  <div class="home__cta-glow" aria-hidden="true"></div>
+  <div class="home__cta-content">
+    <h2 id="home-cta-title" class="home__cta-title">{{ i18n.t().home.ctaTitle }}</h2>
+    <p class="home__cta-lead">{{ i18n.t().home.ctaLead }}</p>
+    <div class="home__actions">
+      <a routerLink="/getting-started" class="home__actions-link">
+        <dm-button color="primary" variant="shadow" size="lg">
+          {{ i18n.t().home.ctaPrimary }}
+        </dm-button>
+      </a>
+      <a routerLink="/components" class="home__actions-link">
+        <dm-button color="default" variant="flat" size="lg">
+          {{ i18n.t().home.ctaSecondary }}
+        </dm-button>
+      </a>
+    </div>
+  </div>
 </section>

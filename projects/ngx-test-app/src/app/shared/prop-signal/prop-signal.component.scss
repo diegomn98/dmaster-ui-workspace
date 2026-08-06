@@ -5,20 +5,15 @@
   container-type: inline-size;
 }
 
+// Panel de playground HeroUI: superficie plana, muy redondeada y aireada.
 .props {
   display: grid;
-  gap: var(--dm-space-4) var(--dm-space-5);
-  padding: var(--dm-space-5);
+  gap: var(--dm-space-5) var(--dm-space-5);
+  padding: var(--dm-space-6);
   border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-lg);
-
-  // Lavado de marca muy sutil que se desvanece desde el borde superior.
-  background-color: var(--dm-bg-subtle);
-  background-image: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--dm-primary) 3%, transparent),
-    transparent 4rem
-  );
+  border-radius: var(--dm-radius-xl);
+  background: var(--dm-bg-subtle);
+  box-shadow: var(--dm-shadow-sm);
 
   @include mixins.container-above(28rem) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -42,34 +37,29 @@
   color: var(--dm-fg-muted);
 }
 
-.props__select,
+// El input nativo (para text/number) mantiene el look bordered coherente con
+// el dm-select bordered/sm que ahora se usa en el @case('select').
 .props__input {
-  height: var(--dm-control-height);
+  height: 2rem; // dm-select sm height
   padding-inline: var(--dm-space-3);
   border: 1px solid var(--dm-border-strong);
   border-radius: var(--dm-radius-md);
-  background: var(--dm-bg-elevated);
+  background: transparent;
   color: var(--dm-fg);
   font-size: var(--dm-text-sm);
-  box-shadow: var(--dm-shadow-sm);
+  box-shadow: 0 0 0 0 var(--dm-primary-subtle);
 
-  @include mixins.transition(border-color, box-shadow);
+  @include mixins.transition(border-color, box-shadow, background-color);
 
-  &:hover {
+  &:hover:not(:focus) {
     border-color: var(--dm-fg-subtle);
   }
 
   &:focus-visible {
     outline: none;
     border-color: var(--dm-primary);
-    box-shadow:
-      var(--dm-shadow-sm),
-      0 0 0 3px var(--dm-primary-subtle);
+    box-shadow: 0 0 0 3.5px var(--dm-primary-subtle);
   }
-}
-
-.props__select {
-  cursor: pointer;
 }
 
 .props__input::placeholder {
@@ -81,8 +71,8 @@
 }
 
 // El toggle es dm-switch (dogfooding de la librería); solo lo alineamos
-// con la altura de los demás controles.
+// con la altura de los demás controles (2rem, la de dm-select sm).
 .props__switch {
   align-self: start;
-  margin-top: calc((var(--dm-control-height) - 1.5rem) / 2);
+  margin-top: calc((2rem - 1.5rem) / 2);
 }

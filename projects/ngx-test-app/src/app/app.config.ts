@@ -4,7 +4,7 @@ import {
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
-import { provideDmasterUI } from 'ngx-dmaster-ui';
+import { provideDmasterUI } from '@dmaster/ui';
 
 import { routes } from './app.routes';
 

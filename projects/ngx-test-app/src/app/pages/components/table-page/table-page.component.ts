@@ -1,0 +1,418 @@
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  DmButtonComponent,
+  DmTableColumn,
+  DmTableComponent,
+  DmTableDensity,
+  DmTableKey,
+  DmTableSelectionMode,
+  DmTableVariant,
+} from '@dmaster/ui';
+
+import { LocaleService } from '../../../core/i18n/locale.service';
+import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
+import { ApiTableRow } from '../../../shared/api-table/api-table.types';
+import { CodeSnippetComponent } from '../../../shared/code-snippet/code-snippet.component';
+import { DemoBlockComponent } from '../../../shared/demo-block/demo-block.component';
+import { PropSignalComponent } from '../../../shared/prop-signal/prop-signal.component';
+import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal.types';
+
+interface Member {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  status: 'Active' | 'Away' | 'Invited';
+  joined: string;
+}
+
+const MEMBERS: Member[] = [
+  {
+    id: 1,
+    name: 'Ada Lovelace',
+    email: 'ada@dmaster.io',
+    role: 'Owner',
+    status: 'Active',
+    joined: '2019-04-01',
+  },
+  {
+    id: 2,
+    name: 'Alan Turing',
+    email: 'alan@dmaster.io',
+    role: 'Admin',
+    status: 'Active',
+    joined: '2020-01-14',
+  },
+  {
+    id: 3,
+    name: 'Grace Hopper',
+    email: 'grace@dmaster.io',
+    role: 'Editor',
+    status: 'Away',
+    joined: '2020-08-22',
+  },
+  {
+    id: 4,
+    name: 'Katherine Johnson',
+    email: 'katherine@dmaster.io',
+    role: 'Editor',
+    status: 'Active',
+    joined: '2021-03-05',
+  },
+  {
+    id: 5,
+    name: 'Linus Torvalds',
+    email: 'linus@dmaster.io',
+    role: 'Viewer',
+    status: 'Invited',
+    joined: '2022-11-30',
+  },
+  {
+    id: 6,
+    name: 'Margaret Hamilton',
+    email: 'margaret@dmaster.io',
+    role: 'Admin',
+    status: 'Active',
+    joined: '2019-09-17',
+  },
+  {
+    id: 7,
+    name: 'Dennis Ritchie',
+    email: 'dennis@dmaster.io',
+    role: 'Editor',
+    status: 'Away',
+    joined: '2021-06-11',
+  },
+  {
+    id: 8,
+    name: 'Barbara Liskov',
+    email: 'barbara@dmaster.io',
+    role: 'Viewer',
+    status: 'Active',
+    joined: '2023-02-08',
+  },
+  {
+    id: 9,
+    name: 'Tim Berners-Lee',
+    email: 'tim@dmaster.io',
+    role: 'Editor',
+    status: 'Invited',
+    joined: '2022-05-19',
+  },
+  {
+    id: 10,
+    name: 'Donald Knuth',
+    email: 'donald@dmaster.io',
+    role: 'Owner',
+    status: 'Active',
+    joined: '2018-12-03',
+  },
+  {
+    id: 11,
+    name: 'Radia Perlman',
+    email: 'radia@dmaster.io',
+    role: 'Admin',
+    status: 'Away',
+    joined: '2020-07-27',
+  },
+  {
+    id: 12,
+    name: 'Vint Cerf',
+    email: 'vint@dmaster.io',
+    role: 'Viewer',
+    status: 'Active',
+    joined: '2021-10-14',
+  },
+];
+
+@Component({
+  selector: 'app-table-page',
+  imports: [
+    DmTableComponent,
+    DmButtonComponent,
+    DemoBlockComponent,
+    ApiTableComponent,
+    CodeSnippetComponent,
+    PropSignalComponent,
+  ],
+  templateUrl: './table-page.component.html',
+  host: { class: 'docs-page' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class TablePageComponent {
+  protected readonly i18n = inject(LocaleService);
+  protected readonly page = computed(() => this.i18n.t().pages.table);
+
+  protected readonly members = signal<Member[]>(MEMBERS);
+  protected readonly byId = (row: Member) => row.id;
+
+  protected readonly columns: DmTableColumn<Member>[] = [
+    { key: 'name', header: 'Name', sortable: true },
+    { key: 'email', header: 'Email', sortable: true },
+    { key: 'role', header: 'Role', sortable: true },
+    { key: 'status', header: 'Status', sortable: true, align: 'center' },
+    { key: 'joined', header: 'Joined', sortable: true, align: 'end' },
+  ];
+
+  // ---- Playground ----------------------------------------------------------
+  protected readonly playground = signal<PropValues>({
+    density: 'comfortable',
+    variant: 'default',
+    selectionMode: 'multiple',
+    searchable: true,
+    pageSize: 5,
+    hover: true,
+  });
+
+  protected readonly controls: PropControl[] = [
+    {
+      key: 'density',
+      label: 'density',
+      type: 'select',
+      options: [
+        { label: 'compact', value: 'compact' },
+        { label: 'comfortable', value: 'comfortable' },
+        { label: 'spacious', value: 'spacious' },
+      ],
+    },
+    {
+      key: 'variant',
+      label: 'variant',
+      type: 'select',
+      options: [
+        { label: 'default', value: 'default' },
+        { label: 'striped', value: 'striped' },
+        { label: 'bordered', value: 'bordered' },
+      ],
+    },
+    {
+      key: 'selectionMode',
+      label: 'selectionMode',
+      type: 'select',
+      options: [
+        { label: 'none', value: 'none' },
+        { label: 'single', value: 'single' },
+        { label: 'multiple', value: 'multiple' },
+      ],
+    },
+    { key: 'searchable', label: 'searchable', type: 'boolean' },
+    { key: 'pageSize', label: 'pageSize', type: 'number', min: 0, max: 12, step: 1 },
+    { key: 'hover', label: 'hover', type: 'boolean' },
+  ];
+
+  protected readonly pgDensity = computed(() => this.playground()['density'] as DmTableDensity);
+  protected readonly pgVariant = computed(() => this.playground()['variant'] as DmTableVariant);
+  protected readonly pgSelection = computed(
+    () => this.playground()['selectionMode'] as DmTableSelectionMode,
+  );
+  protected readonly pgSearchable = computed(() => this.playground()['searchable'] as boolean);
+  protected readonly pgPageSize = computed(() => Number(this.playground()['pageSize']) || 0);
+  protected readonly pgHover = computed(() => this.playground()['hover'] as boolean);
+
+  protected readonly pgSelected = signal<DmTableKey[]>([2, 4]);
+
+  protected readonly playgroundCode = computed(() => {
+    const attrs = ['[columns]="columns"', '[data]="members()"', '[rowKey]="byId"'];
+    if (this.pgSelection() !== 'none') {
+      attrs.push(`selectionMode="${this.pgSelection()}"`, '[(selectedKeys)]="selected"');
+    }
+    if (this.pgSearchable()) attrs.push('[searchable]="true"');
+    if (this.pgPageSize() > 0) attrs.push(`[pageSize]="${this.pgPageSize()}"`);
+    if (this.pgDensity() !== 'comfortable') attrs.push(`density="${this.pgDensity()}"`);
+    if (this.pgVariant() !== 'default') attrs.push(`variant="${this.pgVariant()}"`);
+    if (!this.pgHover()) attrs.push('[hover]="false"');
+    return `<dm-table\n  ${attrs.join('\n  ')}\n/>`;
+  });
+
+  // ---- Full-featured demo --------------------------------------------------
+  protected readonly selected = signal<DmTableKey[]>([]);
+  protected readonly selectedNames = computed(() => {
+    const set = new Set(this.selected());
+    return this.members()
+      .filter((m) => set.has(m.id))
+      .map((m) => m.name.split(' ')[0])
+      .join(', ');
+  });
+
+  protected readonly fullCode = [
+    'protected readonly members = signal<Member[]>([...]);',
+    'protected readonly selected = signal<(string | number)[]>([]);',
+    'protected readonly byId = (row: Member) => row.id;',
+    '',
+    'columns: DmTableColumn<Member>[] = [',
+    "  { key: 'name', header: 'Name', sortable: true },",
+    "  { key: 'email', header: 'Email', sortable: true },",
+    "  { key: 'status', header: 'Status', sortable: true, align: 'center' },",
+    '];',
+    '',
+    '<dm-table',
+    '  [columns]="columns"',
+    '  [data]="members()"',
+    '  [rowKey]="byId"',
+    '  selectionMode="multiple"',
+    '  [searchable]="true"',
+    '  [pageSize]="5"',
+    '  [(selectedKeys)]="selected"',
+    '  caption="Team members" />',
+  ].join('\n');
+
+  // ---- Selection demo ------------------------------------------------------
+  protected readonly selectedSingle = signal<DmTableKey[]>([]);
+  protected readonly selectionCode = [
+    '// selectionMode: "single" | "multiple"',
+    '// selectionChange emits the selected ROWS; selectedKeys is two-way.',
+    '<dm-table',
+    '  [columns]="columns"',
+    '  [data]="members()"',
+    '  [rowKey]="byId"',
+    '  selectionMode="single"',
+    '  [(selectedKeys)]="selected"',
+    '  (selectionChange)="onSelect($event)" />',
+  ].join('\n');
+
+  // ---- Pagination demo -----------------------------------------------------
+  protected readonly paginationCode = [
+    '<dm-table',
+    '  [columns]="columns"',
+    '  [data]="members()"',
+    '  [rowKey]="byId"',
+    '  [pageSize]="5"',
+    '  [pageSizeOptions]="[5, 10, 25]" />',
+  ].join('\n');
+
+  // ---- Densities / variants ------------------------------------------------
+  protected readonly densitiesCode = [
+    '<dm-table [columns]="cols" [data]="rows" density="compact" />',
+    '<dm-table [columns]="cols" [data]="rows" density="comfortable" />',
+    '<dm-table [columns]="cols" [data]="rows" density="spacious" />',
+  ].join('\n');
+
+  protected readonly variantsCode = [
+    '<dm-table [columns]="cols" [data]="rows" variant="default" />',
+    '<dm-table [columns]="cols" [data]="rows" variant="striped" />',
+    '<dm-table [columns]="cols" [data]="rows" variant="bordered" />',
+  ].join('\n');
+
+  // ---- States demo ---------------------------------------------------------
+  protected readonly loadingDemo = signal(false);
+  protected readonly statesCode = [
+    '// loading shows skeleton rows; empty data shows the empty state.',
+    '<dm-table [columns]="cols" [data]="rows" [loading]="loading()" />',
+    '<dm-table [columns]="cols" [data]="[]" emptyText="No members yet" />',
+  ].join('\n');
+
+  protected toggleLoading(): void {
+    this.loadingDemo.update((v) => !v);
+  }
+
+  // Small dataset for the compact density/variant demos.
+  protected readonly fewMembers = computed(() => this.members().slice(0, 4));
+  protected readonly fewColumns: DmTableColumn<Member>[] = [
+    { key: 'name', header: 'Name' },
+    { key: 'role', header: 'Role' },
+    { key: 'status', header: 'Status', align: 'center' },
+  ];
+
+  // ---- Defaults ------------------------------------------------------------
+  protected readonly defaultsCode = [
+    "import { provideTableDefaults } from '@dmaster/ui';",
+    '',
+    'providers: [',
+    "  provideTableDefaults({ density: 'compact', pageSize: 10, pageSizeOptions: [10, 25, 50] }),",
+    ']',
+  ].join('\n');
+
+  protected readonly apiRows = computed<ApiTableRow[]>(() => {
+    const api = this.page().api;
+    return [
+      { name: 'columns', type: 'DmTableColumn<T>[]', default: '—', description: api['columns'] },
+      { name: 'data', type: 'T[]', default: '—', description: api['data'] },
+      {
+        name: 'rowKey',
+        type: '(row, i) => string | number',
+        default: 'index',
+        description: api['rowKey'],
+      },
+      { name: 'searchable', type: 'boolean', default: 'false', description: api['searchable'] },
+      { name: 'searchTerm', type: 'string', default: "''", description: api['searchTerm'] },
+      {
+        name: 'selectionMode',
+        type: "'none' | 'single' | 'multiple'",
+        default: "'none'",
+        description: api['selectionMode'],
+      },
+      {
+        name: 'selectedKeys',
+        type: '(string | number)[]',
+        default: '[]',
+        description: api['selectedKeys'],
+      },
+      { name: 'pageSize', type: 'number', default: '0', description: api['pageSize'] },
+      { name: 'page', type: 'number', default: '1', description: api['page'] },
+      {
+        name: 'pageSizeOptions',
+        type: 'number[]',
+        default: '[10, 25, 50]',
+        description: api['pageSizeOptions'],
+      },
+      { name: 'loading', type: 'boolean', default: 'false', description: api['loading'] },
+      {
+        name: 'density',
+        type: "'compact' | 'comfortable' | 'spacious'",
+        default: "'comfortable'",
+        description: api['density'],
+      },
+      {
+        name: 'variant',
+        type: "'default' | 'striped' | 'bordered'",
+        default: "'default'",
+        description: api['variant'],
+      },
+      { name: 'hover', type: 'boolean', default: 'true', description: api['hover'] },
+      { name: 'sticky', type: 'boolean', default: 'false', description: api['sticky'] },
+      { name: 'caption', type: 'string', default: "''", description: api['caption'] },
+      {
+        name: 'sortState',
+        type: 'DmTableSortState | null',
+        default: 'null',
+        description: api['sortState'],
+      },
+      {
+        name: 'manualProcessing',
+        type: 'boolean',
+        default: 'false',
+        description: api['manualProcessing'],
+      },
+      {
+        name: 'rowClick',
+        type: 'output<{row, index}>',
+        default: '—',
+        description: api['rowClick'],
+      },
+      {
+        name: 'selectionChange',
+        type: 'output<T[]>',
+        default: '—',
+        description: api['selectionChange'],
+      },
+      {
+        name: 'sortChange',
+        type: 'output<DmTableSortState | null>',
+        default: '—',
+        description: api['sortChange'],
+      },
+      {
+        name: 'pageChange',
+        type: 'output<DmTablePageState>',
+        default: '—',
+        description: api['pageChange'],
+      },
+      {
+        name: 'searchChange',
+        type: 'output<string>',
+        default: '—',
+        description: api['searchChange'],
+      },
+    ];
+  });
+}

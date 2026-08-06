@@ -1,0 +1,96 @@
+@use 'mixins';
+
+:host {
+  display: block;
+}
+
+.toc {
+  position: sticky;
+  top: 0;
+}
+
+.toc__heading {
+  margin: 0 0 var(--dm-space-4);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--dm-fg-subtle);
+}
+
+.toc__list {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  padding-left: var(--dm-space-3);
+  list-style: none;
+
+  // Track line
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 1px;
+    background: var(--dm-border);
+    border-radius: 1px;
+  }
+}
+
+.toc__item {
+  display: block;
+}
+
+.toc__link {
+  position: relative;
+  display: block;
+  padding: 0.3125rem 0;
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg-muted);
+  text-decoration: none;
+  line-height: var(--dm-leading-snug);
+
+  @include mixins.transition(color);
+
+  // Active indicator: a dot that slides onto the track
+  &::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--dm-space-3) - 0.5px);
+    top: 50%;
+    translate: -50% -50%;
+    width: 5px;
+    height: 5px;
+    border-radius: var(--dm-radius-full);
+    background: transparent;
+
+    @include mixins.transition(background-color, transform);
+  }
+
+  &:hover {
+    color: var(--dm-fg);
+  }
+
+  &:focus-visible {
+    border-radius: var(--dm-radius-sm);
+    outline-offset: 2px;
+
+    @include mixins.focus-ring;
+  }
+
+  &--sub {
+    padding-left: var(--dm-space-3);
+    font-weight: var(--dm-font-normal);
+    color: var(--dm-fg-subtle);
+  }
+
+  &--active {
+    color: var(--dm-primary);
+    font-weight: var(--dm-font-semibold);
+
+    &::before {
+      background: var(--dm-primary);
+      transform: scale(1.2);
+    }
+  }
+}

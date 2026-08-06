@@ -5,17 +5,15 @@
 
       @switch (control.type) {
         @case ('select') {
-          <select
+          <dm-select
             class="props__select"
-            [id]="'prop-' + control.key"
-            (change)="onSelect(control.key, $event)"
-          >
-            @for (option of control.options ?? []; track option.value) {
-              <option [value]="option.value" [selected]="option.value === str(control.key)">
-                {{ option.label }}
-              </option>
-            }
-          </select>
+            size="sm"
+            variant="bordered"
+            [items]="toSelectItems(control.options)"
+            [value]="str(control.key)"
+            (valueChange)="onSelectValue(control.key, $event)"
+            [ariaLabel]="control.label"
+          />
         }
         @case ('number') {
           <input

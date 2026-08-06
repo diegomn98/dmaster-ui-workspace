@@ -1,0 +1,111 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.buttons }}</p>
+  <h1 class="page__title">Button</h1>
+  <p class="page__lead" [innerHTML]="i18n.t().buttonPage.lead"></p>
+</header>
+
+<section class="page__section" aria-labelledby="import-title">
+  <h2 class="page__section-title" id="import-title">{{ i18n.t().common.importTitle }}</h2>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmButtonComponent &#125; from '@dmaster/ui';"
+  />
+</section>
+
+<section class="page__section" aria-labelledby="usage-title">
+  <h2 class="page__section-title" id="usage-title">{{ i18n.t().common.usageTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.usageDesc }}</p>
+  <div class="page__playground-preview">
+    <dm-button color="primary">Save changes</dm-button>
+  </div>
+  <app-code-snippet language="html" code='<dm-button color="primary">Save changes</dm-button>' />
+</section>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-button
+      [color]="pgColor()"
+      [variant]="pgVariant()"
+      [radius]="pgRadius()"
+      [size]="pgSize()"
+      [state]="pgState()"
+      [disabled]="pgDisabled()"
+    >
+      {{ pgLabel() }}
+    </dm-button>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.colors" [code]="colorsCode">
+    <div class="demo-row">
+      @for (c of colors; track c) {
+        <dm-button [color]="c">{{ c }}</dm-button>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.variants" [code]="variantsCode">
+    <div class="demo-row">
+      @for (v of variants; track v) {
+        <dm-button [variant]="v">{{ v }}</dm-button>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.sizes" [code]="sizesCode">
+    <div class="demo-row">
+      <dm-button size="sm">Small</dm-button>
+      <dm-button size="md">Medium</dm-button>
+      <dm-button size="lg">Large</dm-button>
+      <dm-button radius="full">Pill</dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.states" [code]="statesCode">
+    <div class="demo-row">
+      <dm-button>Idle</dm-button>
+      <dm-button state="loading" loadingLabel="Saving…">Saving</dm-button>
+      <dm-button state="success" successLabel="Saved">Saved</dm-button>
+      <dm-button color="danger" state="error" errorLabel="Failed">Failed</dm-button>
+      <dm-button [disabled]="true">Disabled</dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.async" [code]="asyncCode" language="ts">
+    <dm-button
+      [state]="demoState()"
+      loadingLabel="Saving…"
+      successLabel="Saved"
+      (clicked)="runAsyncDemo()"
+    >
+      {{ i18n.t().buttonPage.asyncButtonLabel }}
+    </dm-button>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="i18n.t().buttonPage.apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="i18n.t().buttonPage.defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of i18n.t().buttonPage.a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

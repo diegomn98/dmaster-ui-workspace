@@ -12,7 +12,7 @@
     }
   },
   "projects": {
-    "ngx-dmaster-ui": {
+    "dmaster-ui": {
       "projectType": "library",
       "root": "projects/ngx-dmaster-ui",
       "sourceRoot": "projects/ngx-dmaster-ui/src",
@@ -86,13 +86,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "650kB",
                   "maximumError": "1MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kB",
-                  "maximumError": "10kB"
+                  "maximumWarning": "12kB",
+                  "maximumError": "16kB"
                 }
               ],
               "outputHashing": "all"

@@ -1,0 +1,181 @@
+@use 'mixins';
+
+:host {
+  display: block;
+}
+
+.gs__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dm-space-10);
+  min-width: 0;
+}
+
+.gs__content > * {
+  min-width: 0;
+}
+
+// =============================================================================
+// PAGE HEADER
+// =============================================================================
+.gs__header {
+  display: grid;
+  gap: var(--dm-space-3);
+  padding-bottom: var(--dm-space-6);
+  border-bottom: 1px solid var(--dm-border);
+}
+
+.gs__eyebrow {
+  margin: 0;
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  color: var(--dm-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.gs__page-title {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: var(--dm-font-bold);
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--dm-fg);
+}
+
+.gs__page-lead {
+  margin: 0;
+  max-width: 42rem;
+  font-size: var(--dm-text-lg);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+}
+
+// =============================================================================
+// SECTIONS — flowing prose, no cards, no borders
+// =============================================================================
+.gs__section {
+  display: grid;
+  gap: var(--dm-space-4);
+
+  > * {
+    min-width: 0;
+  }
+}
+
+.gs__section-title {
+  margin: 0;
+  padding-top: var(--dm-space-2);
+  font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+  font-weight: var(--dm-font-bold);
+  letter-spacing: -0.02em;
+  color: var(--dm-fg);
+}
+
+.gs__section-subtitle {
+  margin: var(--dm-space-3) 0 0;
+  font-size: var(--dm-text-lg);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.015em;
+  color: var(--dm-fg);
+}
+
+.gs__section-body {
+  margin: 0;
+  font-size: var(--dm-text-base);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+}
+
+.gs__list {
+  margin: 0;
+  padding-left: var(--dm-space-5);
+  display: grid;
+  gap: var(--dm-space-2);
+
+  li {
+    color: var(--dm-fg-muted);
+    line-height: var(--dm-leading-relaxed);
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown -- Angular */
+  ::ng-deep strong {
+    color: var(--dm-fg);
+    font-weight: var(--dm-font-semibold);
+  }
+}
+
+// Subtle tip block — left accent, no chrome.
+.gs__tip {
+  margin: 0;
+  padding: var(--dm-space-3) var(--dm-space-4);
+  border-left: 3px solid var(--dm-primary);
+  border-radius: 0 var(--dm-radius-md) var(--dm-radius-md) 0;
+  background: var(--dm-primary-subtle);
+  color: var(--dm-fg);
+  font-size: var(--dm-text-sm);
+  line-height: var(--dm-leading-relaxed);
+}
+
+// =============================================================================
+// COLOR SWATCHES (Colors section)
+// =============================================================================
+.gs__swatches {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--dm-space-3);
+
+  @include mixins.respond-to(sm) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.gs__swatch {
+  display: grid;
+  justify-items: center;
+  gap: var(--dm-space-2);
+}
+
+.gs__swatch-chip {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--dm-radius-md);
+  box-shadow: var(--dm-shadow-sm);
+
+  &--outline {
+    border: 1px solid var(--dm-border);
+    box-shadow: none;
+  }
+}
+
+.gs__swatch-name {
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-muted);
+}
+
+// =============================================================================
+// WHAT'S NEXT — clean, no gradient background
+// =============================================================================
+.gs__whats-next {
+  display: grid;
+  gap: var(--dm-space-3);
+  padding-top: var(--dm-space-6);
+  border-top: 1px solid var(--dm-border);
+  justify-items: start;
+}
+
+.gs__whats-next-link {
+  display: inline-flex;
+  margin-top: var(--dm-space-2);
+  text-decoration: none;
+
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+// Scroll offset so anchor jumps clear the sticky header.
+[id] {
+  scroll-margin-top: 5rem;
+}

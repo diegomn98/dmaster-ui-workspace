@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmBadgeAppearance, DmBadgeComponent, DmBadgeSize, DmBadgeVariant } from 'ngx-dmaster-ui';
+import {
+  DmBadgeColor,
+  DmBadgeComponent,
+  DmBadgeRadius,
+  DmBadgeSize,
+  DmBadgeVariant,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -8,6 +14,9 @@ import { CodeSnippetComponent } from '../../../shared/code-snippet/code-snippet.
 import { DemoBlockComponent } from '../../../shared/demo-block/demo-block.component';
 import { PropSignalComponent } from '../../../shared/prop-signal/prop-signal.component';
 import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal.types';
+
+const COLORS: DmBadgeColor[] = ['default', 'primary', 'secondary', 'success', 'warning', 'danger'];
+const VARIANTS: DmBadgeVariant[] = ['solid', 'flat', 'bordered', 'light', 'dot', 'shadow'];
 
 @Component({
   selector: 'app-badge-page',
@@ -26,30 +35,29 @@ export class BadgePageComponent {
   protected readonly i18n = inject(LocaleService);
   protected readonly page = computed(() => this.i18n.t().pages.badge);
 
+  protected readonly colors = COLORS;
+  protected readonly variants = VARIANTS;
+
   protected readonly playground = signal<PropValues>({
-    variant: 'neutral',
-    appearance: 'subtle',
+    color: 'primary',
+    variant: 'flat',
     size: 'md',
-    pill: false,
-    dot: false,
+    radius: 'full',
     text: 'Badge',
   });
 
   protected readonly controls: PropControl[] = [
     {
+      key: 'color',
+      label: 'color',
+      type: 'select',
+      options: COLORS.map((value) => ({ label: value, value })),
+    },
+    {
       key: 'variant',
       label: 'variant',
       type: 'select',
-      options: ['neutral', 'primary', 'success', 'warning', 'danger'].map((value) => ({
-        label: value,
-        value,
-      })),
-    },
-    {
-      key: 'appearance',
-      label: 'appearance',
-      type: 'select',
-      options: ['subtle', 'solid', 'outline'].map((value) => ({ label: value, value })),
+      options: VARIANTS.map((value) => ({ label: value, value })),
     },
     {
       key: 'size',
@@ -57,85 +65,81 @@ export class BadgePageComponent {
       type: 'select',
       options: ['sm', 'md'].map((value) => ({ label: value, value })),
     },
-    { key: 'pill', label: 'pill', type: 'boolean' },
-    { key: 'dot', label: 'dot', type: 'boolean' },
+    {
+      key: 'radius',
+      label: 'radius',
+      type: 'select',
+      options: ['sm', 'md', 'lg', 'full'].map((value) => ({ label: value, value })),
+    },
     { key: 'text', label: 'text', type: 'text', placeholder: 'Badge' },
   ];
 
+  protected readonly pgColor = computed(() => this.playground()['color'] as DmBadgeColor);
   protected readonly pgVariant = computed(() => this.playground()['variant'] as DmBadgeVariant);
-  protected readonly pgAppearance = computed(
-    () => this.playground()['appearance'] as DmBadgeAppearance,
-  );
   protected readonly pgSize = computed(() => this.playground()['size'] as DmBadgeSize);
-  protected readonly pgPill = computed(() => this.playground()['pill'] === true);
-  protected readonly pgDot = computed(() => this.playground()['dot'] === true);
+  protected readonly pgRadius = computed(() => this.playground()['radius'] as DmBadgeRadius);
   protected readonly pgText = computed(() => (this.playground()['text'] as string) || 'Badge');
 
   protected readonly playgroundCode = computed(() => {
     const attrs: string[] = [];
-    if (this.pgVariant() !== 'neutral') {
-      attrs.push(`variant="${this.pgVariant()}"`);
+    if (this.pgColor() !== 'default') {
+      attrs.push(`color="${this.pgColor()}"`);
     }
-    if (this.pgAppearance() !== 'subtle') {
-      attrs.push(`appearance="${this.pgAppearance()}"`);
+    if (this.pgVariant() !== 'flat') {
+      attrs.push(`variant="${this.pgVariant()}"`);
     }
     if (this.pgSize() !== 'md') {
       attrs.push(`size="${this.pgSize()}"`);
     }
-    if (this.pgPill()) {
-      attrs.push('[pill]="true"');
-    }
-    if (this.pgDot()) {
-      attrs.push('[dot]="true"');
+    if (this.pgRadius() !== 'full') {
+      attrs.push(`radius="${this.pgRadius()}"`);
     }
     const open = attrs.length > 0 ? `<dm-badge ${attrs.join(' ')}>` : '<dm-badge>';
     return `${open}${this.pgText()}</dm-badge>`;
   });
 
-  protected readonly variantsCode = [
-    '<dm-badge>Neutral</dm-badge>',
-    '<dm-badge variant="primary">Primary</dm-badge>',
-    '<dm-badge variant="success">Success</dm-badge>',
-    '<dm-badge variant="warning">Warning</dm-badge>',
-    '<dm-badge variant="danger">Danger</dm-badge>',
-  ].join('\n');
+  protected readonly colorsCode = COLORS.map((c) => `<dm-badge color="${c}">${c}</dm-badge>`).join(
+    '\n',
+  );
 
-  protected readonly appearancesCode = [
-    '<dm-badge variant="primary">subtle</dm-badge>',
-    '<dm-badge variant="primary" appearance="solid">solid</dm-badge>',
-    '<dm-badge variant="primary" appearance="outline">outline</dm-badge>',
-  ].join('\n');
+  protected readonly variantsCode = VARIANTS.map(
+    (v) => `<dm-badge color="primary" variant="${v}">${v}</dm-badge>`,
+  ).join('\n');
 
   protected readonly dotCode = [
-    '<dm-badge variant="success" [dot]="true">Active</dm-badge>',
-    '<dm-badge variant="warning" [dot]="true">Degraded</dm-badge>',
-    '<dm-badge variant="danger" [dot]="true" [pill]="true">Down</dm-badge>',
+    '<dm-badge color="success" variant="dot">Active</dm-badge>',
+    '<dm-badge color="warning" variant="dot">Degraded</dm-badge>',
+    '<dm-badge color="danger" variant="dot">Down</dm-badge>',
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideBadgeDefaults } from 'ngx-dmaster-ui';",
+    "import { provideBadgeDefaults } from '@dmaster/ui';",
     '',
-    "providers: [provideBadgeDefaults({ appearance: 'outline' })]",
+    "providers: [provideBadgeDefaults({ variant: 'bordered' })]",
   ].join('\n');
 
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;
     return [
       {
-        name: 'variant',
-        type: "'neutral' | 'primary' | 'success' | 'warning' | 'danger'",
-        default: "'neutral'",
-        description: api['variant'],
+        name: 'color',
+        type: "'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'",
+        default: "'default'",
+        description: api['color'],
       },
       {
-        name: 'appearance',
-        type: "'subtle' | 'solid' | 'outline'",
-        default: "'subtle'",
-        description: api['appearance'],
+        name: 'variant',
+        type: "'solid' | 'flat' | 'bordered' | 'light' | 'dot' | 'shadow'",
+        default: "'flat'",
+        description: api['variant'],
       },
       { name: 'size', type: "'sm' | 'md'", default: "'md'", description: api['size'] },
-      { name: 'pill', type: 'boolean', default: 'false', description: api['pill'] },
-      { name: 'dot', type: 'boolean', default: 'false', description: api['dot'] },
+      {
+        name: 'radius',
+        type: "'sm' | 'md' | 'lg' | 'full'",
+        default: "'full'",
+        description: api['radius'],
+      },
     ];
   });
 }

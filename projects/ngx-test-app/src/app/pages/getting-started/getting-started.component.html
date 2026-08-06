@@ -1,0 +1,147 @@
+<article class="gs__content">
+  <header class="gs__header">
+    <p class="gs__eyebrow">{{ i18n.t().shell.nav.intro }}</p>
+    <h1 class="gs__page-title">{{ i18n.t().shell.nav.gettingStarted }}</h1>
+    <p class="gs__page-lead">{{ page().lead }}</p>
+  </header>
+
+  <!-- Introduction -->
+  <section class="gs__section" aria-labelledby="intro">
+    <h2 class="gs__section-title" id="intro">{{ page().sections.intro }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().introBody"></p>
+    <ul class="gs__list">
+      @for (item of page().introHighlights; track $index) {
+        <li [innerHTML]="item"></li>
+      }
+    </ul>
+
+    <h3 class="gs__section-subtitle">{{ page().prerequisitesTitle }}</h3>
+    <p class="gs__section-body">{{ page().prerequisitesBody }}</p>
+    <ul class="gs__list">
+      @for (item of page().prereqItems; track $index) {
+        <li [innerHTML]="item"></li>
+      }
+    </ul>
+  </section>
+
+  <!-- Installation -->
+  <section class="gs__section" aria-labelledby="installation">
+    <h2 class="gs__section-title" id="installation">{{ page().sections.installation }}</h2>
+    <p class="gs__section-body">{{ page().installBody }}</p>
+    <app-code-snippet [code]="installNpm" language="bash" />
+    <app-code-snippet [code]="installPnpm" language="bash" />
+    <app-code-snippet [code]="installYarn" language="bash" />
+  </section>
+
+  <!-- Styles -->
+  <section class="gs__section" aria-labelledby="styles">
+    <h2 class="gs__section-title" id="styles">{{ page().sections.styles }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().stylesBody"></p>
+    <app-code-snippet [code]="stylesCode" language="scss" />
+    <p class="gs__section-body" [innerHTML]="page().stylesNote"></p>
+    <app-code-snippet [code]="overlayCode" language="json" />
+  </section>
+
+  <!-- Providers -->
+  <section class="gs__section" aria-labelledby="providers">
+    <h2 class="gs__section-title" id="providers">{{ page().sections.providers }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().providersBody"></p>
+    <app-code-snippet [code]="providersCode" language="ts" />
+  </section>
+
+  <!-- First component -->
+  <section class="gs__section" aria-labelledby="first-component">
+    <h2 class="gs__section-title" id="first-component">{{ page().sections.firstComponent }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().firstComponentBody"></p>
+    <app-code-snippet [code]="firstComponentCode" language="ts" />
+  </section>
+
+  <!-- Dark mode -->
+  <section class="gs__section" aria-labelledby="dark-mode">
+    <h2 class="gs__section-title" id="dark-mode">{{ page().sections.darkMode }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().darkModeBody"></p>
+    <ul class="gs__list">
+      @for (item of page().darkModeItems; track $index) {
+        <li [innerHTML]="item"></li>
+      }
+    </ul>
+    <app-code-snippet [code]="darkModeCode" language="ts" />
+    <aside class="gs__tip" [innerHTML]="page().darkModeNote"></aside>
+  </section>
+
+  <!-- Colors & tokens -->
+  <section class="gs__section" aria-labelledby="colors">
+    <h2 class="gs__section-title" id="colors">{{ page().sections.colors }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().colorsBody"></p>
+
+    <div class="gs__swatches" aria-hidden="true">
+      <div class="gs__swatch">
+        <span class="gs__swatch-chip" style="background: var(--dm-primary)"></span>
+        <span class="gs__swatch-name">primary</span>
+      </div>
+      <div class="gs__swatch">
+        <span class="gs__swatch-chip" style="background: var(--dm-secondary)"></span>
+        <span class="gs__swatch-name">secondary</span>
+      </div>
+      <div class="gs__swatch">
+        <span class="gs__swatch-chip" style="background: var(--dm-success)"></span>
+        <span class="gs__swatch-name">success</span>
+      </div>
+      <div class="gs__swatch">
+        <span class="gs__swatch-chip" style="background: var(--dm-warning)"></span>
+        <span class="gs__swatch-name">warning</span>
+      </div>
+      <div class="gs__swatch">
+        <span class="gs__swatch-chip" style="background: var(--dm-danger)"></span>
+        <span class="gs__swatch-name">danger</span>
+      </div>
+      <div class="gs__swatch">
+        <span
+          class="gs__swatch-chip gs__swatch-chip--outline"
+          style="background: var(--dm-bg-subtle)"
+        ></span>
+        <span class="gs__swatch-name">bg-subtle</span>
+      </div>
+    </div>
+
+    <ul class="gs__list">
+      @for (item of page().colorsItems; track $index) {
+        <li [innerHTML]="item"></li>
+      }
+    </ul>
+    <app-code-snippet [code]="colorsCode" language="scss" />
+    <app-code-snippet [code]="customTokensCode" language="scss" />
+    <aside class="gs__tip" [innerHTML]="page().colorsNote"></aside>
+  </section>
+
+  <!-- Animation -->
+  <section class="gs__section" aria-labelledby="animation">
+    <h2 class="gs__section-title" id="animation">{{ page().sections.animation }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().animationBody"></p>
+    <ul class="gs__list">
+      @for (item of page().animationItems; track $index) {
+        <li [innerHTML]="item"></li>
+      }
+    </ul>
+    <app-code-snippet [code]="animationCode" language="scss" />
+    <aside class="gs__tip" [innerHTML]="page().animationNote"></aside>
+  </section>
+
+  <!-- TypeScript -->
+  <section class="gs__section" aria-labelledby="typescript">
+    <h2 class="gs__section-title" id="typescript">{{ page().sections.typescript }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().typescriptBody"></p>
+    <app-code-snippet [code]="typescriptCode" language="ts" />
+  </section>
+
+  <!-- What's next — flat, minimal -->
+  <section class="gs__whats-next" aria-labelledby="whats-next-cta">
+    <h2 id="whats-next-cta" class="gs__section-title">{{ page().whatsNextTitle }}</h2>
+    <p class="gs__section-body">{{ page().whatsNextBody }}</p>
+    <a routerLink="/components" class="gs__whats-next-link">
+      <dm-button color="primary" variant="shadow" size="lg">
+        {{ page().whatsNextCta }}
+      </dm-button>
+    </a>
+  </section>
+</article>

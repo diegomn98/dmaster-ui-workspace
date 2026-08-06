@@ -13,14 +13,24 @@
     </defs>
     <rect width="64" height="64" rx="16" fill="url(#ov-logo-g)" />
     <rect width="64" height="64" rx="16" fill="url(#ov-logo-s)" />
-    <circle cx="27" cy="38" r="9.5" fill="none" stroke="#fff" stroke-width="6.5" />
-    <path d="M36.75 14v34" stroke="#fff" stroke-width="6.5" stroke-linecap="round" />
-    <circle cx="47.5" cy="45" r="4.25" fill="#fff" />
+    <text
+      x="32"
+      y="34"
+      text-anchor="middle"
+      dominant-baseline="central"
+      font-family="'Inter','Segoe UI',system-ui,-apple-system,Arial,sans-serif"
+      font-size="31"
+      font-weight="700"
+      letter-spacing="-2.5"
+      fill="#fff"
+    >
+      dm
+    </text>
   </svg>
 
   <h1 class="ov__title">{{ i18n.t().shell.nav.overview }}</h1>
   <p class="ov__lead">{{ page().lead }}</p>
-  <dm-badge variant="primary" [pill]="true">
+  <dm-badge color="primary" variant="flat">
     {{ tiles().length }} {{ page().labels['count'] }}
   </dm-badge>
 </header>
@@ -43,8 +53,8 @@
           }
           @case ('badge') {
             <div class="ov__mini-row">
-              <dm-badge variant="success" [dot]="true">Active</dm-badge>
-              <dm-badge variant="primary" appearance="outline" [pill]="true">v0.1.0</dm-badge>
+              <dm-badge color="success" variant="dot">Active</dm-badge>
+              <dm-badge color="primary" variant="bordered">v0.1.0</dm-badge>
             </div>
           }
           @case ('avatar') {
@@ -60,8 +70,8 @@
               <dm-skeleton animation="none" [count]="1" />
             </dm-card>
           }
-          @case ('loading-button') {
-            <dm-loading-button state="loading">Saving</dm-loading-button>
+          @case ('button') {
+            <dm-button state="loading">Saving</dm-button>
           }
           @case ('switch') {
             <div class="ov__mini-row">
@@ -79,6 +89,49 @@
             <dm-form-field label="Email" class="ov__mini-field">
               <input dmInput placeholder="you@example.com" />
             </dm-form-field>
+          }
+          @case ('select') {
+            <div class="ov__select-mock">
+              <span class="ov__select-value">Cat</span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+          }
+          @case ('paginated-select') {
+            <div class="ov__psel-mock">
+              <div class="ov__psel-search">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3-3" />
+                </svg>
+                <span class="ov__psel-search-line"></span>
+              </div>
+              <div class="ov__psel-row"><span class="ov__mock-line"></span></div>
+              <div class="ov__psel-row ov__psel-row--active">
+                <span class="ov__mock-line"></span>
+              </div>
+              <div class="ov__psel-row"><span class="ov__mock-line"></span></div>
+              <div class="ov__psel-loading">
+                <span class="ov__psel-spinner"></span>
+              </div>
+            </div>
           }
           @case ('tooltip') {
             <div class="ov__tooltip-mock">
@@ -104,12 +157,39 @@
               <span class="ov__mock-line"></span>
             </div>
           }
+          @case ('accordion') {
+            <div class="ov__acc-mock">
+              <dm-accordion variant="light" [expandedValues]="['a']">
+                <dm-accordion-item value="a" title="Item one" />
+                <dm-accordion-item value="b" title="Item two" />
+              </dm-accordion>
+            </div>
+          }
+          @case ('radio-group') {
+            <dm-radio-group name="ov-radio" size="sm" [(value)]="ovRadio">
+              <dm-radio value="a">Free</dm-radio>
+              <dm-radio value="b">Pro</dm-radio>
+            </dm-radio-group>
+          }
+          @case ('tabs') {
+            <dm-tabs size="sm" variant="solid" [(selectedValue)]="ovTab">
+              <dm-tab value="a">One</dm-tab>
+              <dm-tab value="b">Two</dm-tab>
+              <dm-tab-panel value="a" />
+              <dm-tab-panel value="b" />
+            </dm-tabs>
+          }
+          @case ('table') {
+            <div class="ov__table-mock">
+              <dm-table [columns]="miniTableColumns" [data]="miniTableData" density="compact" />
+            </div>
+          }
         }
       </div>
 
       <div class="ov__meta">
         <span class="ov__name">{{ tile.name }}</span>
-        <dm-badge size="sm" appearance="outline">{{ tile.category }}</dm-badge>
+        <dm-badge size="sm" variant="bordered">{{ tile.category }}</dm-badge>
         <svg
           class="ov__arrow"
           viewBox="0 0 24 24"

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmLoadingButtonComponent, DmSpinnerComponent } from 'ngx-dmaster-ui';
+import { DmButtonComponent, DmSpinnerComponent } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -13,7 +13,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   selector: 'app-spinner-page',
   imports: [
     DmSpinnerComponent,
-    DmLoadingButtonComponent,
+    DmButtonComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -74,15 +74,15 @@ export class SpinnerPageComponent {
   ].join('\n');
 
   protected readonly inButtonCode = [
-    '<!-- dm-loading-button lo usa internamente -->',
-    '<dm-loading-button state="loading" loadingLabel="Saving…">Save</dm-loading-button>',
+    '<!-- dm-button lo usa internamente -->',
+    '<dm-button state="loading" loadingLabel="Saving…">Save</dm-button>',
     '',
     '<!-- hereda currentColor de cualquier contexto -->',
     '<span style="color: var(--dm-primary)"><dm-spinner /></span>',
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideSpinnerDefaults } from 'ngx-dmaster-ui';",
+    "import { provideSpinnerDefaults } from '@dmaster/ui';",
     '',
     'providers: [provideSpinnerDefaults({ strokeWidth: 3 })]',
   ].join('\n');

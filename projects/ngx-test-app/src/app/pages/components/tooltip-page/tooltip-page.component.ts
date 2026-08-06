@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmLoadingButtonComponent, DmTooltipDirective, DmTooltipPosition } from 'ngx-dmaster-ui';
+import { DmButtonComponent, DmTooltipDirective, DmTooltipPosition } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -13,7 +13,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   selector: 'app-tooltip-page',
   imports: [
     DmTooltipDirective,
-    DmLoadingButtonComponent,
+    DmButtonComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -62,7 +62,7 @@ export class TooltipPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideTooltipDefaults } from 'ngx-dmaster-ui';",
+    "import { provideTooltipDefaults } from '@dmaster/ui';",
     '',
     "providers: [provideTooltipDefaults({ position: 'bottom', showDelay: 150 })]",
   ].join('\n');

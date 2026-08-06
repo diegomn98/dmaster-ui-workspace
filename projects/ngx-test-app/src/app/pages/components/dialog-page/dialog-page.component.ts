@@ -1,11 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DIALOG_DATA,
-  DialogRef,
-  DmDialogService,
-  DmLoadingButtonComponent,
-  DmSize,
-} from 'ngx-dmaster-ui';
+import { DIALOG_DATA, DialogRef, DmDialogService, DmButtonComponent, DmSize } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -22,18 +16,18 @@ interface ConfirmDialogData {
 }
 
 @Component({
-  imports: [DmLoadingButtonComponent],
+  imports: [DmButtonComponent],
   template: `
     <div class="confirm-dialog">
       <h2 class="confirm-dialog__title">{{ data.title }}</h2>
       <p class="confirm-dialog__body">{{ data.body }}</p>
       <div class="confirm-dialog__actions">
-        <dm-loading-button variant="ghost" (clicked)="ref.close('cancel')">
+        <dm-button color="default" variant="light" (clicked)="ref.close('cancel')">
           {{ data.cancel }}
-        </dm-loading-button>
-        <dm-loading-button variant="danger" (clicked)="ref.close('confirm')">
+        </dm-button>
+        <dm-button color="danger" (clicked)="ref.close('confirm')">
           {{ data.confirm }}
-        </dm-loading-button>
+        </dm-button>
       </div>
     </div>
   `,
@@ -72,7 +66,7 @@ export class ConfirmDialogComponent {
 
 @Component({
   selector: 'app-dialog-page',
-  imports: [DmLoadingButtonComponent, ApiTableComponent, CodeSnippetComponent, PropSignalComponent],
+  imports: [DmButtonComponent, ApiTableComponent, CodeSnippetComponent, PropSignalComponent],
   templateUrl: './dialog-page.component.html',
   host: { class: 'docs-page' },
   changeDetection: ChangeDetectionStrategy.OnPush,

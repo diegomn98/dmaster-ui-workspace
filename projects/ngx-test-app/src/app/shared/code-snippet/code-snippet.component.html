@@ -1,42 +1,86 @@
-<div class="snippet">
-  @if (language()) {
-    <span class="snippet__lang">{{ language() }}</span>
+<div class="snippet" [class.snippet--flat]="flat()" [attr.data-lang]="langKey() || null">
+  @if (!flat()) {
+    <header class="snippet__bar">
+      @if (language()) {
+        <span class="snippet__lang">
+          <span class="snippet__lang-dot" aria-hidden="true"></span>
+          {{ language() }}
+        </span>
+      }
+
+      <button
+        type="button"
+        class="snippet__copy"
+        (click)="copy()"
+        [class.snippet__copy--done]="copied()"
+        [attr.aria-label]="copied() ? i18n.t().shared.copied : i18n.t().shared.copyCode"
+      >
+        @if (copied()) {
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+          {{ i18n.t().shared.copied }}
+        } @else {
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect x="9" y="9" width="12" height="12" rx="2" />
+            <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+          </svg>
+          {{ i18n.t().shared.copy }}
+        }
+      </button>
+    </header>
+  } @else {
+    <button
+      type="button"
+      class="snippet__copy snippet__copy--float"
+      (click)="copy()"
+      [class.snippet__copy--done]="copied()"
+      [attr.aria-label]="copied() ? i18n.t().shared.copied : i18n.t().shared.copyCode"
+    >
+      @if (copied()) {
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      } @else {
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="9" y="9" width="12" height="12" rx="2" />
+          <path d="M5 15V5a2 2 0 0 1 2-2h10" />
+        </svg>
+      }
+    </button>
   }
 
-  <button
-    type="button"
-    class="snippet__copy"
-    (click)="copy()"
-    [class.snippet__copy--done]="copied()"
-    [attr.aria-label]="copied() ? i18n.t().shared.copied : i18n.t().shared.copyCode"
-  >
-    @if (copied()) {
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <path d="M20 6 9 17l-5-5" />
-      </svg>
-    } @else {
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        aria-hidden="true"
-      >
-        <rect x="9" y="9" width="12" height="12" rx="2" />
-        <path d="M5 15V5a2 2 0 0 1 2-2h10" />
-      </svg>
-    }
-  </button>
-
-  <pre class="snippet__pre"><code>{{ code() }}</code></pre>
+  <pre class="snippet__pre"><code [innerHTML]="highlighted()"></code></pre>
 </div>

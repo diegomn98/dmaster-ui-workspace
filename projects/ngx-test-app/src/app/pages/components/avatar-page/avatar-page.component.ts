@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmAvatarComponent, DmAvatarShape } from 'ngx-dmaster-ui';
+import { DmAvatarComponent, DmAvatarShape } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -94,7 +94,7 @@ export class AvatarPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideAvatarDefaults } from 'ngx-dmaster-ui';",
+    "import { provideAvatarDefaults } from '@dmaster/ui';",
     '',
     "providers: [provideAvatarDefaults({ shape: 'square' })]",
   ].join('\n');

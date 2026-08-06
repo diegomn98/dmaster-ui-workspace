@@ -1,0 +1,20 @@
+@if (toc.entries().length > 0) {
+  <nav class="toc" [attr.aria-label]="i18n.t().shared.onThisPage">
+    <p class="toc__heading">{{ i18n.t().shared.onThisPage }}</p>
+    <ul class="toc__list">
+      @for (entry of toc.entries(); track entry.id) {
+        <li class="toc__item">
+          <a
+            class="toc__link"
+            [class.toc__link--active]="toc.activeId() === entry.id"
+            [class.toc__link--sub]="entry.level === 3"
+            [href]="'#' + entry.id"
+            (click)="scrollTo($event, entry.id)"
+          >
+            {{ entry.text }}
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+}

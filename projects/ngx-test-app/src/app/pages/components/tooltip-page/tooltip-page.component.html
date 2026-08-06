@@ -4,7 +4,7 @@
   <p class="page__lead" [innerHTML]="page().lead"></p>
   <app-code-snippet
     language="ts"
-    code="import &#123; DmTooltipDirective &#125; from 'ngx-dmaster-ui';"
+    code="import &#123; DmTooltipDirective &#125; from '@dmaster/ui';"
   />
 </header>
 
@@ -13,9 +13,9 @@
   <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
 
   <div class="page__playground-preview">
-    <dm-loading-button variant="outline" [dmTooltip]="pgText()" [dmTooltipPosition]="pgPosition()">
+    <dm-button variant="bordered" [dmTooltip]="pgText()" [dmTooltipPosition]="pgPosition()">
       {{ page().labels['trigger'] }}
-    </dm-loading-button>
+    </dm-button>
   </div>
 
   <app-prop-signal [controls]="controls" [(values)]="playground" />
@@ -27,16 +27,10 @@
 
   <app-demo-block [heading]="i18n.t().common.demos.positions" [code]="positionsCode">
     <div class="demo-row">
-      <dm-loading-button variant="ghost" dmTooltip="Top">top</dm-loading-button>
-      <dm-loading-button variant="ghost" dmTooltip="Bottom" dmTooltipPosition="bottom">
-        bottom
-      </dm-loading-button>
-      <dm-loading-button variant="ghost" dmTooltip="Left" dmTooltipPosition="left">
-        left
-      </dm-loading-button>
-      <dm-loading-button variant="ghost" dmTooltip="Right" dmTooltipPosition="right">
-        right
-      </dm-loading-button>
+      <dm-button variant="ghost" dmTooltip="Top">top</dm-button>
+      <dm-button variant="ghost" dmTooltip="Bottom" dmTooltipPosition="bottom"> bottom </dm-button>
+      <dm-button variant="ghost" dmTooltip="Left" dmTooltipPosition="left"> left </dm-button>
+      <dm-button variant="ghost" dmTooltip="Right" dmTooltipPosition="right"> right </dm-button>
     </div>
   </app-demo-block>
 </section>

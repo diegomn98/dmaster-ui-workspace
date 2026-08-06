@@ -55,11 +55,13 @@
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
 }
 
+// Tile HeroUI: superficie plana muy redondeada; en hover eleva (sombra +
+// translateY) y el borde se tiñe sutilmente de primary.
 .ov__tile {
   display: grid;
   overflow: hidden;
   border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-lg);
+  border-radius: var(--dm-radius-xl);
   background: var(--dm-bg-elevated);
   text-decoration: none;
   color: inherit;
@@ -70,7 +72,7 @@
   &:hover {
     transform: translateY(-3px);
     box-shadow: var(--dm-shadow-md);
-    border-color: color-mix(in srgb, var(--dm-primary) 40%, var(--dm-border));
+    border-color: color-mix(in srgb, var(--dm-primary) 45%, var(--dm-border));
 
     .ov__arrow {
       opacity: 1;
@@ -87,8 +89,14 @@
   }
 }
 
-// Zona de preview con retícula de puntos (patrón de marca)
+// Zona de preview con retícula de puntos (patrón de marca).
+// Sube el contraste de los tokens del skeleton dentro del preview: en el fondo
+// subtle con puntos, el bg-muted por defecto compite con la superficie y los
+// bloques quedan casi invisibles (visible en dark, pero también en light).
 .ov__preview {
+  --dm-skeleton-bg: color-mix(in srgb, var(--dm-fg) 14%, transparent);
+  --dm-skeleton-highlight: color-mix(in srgb, var(--dm-fg) 22%, transparent);
+
   display: grid;
   place-items: center;
   height: 8.5rem;
@@ -183,6 +191,113 @@
   width: 85%;
 }
 
+// Mock del select: trigger con valor y chevron.
+.ov__select-mock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dm-space-2);
+  width: 85%;
+  height: 2.5rem;
+  padding: 0 var(--dm-space-3);
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-bg-muted);
+  color: var(--dm-fg);
+  font-size: var(--dm-text-sm);
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--dm-fg-muted);
+  }
+}
+
+.ov__select-value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Mock del paginated-select: panel abierto con búsqueda, filas y spinner de carga.
+.ov__psel-mock {
+  display: grid;
+  gap: 0.25rem;
+  width: 85%;
+  padding: 0.375rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-sm);
+}
+
+.ov__psel-search {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: 0.375rem 0.5rem;
+  border-bottom: 1px solid var(--dm-border);
+  margin-bottom: 0.125rem;
+
+  svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    color: var(--dm-fg-muted);
+    flex-shrink: 0;
+  }
+}
+
+.ov__psel-search-line {
+  flex: 1;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--dm-fg) 10%, transparent);
+}
+
+.ov__psel-row {
+  padding: 0.375rem 0.5rem;
+  border-radius: 0.375rem;
+
+  .ov__mock-line {
+    display: block;
+    width: 60%;
+  }
+
+  &--active {
+    background: var(--dm-primary-subtle);
+
+    .ov__mock-line {
+      background: color-mix(in srgb, var(--dm-primary) 40%, transparent);
+    }
+  }
+}
+
+.ov__psel-loading {
+  display: flex;
+  justify-content: center;
+  padding: 0.375rem;
+}
+
+.ov__psel-spinner {
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 1.5px solid color-mix(in srgb, var(--dm-fg) 18%, transparent);
+  border-top-color: var(--dm-primary);
+  border-radius: 50%;
+  animation: ov-spin 0.9s linear infinite;
+}
+
+@keyframes ov-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@include mixins.reduced-motion {
+  .ov__psel-spinner {
+    animation: none;
+  }
+}
+
 // Mock del tooltip
 .ov__tooltip-mock {
   display: grid;
@@ -230,7 +345,7 @@
   width: 100%;
   padding: var(--dm-space-3);
   border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-md);
+  border-radius: var(--dm-radius-lg);
   background: var(--dm-bg-elevated);
   box-shadow: var(--dm-shadow-lg);
 }
@@ -287,4 +402,12 @@
   &--primary {
     background: var(--dm-primary);
   }
+}
+
+// ---- Mini-previews de los nuevos componentes -------------------------------
+.ov__acc-mock,
+.ov__table-mock {
+  width: 100%;
+  transform: scale(0.85);
+  transform-origin: center;
 }

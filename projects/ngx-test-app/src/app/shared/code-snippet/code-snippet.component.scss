@@ -1,84 +1,131 @@
 @use 'mixins';
 
-// Altura de la barra superior del bloque de código.
-$bar-height: 2.5rem;
+// ── Variables ────────────────────────────────────────────────────────────────
+
+$bar-height: 2.75rem;
+
+// ── Host ─────────────────────────────────────────────────────────────────────
 
 :host {
   display: block;
 }
+
+// ── Card surface ─────────────────────────────────────────────────────────────
+// Misma elevación que el demo-block: hairline, radio amplio, sombra suave.
+// `overflow: hidden` recorta el pre para que respete el radio inferior.
 
 .snippet {
   position: relative;
   border: 1px solid var(--dm-border);
   border-radius: var(--dm-radius-lg);
   background: var(--dm-bg-subtle);
-
-  // Barra superior integrada (solo CSS): chip de lenguaje a la izquierda y
-  // botón de copiar a la derecha, sobre una franja ligeramente entintada.
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto;
-    height: $bar-height;
-    border-bottom: 1px solid var(--dm-border);
-    border-radius: calc(var(--dm-radius-lg) - 1px) calc(var(--dm-radius-lg) - 1px) 0 0;
-    background: color-mix(in srgb, var(--dm-fg) 3%, transparent);
-    pointer-events: none;
-  }
+  box-shadow: var(--dm-shadow-sm);
+  overflow: hidden;
 }
 
+// ── Barra superior ────────────────────────────────────────────────────────────
+// Header real con fondo blanco: lenguaje a la izquierda, Copy a la derecha.
+
+.snippet__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-3);
+  height: $bar-height;
+  padding: 0 var(--dm-space-4);
+  border-bottom: 1px solid var(--dm-border);
+  background: var(--dm-bg);
+}
+
+// Badge de lenguaje — ocupa el espacio disponible, empuja el Copy a la derecha
 .snippet__lang {
-  position: absolute;
-  top: 0;
-  left: var(--dm-space-4);
   display: inline-flex;
   align-items: center;
   gap: var(--dm-space-2);
-  height: $bar-height;
+  flex: 1;
   font-size: var(--dm-text-xs);
   font-family: var(--dm-font-mono);
   font-weight: var(--dm-font-medium);
   letter-spacing: 0.02em;
   color: var(--dm-fg-muted);
   user-select: none;
-
-  // Punto con el gradiente de marca, a modo de indicador del lenguaje.
-  &::before {
-    content: '';
-    width: 0.375rem;
-    height: 0.375rem;
-    border-radius: var(--dm-radius-full);
-    background: var(--dm-gradient-brand);
-  }
 }
 
+// Punto cromático del lenguaje (coloreado por data-lang en el .snippet)
+.snippet__lang-dot {
+  --dm-lang-color: var(--dm-fg-subtle);
+
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-lang-color);
+  flex-shrink: 0;
+
+  @include mixins.transition(background-color);
+}
+
+// Colores por lenguaje — idéntico al patrón de demo-block file tabs
+[data-lang='html'] .snippet__lang-dot {
+  --dm-lang-color: #e44d26;
+}
+[data-lang='ts'] .snippet__lang-dot {
+  --dm-lang-color: #3178c6;
+}
+[data-lang='typescript'] .snippet__lang-dot {
+  --dm-lang-color: #3178c6;
+}
+[data-lang='scss'] .snippet__lang-dot {
+  --dm-lang-color: #c76494;
+}
+[data-lang='css'] .snippet__lang-dot {
+  --dm-lang-color: #264de4;
+}
+[data-lang='js'] .snippet__lang-dot {
+  --dm-lang-color: #ca8a04;
+}
+[data-lang='javascript'] .snippet__lang-dot {
+  --dm-lang-color: #ca8a04;
+}
+[data-lang='bash'] .snippet__lang-dot {
+  --dm-lang-color: #16a34a;
+}
+[data-lang='sh'] .snippet__lang-dot {
+  --dm-lang-color: #16a34a;
+}
+[data-lang='shell'] .snippet__lang-dot {
+  --dm-lang-color: #16a34a;
+}
+
+// ── Botón de copiar ───────────────────────────────────────────────────────────
+// Pill compacta con icono + texto. Mismo carácter que los chips HeroUI.
+
 .snippet__copy {
-  position: absolute;
-  top: 0.375rem;
-  right: 0.375rem;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  padding: 0;
-  border: 1px solid transparent;
-  border-radius: var(--dm-radius-md);
-  background: transparent;
+  gap: 0.3125rem;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg);
   color: var(--dm-fg-muted);
+  font-size: var(--dm-text-xs);
+  font-family: var(--dm-font-sans);
+  font-weight: var(--dm-font-medium);
+  white-space: nowrap;
+  flex-shrink: 0;
   cursor: pointer;
 
   @include mixins.transition(background-color, color, border-color, box-shadow, transform);
   @include mixins.touch-target;
 
   svg {
-    width: 0.875rem;
-    height: 0.875rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    flex-shrink: 0;
   }
 
   &:hover {
     color: var(--dm-fg);
-    border-color: var(--dm-border);
+    border-color: var(--dm-border-strong);
     background: var(--dm-bg-elevated);
     box-shadow: var(--dm-shadow-sm);
   }
@@ -88,6 +135,8 @@ $bar-height: 2.5rem;
   }
 
   &:focus-visible {
+    outline-offset: 2px;
+
     @include mixins.focus-ring;
   }
 
@@ -111,9 +160,29 @@ $bar-height: 2.5rem;
       }
     }
   }
+
+  // Botón flotante sobre el código en modo flat (icono solo, sin texto)
+  &--float {
+    position: absolute;
+    top: var(--dm-space-3);
+    right: var(--dm-space-3);
+    padding: 0.375rem;
+    border-radius: var(--dm-radius-md);
+    background: color-mix(in srgb, var(--dm-bg-subtle) 85%, transparent);
+    backdrop-filter: blur(6px);
+
+    svg {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+
+    &:hover {
+      background: var(--dm-bg-elevated);
+    }
+  }
 }
 
-// Pop del check al copiar: aparece pequeño, rebota y asienta.
+// Pop del check al copiar
 @keyframes snippet-check-in {
   0% {
     transform: scale(0.4);
@@ -130,14 +199,75 @@ $bar-height: 2.5rem;
   }
 }
 
+// ── Área de código ────────────────────────────────────────────────────────────
+
 .snippet__pre {
   margin: 0;
-  padding: var(--dm-space-4);
-  padding-top: calc(#{$bar-height} + var(--dm-space-4));
+  padding: var(--dm-space-5);
   overflow-x: auto;
   font-family: var(--dm-font-mono);
   font-size: 0.8125rem;
   line-height: var(--dm-leading-relaxed);
   color: var(--dm-fg);
   tab-size: 2;
+}
+
+// ── Modo flat (integrado dentro de demo-block) ────────────────────────────────
+// Sin card ni barra: el código respira en la superficie del demo-block.
+
+.snippet--flat {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+
+  .snippet__pre {
+    padding: var(--dm-space-5);
+  }
+}
+
+// ── Naive syntax highlight ────────────────────────────────────────────────────
+
+.snippet__pre {
+  .tok-comment {
+    color: var(--dm-fg-subtle);
+    font-style: italic;
+  }
+
+  .tok-string {
+    color: #17a97a;
+
+    [data-dm-theme='dark'] & {
+      color: #4ade80;
+    }
+  }
+
+  .tok-tag {
+    color: #d6336c;
+
+    [data-dm-theme='dark'] & {
+      color: #ff77a5;
+    }
+  }
+
+  .tok-attr {
+    color: #8b5cf6;
+
+    [data-dm-theme='dark'] & {
+      color: #b794ff;
+    }
+  }
+
+  .tok-keyword {
+    color: #d6336c;
+    font-weight: var(--dm-font-medium);
+
+    [data-dm-theme='dark'] & {
+      color: #ff77a5;
+    }
+  }
+
+  .tok-punc {
+    color: var(--dm-fg-muted);
+  }
 }
