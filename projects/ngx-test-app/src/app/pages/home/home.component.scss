@@ -851,7 +851,7 @@ $topbar-height: 4rem;
 // Code showcase — tab switcher + live preview | source code
 // =============================================================================
 .home__code-card {
-  overflow: hidden;
+  overflow: clip;
   border: 1px solid var(--dm-border);
   border-radius: var(--dm-radius-2xl, 1.5rem);
   background: var(--dm-bg);

@@ -17,7 +17,7 @@
   border-radius: var(--dm-radius-xl);
   background: var(--dm-bg);
   box-shadow: var(--dm-shadow-md);
-  overflow: hidden;
+  overflow: clip;
 
   @include mixins.transition(box-shadow, border-color);
 }
