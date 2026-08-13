@@ -7,6 +7,7 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideDmasterUI } from '@dmaster/ui';
 
 import { routes } from './app.routes';
+import { provideThemePersistence } from './core/theme/theme-persistence';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +21,6 @@ export const appConfig: ApplicationConfig = {
       theme: 'auto',
       density: 'comfortable',
     }),
+    provideThemePersistence(),
   ],
 };

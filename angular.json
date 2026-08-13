@@ -65,6 +65,8 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "projects/ngx-test-app/src/main.ts",
+            "server": "projects/ngx-test-app/src/main.server.ts",
+            "outputMode": "static",
             "tsConfig": "projects/ngx-test-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {

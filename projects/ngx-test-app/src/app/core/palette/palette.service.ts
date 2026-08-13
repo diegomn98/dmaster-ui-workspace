@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Injectable, inject, signal } from '@angular/core';
 
 import { PALETTE_PRESETS } from './palette';
 
@@ -13,6 +14,7 @@ const DEFAULT_KEY = 'default';
  */
 @Injectable({ providedIn: 'root' })
 export class PaletteService {
+  private readonly document = inject(DOCUMENT);
   private readonly _current = signal<string>(this.readInitial());
   readonly current = this._current.asReadonly();
 
@@ -25,14 +27,18 @@ export class PaletteService {
     this._current.set(key);
     this.apply(key);
     try {
-      localStorage.setItem(STORAGE_KEY, key);
+      this.document.defaultView?.localStorage?.setItem(STORAGE_KEY, key);
     } catch {
-      /* localStorage unavailable — silently ignore (SSR, privacy mode) */
+      /* localStorage unavailable — silently ignore (privacy mode) */
     }
   }
 
   private apply(key: string): void {
-    const root = document.documentElement.style;
+    // En SSR/prerender no hay CSSOM fiable y la paleta es puramente cosmética:
+    // el HTML estático sale con la paleta por defecto y el cliente re-aplica.
+    if (!this.document.defaultView) return;
+
+    const root = this.document.documentElement.style;
     if (key === DEFAULT_KEY) {
       root.removeProperty('--dm-primary');
       root.removeProperty('--dm-primary-hover');
@@ -50,7 +56,7 @@ export class PaletteService {
 
   private readInitial(): string {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
+      const stored = this.document.defaultView?.localStorage?.getItem(STORAGE_KEY);
       if (stored && PALETTE_PRESETS.some((p) => p.key === stored)) return stored;
     } catch {
       /* localStorage unavailable */
