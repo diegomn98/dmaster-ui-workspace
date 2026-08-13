@@ -1,59 +1,46 @@
-# NgxDmaster
+# ngx-dmaster — @dmaster/ui workspace
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.32.
+Angular 20 workspace for **[@dmaster/ui](https://www.npmjs.com/package/@dmaster/ui)**, a premium, signals-based, zoneless-ready Angular component library — and its living documentation site, **[dmasterui.com](https://dmasterui.com)**.
 
-## Development server
+| Project        | Path                                                 | What it is                                                                                                                                                                  |
+| -------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@dmaster/ui`  | [`projects/ngx-dmaster-ui`](projects/ngx-dmaster-ui) | The component library (published to npm from `dist/dmaster-ui`). See its [README](projects/ngx-dmaster-ui/README.md) and [CHANGELOG](projects/ngx-dmaster-ui/CHANGELOG.md). |
+| `ngx-test-app` | `projects/ngx-test-app`                              | The docs dashboard: live playgrounds, API tables and a11y notes for every component, in English/Spanish/French. Deployed to Cloudflare (statically prerendered).            |
 
-To start a local development server, run:
+## Requirements
 
-```bash
-ng serve
-```
+- Node `^20.19 || ^22.12 || >=24` (CI and Cloudflare use Node 24 — see `.node-version`)
+- npm ≥ 10
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Development
 
 ```bash
-ng generate component component-name
+npm ci               # install (lockfile-exact)
+npm start            # serve the docs app at http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Scripts
 
-```bash
-ng generate --help
-```
+| Script                                    | What it does                                                                                                                  |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `npm run build`                           | Build the library: ng-packagr → `dist/dmaster-ui`, plus precompiled CSS (`styles/dmaster-ui.css`) and the `ng add` schematics |
+| `npm run build:app`                       | Build the docs app with full static prerender (`dist/ngx-test-app/browser`)                                                   |
+| `npm test` / `npm run test:app`           | Vitest unit tests (library / app)                                                                                             |
+| `npm run test:coverage`                   | Library tests with coverage report                                                                                            |
+| `npm run lint` / `npm run lint:styles`    | ESLint / Stylelint                                                                                                            |
+| `npm run format` / `npm run format:check` | Prettier                                                                                                                      |
+| `npm run release:check`                   | Everything CI runs, locally                                                                                                   |
 
-## Building
+## Testing
 
-To build the project run:
+Unit tests run on **Vitest** through the `@angular/build:unit-test` builder (no Karma). The docs app uses `provideZonelessChangeDetection()`; the library never depends on zone.js.
 
-```bash
-ng build
-```
+## Releasing
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+1. Bump `version` in `projects/ngx-dmaster-ui/package.json` and update the [CHANGELOG](projects/ngx-dmaster-ui/CHANGELOG.md).
+2. Tag `vX.Y.Z` and push the tag.
+3. The [Release workflow](.github/workflows/release.yml) verifies the tag matches the package version, runs the full check suite, validates the package with publint, publishes to npm and creates the GitHub Release.
 
-## Running unit tests
+## License
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+[MIT](LICENSE) © Diego Maestro Navarro

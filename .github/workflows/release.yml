@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -17,20 +20,38 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: npm
           registry-url: 'https://registry.npmjs.org'
 
-      - run: npm install
+      # The tag must match the library version — refuse to publish a mismatch.
+      - name: Verify tag matches package version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PKG_VERSION="$(node -p "require('./projects/ngx-dmaster-ui/package.json').version")"
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::Tag v$TAG_VERSION does not match @dmaster/ui version $PKG_VERSION"
+            exit 1
+          fi
+
+      - run: npm ci
       - run: npm run build
+      - run: npm run build:app
       - run: npm test
       - run: npm run test:app
       - run: npm run lint
       - run: npm run lint:styles
       - run: npm run format:check
+      - run: npx publint dist/dmaster-ui
 
       - name: Publish to npm
         run: cd dist/dmaster-ui && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        run: gh release create "$GITHUB_REF_NAME" --title "@dmaster/ui $GITHUB_REF_NAME" --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push library source to dmaster-ui repo
         run: |

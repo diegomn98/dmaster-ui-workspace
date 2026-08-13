@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Injectable, inject, signal } from '@angular/core';
 
 export interface TocEntry {
   id: string;
@@ -8,6 +9,7 @@ export interface TocEntry {
 
 @Injectable({ providedIn: 'root' })
 export class TocService {
+  private readonly document = inject(DOCUMENT);
   private readonly _entries = signal<TocEntry[]>([]);
   private readonly _activeId = signal<string>('');
   private cleanup: (() => void) | null = null;
@@ -18,8 +20,15 @@ export class TocService {
   scan(): void {
     this.clear();
 
+    // Sin window (SSR/prerender) no hay scroll que observar; el TOC se
+    // reconstruye en el cliente tras la hidratación de la navegación.
+    const win = this.document.defaultView;
+    if (!win) {
+      return;
+    }
+
     const headings = Array.from(
-      document.querySelectorAll('main h2[id], main h3[id]'),
+      this.document.querySelectorAll('main h2[id], main h3[id]'),
     ) as HTMLElement[];
 
     this._entries.set(
@@ -47,8 +56,8 @@ export class TocService {
       this._activeId.set(activeId);
     };
 
-    window.addEventListener('scroll', updateActive, { passive: true });
-    this.cleanup = () => window.removeEventListener('scroll', updateActive);
+    win.addEventListener('scroll', updateActive, { passive: true });
+    this.cleanup = () => win.removeEventListener('scroll', updateActive);
 
     updateActive();
   }

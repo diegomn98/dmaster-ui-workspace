@@ -20,7 +20,7 @@ $bar-height: 2.75rem;
   border-radius: var(--dm-radius-lg);
   background: var(--dm-bg-subtle);
   box-shadow: var(--dm-shadow-sm);
-  overflow: hidden;
+  overflow: clip;
 }
 
 // ── Barra superior ────────────────────────────────────────────────────────────

@@ -9,9 +9,12 @@ Workspace Angular 20 con dos proyectos en `projects/`:
 
 ```bash
 npm start              # ng serve ngx-test-app (dev del dashboard, puerto 4200)
-npm run build          # ng build dmaster-ui (ng-packagr → dist/dmaster-ui)
-npm run build:app      # ng build ngx-test-app
+npm run build          # lib completa: ng-packagr + CSS precompilado + schematics → dist/dmaster-ui
+npm run build:styles   # solo el CSS precompilado (sass → dist/dmaster-ui/styles/dmaster-ui.css)
+npm run build:schematics # solo los schematics (tsc + copia de collection/schema.json al dist)
+npm run build:app      # ng build ngx-test-app (prerenderiza las 21 rutas — outputMode static)
 npm test               # tests de la librería (Vitest, headless)
+npm run test:coverage  # tests de la librería con cobertura
 npm run test:app       # tests del dashboard
 npm run lint           # ESLint (ambos proyectos, angular-eslint flat config)
 npm run lint:styles    # Stylelint sobre projects/**/*.scss
@@ -31,6 +34,12 @@ Antes de dar por buena cualquier tarea: `npm run build && npm test && npm run te
 - **Composición entre componentes de la lib** (p. ej. button → spinner): importar desde el barrel del otro componente (`../../primitives/spinner`). Es la única excepción tolerada a la regla de no-relativos-profundos.
 - El único copy integrado en la librería es `dismissLabel` del toast (override con `provideToastDefaults`); todo lo demás llega por inputs.
 - Nombre npm final: `@dmaster/ui` (paquete scoped bajo la organización `dmaster`; verificar disponibilidad con `npm view @dmaster/ui` antes de publicar; publicar desde `dist/dmaster-ui`).
+- **SSR-safety (regla dura de la lib y de la app)**: nunca tocar `window`/`document`/`localStorage` como globales. Siempre `inject(DOCUMENT)` y `this.document.defaultView?.` con optional chaining (patrón de ThemeService/TocService/PaletteService). El prerender del dashboard es el smoke test permanente: si un servicio rompe esta regla, `npm run build:app` falla.
+- **Prerender estático del dashboard**: `outputMode: "static"` + `main.server.ts` (el bootstrap del servidor DEBE recibir `BootstrapContext` — sin él, NG0401) + `app.routes.server.ts` (`RenderMode.Prerender` con wildcard). Las 21 rutas salen como HTML completo con su `<title>` horneado. El output sigue en `dist/ngx-test-app/browser` (wrangler.toml intacto); `index.csr.html` es el fallback client-side.
+- **Empaquetado npm**: `rxjs` es peer (aparece en los typings públicos vía paginated-select); LICENSE y CHANGELOG.md viven en `projects/ngx-dmaster-ui/` y viajan como assets de ng-package.json; el `exports` del package.json de la lib declara los subpaths `./styles`, `./styles/index` y `./styles/*` (ng-packagr los mergea con los suyos) + CSS precompilado `styles/dmaster-ui.css` para consumidores sin Sass (se genera en `build:styles`).
+- **`ng add @dmaster/ui`**: schematic en `projects/ngx-dmaster-ui/schematics/` (compilado por `build:schematics` con tsconfig propio a `dist/dmaster-ui/schematics`). Campos `schematics` y `ng-add.save` en el package.json de la lib.
+- **CI/release**: `package-lock.json` VERSIONADO (no volver a ignorarlo) + `npm ci` en workflows; CI corre en `main` Y `development`; el release (tags `v*`) valida tag == versión del package.json de la lib, pasa publint y crea GitHub Release. Node fijado por `.node-version` (24) y `engines`.
+- **Tema persistido**: la clave `ngx-dmaster-theme` en localStorage la escribe `ThemePersistenceService` (app, `core/theme/`) y la lee el script inline anti-FOUC de `index.html` antes del primer paint. Si se cambia la clave, cambiar AMBOS sitios.
 
 ## Estructura de la librería
 

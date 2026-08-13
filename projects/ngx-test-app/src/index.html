@@ -2,13 +2,40 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>@dmaster/ui</title>
+    <title>@dmaster/ui · Modern Angular components</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="@dmaster/ui · Modern, standalone, signals-based Angular component library."
+      content="Premium Angular UI components. Standalone, signals-based, zoneless-ready, themeable via CSS variables — with a clean HeroUI-inspired design."
     />
+    <link rel="canonical" href="https://dmasterui.com/" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#09090b" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="@dmaster/ui" />
+    <meta property="og:title" content="@dmaster/ui · Modern Angular components" />
+    <meta
+      property="og:description"
+      content="Premium Angular UI components. Standalone, signals-based, zoneless-ready, themeable via CSS variables."
+    />
+    <meta property="og:url" content="https://dmasterui.com/" />
+    <meta property="og:image" content="https://dmasterui.com/social-preview.png" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="640" />
+    <meta property="og:image:alt" content="@dmaster/ui — modern Angular component library" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="@dmaster/ui · Modern Angular components" />
+    <meta
+      name="twitter:description"
+      content="Premium Angular UI components. Standalone, signals-based, zoneless-ready, themeable via CSS variables."
+    />
+    <meta name="twitter:image" content="https://dmasterui.com/social-preview.png" />
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,6 +43,24 @@
       href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Stamp the persisted theme before first paint to avoid a flash of the wrong theme. -->
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('ngx-dmaster-theme');
+          var theme =
+            stored === 'light' || stored === 'dark'
+              ? stored
+              : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.setAttribute('data-dm-theme', theme);
+        } catch (e) {
+          /* no-op: theme falls back to the app default */
+        }
+      })();
+    </script>
   </head>
   <body>
     <app-root></app-root>

@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, development]
   pull_request:
-    branches: [main]
+    branches: [main, development]
 
 jobs:
   ci:
@@ -15,11 +15,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: npm
 
-      - run: npm install
+      - run: npm ci
+
+      # Library: ng-packagr + precompiled CSS + ng-add schematics
       - run: npm run build
+
+      # Docs app: full static prerender (also smoke-tests SSR safety of the lib)
+      - run: npm run build:app
+
       - run: npm test
       - run: npm run test:app
       - run: npm run lint
       - run: npm run lint:styles
       - run: npm run format:check
+
+      # Validate the publishable package layout (exports, files, types)
+      - run: npx publint dist/dmaster-ui
