@@ -67,6 +67,20 @@
   </div>
 
   <div class="shell__header-group">
+    <button
+      type="button"
+      class="shell__search"
+      (click)="openPalette()"
+      [attr.aria-label]="i18n.t().shell.searchLabel"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" stroke-width="2" />
+        <path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round" />
+      </svg>
+      <span class="shell__search-label">{{ i18n.t().shell.searchLabel }}</span>
+      <dm-kbd class="shell__search-kbd" keys="command" size="sm">K</dm-kbd>
+    </button>
+
     <app-palette-picker />
 
     <a
@@ -190,3 +204,10 @@
     <app-toc />
   </aside>
 </div>
+
+<dm-command
+  [items]="commandItems()"
+  [(open)]="paletteOpen"
+  (selected)="runCommand($event)"
+  [placeholder]="i18n.t().shell.searchLabel"
+/>

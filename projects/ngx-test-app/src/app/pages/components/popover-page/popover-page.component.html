@@ -1,0 +1,107 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.overlays }}</p>
+  <h1 class="page__title">Popover</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmPopoverComponent, DmPopoverTriggerDirective &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-button [dmPopoverTrigger]="pgPop" variant="bordered">
+      {{ page().labels['trigger'] }}
+    </dm-button>
+    <dm-popover
+      #pgPop
+      [placement]="pgPlacement()"
+      [showArrow]="pgShowArrow()"
+      ariaLabel="Account details"
+    >
+      <h3 style="margin: 0 0 0.25rem">Ada Lovelace</h3>
+      <p style="margin: 0; color: var(--dm-fg-muted)">ada&#64;analytical.engine</p>
+    </dm-popover>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <dm-button [dmPopoverTrigger]="basic" variant="bordered">Details</dm-button>
+    <dm-popover #basic ariaLabel="Account details">
+      <h3 style="margin: 0 0 0.25rem">Ada Lovelace</h3>
+      <p style="margin: 0; color: var(--dm-fg-muted)">The first computer programmer.</p>
+    </dm-popover>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.positions" [code]="placementsCode">
+    <div class="demo-row">
+      <dm-button [dmPopoverTrigger]="pTop" variant="ghost">top</dm-button>
+      <dm-popover #pTop placement="top">Placed on top</dm-popover>
+
+      <dm-button [dmPopoverTrigger]="pBottom" variant="ghost">bottom</dm-button>
+      <dm-popover #pBottom placement="bottom">Placed on the bottom</dm-popover>
+
+      <dm-button [dmPopoverTrigger]="pLeft" variant="ghost">left</dm-button>
+      <dm-popover #pLeft placement="left">Placed on the left</dm-popover>
+
+      <dm-button [dmPopoverTrigger]="pRight" variant="ghost">right</dm-button>
+      <dm-popover #pRight placement="right">Placed on the right</dm-popover>
+
+      <dm-button [dmPopoverTrigger]="pTopStart" variant="ghost">top-start</dm-button>
+      <dm-popover #pTopStart placement="top-start">Aligned to the start edge</dm-popover>
+
+      <dm-button [dmPopoverTrigger]="pBottomEnd" variant="ghost">bottom-end</dm-button>
+      <dm-popover #pBottomEnd placement="bottom-end">Aligned to the end edge</dm-popover>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="richCode">
+    <dm-button [dmPopoverTrigger]="form" variant="bordered">Subscribe</dm-button>
+    <dm-popover #form ariaLabel="Subscribe to the newsletter">
+      <div style="display: grid; gap: 0.75rem; width: 15rem">
+        <dm-form-field label="Email">
+          <input dmInput type="email" placeholder="you@example.com" />
+        </dm-form-field>
+        <dm-button size="sm">Subscribe</dm-button>
+      </div>
+    </dm-popover>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['trapFocus']" [code]="trapFocusCode">
+    <dm-button [dmPopoverTrigger]="menu" variant="bordered">Actions</dm-button>
+    <dm-popover #menu [trapFocus]="true" ariaLabel="Row actions">
+      <div style="display: grid; gap: 0.375rem">
+        <dm-button variant="light" size="sm">Edit</dm-button>
+        <dm-button variant="light" size="sm">Duplicate</dm-button>
+        <dm-button variant="light" size="sm" color="danger">Delete</dm-button>
+      </div>
+    </dm-popover>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

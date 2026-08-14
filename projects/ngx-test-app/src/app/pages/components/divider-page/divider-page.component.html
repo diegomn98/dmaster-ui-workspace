@@ -1,0 +1,103 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.layout }}</p>
+  <h1 class="page__title">Divider</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmDividerComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    @if (pgOrientation() === 'vertical') {
+      <div style="display: flex; align-items: center; gap: var(--dm-space-4); height: 3rem">
+        <span class="card-demo__body">Left</span>
+        <dm-divider orientation="vertical" [labelPlacement]="pgLabelPlacement()">{{
+          pgLabel()
+        }}</dm-divider>
+        <span class="card-demo__body">Right</span>
+      </div>
+    } @else {
+      <div style="display: grid; gap: var(--dm-space-3); width: 100%; max-width: 26rem">
+        <p class="card-demo__body">Flat fills, generous radii, soft shadows.</p>
+        <dm-divider [labelPlacement]="pgLabelPlacement()">{{ pgLabel() }}</dm-divider>
+        <p class="card-demo__body">Semantic tokens for every color in both themes.</p>
+      </div>
+    }
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <div style="display: grid; gap: var(--dm-space-3); width: 100%; max-width: 26rem">
+      <p class="card-demo__body">Flat fills, generous radii, soft shadows.</p>
+      <dm-divider />
+      <p class="card-demo__body">Semantic tokens for every color in both themes.</p>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.withLabel" [code]="withLabelCode">
+    <div style="display: grid; gap: var(--dm-space-5); width: 100%; max-width: 26rem">
+      <dm-divider labelPlacement="start">Start</dm-divider>
+      <dm-divider>Center</dm-divider>
+      <dm-divider labelPlacement="end">End</dm-divider>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode">
+    <div style="display: flex; align-items: center; gap: var(--dm-space-4); height: 1.5rem">
+      <span class="card-demo__body">Blog</span>
+      <dm-divider orientation="vertical" />
+      <span class="card-demo__body">Docs</span>
+      <dm-divider orientation="vertical" />
+      <span class="card-demo__body">Changelog</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.composition" [code]="compositionCode">
+    <dm-card appearance="outlined" style="width: 100%; max-width: 22rem">
+      <div style="display: grid; gap: var(--dm-space-3)">
+        <p class="card-demo__title">Acme Cloud</p>
+        <dm-divider />
+        <p class="card-demo__body">All systems operational — 99.99% uptime.</p>
+        <dm-divider labelPlacement="start">Links</dm-divider>
+        <div style="display: flex; align-items: center; gap: var(--dm-space-3); height: 1.25rem">
+          <span class="card-demo__body">Status</span>
+          <dm-divider orientation="vertical" />
+          <span class="card-demo__body">Docs</span>
+          <dm-divider orientation="vertical" />
+          <span class="card-demo__body">Support</span>
+        </div>
+      </div>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

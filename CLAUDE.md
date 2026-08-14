@@ -60,25 +60,42 @@ projects/ngx-dmaster-ui/src/
         │   ├── badge/
         │   └── avatar/
         ├── layout/
-        │   └── card/              # container-type: inline-size
+        │   ├── card/              # container-type: inline-size
+        │   ├── accordion/
+        │   └── divider/           # horizontal/vertical + label proyectado opcional
+        ├── feedback/              # progress, alert (categoría de estado/notificación)
+        │   ├── progress/          # determinado/indeterminado, striped, value label
+        │   └── alert/             # color × variant, icono semántico, dismissible, action slot
         ├── buttons/
         │   └── button/            # HeroUI color × variant + estados idle/loading/success/error, live region
-        ├── forms/                 # CVA: switch, checkbox, select; form-field + directiva dmInput
+        ├── forms/                 # CVA: switch, checkbox, select, slider; form-field + directiva dmInput
         │   ├── switch/            # prop-signal del dashboard lo dogfoodea
         │   ├── checkbox/
+        │   ├── radio-group/
         │   ├── select/            # combobox (CDK overlay + keyboard + typeahead + CVA)
+        │   ├── paginated-select/  # server-driven (rxResource)
+        │   ├── slider/            # CVA: pointer drag + teclado completo + value bubble + marks
         │   └── form-field/        # estilos de .dm-input en _forms.scss (global)
+        ├── navigation/
+        │   ├── tabs/
+        │   ├── breadcrumbs/       # composite; router-agnóstico (href → <a>, sin href → <span>); collapse
+        │   └── pagination/        # windowed pager, two-way page; dm-table lo dogfooddea en su footer
+        ├── data-display/
+        │   └── table/             # search → sort → paginate + selección
         └── overlays/              # CDK: requieren overlay-prebuilt.css en el consumidor
             ├── tooltip/           # directiva dmTooltip + panel interno
             ├── dialog/            # DmDialogService (cdk/dialog); reexporta DIALOG_DATA/DialogRef
-            └── toast/             # DmToastService con cola en signal
+            ├── toast/             # DmToastService con cola en signal
+            ├── menu/              # WAI-ARIA menu: FocusKeyManager + typeahead; SCSS encapsulado (TemplatePortal), token DM_MENU_PANEL rompe el ciclo DI
+            ├── popover/           # panel rico con flecha que sigue el flip real (positionChanges → data-placement)
+            └── drawer/            # DmDrawerService sobre cdk/dialog; estilos globales en _overlays.scss (sección Drawer)
 ```
 
 ### Reglas de organización
 
 1. **Un componente = una carpeta** dentro de su categoría (`primitives/`, futuros `buttons/`, `layout/`, `data-display/`…).
 2. **Nomenclatura fija** por carpeta: `<name>.component.ts|html|scss|spec.ts`, `<name>.types.ts`, `<name>.tokens.ts`, `index.ts` (barrel), `README.md`.
-3. Componentes compuestos (tabs+tab, form-field+label…) comparten carpeta.
+3. Componentes compuestos (tabs+tab, form-field+label…) comparten carpeta. **Excepción tolerada a la nomenclatura fija**: `breadcrumb-item` lleva su PROPIO `.html`+`.scss` (no un `.ts` suelto) porque renderiza su vista aparte y sin SCSS propio habría que usar `::ng-deep` desde el padre — que `stylelint-config-standard-scss` prohíbe. Mismo criterio aplicable a futuros ítems de composite con vista propia.
 4. `core/` no depende de ningún componente; cualquier componente puede usar `core/`.
 5. **Prohibido `../../../` entre componentes o categorías**: lo compartido va a `core/`.
 6. Todo lo público se reexporta desde `public-api.ts` (vía el `index.ts` de cada componente).

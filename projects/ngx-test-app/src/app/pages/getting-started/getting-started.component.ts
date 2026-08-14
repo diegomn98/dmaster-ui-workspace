@@ -17,6 +17,7 @@ export class GettingStartedComponent {
   protected readonly page = computed(() => this.i18n.t().gettingStarted);
 
   // ---- Code snippets --------------------------------------------------------
+  protected readonly installNgAdd = 'ng add @dmaster/ui';
   protected readonly installNpm = 'npm install @dmaster/ui @angular/cdk';
   protected readonly installPnpm = 'pnpm add @dmaster/ui @angular/cdk';
   protected readonly installYarn = 'yarn add @dmaster/ui @angular/cdk';

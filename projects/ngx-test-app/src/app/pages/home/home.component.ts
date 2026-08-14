@@ -62,7 +62,7 @@ export class HomeComponent {
   protected readonly palette = inject(PaletteService);
   protected readonly theme = inject(ThemeService);
 
-  protected readonly installCode = 'npm install @dmaster/ui @angular/cdk';
+  protected readonly installCode = 'ng add @dmaster/ui';
   protected readonly presets = PALETTE_PRESETS;
 
   // Top bar de la landing (la home vive fuera del shell de docs).
