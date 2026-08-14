@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -7,7 +8,14 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { DmSelectComponent, DmSelectItem, ThemeService } from '@dmaster/ui';
+import {
+  DmCommandComponent,
+  DmCommandItem,
+  DmKbdComponent,
+  DmSelectComponent,
+  DmSelectItem,
+  ThemeService,
+} from '@dmaster/ui';
 import { filter } from 'rxjs';
 
 import { LocaleService } from '../../core/i18n/locale.service';
@@ -33,6 +41,8 @@ interface NavSection {
     RouterLink,
     RouterLinkActive,
     DmSelectComponent,
+    DmCommandComponent,
+    DmKbdComponent,
     PalettePickerComponent,
     TocComponent,
   ],
@@ -47,6 +57,15 @@ export class ShellComponent implements OnInit {
   private readonly router = inject(Router);
 
   protected readonly sidebarOpen = signal(false);
+
+  constructor() {
+    // Browser-only initial scan: the first route's NavigationEnd may have
+    // already fired before ngOnInit's subscription existed, so without this the
+    // "On this page" nav stays empty until the first client-side navigation.
+    // `afterNextRender` never runs during SSR/prerender (where DOM elements have
+    // no getBoundingClientRect), so it is safe here.
+    afterNextRender(() => setTimeout(() => this.toc.scan(), 60));
+  }
 
   ngOnInit(): void {
     this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => {
@@ -78,6 +97,7 @@ export class ShellComponent implements OnInit {
           { label: t.shell.nav.spinner, path: '/components/spinner' },
           { label: t.shell.nav.badge, path: '/components/badge' },
           { label: t.shell.nav.avatar, path: '/components/avatar' },
+          { label: t.shell.nav.kbd, path: '/components/kbd' },
         ],
       },
       {
@@ -85,6 +105,14 @@ export class ShellComponent implements OnInit {
         items: [
           { label: t.shell.nav.card, path: '/components/card' },
           { label: t.shell.nav.accordion, path: '/components/accordion' },
+          { label: t.shell.nav.divider, path: '/components/divider' },
+        ],
+      },
+      {
+        label: t.shell.nav.feedback,
+        items: [
+          { label: t.shell.nav.progress, path: '/components/progress' },
+          { label: t.shell.nav.alert, path: '/components/alert' },
         ],
       },
       {
@@ -99,12 +127,17 @@ export class ShellComponent implements OnInit {
           { label: t.shell.nav.radioGroup, path: '/components/radio-group' },
           { label: t.shell.nav.select, path: '/components/select' },
           { label: t.shell.nav.paginatedSelect, path: '/components/paginated-select' },
+          { label: t.shell.nav.slider, path: '/components/slider' },
           { label: t.shell.nav.formField, path: '/components/form-field' },
         ],
       },
       {
         label: t.shell.nav.navigation,
-        items: [{ label: t.shell.nav.tabs, path: '/components/tabs' }],
+        items: [
+          { label: t.shell.nav.breadcrumbs, path: '/components/breadcrumbs' },
+          { label: t.shell.nav.tabs, path: '/components/tabs' },
+          { label: t.shell.nav.pagination, path: '/components/pagination' },
+        ],
       },
       {
         label: t.shell.nav.dataDisplay,
@@ -114,12 +147,34 @@ export class ShellComponent implements OnInit {
         label: t.shell.nav.overlays,
         items: [
           { label: t.shell.nav.tooltip, path: '/components/tooltip' },
+          { label: t.shell.nav.popover, path: '/components/popover' },
+          { label: t.shell.nav.menu, path: '/components/menu' },
           { label: t.shell.nav.dialog, path: '/components/dialog' },
+          { label: t.shell.nav.drawer, path: '/components/drawer' },
           { label: t.shell.nav.toast, path: '/components/toast' },
+          { label: t.shell.nav.command, path: '/components/command' },
         ],
       },
     ];
   });
+
+  // Command palette (⌘K): every component, searchable, jumps to its docs page.
+  protected readonly paletteOpen = signal(false);
+  protected readonly commandItems = computed<DmCommandItem[]>(() =>
+    this.sections()
+      .filter((section) => section.label !== this.i18n.t().shell.nav.intro)
+      .flatMap((section) =>
+        section.items.map((item) => ({ id: item.path, label: item.label, group: section.label })),
+      ),
+  );
+
+  protected runCommand(item: DmCommandItem): void {
+    this.router.navigateByUrl(item.id);
+  }
+
+  protected openPalette(): void {
+    this.paletteOpen.set(true);
+  }
 
   protected toggleSidebar(): void {
     this.sidebarOpen.update((open) => !open);

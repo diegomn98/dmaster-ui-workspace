@@ -27,6 +27,10 @@
   <!-- Installation -->
   <section class="gs__section" aria-labelledby="installation">
     <h2 class="gs__section-title" id="installation">{{ page().sections.installation }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().ngAddBody"></p>
+    <app-code-snippet [code]="installNgAdd" language="bash" />
+
+    <h3 class="gs__section-subtitle">{{ page().installManualTitle }}</h3>
     <p class="gs__section-body">{{ page().installBody }}</p>
     <app-code-snippet [code]="installNpm" language="bash" />
     <app-code-snippet [code]="installPnpm" language="bash" />

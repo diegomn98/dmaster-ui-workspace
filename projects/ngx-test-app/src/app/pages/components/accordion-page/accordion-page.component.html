@@ -46,14 +46,14 @@
   <app-demo-block [heading]="page().labels['single']" [code]="singleCode" [ts]="singleTs">
     <div style="width: 100%; max-width: 32rem">
       <dm-accordion selectionMode="single">
-        <dm-accordion-item value="q1" title="How do I install @dmaster/ui?">
-          npm install @dmaster/ui @angular/cdk @angular/forms
+        <dm-accordion-item value="plan" title="Can I change my plan later?">
+          Upgrade or downgrade anytime — changes are prorated to your billing cycle.
         </dm-accordion-item>
-        <dm-accordion-item value="q2" title="Does it work with SSR?">
-          Yes. Zoneless-ready and OnPush by default — no zone.js required.
+        <dm-accordion-item value="trial" title="Do you offer a free trial?">
+          Every paid plan starts with a 14-day trial. No credit card required.
         </dm-accordion-item>
-        <dm-accordion-item value="q3" title="Can I use a custom theme?">
-          Override any <code>--dm-*</code> CSS variable — no rebuild, no fork.
+        <dm-accordion-item value="refund" title="What's your refund policy?">
+          Full refund within 30 days of purchase, no questions asked.
         </dm-accordion-item>
       </dm-accordion>
     </div>
@@ -101,7 +101,7 @@
   <app-demo-block [heading]="page().labels['icon']" [code]="iconCode">
     <div style="width: 100%; max-width: 32rem">
       <dm-accordion variant="splitted">
-        <dm-accordion-item value="install" title="Installation">
+        <dm-accordion-item value="downloads" title="Downloads">
           <svg
             dm-accordion-icon
             width="1em"
@@ -118,9 +118,9 @@
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
-          npm install @dmaster/ui @angular/cdk
+          Get the desktop app and CLI to keep working offline.
         </dm-accordion-item>
-        <dm-accordion-item value="setup" title="Setup">
+        <dm-accordion-item value="preferences" title="Preferences">
           <svg
             dm-accordion-icon
             width="1em"
@@ -136,9 +136,9 @@
             <circle cx="12" cy="12" r="3" />
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
           </svg>
-          Call provideDmasterUI() in your app config.
+          Fine-tune notifications, appearance and keyboard shortcuts.
         </dm-accordion-item>
-        <dm-accordion-item value="theme" title="Theme">
+        <dm-accordion-item value="region" title="Language &amp; region">
           <svg
             dm-accordion-icon
             width="1em"
@@ -156,7 +156,7 @@
               d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
             />
           </svg>
-          Set data-dm-theme="light|dark" on &lt;html&gt;.
+          Choose your locale, currency and time zone.
         </dm-accordion-item>
       </dm-accordion>
     </div>

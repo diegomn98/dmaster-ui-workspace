@@ -5,59 +5,283 @@
   gap: var(--dm-space-8);
 }
 
-// ---- Hero ------------------------------------------------------------------
+// ============================================================================
+// Header — clean editorial block, no gradient, separated by a hairline
+// ============================================================================
 .ov__hero {
-  position: relative;
   display: grid;
-  gap: var(--dm-space-3);
+  gap: var(--dm-space-4);
   justify-items: start;
-  padding-top: var(--dm-space-4);
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -4rem;
-    left: -2rem;
-    width: 20rem;
-    height: 20rem;
-    background: radial-gradient(circle, rgb(99 102 241 / 14%), transparent 65%);
-    pointer-events: none;
-  }
+  padding-bottom: var(--dm-space-7);
 }
 
-.ov__logo {
-  width: 3rem;
-  height: 3rem;
-  filter: drop-shadow(0 2px 6px rgb(99 102 241 / 35%));
+.ov__hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--dm-space-4);
+  justify-items: start;
+  max-width: 46rem;
 }
 
-.ov__title {
-  font-size: clamp(1.875rem, 4vw, 2.5rem);
-  font-weight: var(--dm-font-bold);
-  letter-spacing: -0.02em;
-  line-height: var(--dm-leading-tight);
-  background: var(--dm-gradient-brand);
-  background-clip: text;
-  color: transparent;
-}
-
-.ov__lead {
-  max-width: 44rem;
-  font-size: var(--dm-text-base);
-  line-height: var(--dm-leading-relaxed);
+.ov__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: 0.3rem 0.7rem 0.3rem 0.6rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-full);
+  background: color-mix(in srgb, var(--dm-bg) 60%, transparent);
+  backdrop-filter: blur(6px);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--dm-fg-muted);
 }
 
-// ---- Grid ------------------------------------------------------------------
+.ov__eyebrow-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--dm-primary);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--dm-primary) 60%, transparent);
+  animation: ov-pulse 2.4s var(--dm-ease-out) infinite;
+}
+
+@keyframes ov-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--dm-primary) 55%, transparent);
+  }
+
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.5rem transparent;
+  }
+}
+
+.ov__title {
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-weight: var(--dm-font-bold);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: var(--dm-fg);
+}
+
+.ov__lead {
+  max-width: 42rem;
+  font-size: var(--dm-text-lg);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+  text-wrap: pretty;
+}
+
+// Metric panel — a bordered strip whose 1px grid gaps become the dividers.
+.ov__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  width: 100%;
+  margin: var(--dm-space-2) 0 0;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-border);
+  box-shadow: var(--dm-shadow-sm);
+  overflow: hidden;
+
+  @include mixins.respond-to(sm) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.ov__stat {
+  display: grid;
+  gap: 0.25rem;
+  padding: var(--dm-space-4) var(--dm-space-5);
+  background: var(--dm-bg-elevated);
+}
+
+.ov__stat-value {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: var(--dm-font-bold);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--dm-fg);
+}
+
+.ov__stat-label {
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--dm-fg-subtle);
+}
+
+// Hero actions — a primary CTA and a copyable install command
+.ov__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dm-space-3);
+}
+
+.ov__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.35rem;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-primary);
+  color: var(--dm-primary-fg);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  text-decoration: none;
+
+  @include mixins.transition(background-color, transform);
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+
+    @include mixins.transition(transform);
+  }
+
+  &:hover {
+    background: var(--dm-primary-hover);
+
+    svg {
+      transform: translateX(3px);
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.ov__install {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  height: 2.75rem;
+  padding: 0 0.4rem 0 1rem;
+  border: 1px solid var(--dm-border-strong);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-elevated);
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg);
+  cursor: pointer;
+
+  @include mixins.transition(background-color, border-color);
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    border-color: var(--dm-fg-subtle);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.ov__install-prompt {
+  color: var(--dm-fg-subtle);
+  user-select: none;
+}
+
+.ov__install-cmd {
+  font-family: inherit;
+  color: var(--dm-fg);
+}
+
+.ov__install-copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-muted);
+  color: var(--dm-fg-muted);
+
+  @include mixins.transition(background-color, color);
+
+  svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+}
+
+.ov__install:hover .ov__install-copy {
+  color: var(--dm-fg);
+}
+
+.ov__install--copied .ov__install-copy {
+  background: var(--dm-success-subtle);
+  color: var(--dm-success);
+}
+
+// ============================================================================
+// Sections — one block per category (HeroUI/MUI pattern)
+// ============================================================================
+.ov__sections {
+  display: grid;
+  gap: var(--dm-space-10);
+}
+
+.ov__section {
+  display: grid;
+  gap: var(--dm-space-5);
+}
+
+.ov__section-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--dm-space-3);
+  padding-bottom: var(--dm-space-3);
+  border-bottom: 1px solid var(--dm-border);
+}
+
+.ov__section-title {
+  font-size: var(--dm-text-xl);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--dm-fg);
+
+  @include mixins.respond-to(sm) {
+    font-size: var(--dm-text-2xl);
+  }
+}
+
+.ov__section-count {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--dm-fg-subtle);
+}
+
+// ============================================================================
+// Grid — uniform tiles, one row of components per section
+// ============================================================================
 .ov__grid {
   display: grid;
   gap: var(--dm-space-4);
-  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr));
 }
 
-// Tile HeroUI: superficie plana muy redondeada; en hover eleva (sombra +
-// translateY) y el borde se tiñe sutilmente de primary.
+// Tile: clean elevated surface. Depth comes from a soft shadow and a gentle
+// lift on hover — no busy textures, the component itself is the hero.
 .ov__tile {
+  position: relative;
   display: grid;
   overflow: hidden;
   border: 1px solid var(--dm-border);
@@ -71,16 +295,17 @@
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: var(--dm-shadow-md);
-    border-color: color-mix(in srgb, var(--dm-primary) 45%, var(--dm-border));
+    box-shadow: var(--dm-shadow-lg);
+    border-color: color-mix(in srgb, var(--dm-primary) 32%, var(--dm-border));
 
     .ov__arrow {
+      color: var(--dm-primary);
       opacity: 1;
-      transform: translateX(2px);
+      transform: translateX(3px);
     }
 
-    .ov__preview {
-      background-color: color-mix(in srgb, var(--dm-primary) 3%, var(--dm-bg-subtle));
+    .ov__name {
+      color: var(--dm-primary);
     }
   }
 
@@ -89,197 +314,826 @@
   }
 }
 
-// Zona de preview con retícula de puntos (patrón de marca).
-// Sube el contraste de los tokens del skeleton dentro del preview: en el fondo
-// subtle con puntos, el bg-muted por defecto compite con la superficie y los
-// bloques quedan casi invisibles (visible en dark, pero también en light).
+// Preview zone: a seamless "studio" stage — a calm surface with a soft
+// overhead spotlight so the component reads like a product shot.
 .ov__preview {
-  --dm-skeleton-bg: color-mix(in srgb, var(--dm-fg) 14%, transparent);
-  --dm-skeleton-highlight: color-mix(in srgb, var(--dm-fg) 22%, transparent);
+  --dm-skeleton-bg: color-mix(in srgb, var(--dm-fg) 12%, transparent);
+  --dm-skeleton-highlight: color-mix(in srgb, var(--dm-fg) 20%, transparent);
 
+  position: relative;
+  z-index: 1;
   display: grid;
   place-items: center;
-  height: 8.5rem;
-  padding: var(--dm-space-4);
+  height: 10.5rem;
+  padding: var(--dm-space-3);
   border-bottom: 1px solid var(--dm-border);
-  background-color: var(--dm-bg-subtle);
-  background-image: radial-gradient(
-    color-mix(in srgb, var(--dm-fg) 8%, transparent) 1px,
-    transparent 1px
-  );
-  background-size: 14px 14px;
+  background:
+    radial-gradient(90% 70% at 50% -6%, var(--dm-bg-elevated), transparent 72%), var(--dm-bg-subtle);
   overflow: hidden;
-
-  @include mixins.transition(background-color);
 }
 
 .ov__meta {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: var(--dm-space-2);
   padding: var(--dm-space-3) var(--dm-space-4);
+  background: var(--dm-bg-elevated);
 }
 
 .ov__name {
   font-size: var(--dm-text-sm);
   font-weight: var(--dm-font-semibold);
   letter-spacing: -0.01em;
+
+  @include mixins.transition(color);
+}
+
+.ov__cat {
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-muted);
+  color: var(--dm-fg-muted);
+  font-size: 0.68rem;
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .ov__arrow {
   width: 1rem;
   height: 1rem;
   margin-left: auto;
-  color: var(--dm-primary);
-  opacity: 0.35;
+  color: var(--dm-fg-subtle);
+  opacity: 0.5;
 
-  @include mixins.transition(opacity, transform);
+  @include mixins.transition(opacity, transform, color);
 }
 
-// ---- Mini-previews ---------------------------------------------------------
+// ============================================================================
+// Premium previews — real, product-flavored fragments per component
+// ============================================================================
 .ov__accent {
   color: var(--dm-primary);
 }
 
-.ov__mini-media {
-  display: flex;
+// Shared bits ----------------------------------------------------------------
+.ov__ex-kbd {
+  display: inline-flex;
   align-items: center;
-  gap: var(--dm-space-3);
-  width: 80%;
+  justify-content: center;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 0.3rem;
+  border-radius: var(--dm-radius-sm);
+  background: color-mix(in srgb, var(--dm-fg) 8%, transparent);
+  font-size: 0.65rem;
+  font-weight: var(--dm-font-semibold);
+  color: var(--dm-fg-muted);
 }
 
-.ov__mini-media dm-skeleton:first-child {
-  width: auto;
-  flex-shrink: 0;
-}
-
-.ov__mini-lines {
-  flex: 1;
-  min-width: 0;
-}
-
-.ov__mini-row {
-  display: flex;
+.ov__ex-btn {
+  display: inline-flex;
   align-items: center;
-  gap: var(--dm-space-3);
+  justify-content: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--dm-radius-full);
+  font-size: 0.72rem;
+  font-weight: var(--dm-font-semibold);
+  white-space: nowrap;
+
+  &--ghost {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg-muted);
+  }
+
+  &--danger {
+    background: var(--dm-danger);
+    color: var(--dm-danger-fg);
+  }
+
+  &--primary {
+    background: var(--dm-primary);
+    color: var(--dm-primary-fg);
+  }
 }
 
-.ov__mini-stack {
+// Skeleton — a content card loading: media block + text + author row
+.ov__ex-skel {
   display: grid;
+  gap: var(--dm-space-3);
+  width: 82%;
+}
+
+.ov__ex-skel-lines {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.ov__ex-skel-foot {
+  display: flex;
+  align-items: center;
   gap: var(--dm-space-2);
 }
 
+.ov__ex-skel-foot dm-skeleton:first-child {
+  flex-shrink: 0;
+}
+
+// Spinner — loading state
+.ov__ex-loading {
+  display: grid;
+  justify-items: center;
+  gap: var(--dm-space-3);
+}
+
+.ov__ex-loading-txt {
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg-muted);
+}
+
+// Badge — status chips
+.ov__ex-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--dm-space-2);
+}
+
+// Avatar — team stack with overflow count
 .ov__avatars {
   display: flex;
+  align-items: center;
 
   dm-avatar {
     border: 2px solid var(--dm-bg-subtle);
 
     + dm-avatar {
-      margin-left: -0.625rem;
+      margin-left: -0.7rem;
     }
   }
 }
 
-.ov__mini-card {
+.ov__avatar-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: -0.7rem;
+  border: 2px solid var(--dm-bg-subtle);
+  border-radius: 50%;
+  background: var(--dm-bg-muted);
+  color: var(--dm-fg-muted);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+}
+
+// Card — a premium product card: icon header + subtitle + footer identity
+.ov__ex-card {
+  display: grid;
+  gap: var(--dm-space-3);
+  width: 88%;
+  text-align: left;
+}
+
+.ov__ex-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-3);
+}
+
+.ov__ex-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-primary-subtle);
+  color: var(--dm-primary);
+
+  svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+}
+
+.ov__ex-card-headings {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.ov__ex-card-title {
+  font-size: var(--dm-text-base);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.01em;
+  color: var(--dm-fg);
+}
+
+.ov__ex-card-sub {
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-muted);
+}
+
+.ov__ex-card-body {
+  margin: 0;
+  font-size: var(--dm-text-xs);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+}
+
+// Button — CTA row
+.ov__btn-row {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+}
+
+// Switch — the control itself, on and off
+.ov__ex-toggles {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-4);
+}
+
+// Checkbox — the three states, labelled
+.ov__ex-checks {
+  display: grid;
+  gap: var(--dm-space-3);
+}
+
+.ov__ex-check {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg);
+}
+
+// Form field
+.ov__mini-field {
+  width: 85%;
+}
+
+// Select — the real dm-select trigger
+.ov__ex-select {
+  width: 85%;
+}
+
+// Paginated select — realistic async combobox
+.ov__ex-combo {
+  display: grid;
+  gap: 0.15rem;
+  width: 88%;
+  padding: 0.35rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-md);
+  font-size: var(--dm-text-xs);
+}
+
+.ov__ex-combo-search {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: 0.4rem 0.5rem;
+  margin-bottom: 0.15rem;
+  border-bottom: 1px solid var(--dm-border);
+  color: var(--dm-fg-subtle);
+
+  svg {
+    width: 0.85rem;
+    height: 0.85rem;
+    flex-shrink: 0;
+  }
+}
+
+.ov__ex-combo-opt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.45rem;
+  color: var(--dm-fg);
+
+  svg {
+    width: 0.85rem;
+    height: 0.85rem;
+    color: var(--dm-primary);
+  }
+
+  &--active {
+    background: var(--dm-primary-subtle);
+    color: var(--dm-primary);
+    font-weight: var(--dm-font-semibold);
+  }
+}
+
+.ov__ex-combo-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: 0.4rem 0.5rem;
+  color: var(--dm-fg-subtle);
+}
+
+// Tooltip — hovered bubble over a trigger
+.ov__ex-tooltip {
+  display: grid;
+  justify-items: center;
+  gap: var(--dm-space-3);
+}
+
+.ov__ex-tooltip-bubble {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: 0.35rem 0.6rem;
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-tooltip-bg);
+  color: var(--dm-tooltip-fg);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  box-shadow: var(--dm-shadow-lg);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.22rem;
+    left: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    transform: translateX(-50%) rotate(45deg);
+    background: var(--dm-tooltip-bg);
+  }
+
+  .ov__ex-kbd {
+    background: color-mix(in srgb, var(--dm-tooltip-fg) 20%, transparent);
+    color: var(--dm-tooltip-fg);
+  }
+}
+
+.ov__ex-tooltip-trigger {
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--dm-border-strong);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-elevated);
+  color: var(--dm-fg);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+}
+
+// Dialog — real modal over a scrim
+.ov__ex-scrim {
+  display: grid;
+  place-items: center;
+  width: 92%;
+  padding: var(--dm-space-2);
+  border-radius: var(--dm-radius-md);
+  background: rgb(0 0 0 / 28%);
+}
+
+.ov__ex-dialog {
+  display: grid;
+  gap: 0.3rem;
+  width: 100%;
+  padding: var(--dm-space-3);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-lg);
+}
+
+.ov__ex-dialog-title {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-bold);
+}
+
+.ov__ex-dialog-body {
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-muted);
+}
+
+.ov__ex-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--dm-space-2);
+  margin-top: 0.3rem;
+}
+
+// Toast — success notification
+.ov__ex-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-3);
+  width: 90%;
+  padding: var(--dm-space-3);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-lg);
+}
+
+.ov__ex-toast-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--dm-success-subtle);
+  color: var(--dm-success);
+
+  svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+}
+
+.ov__ex-toast-txt {
+  display: grid;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.ov__ex-toast-title {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+}
+
+.ov__ex-toast-sub {
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-muted);
+}
+
+// Accordion — static mock: first row expanded with a body line
+.ov__ex-acc {
+  display: grid;
+  width: 88%;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  overflow: hidden;
+}
+
+.ov__ex-acc-item {
+  + .ov__ex-acc-item {
+    border-top: 1px solid var(--dm-border);
+  }
+
+  &--open {
+    background: var(--dm-bg-subtle);
+
+    .ov__ex-acc-chevron {
+      transform: rotate(180deg);
+      color: var(--dm-primary);
+    }
+  }
+}
+
+.ov__ex-acc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dm-space-2);
+  padding: 0.5rem 0.7rem;
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg);
+}
+
+.ov__ex-acc-chevron {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex-shrink: 0;
+  color: var(--dm-fg-subtle);
+}
+
+.ov__ex-acc-body {
+  padding: 0 0.7rem 0.6rem;
+  font-size: var(--dm-text-xs);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+}
+
+// Table live preview
+.ov__table-mock {
+  width: 100%;
+  transform: scale(0.85);
+  transform-origin: center;
+}
+
+// Divider — a labelled rule separating two blocks
+.ov__ex-divider {
+  display: grid;
+  gap: var(--dm-space-3);
+  width: 84%;
+}
+
+.ov__ex-divider-txt {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg);
+  text-align: center;
+}
+
+// Progress + Alert live previews
+.ov__progress-preview {
+  width: 84%;
+}
+
+.ov__alert-preview {
+  width: 100%;
+}
+
+// Slider — labelled control
+.ov__ex-slider {
+  display: grid;
+  gap: var(--dm-space-2);
+  width: 84%;
+}
+
+.ov__ex-slider-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-muted);
+}
+
+.ov__ex-slider-val {
+  font-weight: var(--dm-font-semibold);
+  font-variant-numeric: tabular-nums;
+  color: var(--dm-fg);
+}
+
+// Pagination live preview — fits whole, centered, no scale
+.ov__pagination-preview {
+  display: flex;
+  justify-content: center;
+}
+
+// Menu — real dropdown with icons, shortcut and a danger action
+.ov__ex-menu {
+  display: grid;
+  gap: 0.1rem;
+  width: 11rem;
+  padding: 0.35rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-lg);
+}
+
+.ov__ex-menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: 0.4rem 0.5rem;
+  border-radius: var(--dm-radius-md);
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg);
+
+  svg {
+    width: 0.95rem;
+    height: 0.95rem;
+    color: var(--dm-fg-muted);
+    flex-shrink: 0;
+  }
+
+  .ov__ex-kbd {
+    margin-left: auto;
+  }
+
+  &:first-child {
+    background: var(--dm-default-subtle);
+  }
+
+  &--danger {
+    color: var(--dm-danger);
+
+    svg {
+      color: var(--dm-danger);
+    }
+  }
+}
+
+.ov__ex-menu-sep {
+  height: 1px;
+  margin: 0.2rem 0.3rem;
+  background: var(--dm-border);
+}
+
+// Popover — mini profile card with an arrow
+.ov__ex-popover {
+  position: relative;
+  display: grid;
+  gap: var(--dm-space-3);
+  width: 84%;
+  padding: var(--dm-space-3);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-lg);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -0.3rem;
+    left: 1.5rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    transform: rotate(45deg);
+    background: var(--dm-bg-elevated);
+    border-top: 1px solid var(--dm-border);
+    border-left: 1px solid var(--dm-border);
+  }
+}
+
+.ov__ex-popover-head {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+}
+
+.ov__ex-popover-id {
+  display: grid;
+  min-width: 0;
+}
+
+.ov__ex-popover-name {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+}
+
+.ov__ex-popover-handle {
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-muted);
+}
+
+.ov__ex-popover-btn {
+  padding: 0.35rem;
+  border-radius: var(--dm-radius-md);
+  background: var(--dm-primary);
+  color: var(--dm-primary-fg);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  text-align: center;
+}
+
+// Drawer — a side panel sliding in from the right edge over a dimmed backdrop
+.ov__ex-drawer-wrap {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  width: 90%;
+  height: 7.25rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-md);
+  background: rgb(0 0 0 / 24%);
+  overflow: hidden;
+}
+
+.ov__ex-drawer {
+  display: grid;
+  align-content: start;
+  gap: var(--dm-space-2);
+  width: 62%;
+  height: 100%;
+  padding: var(--dm-space-3);
+  background: var(--dm-bg-elevated);
+  box-shadow: -12px 0 24px -8px rgb(0 0 0 / 30%);
+}
+
+.ov__ex-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dm-space-2);
+}
+
+.ov__ex-drawer-title {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-bold);
+  color: var(--dm-fg);
+}
+
+.ov__ex-drawer-close {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex-shrink: 0;
+  color: var(--dm-fg-subtle);
+}
+
+.ov__ex-drawer-row {
+  padding: 0.3rem 0;
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-muted);
+  border-bottom: 1px solid var(--dm-border);
+}
+
+.ov__ex-drawer-save {
+  margin-top: auto;
+  justify-self: stretch;
+}
+
+// Kbd — a mini shortcut cheat-sheet: label on the left, key caps on the right
+.ov__ex-kbd-list {
   display: grid;
   gap: var(--dm-space-2);
   width: 80%;
 }
 
-.ov__mini-field {
-  width: 85%;
-}
-
-// Mock del select: trigger con valor y chevron.
-.ov__select-mock {
+.ov__ex-kbd-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--dm-space-2);
-  width: 85%;
-  height: 2.5rem;
-  padding: 0 var(--dm-space-3);
-  border-radius: var(--dm-radius-md);
-  background: var(--dm-bg-muted);
-  color: var(--dm-fg);
+  gap: var(--dm-space-4);
+}
+
+.ov__ex-kbd-cmd {
   font-size: var(--dm-text-sm);
+  color: var(--dm-fg-muted);
+}
+
+// Command palette — a compact ⌘K mock over a scrim
+.ov__ex-cmd {
+  display: grid;
+  gap: 0.15rem;
+  width: 100%;
+  padding: 0.4rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-lg);
+}
+
+.ov__ex-cmd-search {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: 0.5rem 0.55rem;
+  margin-bottom: 0.2rem;
+  border-bottom: 1px solid var(--dm-border);
 
   svg {
     width: 1rem;
     height: 1rem;
-    color: var(--dm-fg-muted);
+    flex-shrink: 0;
+    color: var(--dm-fg-subtle);
   }
 }
 
-.ov__select-value {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.ov__ex-cmd-query {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg-muted);
 }
 
-// Mock del paginated-select: panel abierto con búsqueda, filas y spinner de carga.
-.ov__psel-mock {
-  display: grid;
-  gap: 0.25rem;
-  width: 85%;
-  padding: 0.375rem;
-  border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-md);
-  background: var(--dm-bg-elevated);
-  box-shadow: var(--dm-shadow-sm);
+.ov__ex-cmd-group {
+  padding: 0.25rem 0.55rem 0.15rem;
+  font-size: 0.6rem;
+  font-weight: var(--dm-font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--dm-fg-subtle);
 }
 
-.ov__psel-search {
+.ov__ex-cmd-row {
   display: flex;
   align-items: center;
-  gap: var(--dm-space-2);
-  padding: 0.375rem 0.5rem;
-  border-bottom: 1px solid var(--dm-border);
-  margin-bottom: 0.125rem;
+  justify-content: space-between;
+  gap: var(--dm-space-3);
+  padding: 0.45rem 0.55rem;
+  border-radius: var(--dm-radius-md);
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg);
 
-  svg {
-    width: 0.75rem;
-    height: 0.75rem;
-    color: var(--dm-fg-muted);
-    flex-shrink: 0;
-  }
-}
-
-.ov__psel-search-line {
-  flex: 1;
-  height: 0.5rem;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--dm-fg) 10%, transparent);
-}
-
-.ov__psel-row {
-  padding: 0.375rem 0.5rem;
-  border-radius: 0.375rem;
-
-  .ov__mock-line {
-    display: block;
-    width: 60%;
+  span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &--active {
-    background: var(--dm-primary-subtle);
-
-    .ov__mock-line {
-      background: color-mix(in srgb, var(--dm-primary) 40%, transparent);
-    }
+    background: var(--dm-default-subtle);
+    color: var(--dm-fg);
   }
 }
 
-.ov__psel-loading {
-  display: flex;
-  justify-content: center;
-  padding: 0.375rem;
-}
-
+// Async loading spinner (combo footer)
 .ov__psel-spinner {
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 0.85rem;
+  height: 0.85rem;
   border: 1.5px solid color-mix(in srgb, var(--dm-fg) 18%, transparent);
   border-top-color: var(--dm-primary);
   border-radius: 50%;
@@ -292,122 +1146,12 @@
   }
 }
 
+// ============================================================================
+// Reduced motion
+// ============================================================================
 @include mixins.reduced-motion {
+  .ov__eyebrow-dot,
   .ov__psel-spinner {
     animation: none;
   }
-}
-
-// Mock del tooltip
-.ov__tooltip-mock {
-  display: grid;
-  justify-items: center;
-  gap: var(--dm-space-2);
-}
-
-.ov__tooltip-bubble {
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--dm-radius-md);
-  background: var(--dm-tooltip-bg);
-  color: var(--dm-tooltip-fg);
-  font-size: var(--dm-text-xs);
-  font-weight: var(--dm-font-medium);
-  box-shadow: var(--dm-shadow-md);
-}
-
-.ov__tooltip-trigger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  border: 1px solid var(--dm-border-strong);
-  border-radius: var(--dm-radius-md);
-  background: var(--dm-bg-elevated);
-  color: var(--dm-fg-muted);
-  font-size: var(--dm-text-xs);
-  font-weight: var(--dm-font-semibold);
-}
-
-// Mock del dialog
-.ov__dialog-mock {
-  display: grid;
-  place-items: center;
-  width: 82%;
-  padding: var(--dm-space-3);
-  border-radius: var(--dm-radius-md);
-  background: rgb(0 0 0 / 22%);
-}
-
-.ov__dialog-panel {
-  display: grid;
-  gap: var(--dm-space-2);
-  width: 100%;
-  padding: var(--dm-space-3);
-  border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-lg);
-  background: var(--dm-bg-elevated);
-  box-shadow: var(--dm-shadow-lg);
-}
-
-.ov__dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--dm-space-1);
-  margin-top: var(--dm-space-1);
-}
-
-// Mock del toast
-.ov__toast-mock {
-  display: flex;
-  align-items: center;
-  gap: var(--dm-space-2);
-  width: 75%;
-  padding: var(--dm-space-2) var(--dm-space-3);
-  border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-lg);
-  background: var(--dm-bg-elevated);
-  box-shadow: var(--dm-shadow-md);
-}
-
-.ov__toast-dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  flex-shrink: 0;
-  border-radius: var(--dm-radius-full);
-  background: var(--dm-success);
-}
-
-// Piezas genéricas de mocks
-.ov__mock-line {
-  display: block;
-  height: 0.375rem;
-  width: 100%;
-  border-radius: var(--dm-radius-full);
-  background: var(--dm-bg-muted);
-
-  &--title {
-    width: 45%;
-    background: var(--dm-border-strong);
-  }
-}
-
-.ov__mock-chip {
-  display: inline-block;
-  width: 2rem;
-  height: 0.875rem;
-  border-radius: var(--dm-radius-sm);
-  background: var(--dm-bg-muted);
-
-  &--primary {
-    background: var(--dm-primary);
-  }
-}
-
-// ---- Mini-previews de los nuevos componentes -------------------------------
-.ov__acc-mock,
-.ov__table-mock {
-  width: 100%;
-  transform: scale(0.85);
-  transform-origin: center;
 }

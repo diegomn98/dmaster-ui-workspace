@@ -47,6 +47,16 @@ export class TocService {
     const OFFSET = 120;
 
     const updateActive = (): void => {
+      // When scrolled to the bottom, the last section is active. A short final
+      // section can never reach the top offset (the page runs out of scroll),
+      // so without this the last TOC entry could never light up.
+      const doc = this.document.documentElement;
+      const atBottom = win.scrollY > 0 && win.scrollY + win.innerHeight >= doc.scrollHeight - 2;
+      if (atBottom) {
+        this._activeId.set(headings[headings.length - 1].id);
+        return;
+      }
+
       let activeId = headings[0].id;
       for (const h of headings) {
         if (h.getBoundingClientRect().top <= OFFSET) {

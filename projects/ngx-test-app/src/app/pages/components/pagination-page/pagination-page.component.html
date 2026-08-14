@@ -1,0 +1,90 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.navigation }}</p>
+  <h1 class="page__title">Pagination</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmPaginationComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-pagination
+      [totalPages]="10"
+      [color]="pgColor()"
+      [size]="pgSize()"
+      [siblingCount]="pgSiblings()"
+      [showControls]="pgShowControls()"
+      [disabled]="pgDisabled()"
+      [(page)]="pgPage"
+    />
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <div class="demo-stack">
+      <dm-pagination [totalPages]="10" [(page)]="basicPage" />
+      <span class="demo-output">{{ page().labels['currentPage'] }} {{ basicPage() }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['window']" [code]="windowCode">
+    <dm-pagination [totalPages]="20" [siblingCount]="2" [boundaryCount]="2" [(page)]="windowPage" />
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-stack">
+      <dm-pagination size="sm" [totalPages]="8" [(page)]="sizePage" />
+      <dm-pagination size="md" [totalPages]="8" [(page)]="sizePage" />
+      <dm-pagination size="lg" [totalPages]="8" [(page)]="sizePage" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+    <div class="demo-stack">
+      <dm-pagination color="primary" [totalPages]="6" [(page)]="colorPage" />
+      <dm-pagination color="secondary" [totalPages]="6" [(page)]="colorPage" />
+      <dm-pagination color="success" [totalPages]="6" [(page)]="colorPage" />
+      <dm-pagination color="warning" [totalPages]="6" [(page)]="colorPage" />
+      <dm-pagination color="danger" [totalPages]="6" [(page)]="colorPage" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['noControls']" [code]="noControlsCode">
+    <dm-pagination [totalPages]="8" [showControls]="false" [(page)]="noControlsPage" />
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
+    <dm-pagination [totalPages]="8" [disabled]="true" [(page)]="disabledPage" />
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

@@ -175,6 +175,92 @@ export const routes: Routes = [
           ),
         title: 'Table · @dmaster/ui',
       },
+      {
+        path: 'components/divider',
+        loadComponent: () =>
+          import('./pages/components/divider-page/divider-page.component').then(
+            (m) => m.DividerPageComponent,
+          ),
+        title: 'Divider · @dmaster/ui',
+      },
+      {
+        path: 'components/progress',
+        loadComponent: () =>
+          import('./pages/components/progress-page/progress-page.component').then(
+            (m) => m.ProgressPageComponent,
+          ),
+        title: 'Progress · @dmaster/ui',
+      },
+      {
+        path: 'components/alert',
+        loadComponent: () =>
+          import('./pages/components/alert-page/alert-page.component').then(
+            (m) => m.AlertPageComponent,
+          ),
+        title: 'Alert · @dmaster/ui',
+      },
+      {
+        path: 'components/pagination',
+        loadComponent: () =>
+          import('./pages/components/pagination-page/pagination-page.component').then(
+            (m) => m.PaginationPageComponent,
+          ),
+        title: 'Pagination · @dmaster/ui',
+      },
+      {
+        path: 'components/slider',
+        loadComponent: () =>
+          import('./pages/components/slider-page/slider-page.component').then(
+            (m) => m.SliderPageComponent,
+          ),
+        title: 'Slider · @dmaster/ui',
+      },
+      {
+        path: 'components/breadcrumbs',
+        loadComponent: () =>
+          import('./pages/components/breadcrumbs-page/breadcrumbs-page.component').then(
+            (m) => m.BreadcrumbsPageComponent,
+          ),
+        title: 'Breadcrumbs · @dmaster/ui',
+      },
+      {
+        path: 'components/menu',
+        loadComponent: () =>
+          import('./pages/components/menu-page/menu-page.component').then(
+            (m) => m.MenuPageComponent,
+          ),
+        title: 'Menu · @dmaster/ui',
+      },
+      {
+        path: 'components/popover',
+        loadComponent: () =>
+          import('./pages/components/popover-page/popover-page.component').then(
+            (m) => m.PopoverPageComponent,
+          ),
+        title: 'Popover · @dmaster/ui',
+      },
+      {
+        path: 'components/drawer',
+        loadComponent: () =>
+          import('./pages/components/drawer-page/drawer-page.component').then(
+            (m) => m.DrawerPageComponent,
+          ),
+        title: 'Drawer · @dmaster/ui',
+      },
+      {
+        path: 'components/kbd',
+        loadComponent: () =>
+          import('./pages/components/kbd-page/kbd-page.component').then((m) => m.KbdPageComponent),
+        title: 'Keyboard Key · @dmaster/ui',
+      },
+      {
+        path: 'components/command',
+        loadComponent: () =>
+          import('./pages/components/command-page/command-page.component').then(
+            (m) => m.CommandPageComponent,
+          ),
+        title: 'Command · @dmaster/ui',
+      },
     ],
   },
   { path: '**', redirectTo: '' },

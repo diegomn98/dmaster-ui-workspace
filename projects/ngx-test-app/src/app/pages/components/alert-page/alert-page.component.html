@@ -1,0 +1,142 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.feedback }}</p>
+  <h1 class="page__title">Alert</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmAlertComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    @if (pgVisible()) {
+      <dm-alert
+        [color]="pgColor()"
+        [variant]="pgVariant()"
+        [dismissible]="pgDismissible()"
+        [hideIcon]="pgHideIcon()"
+        [title]="'Payment received'"
+        description="We emailed the receipt to your inbox."
+        (closed)="pgVisible.set(false)"
+      />
+    } @else {
+      <dm-button size="sm" variant="flat" (clicked)="pgVisible.set(true)">
+        {{ page().labels['show'] }}
+      </dm-button>
+    }
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <dm-alert [title]="'Heads up'" description="A new version is available." />
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+    <div class="demo-stack">
+      <dm-alert color="default" [title]="'Default'" description="Neutral information." />
+      <dm-alert color="primary" [title]="'Primary'" description="A new version is available." />
+      <dm-alert
+        color="secondary"
+        [title]="'Secondary'"
+        description="Scheduled maintenance tonight."
+      />
+      <dm-alert color="success" [title]="'Success'" description="Your changes were saved." />
+      <dm-alert color="warning" [title]="'Warning'" description="Your trial ends in 3 days." />
+      <dm-alert
+        color="danger"
+        [title]="'Danger'"
+        description="The payment could not be processed."
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
+    <div class="demo-stack">
+      <dm-alert variant="flat" color="primary" [title]="'Flat'" description="Soft tinted fill." />
+      <dm-alert
+        variant="faded"
+        color="primary"
+        [title]="'Faded'"
+        description="Tinted fill plus a colored border."
+      />
+      <dm-alert variant="solid" color="primary" [title]="'Solid'" description="Full color fill." />
+      <dm-alert
+        variant="bordered"
+        color="primary"
+        [title]="'Bordered'"
+        description="Transparent with a colored border."
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['description']" [code]="descriptionCode">
+    <div class="demo-stack">
+      <dm-alert
+        color="warning"
+        [title]="'Storage almost full'"
+        description="You have used 92% of your quota. Uploads may start to fail until you free some space or upgrade your plan. Files in the trash still count towards the limit."
+      />
+      <dm-alert
+        color="primary"
+        [title]="'Custom body'"
+        description="Structured content is welcome."
+      >
+        <p>Anything projected inside renders in the content column.</p>
+      </dm-alert>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['dismissible']" [code]="dismissibleCode">
+    @if (!demoDismissed()) {
+      <dm-alert
+        color="success"
+        [title]="'Profile updated'"
+        description="Your changes were saved."
+        [dismissible]="true"
+        (closed)="demoDismissed.set(true)"
+      />
+    } @else {
+      <dm-button size="sm" variant="flat" (clicked)="demoDismissed.set(false)">
+        {{ page().labels['show'] }}
+      </dm-button>
+    }
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['action']" [code]="actionCode">
+    <dm-alert color="danger" variant="faded" [title]="'Message deleted'" [dismissible]="true">
+      <dm-button dmAlertAction size="sm" variant="light" color="danger">
+        {{ page().labels['undo'] }}
+      </dm-button>
+    </dm-alert>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

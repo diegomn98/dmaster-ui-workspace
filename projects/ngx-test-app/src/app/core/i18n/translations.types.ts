@@ -33,6 +33,7 @@ export interface DashboardTranslations {
     githubAria: string;
     themeLabel: string;
     themeHeading: string;
+    searchLabel: string;
     nav: {
       intro: string;
       home: string;
@@ -45,6 +46,7 @@ export interface DashboardTranslations {
       overlays: string;
       navigation: string;
       dataDisplay: string;
+      feedback: string;
       skeleton: string;
       spinner: string;
       badge: string;
@@ -63,6 +65,17 @@ export interface DashboardTranslations {
       tooltip: string;
       dialog: string;
       toast: string;
+      divider: string;
+      progress: string;
+      alert: string;
+      pagination: string;
+      slider: string;
+      breadcrumbs: string;
+      menu: string;
+      popover: string;
+      drawer: string;
+      kbd: string;
+      command: string;
     };
   };
   common: {
@@ -181,6 +194,8 @@ export interface DashboardTranslations {
     prerequisitesTitle: string;
     prerequisitesBody: string;
     prereqItems: string[];
+    ngAddBody: string;
+    installManualTitle: string;
     installBody: string;
     stylesBody: string;
     stylesNote: string;
@@ -261,5 +276,16 @@ export interface DashboardTranslations {
     tooltip: SimplePageTranslations;
     dialog: SimplePageTranslations;
     toast: SimplePageTranslations;
+    divider: SimplePageTranslations;
+    progress: SimplePageTranslations;
+    alert: SimplePageTranslations;
+    pagination: SimplePageTranslations;
+    slider: SimplePageTranslations;
+    breadcrumbs: SimplePageTranslations;
+    menu: SimplePageTranslations;
+    popover: SimplePageTranslations;
+    drawer: SimplePageTranslations;
+    kbd: SimplePageTranslations;
+    command: SimplePageTranslations;
   };
 }

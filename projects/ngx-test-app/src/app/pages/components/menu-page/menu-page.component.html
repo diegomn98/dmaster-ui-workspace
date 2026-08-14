@@ -1,0 +1,133 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.overlays }}</p>
+  <h1 class="page__title">Menu</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmMenuComponent, DmMenuTriggerDirective, DmMenuItemComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-button [dmMenuTrigger]="pgMenu" variant="flat">Actions</dm-button>
+    <dm-menu
+      #pgMenu
+      ariaLabel="Actions"
+      [placement]="pgPlacement()"
+      [closeOnSelect]="pgCloseOnSelect()"
+    >
+      <dm-menu-item (selected)="act('Edit')">Edit</dm-menu-item>
+      <dm-menu-item (selected)="act('Duplicate')">Duplicate</dm-menu-item>
+      <dm-menu-item (selected)="act('Archive')">Archive</dm-menu-item>
+    </dm-menu>
+    <span class="demo-output">{{ page().labels['lastAction'] }}: {{ lastAction() }}</span>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <dm-button [dmMenuTrigger]="basicMenu" variant="flat">Actions</dm-button>
+    <dm-menu #basicMenu ariaLabel="Actions">
+      <dm-menu-item (selected)="act('Edit')">Edit</dm-menu-item>
+      <dm-menu-item (selected)="act('Duplicate')">Duplicate</dm-menu-item>
+      <dm-menu-item (selected)="act('Archive')">Archive</dm-menu-item>
+    </dm-menu>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['icons']" [code]="iconsCode">
+    <dm-button [dmMenuTrigger]="iconMenu" variant="flat">Edit</dm-button>
+    <dm-menu #iconMenu ariaLabel="Edit">
+      <dm-menu-item shortcut="⌘C" (selected)="act('Copy')">
+        <svg
+          dmMenuItemStart
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="9" y="9" width="13" height="13" rx="2" />
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+        </svg>
+        Copy
+      </dm-menu-item>
+      <dm-menu-item shortcut="⌘V" (selected)="act('Paste')">
+        <svg
+          dmMenuItemStart
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+          <rect x="8" y="2" width="8" height="4" rx="1" />
+        </svg>
+        Paste
+      </dm-menu-item>
+    </dm-menu>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['sections']" [code]="sectionsCode">
+    <dm-button [dmMenuTrigger]="sectionMenu" variant="flat">Account</dm-button>
+    <dm-menu #sectionMenu ariaLabel="Account">
+      <dm-menu-section heading="Account">
+        <dm-menu-item (selected)="act('Profile')">Profile</dm-menu-item>
+        <dm-menu-item (selected)="act('Settings')">Settings</dm-menu-item>
+      </dm-menu-section>
+      <dm-menu-divider />
+      <dm-menu-item (selected)="act('Sign out')">Sign out</dm-menu-item>
+    </dm-menu>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['danger']" [code]="dangerCode">
+    <dm-button [dmMenuTrigger]="dangerMenu" variant="flat">File</dm-button>
+    <dm-menu #dangerMenu ariaLabel="File">
+      <dm-menu-item (selected)="act('Rename')">Rename</dm-menu-item>
+      <dm-menu-divider />
+      <dm-menu-item color="danger" shortcut="⌫" (selected)="act('Delete')">Delete</dm-menu-item>
+    </dm-menu>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['persistent']" [code]="persistentCode">
+    <dm-button [dmMenuTrigger]="persistentMenu" variant="flat">Format</dm-button>
+    <dm-menu #persistentMenu ariaLabel="Format" [closeOnSelect]="false">
+      <dm-menu-item (selected)="act('Bold')">Bold</dm-menu-item>
+      <dm-menu-item (selected)="act('Italic')">Italic</dm-menu-item>
+      <dm-menu-item (selected)="act('Underline')">Underline</dm-menu-item>
+    </dm-menu>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

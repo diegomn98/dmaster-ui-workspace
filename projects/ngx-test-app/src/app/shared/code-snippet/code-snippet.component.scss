@@ -108,6 +108,7 @@ $bar-height: 2.75rem;
 // Pill compacta con icono + texto. Mismo carácter que los chips HeroUI.
 
 .snippet__copy {
+  position: relative; // ancla del ::after del mixin touch-target
   display: inline-flex;
   align-items: center;
   gap: 0.3125rem;

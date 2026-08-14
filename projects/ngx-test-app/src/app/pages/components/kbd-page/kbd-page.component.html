@@ -1,0 +1,73 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.primitives }}</p>
+  <h1 class="page__title">Keyboard Key</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet language="ts" code="import &#123; DmKbdComponent &#125; from '@dmaster/ui';" />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-kbd [keys]="pgKeys()" [size]="pgSize()">{{ pgLetter() }}</dm-kbd>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['single']" [code]="singleCode">
+    <div class="demo-row">
+      <dm-kbd keys="command"></dm-kbd>
+      <dm-kbd keys="shift"></dm-kbd>
+      <dm-kbd keys="escape"></dm-kbd>
+      <dm-kbd keys="enter"></dm-kbd>
+      <dm-kbd keys="backspace"></dm-kbd>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['combos']" [code]="combosCode">
+    <div class="demo-row">
+      <dm-kbd keys="command">K</dm-kbd>
+      <dm-kbd [keys]="comboPalette">P</dm-kbd>
+      <dm-kbd keys="ctrl">C</dm-kbd>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['letters']" [code]="lettersCode">
+    <div class="demo-row">
+      <dm-kbd>Ctrl</dm-kbd>
+      <dm-kbd>Enter</dm-kbd>
+      <dm-kbd>A</dm-kbd>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-row">
+      <dm-kbd keys="command" size="sm">K</dm-kbd>
+      <dm-kbd keys="command" size="md">K</dm-kbd>
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

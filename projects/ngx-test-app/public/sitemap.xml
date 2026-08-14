@@ -21,4 +21,15 @@
   <url><loc>https://dmasterui.com/components/tooltip</loc></url>
   <url><loc>https://dmasterui.com/components/dialog</loc></url>
   <url><loc>https://dmasterui.com/components/toast</loc></url>
+  <url><loc>https://dmasterui.com/components/divider</loc></url>
+  <url><loc>https://dmasterui.com/components/progress</loc></url>
+  <url><loc>https://dmasterui.com/components/alert</loc></url>
+  <url><loc>https://dmasterui.com/components/pagination</loc></url>
+  <url><loc>https://dmasterui.com/components/slider</loc></url>
+  <url><loc>https://dmasterui.com/components/breadcrumbs</loc></url>
+  <url><loc>https://dmasterui.com/components/menu</loc></url>
+  <url><loc>https://dmasterui.com/components/popover</loc></url>
+  <url><loc>https://dmasterui.com/components/drawer</loc></url>
+  <url><loc>https://dmasterui.com/components/kbd</loc></url>
+  <url><loc>https://dmasterui.com/components/command</loc></url>
 </urlset>

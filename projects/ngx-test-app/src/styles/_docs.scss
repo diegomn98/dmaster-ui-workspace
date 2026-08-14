@@ -7,6 +7,14 @@
 // ============================================================================
 @use 'mixins';
 
+// Anchor jumps (TOC "On this page", hash links) must clear the sticky header
+// (3.5rem) when a heading is scrolled to the top. Targets every id'd heading in
+// the content — the same set the TocService scans — so it applies to the
+// Overview and every component page, not just Getting Started.
+:where(main) :is(h2, h3)[id] {
+  scroll-margin-top: 5rem;
+}
+
 // ---- Cabecera de página ----------------------------------------------------
 .page__header {
   display: grid;
@@ -121,15 +129,9 @@
   border: 1px solid var(--dm-border);
   border-radius: var(--dm-radius-xl);
 
-  // Retícula de puntos de marca (coherente con el Overview y los demos),
-  // desvanecida radialmente para no competir con el componente en vivo.
-  background-color: var(--dm-bg-subtle);
-  background-image:
-    radial-gradient(ellipse at center, transparent 45%, var(--dm-bg-subtle) 95%),
-    radial-gradient(color-mix(in srgb, var(--dm-fg) 8%, transparent) 1px, transparent 1px);
-  background-size:
-    100% 100%,
-    14px 14px;
+  // Clean seamless stage — a soft overhead spotlight, no pattern.
+  background:
+    radial-gradient(90% 80% at 50% -8%, var(--dm-bg-elevated), transparent 72%), var(--dm-bg-subtle);
   box-shadow: var(--dm-shadow-sm);
   overflow-x: auto;
 }

@@ -1,0 +1,95 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">Slider</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmSliderComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-slider
+      [color]="pgColor()"
+      [size]="pgSize()"
+      [showValueLabel]="pgShowLabel()"
+      ariaLabel="Volume"
+      [(value)]="pgValue"
+    />
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <dm-slider [(value)]="volume" [showValueLabel]="true" ariaLabel="Volume" />
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['marks']" [code]="marksCode">
+    <dm-slider [(value)]="level" [step]="25" [marks]="demoMarks" ariaLabel="Level" />
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="colorsCode">
+    <div class="demo-stack">
+      <dm-slider color="primary" [(value)]="colorValue" ariaLabel="Primary" />
+      <dm-slider color="secondary" [(value)]="colorValue" ariaLabel="Secondary" />
+      <dm-slider color="success" [(value)]="colorValue" ariaLabel="Success" />
+      <dm-slider color="warning" [(value)]="colorValue" ariaLabel="Warning" />
+      <dm-slider color="danger" [(value)]="colorValue" ariaLabel="Danger" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-stack">
+      <dm-slider size="sm" [(value)]="sizeValue" ariaLabel="Small" />
+      <dm-slider size="md" [(value)]="sizeValue" ariaLabel="Medium" />
+      <dm-slider size="lg" [(value)]="sizeValue" ariaLabel="Large" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode">
+    <div class="demo-stack">
+      <dm-slider [formControl]="price" [max]="1000" [step]="50" ariaLabel="Price" />
+      <span class="demo-output">value: {{ price.value }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['currency']" [code]="formatCode">
+    <dm-slider
+      [(value)]="budget"
+      [max]="2000"
+      [step]="50"
+      [showValueLabel]="true"
+      [formatValue]="asCurrency"
+      ariaLabel="Budget"
+    />
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

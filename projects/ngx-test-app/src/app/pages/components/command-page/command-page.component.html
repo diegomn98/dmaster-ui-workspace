@@ -1,0 +1,83 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.overlays }}</p>
+  <h1 class="page__title">Command</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmCommandComponent, DmCommandItem &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div class="demo-row">
+      <dm-button (clicked)="pgOpen.set(true)">
+        {{ page().labels['open'] }}
+        <dm-kbd size="sm" keys="command">K</dm-kbd>
+      </dm-button>
+      <span class="demo-output">{{ page().labels['lastAction'] }}: {{ lastAction() }}</span>
+    </div>
+    <dm-command
+      [items]="items"
+      [(open)]="pgOpen"
+      [hotkey]="pgHotkey()"
+      (selected)="onSelect($event)"
+    />
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" language="ts">
+    <dm-button variant="flat" (clicked)="basicOpen.set(true)">{{
+      page().labels['open']
+    }}</dm-button>
+    <dm-command [items]="basicItems" [(open)]="basicOpen" (selected)="onSelect($event)" />
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['shortcuts']" [code]="shortcutsCode" language="ts">
+    <dm-button variant="flat" (clicked)="shortcutsOpen.set(true)">
+      {{ page().labels['open'] }}
+    </dm-button>
+    <dm-command [items]="items" [(open)]="shortcutsOpen" (selected)="onSelect($event)" />
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['empty']" [code]="emptyCode" language="html">
+    <dm-button variant="flat" (clicked)="emptyOpen.set(true)">{{
+      page().labels['open']
+    }}</dm-button>
+    <dm-command
+      [items]="items"
+      [(open)]="emptyOpen"
+      [emptyLabel]="page().labels['emptyLabel']"
+      (selected)="onSelect($event)"
+    />
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

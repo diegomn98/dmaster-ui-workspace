@@ -123,6 +123,51 @@ $sidebar-width: 16rem;
   }
 }
 
+// Command-palette trigger: a pill with a magnifier + ⌘K hint that opens ⌘K.
+.shell__search {
+  position: relative; // ancla del ::after del mixin touch-target
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  height: 2rem;
+  padding: 0 0.4rem 0 var(--dm-space-3);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg);
+  color: var(--dm-fg-muted);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  cursor: pointer;
+
+  @include mixins.transition(background-color, color, border-color);
+  @include mixins.touch-target;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg);
+    border-color: var(--dm-border-strong, var(--dm-fg-subtle));
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.shell__search-label,
+.shell__search-kbd {
+  display: none;
+
+  @include mixins.respond-to(md) {
+    display: inline-flex;
+  }
+}
+
 // The hamburger only exists below lg: the sidebar is static from there up.
 .shell__menu-btn {
   @include mixins.respond-to(lg) {

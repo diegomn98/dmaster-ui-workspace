@@ -226,15 +226,12 @@ $topbar-height: 4rem;
   isolation: isolate;
 }
 
-// Dot-grid: máscara elíptica muy suave, centrada arriba.
+// Soft ambient glow behind the hero (no pattern).
 .home__hero-dots {
   position: absolute;
   inset: 0 0 25%;
   z-index: -1;
   pointer-events: none;
-  background-image: radial-gradient(circle, var(--dm-border) 1px, transparent 1.5px);
-  background-size: 1.5rem 1.5rem;
-  mask-image: radial-gradient(ellipse 55% 55% at 50% 15%, black 15%, transparent 68%);
 }
 
 .home__hero {
@@ -879,9 +876,8 @@ $topbar-height: 4rem;
   place-items: center;
   min-height: 22rem;
   padding: var(--dm-space-8) var(--dm-space-6);
-  background-color: var(--dm-bg-subtle);
-  background-image: radial-gradient(circle, var(--dm-border) 1px, transparent 1.5px);
-  background-size: 1.25rem 1.25rem;
+  background:
+    radial-gradient(90% 80% at 50% -8%, var(--dm-bg-elevated), transparent 72%), var(--dm-bg-subtle);
 
   @include mixins.respond-to(lg) {
     border-right: 1px solid var(--dm-border);
