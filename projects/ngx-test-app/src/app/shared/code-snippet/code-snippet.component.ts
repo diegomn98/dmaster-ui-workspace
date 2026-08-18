@@ -15,7 +15,7 @@ import { highlight } from './syntax-highlight';
 /**
  * Bloque de código copiable. Syntax highlight naive por regex (cero deps):
  * strings, tags/attrs (HTML), keywords (TS/JS), comentarios.
- * Encaja en la paleta HeroUI del resto de la librería.
+ * Encaja en la paleta propia del resto de la librería.
  */
 @Component({
   selector: 'app-code-snippet',

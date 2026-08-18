@@ -79,7 +79,7 @@ export class AccordionPageComponent {
     return [
       `<dm-accordion${attrs.length ? ' ' + attrs.join(' ') : ''}>`,
       '  <dm-accordion-item value="features" title="Features">',
-      '    Signals-first, zoneless-ready, HeroUI styling.',
+      '    Signals-first, zoneless-ready, flat and pill-radius styling.',
       '  </dm-accordion-item>',
       '  <dm-accordion-item value="a11y" title="Accessibility">',
       '    ARIA-compliant, full keyboard navigation.',

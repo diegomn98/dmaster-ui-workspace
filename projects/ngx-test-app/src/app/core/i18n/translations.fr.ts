@@ -103,7 +103,7 @@ export const FR: DashboardTranslations = {
     heroLine1: 'La bibliothèque de composants',
     heroLine2: 'qu’Angular mérite.',
     subtitle:
-      'Librairie de composants Angular 20 moderne. Standalone, basée sur les signals, inspirée de HeroUI — avec dark mode, theming réel et accessibilité intégrés dès le premier composant.',
+      'Librairie de composants Angular 20 moderne. Standalone, basée sur les signals, avec un langage visuel propre, plat et très arrondi — avec dark mode, theming réel et accessibilité intégrés dès le premier composant.',
     ctaPrimary: 'Démarrer',
     ctaSecondary: 'Voir les composants',
     copyAria: 'Copier la commande d’installation',
@@ -223,7 +223,7 @@ export const FR: DashboardTranslations = {
     darkModeNote:
       'Préférez sauter le service ? Posez <code>data-dm-theme="dark"</code> sur <code>&lt;html&gt;</code> directement — tous les tokens basculent instantanément.',
     colorsBody:
-      'Les couleurs sont exposées comme custom properties CSS sémantiques, mappées depuis une palette inspirée de HeroUI. Surchargez n’importe laquelle et toute la librairie se met à jour — sans rebuild.',
+      'Les couleurs sont exposées comme custom properties CSS sémantiques, mappées depuis la palette propre de la librairie. Surchargez n’importe laquelle et toute la librairie se met à jour — sans rebuild.',
     colorsItems: [
       '<strong>Six couleurs sémantiques</strong> — <code>default</code>, <code>primary</code>, <code>secondary</code>, <code>success</code>, <code>warning</code>, <code>danger</code>. Chacune avec ses variantes <code>-hover</code>, <code>-fg</code> (texte sur solid) et <code>-subtle</code> (remplissage flat).',
       '<strong>Surfaces et texte</strong> — <code>--dm-bg</code>, <code>--dm-bg-subtle</code>, <code>--dm-bg-muted</code>, <code>--dm-fg</code>, <code>--dm-fg-muted</code>, <code>--dm-fg-subtle</code>.',
@@ -235,11 +235,11 @@ export const FR: DashboardTranslations = {
       'La motion est centralisée dans un petit set de tokens de durée et d’easing — pour que toute la librairie bouge au même tempo.',
     animationItems: [
       '<strong>Durées</strong> — <code>--dm-duration-fast</code> (120ms), <code>--dm-duration-base</code> (180ms), <code>--dm-duration-slow</code> (280ms).',
-      '<strong>Easings</strong> — <code>--dm-ease-out</code>, <code>--dm-ease-snappy</code> pour le press élastique style HeroUI, <code>--dm-ease-in-out</code>.',
+      '<strong>Easings</strong> — <code>--dm-ease-out</code>, <code>--dm-ease-snappy</code> pour le press élastique, <code>--dm-ease-in-out</code>.',
       '<strong>Reduced motion</strong> — tous les tokens de durée passent à <code>0ms</code> automatiquement sous <code>prefers-reduced-motion: reduce</code>. Zéro opt-in.',
     ],
     animationNote:
-      'La signature HeroUI, c’est le press élastique : <code>scale(0.92–0.97)</code> avec <code>--dm-ease-snappy</code>. Déjà intégré dans chaque bouton.',
+      'La signature du bouton, c’est le press élastique : <code>scale(0.92–0.97)</code> avec <code>--dm-ease-snappy</code>. Déjà intégré dans chaque bouton.',
     typescriptBody:
       'Tous les types publics sont exportés depuis le barrel du package — pas besoin d’imports profonds. Cela inclut les types partagés <code>DmSize</code>, <code>DmTheme</code>, <code>DmDensity</code> et les <code>Color</code> / <code>Variant</code> / <code>Radius</code> de chaque composant.',
     whatsNextTitle: 'Étapes suivantes',
@@ -278,7 +278,7 @@ export const FR: DashboardTranslations = {
     },
   },
   buttonPage: {
-    lead: 'Bouton avec une API couleur × variante façon HeroUI et des états de chargement, succès et erreur intégrés. Largeur stable (pas de layout shift), spinner incorporé et annonces aux lecteurs d’écran via une live region.',
+    lead: 'Bouton avec une API couleur × variante et des états de chargement, succès et erreur intégrés. Largeur stable (pas de layout shift), spinner incorporé et annonces aux lecteurs d’écran via une live region.',
     demos: {
       colors: 'Couleurs',
       variants: 'Variantes',
@@ -351,7 +351,7 @@ export const FR: DashboardTranslations = {
       labels: { inButton: 'Dans d’autres composants' },
     },
     badge: {
-      lead: 'Chip / étiquette de statut avec une API couleur × variante façon HeroUI. Sans logique, pur theming : six couleurs, six variantes, deux tailles et une échelle de rayon.',
+      lead: 'Chip / étiquette de statut avec une API couleur × variante. Sans logique, pur theming : six couleurs, six variantes, deux tailles et une échelle de rayon.',
       apiCaption: 'Inputs de dm-badge',
       defaultsDesc:
         'Changez les defaults de tous les <code>dm-badge</code> avec le token <code>BADGE_DEFAULTS</code> ou le helper <code>provideBadgeDefaults</code> :',
@@ -470,7 +470,7 @@ export const FR: DashboardTranslations = {
       },
     },
     searchField: {
-      lead: 'Un champ de texte spécialisé pour la recherche : une loupe au début, un bouton d’effacement à la fin qui apparaît dès qu’il y a du texte, et une sémantique de recherche (Escape efface, Enter soumet). API couleur × variante façon HeroUI, et intégration Reactive Forms via <code>ControlValueAccessor</code>.',
+      lead: 'Un champ de texte spécialisé pour la recherche : une loupe au début, un bouton d’effacement à la fin qui apparaît dès qu’il y a du texte, et une sémantique de recherche (Escape efface, Enter soumet). API couleur × variante, et intégration Reactive Forms via <code>ControlValueAccessor</code>.',
       apiCaption: 'Inputs et outputs de dm-search-field',
       defaultsDesc:
         'Changez les valeurs par défaut de chaque <code>dm-search-field</code> avec le token <code>SEARCH_FIELD_DEFAULTS</code> ou le helper <code>provideSearchFieldDefaults</code> :',
@@ -512,7 +512,7 @@ export const FR: DashboardTranslations = {
       },
     },
     errorMessage: {
-      lead: 'Une ligne d’erreur de validation pour les champs de formulaire — l’équivalent autonome de <code>mat-error</code> / du FieldError de HeroUI. Couleur de danger, entrée subtile et <code>role="alert"</code> pour être annoncée dès son apparition. <code>dm-error</code> ne porte pas d’icône propre — son contenu est entièrement projeté, ajoutez-en une (p. ex. <code>&lt;dm-icon&gt;</code>) si vous en voulez une. Placez-la dans <code>dm-form-field</code> et elle est positionnée et reliée à <code>aria-describedby</code> automatiquement.',
+      lead: 'Une ligne d’erreur de validation pour les champs de formulaire — l’équivalent Angular natif de <code>mat-error</code>. Couleur de danger, entrée subtile et <code>role="alert"</code> pour être annoncée dès son apparition. <code>dm-error</code> ne porte pas d’icône propre — son contenu est entièrement projeté, ajoutez-en une (p. ex. <code>&lt;dm-icon&gt;</code>) si vous en voulez une. Placez-la dans <code>dm-form-field</code> et elle est positionnée et reliée à <code>aria-describedby</code> automatiquement.',
       apiCaption: 'Entrées de dm-error',
       defaultsDesc:
         'Modifiez les valeurs par défaut de chaque <code>dm-error</code> avec le jeton <code>ERROR_DEFAULTS</code> ou l’assistant <code>provideErrorDefaults</code> :',
@@ -578,7 +578,7 @@ export const FR: DashboardTranslations = {
       },
     },
     datePicker: {
-      lead: 'Un champ de date à calendrier en surcouche, avec navigation par niveaux jour → mois → année. Sans librairie de dates : le calcul du calendrier est pur et sûr vis-à-vis des fuseaux horaires, et tous les noms de mois/jour ainsi que le texte du déclencheur proviennent d’<code>Intl</code>, donc il suit l’entrée <code>locale</code> et fonctionne en SSR. API couleur × variante façon HeroUI et Reactive Forms via <code>ControlValueAccessor</code>.',
+      lead: 'Un champ de date à calendrier en surcouche, avec navigation par niveaux jour → mois → année. Sans librairie de dates : le calcul du calendrier est pur et sûr vis-à-vis des fuseaux horaires, et tous les noms de mois/jour ainsi que le texte du déclencheur proviennent d’<code>Intl</code>, donc il suit l’entrée <code>locale</code> et fonctionne en SSR. API couleur × variante et Reactive Forms via <code>ControlValueAccessor</code>.',
       apiCaption: 'Entrées de dm-date-picker',
       defaultsDesc:
         'Modifiez les valeurs par défaut de chaque <code>dm-date-picker</code> avec le jeton <code>DATE_PICKER_DEFAULTS</code> ou l’assistant <code>provideDatePickerDefaults</code> :',
@@ -634,7 +634,7 @@ export const FR: DashboardTranslations = {
       },
     },
     select: {
-      lead: 'Dropdown de sélection simple avec une API couleur × variante façon HeroUI. Support clavier complet (flèches, Home/End, Enter, Escape, typeahead), panneau CDK ancré au trigger avec la même largeur, et intégration Reactive Forms via <code>ControlValueAccessor</code>.',
+      lead: 'Dropdown de sélection simple avec une API couleur × variante. Support clavier complet (flèches, Home/End, Enter, Escape, typeahead), panneau CDK ancré au trigger avec la même largeur, et intégration Reactive Forms via <code>ControlValueAccessor</code>.',
       apiCaption: 'Inputs de dm-select',
       defaultsDesc:
         'Changez les defaults de tous les <code>dm-select</code> avec le token <code>SELECT_DEFAULTS</code> ou le helper <code>provideSelectDefaults</code> :',
@@ -969,7 +969,7 @@ export const FR: DashboardTranslations = {
       },
     },
     alert: {
-      lead: 'Bannière de feedback contextuel avec une API couleur × variante façon HeroUI, une icône sémantique par couleur, un bouton de fermeture optionnel et un slot d’action.',
+      lead: 'Bannière de feedback contextuel avec une API couleur × variante, une icône sémantique par couleur, un bouton de fermeture optionnel et un slot d’action.',
       apiCaption: 'Inputs et outputs de dm-alert',
       defaultsDesc:
         'Changez les defaults de toutes les <code>dm-alert</code> — y compris le libellé du bouton de fermeture — avec le token <code>ALERT_DEFAULTS</code> ou le helper <code>provideAlertDefaults</code> :',
@@ -1013,7 +1013,7 @@ export const FR: DashboardTranslations = {
         siblingCount: 'Pages affichées de chaque côté de la page courante.',
         boundaryCount: 'Pages toujours visibles au début et à la fin.',
         showControls: 'Boutons précédent/suivant (désactivés aux extrémités).',
-        size: 'Taille de l’item — 32 / 40 / 48px (échelle HeroUI).',
+        size: 'Taille de l’item — 32 / 40 / 48px.',
         color: 'Couleur sémantique de la page active (remplissage solide).',
         disabled: 'Désactive tous les contrôles.',
         ariaLabel: 'Nom accessible du landmark nav.',

@@ -66,8 +66,8 @@ interface OverviewStat {
 
 /**
  * Escaparate de la librería: un tile por componente con un preview EN VIVO
- * (los overlays usan mocks estáticos), agrupado en secciones por categoría
- * (patrón HeroUI/MUI). REGLA: todo componente nuevo de la librería añade aquí
+ * (los overlays usan mocks estáticos), agrupado en secciones por categoría.
+ * REGLA: todo componente nuevo de la librería añade aquí
  * su entrada en `COMPONENT_REGISTRY` (core/component-registry.ts) — esa lista
  * es también la fuente del stat "N components" de la Home.
  */
