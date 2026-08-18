@@ -230,7 +230,9 @@ export class DatePickerPageComponent {
   }
 
   protected format(date: Date | null): string {
-    return date ? new Intl.DateTimeFormat(this.activeLocale(), { dateStyle: 'medium' }).format(date) : '—';
+    return date
+      ? new Intl.DateTimeFormat(this.activeLocale(), { dateStyle: 'medium' }).format(date)
+      : '—';
   }
 
   // ---- API -----------------------------------------------------------------

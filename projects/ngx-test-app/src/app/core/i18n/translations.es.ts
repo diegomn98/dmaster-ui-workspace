@@ -523,7 +523,8 @@ export const ES: DashboardTranslations = {
       ],
       api: {
         size: 'Escala de texto: sm (xs) o md (sm).',
-        content: 'El mensaje proyectado — texto, markup o un icono (p. ej. <code>&lt;dm-icon&gt;</code>).',
+        content:
+          'El mensaje proyectado — texto, markup o un icono (p. ej. <code>&lt;dm-icon&gt;</code>).',
       },
       labels: {
         sampleMessage: 'Este campo es obligatorio',

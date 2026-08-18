@@ -51,7 +51,11 @@
   <app-demo-block [heading]="page().labels['alphaHeading']" [code]="alphaCode">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
-        <dm-color-picker [label]="page().labels['pickLabel']" [(value)]="alphaValue" [showAlpha]="true" />
+        <dm-color-picker
+          [label]="page().labels['pickLabel']"
+          [(value)]="alphaValue"
+          [showAlpha]="true"
+        />
       </div>
       <span class="demo-output">{{ page().labels['selected'] }}: {{ alphaValue() }}</span>
     </div>

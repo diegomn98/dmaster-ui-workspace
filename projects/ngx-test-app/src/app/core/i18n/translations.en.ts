@@ -522,7 +522,8 @@ export const EN: DashboardTranslations = {
       ],
       api: {
         size: 'Text scale: sm (xs) or md (sm).',
-        content: 'The projected message — text, markup, or an icon (e.g. <code>&lt;dm-icon&gt;</code>).',
+        content:
+          'The projected message — text, markup, or an icon (e.g. <code>&lt;dm-icon&gt;</code>).',
       },
       labels: {
         sampleMessage: 'This field is required',

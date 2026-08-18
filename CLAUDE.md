@@ -32,7 +32,7 @@ Antes de dar por buena cualquier tarea: `npm run build && npm test && npm run te
 - **Sitio de docs** (`ngx-test-app`): página del componente + `COMPONENT_REGISTRY` (`core/component-registry.ts` — única fuente de verdad, alimenta tanto el Overview como el stat "N components" de la Home; **nunca** un número a mano) + i18n en los 3 idiomas + `sitemap.xml`.
 - **Este CLAUDE.md**: si el cambio introduce un patrón, gotcha o decisión de arquitectura nueva.
 
-Motivo: ya ocurrió que el sitio en producción mostraba "18 components"/"139 tests" hardcodeados mientras la librería tenía 34 componentes reales — la documentación desincronizada activamente daña la credibilidad de cara a quien evalúa la librería. Antes de cualquier push, repasar mentalmente: *"¿alguien que lea la doc ahora mismo vería lo que acabo de construir?"* — si la respuesta es no, la tarea no está terminada.
+Motivo: ya ocurrió que el sitio en producción mostraba "18 components"/"139 tests" hardcodeados mientras la librería tenía 34 componentes reales — la documentación desincronizada activamente daña la credibilidad de cara a quien evalúa la librería. Antes de cualquier push, repasar mentalmente: _"¿alguien que lea la doc ahora mismo vería lo que acabo de construir?"_ — si la respuesta es no, la tarea no está terminada.
 
 ## Decisiones de arquitectura (no re-litigar)
 

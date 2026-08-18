@@ -2,7 +2,10 @@
   <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
   <h1 class="page__title">Error</h1>
   <p class="page__lead" [innerHTML]="page().lead"></p>
-  <app-code-snippet language="ts" code="import &#123; DmErrorComponent &#125; from '@dmaster/ui';" />
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmErrorComponent &#125; from '@dmaster/ui';"
+  />
 </header>
 
 <section class="page__section" aria-labelledby="playground-title">
@@ -34,7 +37,10 @@
   </app-demo-block>
 
   <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
-    <div class="demo-row" style="flex-direction: column; align-items: flex-start; gap: var(--dm-space-3)">
+    <div
+      class="demo-row"
+      style="flex-direction: column; align-items: flex-start; gap: var(--dm-space-3)"
+    >
       <dm-error size="sm">{{ page().labels['smallMessage'] }}</dm-error>
       <dm-error size="md">{{ page().labels['mediumMessage'] }}</dm-error>
     </div>
@@ -43,7 +49,12 @@
   <app-demo-block [heading]="page().labels['inFieldHeading']" [code]="formFieldCode" language="ts">
     <form (submit)="onSubmit($event)" style="width: 100%; max-width: 22rem">
       <dm-form-field [label]="page().labels['emailLabel']">
-        <input dmInput type="email" [formControl]="email" [placeholder]="page().labels['emailPlaceholder']" />
+        <input
+          dmInput
+          type="email"
+          [formControl]="email"
+          [placeholder]="page().labels['emailPlaceholder']"
+        />
         @if (email.touched && email.hasError('required')) {
           <dm-error>{{ page().labels['emailRequired'] }}</dm-error>
         } @else if (email.touched && email.hasError('email')) {

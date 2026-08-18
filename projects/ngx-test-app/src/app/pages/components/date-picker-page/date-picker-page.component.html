@@ -68,7 +68,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['constraintsHeading']" [code]="constraintsCode" language="ts">
+  <app-demo-block
+    [heading]="page().labels['constraintsHeading']"
+    [code]="constraintsCode"
+    language="ts"
+  >
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-date-picker
@@ -80,7 +84,9 @@
           [isDateDisabled]="noWeekends"
         />
       </div>
-      <span class="demo-output">{{ page().labels['selected'] }}: {{ format(constraintsValue()) }}</span>
+      <span class="demo-output"
+        >{{ page().labels['selected'] }}: {{ format(constraintsValue()) }}</span
+      >
     </div>
   </app-demo-block>
 
@@ -92,7 +98,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['validationHeading']" [code]="validationCode" language="ts">
+  <app-demo-block
+    [heading]="page().labels['validationHeading']"
+    [code]="validationCode"
+    language="ts"
+  >
     <div style="width: 100%; max-width: 18rem">
       <dm-date-picker
         [label]="page().labels['pickLabel']"
