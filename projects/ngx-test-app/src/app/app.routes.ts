@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { ShellComponent } from './layout/shell/shell.component';
 
 // La landing ('' exacto) vive FUERA del shell: página completa sin sidebar,
-// con su propio top bar (patrón HeroUI/MUI). El resto de rutas comparten el
+// con su propio top bar. El resto de rutas comparten el
 // shell de docs (header + sidebar + TOC) como layout route.
 export const routes: Routes = [
   {

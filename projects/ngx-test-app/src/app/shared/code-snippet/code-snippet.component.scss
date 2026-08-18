@@ -105,7 +105,7 @@ $bar-height: 2.75rem;
 }
 
 // ── Botón de copiar ───────────────────────────────────────────────────────────
-// Pill compacta con icono + texto. Mismo carácter que los chips HeroUI.
+// Pill compacta con icono + texto. Mismo carácter que el resto de chips.
 
 .snippet__copy {
   position: relative; // ancla del ::after del mixin touch-target
