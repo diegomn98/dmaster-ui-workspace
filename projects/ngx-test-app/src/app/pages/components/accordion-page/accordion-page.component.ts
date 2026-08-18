@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmAccordionComponent, DmAccordionItemComponent, DmAccordionVariant } from '@dmaster/ui';
+import {
+  DmAccordionComponent,
+  DmAccordionItemComponent,
+  DmAccordionVariant,
+  DmIconComponent,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -14,6 +19,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   imports: [
     DmAccordionComponent,
     DmAccordionItemComponent,
+    DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,

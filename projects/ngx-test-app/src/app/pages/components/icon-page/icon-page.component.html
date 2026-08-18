@@ -1,0 +1,284 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.primitives }}</p>
+  <h1 class="page__title">Icon</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <div class="page__meta">
+    <span class="page__meta-badge">{{ page().labels['metaFont'] }}</span>
+    <span class="page__meta-badge">{{ page().labels['metaSvg'] }}</span>
+    <span class="page__meta-badge">{{ page().labels['metaSsr'] }}</span>
+    <span class="page__meta-badge">{{ page().labels['metaTreeshake'] }}</span>
+  </div>
+  <app-code-snippet language="ts" code="import &#123; DmIconComponent &#125; from '@dmaster/ui';" />
+</header>
+
+<section class="page__section" aria-labelledby="ways-title">
+  <h2 class="page__section-title" id="ways-title">{{ page().labels['waysTitle'] }}</h2>
+  <ul class="feat-grid">
+    <li class="feat-item">
+      <span class="feat-item__icon"><dm-icon name="sparkles" size="1rem" /></span>
+      <span class="feat-item__title">{{ page().labels['waysFontTitle'] }}</span>
+      <span class="feat-item__body">{{ page().labels['waysFontBody'] }}</span>
+    </li>
+    <li class="feat-item">
+      <span class="feat-item__icon"><dm-icon name="box" size="1rem" /></span>
+      <span class="feat-item__title">{{ page().labels['waysSvgTitle'] }}</span>
+      <span class="feat-item__body">{{ page().labels['waysSvgBody'] }}</span>
+    </li>
+    <li class="feat-item">
+      <span class="feat-item__icon"><dm-icon name="code" size="1rem" /></span>
+      <span class="feat-item__title">{{ page().labels['waysProjectedTitle'] }}</span>
+      <span class="feat-item__body">{{ page().labels['waysProjectedBody'] }}</span>
+    </li>
+  </ul>
+</section>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    @if (pgMode() === 'font') {
+      <dm-icon
+        [size]="pgSize()"
+        [color]="pgColor()"
+        [fill]="pgFill()"
+        [weight]="pgWeight()"
+        [family]="pgFamily()"
+        [spin]="pgSpin()"
+        >{{ pgContent() }}</dm-icon
+      >
+    } @else {
+      <dm-icon [name]="pgName()" [size]="pgSize()" [color]="pgColor()" [spin]="pgSpin()" />
+    }
+  </div>
+
+  <app-prop-signal [controls]="controls()" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="font-title">
+  <h2 class="page__section-title" id="font-title">{{ page().labels['font'] }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().labels['fontDesc']"></p>
+  <app-code-snippet [code]="fontUsageCode" language="html" />
+  <app-code-snippet [code]="fontSetupCode" language="html" />
+
+  <div class="doc-icons__toolbar">
+    <div class="doc-icons__search-wrap">
+      <dm-icon size="sm" color="default">search</dm-icon>
+      <input
+        dmInput
+        class="doc-icons__search"
+        type="search"
+        [placeholder]="page().labels['searchFont']"
+        [attr.aria-label]="page().labels['searchFont']"
+        (input)="onFontQuery($event)"
+      />
+    </div>
+    <span class="doc-icons__count">{{ fontResultCount() }}/{{ fontTotalCount }}</span>
+  </div>
+
+  <div class="doc-icons__controls">
+    <div
+      class="doc-icons__chip-group"
+      role="radiogroup"
+      [attr.aria-label]="page().labels['styles']"
+    >
+      <button
+        type="button"
+        class="doc-icons__chip"
+        [attr.data-active]="!galleryFill()"
+        (click)="toggleGalleryFill()"
+      >
+        {{ page().labels['fillOutlined'] }}
+      </button>
+      <button
+        type="button"
+        class="doc-icons__chip"
+        [attr.data-active]="galleryFill()"
+        (click)="toggleGalleryFill()"
+      >
+        {{ page().labels['fillFilled'] }}
+      </button>
+    </div>
+
+    <div class="doc-icons__chip-group" role="radiogroup" aria-label="Family">
+      @for (fam of ['outlined', 'rounded', 'sharp']; track fam) {
+        <button
+          type="button"
+          class="doc-icons__chip"
+          [attr.data-active]="galleryFamily() === fam"
+          (click)="setGalleryFamily($any(fam))"
+        >
+          {{ page().labels['family' + (fam[0].toUpperCase() + fam.slice(1))] }}
+        </button>
+      }
+    </div>
+
+    <span class="doc-icons__hint">{{ page().labels['clickToCopy'] }}</span>
+  </div>
+
+  @if (filteredFontGroups().length === 0) {
+    <p class="doc-icons__empty">{{ page().labels['noResults'] }}</p>
+  }
+  @for (group of filteredFontGroups(); track group.labelKey) {
+    <div class="doc-icons__group">
+      <h3 class="doc-icons__group-title">{{ page().labels[group.labelKey] }}</h3>
+      <div class="doc-icons">
+        @for (name of group.icons; track name) {
+          <button
+            type="button"
+            class="doc-icons__item"
+            [attr.data-copied]="copiedKey() === 'font:' + name"
+            (click)="copyFontIcon(name)"
+          >
+            <dm-icon size="1.75rem" [fill]="galleryFill()" [family]="galleryFamily()">{{
+              name
+            }}</dm-icon>
+            <span class="doc-icons__name">{{
+              copiedKey() === 'font:' + name ? page().labels['copied'] : name
+            }}</span>
+          </button>
+        }
+      </div>
+    </div>
+  }
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['styles']" [code]="stylesCode">
+    <div class="demo-row" style="align-items: flex-end; gap: var(--dm-space-6); flex-wrap: wrap">
+      <div class="doc-icons__style-sample">
+        <dm-icon size="2rem">favorite</dm-icon>
+        <span class="doc-icons__style-label">{{ page().labels['stylesOutlined'] }}</span>
+      </div>
+      <div class="doc-icons__style-sample">
+        <dm-icon size="2rem" [fill]="true">favorite</dm-icon>
+        <span class="doc-icons__style-label">{{ page().labels['stylesFilled'] }}</span>
+      </div>
+      <div class="doc-icons__style-sample">
+        <dm-icon size="2rem" family="rounded" [fill]="true">favorite</dm-icon>
+        <span class="doc-icons__style-label">{{ page().labels['stylesRounded'] }}</span>
+      </div>
+      <div class="doc-icons__style-sample">
+        <dm-icon size="2rem" family="sharp" [fill]="true">favorite</dm-icon>
+        <span class="doc-icons__style-label">{{ page().labels['stylesSharp'] }}</span>
+      </div>
+      <div class="doc-icons__style-sample">
+        <dm-icon size="2rem" [weight]="700">favorite</dm-icon>
+        <span class="doc-icons__style-label">{{ page().labels['stylesBold'] }}</span>
+      </div>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['color']" [code]="colorCode">
+    <div class="demo-row" style="align-items: center">
+      <dm-icon name="heart" size="lg" color="danger" />
+      <dm-icon name="star" size="lg" color="warning" />
+      <dm-icon name="check-circle" size="lg" color="success" />
+      <dm-icon name="info" size="lg" color="primary" />
+      <dm-icon name="bell" size="lg" color="#8b5cf6" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-row" style="align-items: center">
+      <dm-icon name="sparkles" size="sm" />
+      <dm-icon name="sparkles" size="md" />
+      <dm-icon name="sparkles" size="lg" />
+      <dm-icon name="sparkles" size="2.5rem" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['spin']" [code]="spinCode">
+    <div class="demo-row">
+      <dm-icon name="refresh" size="lg" [spin]="true" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['projected']" [code]="projectedCode">
+    <div class="demo-row">
+      <dm-icon size="lg" label="Verified">
+        <svg
+          viewBox="0 0 24 24"
+          width="100%"
+          height="100%"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </dm-icon>
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="set-title">
+  <h2 class="page__section-title" id="set-title">{{ page().labels['gallery'] }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().labels['setDesc']"></p>
+
+  <div class="doc-icons__toolbar">
+    <div class="doc-icons__search-wrap">
+      <dm-icon size="sm" color="default">search</dm-icon>
+      <input
+        dmInput
+        class="doc-icons__search"
+        type="search"
+        [placeholder]="page().labels['searchSvg']"
+        [attr.aria-label]="page().labels['searchSvg']"
+        (input)="onIconQuery($event)"
+      />
+    </div>
+    <span class="doc-icons__count">{{ filteredIconNames().length }}/{{ iconNames.length }}</span>
+  </div>
+  <div class="doc-icons__controls">
+    <span class="doc-icons__hint">{{ page().labels['clickToCopy'] }}</span>
+  </div>
+
+  @if (filteredIconNames().length === 0) {
+    <p class="doc-icons__empty">{{ page().labels['noResults'] }}</p>
+  }
+  <div class="doc-icons">
+    @for (name of filteredIconNames(); track name) {
+      <button
+        type="button"
+        class="doc-icons__item"
+        [attr.data-copied]="copiedKey() === 'svg:' + name"
+        (click)="copySvgIcon(name)"
+      >
+        <dm-icon [name]="name" size="1.5rem" />
+        <span class="doc-icons__name">{{
+          copiedKey() === 'svg:' + name ? page().labels['copied'] : name
+        }}</span>
+      </button>
+    }
+  </div>
+</section>
+
+<section class="page__section" aria-labelledby="register-title">
+  <h2 class="page__section-title" id="register-title">{{ page().labels['register'] }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().labels['registerDesc']"></p>
+  <app-code-snippet [code]="registerCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

@@ -7,6 +7,7 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { DmIconComponent } from '@dmaster/ui';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { highlight } from './syntax-highlight';
@@ -18,6 +19,7 @@ import { highlight } from './syntax-highlight';
  */
 @Component({
   selector: 'app-code-snippet',
+  imports: [DmIconComponent],
   templateUrl: './code-snippet.component.html',
   styleUrl: './code-snippet.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

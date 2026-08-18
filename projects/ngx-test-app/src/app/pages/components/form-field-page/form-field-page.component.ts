@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DmErrorComponent, DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -16,6 +17,8 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   imports: [
     DmFormFieldComponent,
     DmInputDirective,
+    DmErrorComponent,
+    ReactiveFormsModule,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -91,6 +94,25 @@ export class FormFieldPageComponent {
   protected readonly errorCode = [
     '<dm-form-field label="Email" [error]="emailError()">',
     '  <input dmInput type="email" (input)="…" (blur)="touched.set(true)" />',
+    '</dm-form-field>',
+  ].join('\n');
+
+  // Projected <dm-error> slot (mat-error-style) with Reactive Forms.
+  protected readonly emailControl = new FormControl<string>('', {
+    nonNullable: true,
+    validators: [Validators.required, Validators.email],
+  });
+
+  protected readonly slotErrorCode = [
+    'email = new FormControl("", [Validators.required, Validators.email]);',
+    '',
+    '<dm-form-field label="Email">',
+    '  <input dmInput type="email" [formControl]="email" />',
+    '  @if (email.touched && email.hasError("required")) {',
+    '    <dm-error>Email is required</dm-error>',
+    '  } @else if (email.touched && email.hasError("email")) {',
+    '    <dm-error>Enter a valid email address</dm-error>',
+    '  }',
     '</dm-form-field>',
   ].join('\n');
 

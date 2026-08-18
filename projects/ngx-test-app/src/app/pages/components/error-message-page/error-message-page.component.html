@@ -1,0 +1,76 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">Error</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet language="ts" code="import &#123; DmErrorComponent &#125; from '@dmaster/ui';" />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-error [size]="pgSize()">
+      {{ page().labels['sampleMessage'] }}
+    </dm-error>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <dm-error>{{ page().labels['sampleMessage'] }}</dm-error>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['withIconHeading']" [code]="withIconCode">
+    <dm-error>
+      <dm-icon name="warning" size="sm" />
+      {{ page().labels['sampleMessage'] }}
+    </dm-error>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-row" style="flex-direction: column; align-items: flex-start; gap: var(--dm-space-3)">
+      <dm-error size="sm">{{ page().labels['smallMessage'] }}</dm-error>
+      <dm-error size="md">{{ page().labels['mediumMessage'] }}</dm-error>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['inFieldHeading']" [code]="formFieldCode" language="ts">
+    <form (submit)="onSubmit($event)" style="width: 100%; max-width: 22rem">
+      <dm-form-field [label]="page().labels['emailLabel']">
+        <input dmInput type="email" [formControl]="email" [placeholder]="page().labels['emailPlaceholder']" />
+        @if (email.touched && email.hasError('required')) {
+          <dm-error>{{ page().labels['emailRequired'] }}</dm-error>
+        } @else if (email.touched && email.hasError('email')) {
+          <dm-error>{{ page().labels['emailInvalid'] }}</dm-error>
+        }
+      </dm-form-field>
+      <div style="margin-top: var(--dm-space-3)">
+        <dm-button type="submit" size="sm">{{ page().labels['submit'] }}</dm-button>
+      </div>
+    </form>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="'provideErrorDefaults({ size: \'md\' })'" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

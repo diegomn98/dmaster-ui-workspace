@@ -1,0 +1,134 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">Date Picker</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmDatePickerComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 20rem">
+      <dm-date-picker
+        [label]="page().labels['pickLabel']"
+        [placeholder]="page().labels['pickPlaceholder']"
+        [(value)]="playgroundValue"
+        [color]="pgColor()"
+        [variant]="pgVariant()"
+        [size]="pgSize()"
+        [radius]="pgRadius()"
+        [clearable]="pgClearable()"
+        [showTodayButton]="pgShowToday()"
+        [disabled]="pgDisabled()"
+        [required]="pgRequired()"
+      />
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <div style="width: 100%; max-width: 18rem">
+      <dm-date-picker
+        [label]="page().labels['pickLabel']"
+        [placeholder]="page().labels['pickPlaceholder']"
+        [(value)]="basicValue"
+        [clearable]="true"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['localizedHeading']" [code]="localizedCode">
+    <div class="demo-grid demo-grid--2col">
+      <dm-date-picker label="Español" locale="es" [(value)]="localizedEsValue" />
+      <dm-date-picker label="Français" locale="fr" [(value)]="localizedFrValue" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['globalLocaleHeading']"
+    [code]="globalLocaleCode"
+    language="ts"
+  >
+    <div style="display: grid; gap: var(--dm-space-3); max-width: 18rem">
+      <p style="margin: 0; font-size: var(--dm-text-sm); color: var(--dm-fg-muted)">
+        {{ page().labels['globalLocaleNote'] }}
+      </p>
+      <dm-date-picker [label]="page().labels['pickLabel']" [(value)]="basicValue" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['constraintsHeading']" [code]="constraintsCode" language="ts">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+      <div style="width: 18rem">
+        <dm-date-picker
+          [label]="page().labels['appointmentLabel']"
+          [description]="page().labels['constraintsHint']"
+          [(value)]="constraintsValue"
+          [min]="minDate"
+          [max]="maxDate"
+          [isDateDisabled]="noWeekends"
+        />
+      </div>
+      <span class="demo-output">{{ page().labels['selected'] }}: {{ format(constraintsValue()) }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-row" style="flex-direction: column; align-items: stretch; max-width: 18rem">
+      <dm-date-picker size="sm" [label]="page().labels['sizeSm']" />
+      <dm-date-picker size="md" [label]="page().labels['sizeMd']" />
+      <dm-date-picker size="lg" [label]="page().labels['sizeLg']" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['validationHeading']" [code]="validationCode" language="ts">
+    <div style="width: 100%; max-width: 18rem">
+      <dm-date-picker
+        [label]="page().labels['pickLabel']"
+        [formControl]="requiredDate"
+        [required]="true"
+      />
+      @if (requiredDate.touched && requiredDate.hasError('required')) {
+        <dm-error>{{ page().labels['chooseDate'] }}</dm-error>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" language="ts">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+      <div style="width: 18rem">
+        <dm-date-picker [label]="page().labels['pickLabel']" [formControl]="formControl" />
+      </div>
+      <span class="demo-output">{{ page().labels['formValue'] }}: {{ format(formValue()) }}</span>
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

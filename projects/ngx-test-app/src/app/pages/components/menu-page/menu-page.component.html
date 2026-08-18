@@ -47,35 +47,11 @@
     <dm-button [dmMenuTrigger]="iconMenu" variant="flat">Edit</dm-button>
     <dm-menu #iconMenu ariaLabel="Edit">
       <dm-menu-item shortcut="⌘C" (selected)="act('Copy')">
-        <svg
-          dmMenuItemStart
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <rect x="9" y="9" width="13" height="13" rx="2" />
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-        </svg>
+        <dm-icon dmMenuItemStart name="copy" size="1rem" />
         Copy
       </dm-menu-item>
       <dm-menu-item shortcut="⌘V" (selected)="act('Paste')">
-        <svg
-          dmMenuItemStart
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-          <rect x="8" y="2" width="8" height="4" rx="1" />
-        </svg>
+        <dm-icon dmMenuItemStart name="clipboard" size="1rem" />
         Paste
       </dm-menu-item>
     </dm-menu>

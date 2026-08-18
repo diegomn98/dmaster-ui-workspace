@@ -16,31 +16,10 @@
         [attr.aria-label]="copied() ? i18n.t().shared.copied : i18n.t().shared.copyCode"
       >
         @if (copied()) {
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M20 6 9 17l-5-5" />
-          </svg>
+          <dm-icon name="check" size="0.75rem" />
           {{ i18n.t().shared.copied }}
         } @else {
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <rect x="9" y="9" width="12" height="12" rx="2" />
-            <path d="M5 15V5a2 2 0 0 1 2-2h10" />
-          </svg>
+          <dm-icon name="copy" size="0.75rem" />
           {{ i18n.t().shared.copy }}
         }
       </button>
@@ -54,30 +33,9 @@
       [attr.aria-label]="copied() ? i18n.t().shared.copied : i18n.t().shared.copyCode"
     >
       @if (copied()) {
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M20 6 9 17l-5-5" />
-        </svg>
+        <dm-icon name="check" size="0.875rem" />
       } @else {
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <rect x="9" y="9" width="12" height="12" rx="2" />
-          <path d="M5 15V5a2 2 0 0 1 2-2h10" />
-        </svg>
+        <dm-icon name="copy" size="0.875rem" />
       }
     </button>
   }

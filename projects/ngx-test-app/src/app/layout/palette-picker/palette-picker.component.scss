@@ -24,12 +24,6 @@
   @include mixins.transition(background-color, color, border-color);
   @include mixins.touch-target;
 
-  svg {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-  }
-
   &:hover,
   &--open {
     background: var(--dm-bg-muted);

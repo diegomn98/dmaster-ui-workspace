@@ -8,6 +8,7 @@ import {
   DmCardComponent,
   DmCheckboxComponent,
   DmFormFieldComponent,
+  DmIconComponent,
   DmInputDirective,
   DmRadioComponent,
   DmRadioGroupComponent,
@@ -21,6 +22,7 @@ import {
   ThemeService,
 } from '@dmaster/ui';
 
+import { COMPONENT_REGISTRY } from '../../core/component-registry';
 import { LocaleService } from '../../core/i18n/locale.service';
 import { DashboardLocale } from '../../core/i18n/translations.types';
 import { PALETTE_PRESETS } from '../../core/palette/palette';
@@ -40,6 +42,7 @@ import { RevealDirective } from '../../shared/reveal.directive';
     DmCardComponent,
     DmCheckboxComponent,
     DmFormFieldComponent,
+    DmIconComponent,
     DmInputDirective,
     DmRadioComponent,
     DmRadioGroupComponent,
@@ -61,6 +64,9 @@ export class HomeComponent {
   protected readonly i18n = inject(LocaleService);
   protected readonly palette = inject(PaletteService);
   protected readonly theme = inject(ThemeService);
+
+  /** Same source of truth as the Overview page — never hand-typed/stale. */
+  protected readonly componentsCount = COMPONENT_REGISTRY.length;
 
   protected readonly installCode = 'ng add @dmaster/ui';
   protected readonly presets = PALETTE_PRESETS;

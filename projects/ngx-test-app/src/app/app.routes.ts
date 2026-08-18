@@ -80,6 +80,14 @@ export const routes: Routes = [
         title: 'Avatar · @dmaster/ui',
       },
       {
+        path: 'components/icon',
+        loadComponent: () =>
+          import('./pages/components/icon-page/icon-page.component').then(
+            (m) => m.IconPageComponent,
+          ),
+        title: 'Icon · @dmaster/ui',
+      },
+      {
         path: 'components/switch',
         loadComponent: () =>
           import('./pages/components/switch-page/switch-page.component').then(
@@ -118,6 +126,38 @@ export const routes: Routes = [
             (m) => m.FormFieldPageComponent,
           ),
         title: 'Form Field · @dmaster/ui',
+      },
+      {
+        path: 'components/search-field',
+        loadComponent: () =>
+          import('./pages/components/search-field-page/search-field-page.component').then(
+            (m) => m.SearchFieldPageComponent,
+          ),
+        title: 'Search Field · @dmaster/ui',
+      },
+      {
+        path: 'components/date-picker',
+        loadComponent: () =>
+          import('./pages/components/date-picker-page/date-picker-page.component').then(
+            (m) => m.DatePickerPageComponent,
+          ),
+        title: 'Date Picker · @dmaster/ui',
+      },
+      {
+        path: 'components/error-message',
+        loadComponent: () =>
+          import('./pages/components/error-message-page/error-message-page.component').then(
+            (m) => m.ErrorMessagePageComponent,
+          ),
+        title: 'Error · @dmaster/ui',
+      },
+      {
+        path: 'components/color-picker',
+        loadComponent: () =>
+          import('./pages/components/color-picker-page/color-picker-page.component').then(
+            (m) => m.ColorPickerPageComponent,
+          ),
+        title: 'Color Picker · @dmaster/ui',
       },
       {
         path: 'components/tooltip',

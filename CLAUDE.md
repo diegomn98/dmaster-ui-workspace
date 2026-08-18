@@ -12,7 +12,7 @@ npm start              # ng serve ngx-test-app (dev del dashboard, puerto 4200)
 npm run build          # lib completa: ng-packagr + CSS precompilado + schematics → dist/dmaster-ui
 npm run build:styles   # solo el CSS precompilado (sass → dist/dmaster-ui/styles/dmaster-ui.css)
 npm run build:schematics # solo los schematics (tsc + copia de collection/schema.json al dist)
-npm run build:app      # ng build ngx-test-app (prerenderiza las 21 rutas — outputMode static)
+npm run build:app      # ng build ngx-test-app (prerenderiza todas las rutas — outputMode static; el número exacto crece con cada componente, no lo fijes a mano en comentarios/docs)
 npm test               # tests de la librería (Vitest, headless)
 npm run test:coverage  # tests de la librería con cobertura
 npm run test:app       # tests del dashboard
@@ -22,6 +22,17 @@ npm run format         # Prettier --write
 ```
 
 Antes de dar por buena cualquier tarea: `npm run build && npm test && npm run test:app && npm run lint && npm run lint:styles`.
+
+## Regla dura: documentación siempre sincronizada con cada push
+
+**Cada vez que se suba código nuevo (commit/push), la documentación tiene que reflejar ese estado.** No es opcional ni un "follow-up" — se hace en la misma tanda que el cambio, antes de subir. Esto incluye, según lo que toque el cambio:
+
+- **README de la librería** (`projects/ngx-dmaster-ui/README.md`, la página que ve npm) y **README raíz** (`README.md`): sección "Components" con el componente nuevo/renombrado en su categoría real; cifras "at a glance" (nº de componentes, tests) si cambian.
+- **`CHANGELOG.md`** de la librería: entrada en `[Unreleased]`.
+- **Sitio de docs** (`ngx-test-app`): página del componente + `COMPONENT_REGISTRY` (`core/component-registry.ts` — única fuente de verdad, alimenta tanto el Overview como el stat "N components" de la Home; **nunca** un número a mano) + i18n en los 3 idiomas + `sitemap.xml`.
+- **Este CLAUDE.md**: si el cambio introduce un patrón, gotcha o decisión de arquitectura nueva.
+
+Motivo: ya ocurrió que el sitio en producción mostraba "18 components"/"139 tests" hardcodeados mientras la librería tenía 34 componentes reales — la documentación desincronizada activamente daña la credibilidad de cara a quien evalúa la librería. Antes de cualquier push, repasar mentalmente: *"¿alguien que lea la doc ahora mismo vería lo que acabo de construir?"* — si la respuesta es no, la tarea no está terminada.
 
 ## Decisiones de arquitectura (no re-litigar)
 
@@ -37,6 +48,7 @@ Antes de dar por buena cualquier tarea: `npm run build && npm test && npm run te
 - **SSR-safety (regla dura de la lib y de la app)**: nunca tocar `window`/`document`/`localStorage` como globales. Siempre `inject(DOCUMENT)` y `this.document.defaultView?.` con optional chaining (patrón de ThemeService/TocService/PaletteService). El prerender del dashboard es el smoke test permanente: si un servicio rompe esta regla, `npm run build:app` falla.
 - **Prerender estático del dashboard**: `outputMode: "static"` + `main.server.ts` (el bootstrap del servidor DEBE recibir `BootstrapContext` — sin él, NG0401) + `app.routes.server.ts` (`RenderMode.Prerender` con wildcard). Las 21 rutas salen como HTML completo con su `<title>` horneado. El output sigue en `dist/ngx-test-app/browser` (wrangler.toml intacto); `index.csr.html` es el fallback client-side.
 - **Empaquetado npm**: `rxjs` es peer (aparece en los typings públicos vía paginated-select); LICENSE y CHANGELOG.md viven en `projects/ngx-dmaster-ui/` y viajan como assets de ng-package.json; el `exports` del package.json de la lib declara los subpaths `./styles`, `./styles/index` y `./styles/*` (ng-packagr los mergea con los suyos) + CSS precompilado `styles/dmaster-ui.css` para consumidores sin Sass (se genera en `build:styles`).
+- **Sistema de iconos**: `dm-icon` (primitivo) tiene **tres modos** (patrón `mat-icon`): (1) **fuente** — el contenido de texto es una ligadura de Material Symbols (`<dm-icon>home</dm-icon>`, ~3500 iconos); `fill`/`weight`/`family` mapean a los ejes de la variable font (outlined⇄filled, wght, rounded/sharp) vía CSS vars `--dm-icon-{fill,weight}` + `data-family`; (2) **SVG registrado** por `name`; (3) **`<svg>` proyectado**. `color` acepta token semántico (→`var(--dm-{color})`) o cualquier color CSS; si vacío hereda `currentColor`. El tamaño se aplica a `width/height` **y** `font-size` (unifica ambos modos). El registro SVG es agnóstico: `provideDmasterIcons(icons)` (multi-provider) mergea sets; `DmIconRegistry` los cachea como `SafeHtml` vía `DomSanitizer.bypassSecurityTrustHtml` (**único** uso de DomSanitizer en la lib — solo strings de confianza del registro, nunca de input). El **set curado** vive en un **secondary entry point** `@dmaster/ui/icons` (`projects/ngx-dmaster-ui/icons/` con su propio `ng-package.json`; ng-packagr auto-genera el subpath `./icons`; ~53 iconos outline 24×24 originales). **Regla dura**: los SVG internos de los componentes de la lib **siguen inline** (no dependen del registro, como Angular Material). En el dashboard: `provideDmasterIcons(DM_ICONS)` en `app.config.ts`, la fuente Material Symbols (3 familias) por `<link>` en `index.html`, y `tsconfig.json` mapea `@dmaster/ui/icons` a fuente. El modo fuente exige que el consumidor cargue la fuente (no se empaqueta).
 - **`ng add @dmaster/ui`**: schematic en `projects/ngx-dmaster-ui/schematics/` (compilado por `build:schematics` con tsconfig propio a `dist/dmaster-ui/schematics`). Campos `schematics` y `ng-add.save` en el package.json de la lib.
 - **CI/release**: `package-lock.json` VERSIONADO (no volver a ignorarlo) + `npm ci` en workflows; CI corre en `main` Y `development`; el release (tags `v*`) valida tag == versión del package.json de la lib, pasa publint y crea GitHub Release. Node fijado por `.node-version` (24) y `engines`.
 - **Tema persistido**: la clave `ngx-dmaster-theme` en localStorage la escribe `ThemePersistenceService` (app, `core/theme/`) y la lee el script inline anti-FOUC de `index.html` antes del primer paint. Si se cambia la clave, cambiar AMBOS sitios.
@@ -58,7 +70,9 @@ projects/ngx-dmaster-ui/src/
         │   ├── skeleton/          # patrón de referencia para TODO componente nuevo
         │   ├── spinner/           # lo consume dm-button
         │   ├── badge/
-        │   └── avatar/
+        │   ├── avatar/
+        │   ├── icon/              # dm-icon + DmIconRegistry + provideDmasterIcons
+        │   └── kbd/
         ├── layout/
         │   ├── card/              # container-type: inline-size
         │   ├── accordion/
@@ -68,14 +82,18 @@ projects/ngx-dmaster-ui/src/
         │   └── alert/             # color × variant, icono semántico, dismissible, action slot
         ├── buttons/
         │   └── button/            # HeroUI color × variant + estados idle/loading/success/error, live region
-        ├── forms/                 # CVA: switch, checkbox, select, slider; form-field + directiva dmInput
+        ├── forms/                 # CVA: switch, checkbox, select, search-field, slider; form-field + directiva dmInput
         │   ├── switch/            # prop-signal del dashboard lo dogfoodea
         │   ├── checkbox/
         │   ├── radio-group/
         │   ├── select/            # combobox (CDK overlay + keyboard + typeahead + CVA)
         │   ├── paginated-select/  # server-driven (rxResource)
+        │   ├── search-field/      # CVA: input + lupa + botón limpiar; Escape limpia, Enter (search); color×variante; superficie propia (no dmInput)
+        │   ├── date-picker/        # CVA: calendario en overlay, vistas día→mes→año, teclado ARIA (roving grid); Date nativo; Intl para nombres/formato/dígitos (sin date lib); firstDayOfWeek 'auto' = semana según locale (CLDR); DM_DATE_LOCALE reactivo (string|Signal); + date-utils.ts puro
+        │   ├── color-picker/       # CVA: hex string; trigger de campo + panel overlay (área S/V drag+teclado, tono, alpha, hex input, swatches); + color-utils.ts puro (hex⇄rgb⇄hsv)
         │   ├── slider/            # CVA: pointer drag + teclado completo + value bubble + marks
-        │   └── form-field/        # estilos de .dm-input en _forms.scss (global)
+        │   ├── error/              # dm-error — mat-error / HeroUI FieldError: role=alert, proyección pura (sin icono propio; se proyecta uno si se quiere, p. ej. dm-icon); slot proyectable en dm-form-field (aria-describedby auto)
+        │   └── form-field/        # estilos de .dm-input en _forms.scss (global); acepta <dm-error> proyectado
         ├── navigation/
         │   ├── tabs/
         │   ├── breadcrumbs/       # composite; router-agnóstico (href → <a>, sin href → <span>); collapse
@@ -121,8 +139,10 @@ projects/ngx-dmaster-ui/src/
 - Clases BEM (`bloque__elemento--modificador`); variantes de componente como data-attributes (`[data-variant='…']`), no como explosión de clases.
 - **Lenguaje visual: HeroUI** (heroui.com). Rellenos PLANOS (colores sólidos vivos, SIN gradiente ni `--dm-sheen` en componentes), muy redondeado (radios `sm 8 / md 12 / lg 14 / xl 18`; chips a `full`), sombras difusas suaves, press elástico `scale(0.92–0.97)` con `--dm-ease-snappy`. `--dm-gradient-brand` se conserva SOLO en marca (logo, títulos hero del dashboard), nunca en componentes. `--dm-sheen` queda como token legado sin uso en componentes.
 - **Sistema de color × variante (HeroUI)**: tokens por color `--dm-{default|primary|secondary|success|warning|danger}` con `-hover`, `-fg` (texto sobre solid) y `-subtle` (relleno flat). Los componentes con variantes (button, badge) mapean el `data-color` a variables genéricas locales (`--dm-btn*` / `--dm-badge*`) y las variantes (`data-variant`) las consumen — así se evita la explosión color×variante en SCSS. La variante `shadow` proyecta un glow del propio color con `color-mix`.
-- **Separación marca / UI**: `--dm-primary` es **azul HeroUI** (`#006FEE` light / `#338EF7` dark) — es el color de UI (botones, links activos, focus ring, checked). `--dm-gradient-brand` (índigo→violeta) es la identidad de marca y **solo** se usa en el logo `dm.` y en los títulos hero (home, overview). No se mezclan.
+- **Marca ligada al theme (no re-litigar)**: `--dm-gradient-brand` (logo `dm.`, favicon, títulos hero) **deriva** de `--dm-primary`/`--dm-primary-hover` (`linear-gradient(135deg, var(--dm-primary-hover), var(--dm-primary))`) — ya NO es un índigo→violeta fijo independiente del tema. Así logo/favicon/hero siguen automáticamente el theme claro/oscuro **y** la paleta en vivo del `PalettePicker` (que sobreescribe `--dm-primary*` inline en `<html>`). Los SVG inline del logo (`shell.component.html`, `home.component.html`) usan `style="stop-color: var(--dm-primary-hover)"` en sus `<stop>` (no el atributo `stop-color`, que no resuelve custom properties). El favicon estático (`public/favicon.svg`) es un documento aparte sin acceso al CSS del host: fija el azul del theme por defecto y usa su propio `@media (prefers-color-scheme: dark)` interno — es el fallback antes de hidratar (SSR/prerender, JS deshabilitado) y solo puede seguir el color del SO, no la paleta. Una vez arranca Angular, `FaviconThemeService` (`core/theme/favicon-theme.ts`, cableado con `provideFaviconTheme()` en `app.config.ts`) toma el relevo: un `effect()` sobre `ThemeService.resolvedTheme()` + `PaletteService.current()` regenera el SVG como `data:` URI y reemplaza el `href` del `<link rel="icon">` — así la pestaña sigue el theme claro/oscuro **y** la paleta en vivo, igual que el logo del header. Resuelve los colores desde el estado de los servicios (constantes light/dark + `PALETTE_PRESETS`), no leyendo `getComputedStyle` — evita una carrera de orden de `effect()`s con el que estampa `data-dm-theme`.
+- **`PaletteService` no persiste** (a propósito): el picker de paletas es una herramienta "pruébalo" de la sesión actual — cada carga arranca en `default` (azul), nunca restaura la última paleta elegida desde `localStorage`. Motivo: con la marca ligada al theme, una paleta no-default sobreviviendo un reload haría que logo/favicon/hero parpadeasen a un color distinto tras la hidratación (no hay script anti-FOUC para la paleta, a diferencia de `ngx-dmaster-theme`). El theme claro/oscuro (`ThemeService`/`ThemePersistenceService`) sigue persistiendo normalmente — es un eje independiente.
 - **Button** (`dm-button`): `color` × `variant` (`solid|flat|faded|bordered|light|ghost|shadow`) + `radius` (**default `full`** = píldora, seña HeroUI) + `size` (32/40/48px, escala HeroUI) + estados idle/loading/success/error con live region. **Badge/Chip** (`dm-badge`): `color` × `variant` (`solid|flat|bordered|light|dot|shadow`) + `radius` + `size`; `dot` es una variante (no un boolean).
+- **Familia de campos — estética unificada (regla dura)**: `dmInput`/form-field, `dm-select`, `dm-paginated-select`, `dm-search-field` y `dm-date-picker` deben leerse como hermanos SIEMPRE. Contrato compartido: radius por defecto **`md`** (nada de píldora por defecto — `full` queda opt-in), alturas **32/40/48px** (los `--dm-control-height*` de densidad comfortable coinciden con la escala sm/md/lg hardcodeada de select/search), superficie flat `--dm-bg-muted` → eleva a `--dm-bg-elevated` en focus, y **focus SIEMPRE primary** con el ring "parkeado a 0 spread": el mapeo `data-color='default'` de select/paginated/search apunta a `--dm-primary` (NO a `--dm-fg`) para igualar el focus azul de `.dm-input`. Cualquier campo nuevo copia este contrato antes de inventar nada.
 
 ### Testing
 
@@ -170,8 +190,8 @@ Componentes shared reutilizables en `shared/` (usarlos SIEMPRE en páginas de co
 4. Tests (mínimo: render por defecto, cada input, a11y del host, defaults inyectables).
 5. Página en `pages/components/<nombre>-page/` con: descripción, playground (`prop-signal` + snippet generado), varios `demo-block`, `api-table`, notas de accesibilidad.
 6. Ruta lazy en `app.routes.ts` + entrada en `sections` del shell.
-7. **Tile en el Overview** (`pages/overview/overview-page.component`): añadir la entrada al array `tiles` y un `@case` con su mini-preview EN VIVO (los previews van dentro de un contenedor `inert`; los overlays usan mocks estáticos con las clases `ov__mock-*`). Esta regla es obligatoria: el Overview es el escaparate de la librería.
-8. `npm run lint && npm run lint:styles && npm test` en verde.
+7. **Registro del componente** (`core/component-registry.ts`): añadir la entrada a `COMPONENT_REGISTRY` (id, categoryKey, navKey) — es la ÚNICA fuente de verdad; de ahí sale tanto el listado del Overview como el stat "N components" de la Home, así que nunca hay que tocar un número a mano. En el Overview, añadir además el `@case` con su mini-preview EN VIVO (los previews van dentro de un contenedor `inert`; los overlays usan mocks estáticos con las clases `ov__mock-*`). Esta regla es obligatoria: el Overview es el escaparate de la librería.
+8. `npm run lint && npm run lint:styles && npm test` en verde. Si el componente trae specs nuevos, actualizar también el stat de tests de la Home (`home.component.html`, `home.stats.tests` — cifra manual tipo "470+", no se puede calcular en cliente).
 
 ## i18n del dashboard
 

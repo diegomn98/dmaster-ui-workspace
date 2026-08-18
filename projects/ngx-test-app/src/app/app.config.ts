@@ -1,12 +1,16 @@
 import {
   ApplicationConfig,
+  inject,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
-import { provideDmasterUI } from '@dmaster/ui';
+import { DM_DATE_LOCALE, provideDmasterIcons, provideDmasterUI } from '@dmaster/ui';
+import { DM_ICONS } from '@dmaster/ui/icons';
 
 import { routes } from './app.routes';
+import { LocaleService } from './core/i18n/locale.service';
+import { provideFaviconTheme } from './core/theme/favicon-theme';
 import { provideThemePersistence } from './core/theme/theme-persistence';
 
 export const appConfig: ApplicationConfig = {
@@ -21,6 +25,11 @@ export const appConfig: ApplicationConfig = {
       theme: 'auto',
       density: 'comfortable',
     }),
+    provideDmasterIcons(DM_ICONS),
+    // Reactive app-wide date locale: every dm-date-picker follows the live
+    // language selector without per-instance [locale] plumbing.
+    { provide: DM_DATE_LOCALE, useFactory: () => inject(LocaleService).locale },
     provideThemePersistence(),
+    provideFaviconTheme(),
   ],
 };

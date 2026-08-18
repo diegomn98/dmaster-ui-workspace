@@ -50,11 +50,6 @@ $sidebar-width: 16rem;
   @include mixins.transition(background-color, color);
   @include mixins.touch-target;
 
-  svg {
-    width: 1.125rem;
-    height: 1.125rem;
-  }
-
   &:hover {
     background: var(--dm-bg-muted);
     color: var(--dm-fg);
@@ -98,12 +93,6 @@ $sidebar-width: 16rem;
   @include mixins.transition(background-color, color, border-color);
   @include mixins.touch-target;
 
-  svg {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-  }
-
   &:hover {
     background: var(--dm-bg-muted);
     color: var(--dm-fg);
@@ -124,13 +113,18 @@ $sidebar-width: 16rem;
 }
 
 // Command-palette trigger: a pill with a magnifier + ⌘K hint that opens ⌘K.
+// Below `md` the label and kbd hint are hidden (only the icon remains), so the
+// button collapses to a centered square icon-button; the pill padding (which
+// assumes label+kbd) only applies once they're visible.
 .shell__search {
   position: relative; // ancla del ::after del mixin touch-target
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: var(--dm-space-2);
-  height: 2rem;
-  padding: 0 0.4rem 0 var(--dm-space-3);
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
   border: 1px solid var(--dm-border);
   border-radius: var(--dm-radius-full);
   background: var(--dm-bg);
@@ -142,10 +136,11 @@ $sidebar-width: 16rem;
   @include mixins.transition(background-color, color, border-color);
   @include mixins.touch-target;
 
-  svg {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
+  @include mixins.respond-to(md) {
+    width: auto;
+    height: 2rem;
+    justify-content: flex-start;
+    padding: 0 0.4rem 0 var(--dm-space-3);
   }
 
   &:hover {

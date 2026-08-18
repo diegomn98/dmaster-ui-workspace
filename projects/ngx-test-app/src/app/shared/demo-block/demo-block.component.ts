@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 
-import { DmTabComponent, DmTabsComponent } from '@dmaster/ui';
+import { DmIconComponent, DmTabComponent, DmTabsComponent } from '@dmaster/ui';
 import { LocaleService } from '../../core/i18n/locale.service';
 import { CodeSnippetComponent } from '../code-snippet/code-snippet.component';
 
@@ -13,7 +13,7 @@ interface Snippet {
 
 @Component({
   selector: 'app-demo-block',
-  imports: [CodeSnippetComponent, DmTabsComponent, DmTabComponent],
+  imports: [CodeSnippetComponent, DmTabsComponent, DmTabComponent, DmIconComponent],
   templateUrl: './demo-block.component.html',
   styleUrl: './demo-block.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

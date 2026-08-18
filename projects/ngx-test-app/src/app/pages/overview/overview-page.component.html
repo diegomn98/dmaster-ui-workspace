@@ -10,14 +10,7 @@
     <div class="ov__actions">
       <a class="ov__cta" routerLink="/getting-started">
         {{ page().labels['getStarted'] || 'Get started' }}
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-          <path
-            d="M5 12h14m-6-6 6 6-6 6"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <dm-icon name="arrow-right" size="1rem" />
       </a>
       <button
         type="button"
@@ -30,19 +23,9 @@
         <code class="ov__install-cmd">npm i &#64;dmaster/ui</code>
         <span class="ov__install-copy">
           @if (copied()) {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-              <path
-                d="m5 12 5 5L20 7"
-                stroke-width="2.4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <dm-icon name="check" size="0.95rem" />
           } @else {
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-              <rect x="9" y="9" width="11" height="11" rx="2.5" stroke-width="1.8" />
-              <path d="M5 15V5a2 2 0 0 1 2-2h10" stroke-width="1.8" stroke-linecap="round" />
-            </svg>
+            <dm-icon name="copy" size="0.95rem" />
           }
         </span>
       </button>
@@ -122,6 +105,16 @@
                     </div>
                   </div>
                 }
+                @case ('icon') {
+                  <div class="ov__ex-icons">
+                    <dm-icon name="sparkles" size="1.5rem" />
+                    <dm-icon name="heart" size="1.5rem" style="color: var(--dm-danger)" />
+                    <dm-icon name="bell" size="1.5rem" />
+                    <dm-icon name="settings" size="1.5rem" />
+                    <dm-icon name="star" size="1.5rem" style="color: var(--dm-warning)" />
+                    <dm-icon name="refresh" size="1.5rem" [spin]="true" />
+                  </div>
+                }
                 @case ('card') {
                   <dm-card appearance="elevated" padding="sm" class="ov__ex-card">
                     <div class="ov__ex-card-head">
@@ -194,6 +187,35 @@
                     [(value)]="ovSelect"
                     ariaLabel="Framework"
                   />
+                }
+                @case ('search-field') {
+                  <dm-search-field
+                    class="ov__ex-search"
+                    size="sm"
+                    ariaLabel="Search"
+                    placeholder="Search…"
+                    [(value)]="ovSearch"
+                  />
+                }
+                @case ('date-picker') {
+                  <dm-date-picker
+                    class="ov__ex-date"
+                    size="sm"
+                    ariaLabel="Date"
+                    placeholder="Pick a date"
+                    [(value)]="ovDate"
+                  />
+                }
+                @case ('color-picker') {
+                  <dm-color-picker
+                    class="ov__ex-color"
+                    size="sm"
+                    ariaLabel="Color"
+                    [(value)]="ovColor"
+                  />
+                }
+                @case ('error-message') {
+                  <dm-error>Enter a valid email address</dm-error>
                 }
                 @case ('paginated-select') {
                   <div class="ov__ex-combo">
@@ -482,18 +504,7 @@
             <div class="ov__meta">
               <span class="ov__name">{{ tile.name }}</span>
               <span class="ov__cat">{{ tile.category }}</span>
-              <svg
-                class="ov__arrow"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M5 12h14m-6-6 6 6-6 6" />
-              </svg>
+              <dm-icon class="ov__arrow" name="arrow-right" size="1rem" />
             </div>
           </a>
         }

@@ -64,7 +64,7 @@
     <div class="demo-row">
       <div style="width: 18rem">
         <dm-select
-          [label]="page().labels['pet']"
+          [ariaLabel]="page().labels['pet']"
           [placeholder]="page().labels['pickOne']"
           [items]="pets"
           [formControl]="formControl"
@@ -78,7 +78,7 @@
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-select
-          [label]="page().labels['pet']"
+          [ariaLabel]="page().labels['pet']"
           [placeholder]="page().labels['pickOne']"
           [items]="pets"
           [(value)]="clearableValue"

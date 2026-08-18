@@ -215,6 +215,14 @@
   @include mixins.respond-to(md) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  &--2col {
+    gap: var(--dm-space-6) var(--dm-space-5);
+
+    @include mixins.respond-to(md) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
 }
 
 .demo-row {
@@ -371,16 +379,51 @@
 
 // Salida en vivo de valores (páginas de forms): lectura tipo "readout"
 // sobre fondo sólido para que respire encima de la retícula de puntos.
+// Live-value readout: a small elevated pill with a pulsing primary dot that
+// signals "this reflects the component's state right now". Shared across every
+// docs demo that echoes a value/event.
 .demo-output {
   display: inline-flex;
   align-items: center;
-  padding: 0.25rem 0.5rem;
-  border: 1px dashed var(--dm-border-strong);
-  border-radius: var(--dm-radius-sm);
-  background: var(--dm-bg);
+  gap: var(--dm-space-2);
+  padding: 0.375rem 0.75rem 0.375rem 0.625rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-elevated);
+  box-shadow: var(--dm-shadow-sm);
   font-family: var(--dm-font-mono);
   font-size: var(--dm-text-xs);
-  color: var(--dm-fg-muted);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.45;
+  color: var(--dm-fg);
+
+  &::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border-radius: var(--dm-radius-full);
+    background: var(--dm-primary);
+    box-shadow: 0 0 0 0.1875rem var(--dm-primary-subtle);
+    animation: demo-output-pulse 2s var(--dm-ease-out) infinite;
+  }
+}
+
+@keyframes demo-output-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0.1875rem var(--dm-primary-subtle);
+  }
+
+  50% {
+    box-shadow: 0 0 0 0.1875rem color-mix(in srgb, var(--dm-primary) 25%, transparent);
+  }
+}
+
+@include mixins.reduced-motion {
+  .demo-output::before {
+    animation: none;
+  }
 }
 
 // ---- Layouts específicos de demos de páginas nuevas ------------------------
@@ -511,6 +554,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   gap: var(--dm-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .feat-item {
@@ -548,4 +594,181 @@
   font-size: var(--dm-text-sm);
   line-height: var(--dm-leading-relaxed);
   color: var(--dm-fg-muted);
+}
+
+// ── Icon gallery (docs de dm-icon) ──────────────────────────────────────────
+.doc-icons__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-3);
+  flex-wrap: wrap;
+}
+
+.doc-icons__search-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  flex: 1;
+  min-width: 12rem;
+  max-width: 24rem;
+}
+
+.doc-icons__search {
+  flex: 1;
+  min-width: 0;
+}
+
+.doc-icons__count {
+  flex: none;
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.doc-icons__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-4);
+  flex-wrap: wrap;
+}
+
+.doc-icons__chip-group {
+  display: flex;
+  gap: 1px;
+  border-radius: var(--dm-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--dm-border);
+}
+
+.doc-icons__chip {
+  padding: var(--dm-space-1) var(--dm-space-3);
+  border: none;
+  background: var(--dm-bg);
+  color: var(--dm-fg-muted);
+  font: inherit;
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  cursor: pointer;
+  transition:
+    background var(--dm-duration-fast) var(--dm-ease-out),
+    color var(--dm-duration-fast) var(--dm-ease-out);
+
+  &:hover {
+    background: var(--dm-bg-subtle);
+  }
+
+  &[data-active='true'] {
+    background: var(--dm-primary);
+    color: var(--dm-primary-fg);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+
+    z-index: 1;
+    position: relative;
+  }
+}
+
+.doc-icons__hint {
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-subtle);
+  margin-inline-start: auto;
+}
+
+.doc-icons__style-sample {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--dm-space-2);
+}
+
+.doc-icons__style-label {
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-subtle);
+  white-space: nowrap;
+}
+
+.doc-icons__group {
+  display: grid;
+  gap: var(--dm-space-3);
+  width: 100%;
+  min-width: 0;
+}
+
+.doc-icons__group-title {
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  color: var(--dm-fg-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.doc-icons__empty {
+  padding: var(--dm-space-8);
+  border: 1px dashed var(--dm-border-strong);
+  border-radius: var(--dm-radius-lg);
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg-subtle);
+  text-align: center;
+}
+
+.doc-icons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+  gap: var(--dm-space-2);
+  width: 100%;
+  min-width: 0;
+}
+
+// Icon tiles are real buttons (click-to-copy), styled to still read as cards.
+.doc-icons__item {
+  display: grid;
+  justify-items: center;
+  gap: var(--dm-space-2);
+  min-width: 0;
+  padding: var(--dm-space-4) var(--dm-space-2);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg);
+  color: var(--dm-fg);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color var(--dm-duration-fast) var(--dm-ease-out),
+    color var(--dm-duration-fast) var(--dm-ease-out),
+    transform var(--dm-duration-fast) var(--dm-ease-snappy);
+
+  &:hover {
+    border-color: var(--dm-border-strong);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &[data-copied='true'] {
+    border-color: var(--dm-success);
+    color: var(--dm-success);
+  }
+}
+
+.doc-icons__name {
+  max-width: 100%;
+  overflow: hidden;
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-subtle);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  .doc-icons__item[data-copied='true'] & {
+    color: var(--dm-success);
+    font-weight: var(--dm-font-semibold);
+  }
 }
