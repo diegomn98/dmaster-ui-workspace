@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
+  DmIconComponent,
   DmTabComponent,
   DmTabPanelComponent,
   DmTabsColor,
@@ -24,6 +25,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
     DmTabsComponent,
     DmTabComponent,
     DmTabPanelComponent,
+    DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,

@@ -7,6 +7,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { DmIconComponent } from '@dmaster/ui';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { PALETTE_PRESETS } from '../../core/palette/palette';
@@ -14,7 +15,7 @@ import { PaletteService } from '../../core/palette/palette.service';
 
 @Component({
   selector: 'app-palette-picker',
-  imports: [OverlayModule],
+  imports: [OverlayModule, DmIconComponent],
   templateUrl: './palette-picker.component.html',
   styleUrl: './palette-picker.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

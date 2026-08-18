@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
   DmButtonComponent,
+  DmIconComponent,
   DmMenuComponent,
   DmMenuDividerComponent,
   DmMenuItemComponent,
@@ -21,6 +22,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   selector: 'app-menu-page',
   imports: [
     DmButtonComponent,
+    DmIconComponent,
     DmMenuComponent,
     DmMenuTriggerDirective,
     DmMenuItemComponent,

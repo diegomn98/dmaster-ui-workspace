@@ -59,6 +59,21 @@
     </dm-form-field>
   </app-demo-block>
 
+  <app-demo-block
+    [heading]="i18n.t().pages.errorMessage.labels['inFieldHeading']"
+    [code]="slotErrorCode"
+    language="ts"
+  >
+    <dm-form-field style="width: 100%; max-width: 20rem" [label]="page().labels['emailLabel']">
+      <input dmInput type="email" placeholder="you@example.com" [formControl]="emailControl" />
+      @if (emailControl.touched && emailControl.hasError('required')) {
+        <dm-error>{{ i18n.t().pages.errorMessage.labels['emailRequired'] }}</dm-error>
+      } @else if (emailControl.touched && emailControl.hasError('email')) {
+        <dm-error>{{ i18n.t().pages.errorMessage.labels['emailInvalid'] }}</dm-error>
+      }
+    </dm-form-field>
+  </app-demo-block>
+
   <app-demo-block [heading]="page().labels['withTextarea']" [code]="textareaCode">
     <dm-form-field style="width: 100%; max-width: 24rem" [label]="page().labels['messageLabel']">
       <textarea dmInput rows="4"></textarea>

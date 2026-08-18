@@ -143,9 +143,6 @@
   @include mixins.transition(background-color, transform);
 
   svg {
-    width: 1rem;
-    height: 1rem;
-
     @include mixins.transition(transform);
   }
 
@@ -213,11 +210,6 @@
   color: var(--dm-fg-muted);
 
   @include mixins.transition(background-color, color);
-
-  svg {
-    width: 0.95rem;
-    height: 0.95rem;
-  }
 }
 
 .ov__install:hover .ov__install-copy {
@@ -323,6 +315,11 @@
   position: relative;
   z-index: 1;
   display: grid;
+
+  // Cap the single preview column at the container width so a content-heavy
+  // child (e.g. the search-field's native <input>, default size=20) can't
+  // inflate the track and render wider than the other field previews.
+  grid-template-columns: minmax(0, 1fr);
   place-items: center;
   height: 10.5rem;
   padding: var(--dm-space-3);
@@ -362,8 +359,6 @@
 }
 
 .ov__arrow {
-  width: 1rem;
-  height: 1rem;
   margin-left: auto;
   color: var(--dm-fg-subtle);
   opacity: 0.5;
@@ -582,6 +577,21 @@
 
 // Select — the real dm-select trigger
 .ov__ex-select {
+  width: 85%;
+}
+
+// Search field — the real dm-search-field
+.ov__ex-search {
+  width: 85%;
+}
+
+// Date picker — the real dm-date-picker trigger
+.ov__ex-date {
+  width: 85%;
+}
+
+// Color picker — the real dm-color-picker trigger
+.ov__ex-color {
   width: 85%;
 }
 
@@ -1060,6 +1070,16 @@
 
 .ov__ex-kbd-cmd {
   font-size: var(--dm-text-sm);
+  color: var(--dm-fg-muted);
+}
+
+// Icon — a small row of the curated set
+.ov__ex-icons {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dm-space-4);
   color: var(--dm-fg-muted);
 }
 

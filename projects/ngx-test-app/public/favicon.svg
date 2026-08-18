@@ -1,9 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
+    <!-- Matches --dm-primary/--dm-primary-hover from the app's default theme.
+         A favicon is a separate document (no access to the app's live CSS
+         vars or palette picker), so it tracks light/dark via its own
+         prefers-color-scheme, the one theme axis it can observe. -->
+    <style>
+      #g-a { stop-color: #005bc4; }
+      #g-b { stop-color: #006fee; }
+      @media (prefers-color-scheme: dark) {
+        #g-a { stop-color: #66aaf9; }
+        #g-b { stop-color: #338ef7; }
+      }
+    </style>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6366f1"/>
-      <stop offset="0.55" stop-color="#8b5cf6"/>
-      <stop offset="1" stop-color="#a855f7"/>
+      <stop id="g-a" offset="0"/>
+      <stop id="g-b" offset="1"/>
     </linearGradient>
     <linearGradient id="s" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>

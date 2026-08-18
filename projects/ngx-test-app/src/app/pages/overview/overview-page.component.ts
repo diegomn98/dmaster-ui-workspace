@@ -16,14 +16,19 @@ import {
   DmButtonComponent,
   DmCardComponent,
   DmCheckboxComponent,
+  DmColorPickerComponent,
+  DmDatePickerComponent,
   DmDividerComponent,
+  DmErrorComponent,
   DmFormFieldComponent,
+  DmIconComponent,
   DmInputDirective,
   DmKbdComponent,
   DmPaginationComponent,
   DmProgressComponent,
   DmRadioComponent,
   DmRadioGroupComponent,
+  DmSearchFieldComponent,
   DmSelectComponent,
   DmSelectItem,
   DmSkeletonComponent,
@@ -37,18 +42,8 @@ import {
   DmTabsComponent,
 } from '@dmaster/ui';
 
+import { CATEGORY_ORDER, CategoryKey, COMPONENT_REGISTRY } from '../../core/component-registry';
 import { LocaleService } from '../../core/i18n/locale.service';
-
-/** Stable category keys — drive the per-section grouping. */
-type CategoryKey =
-  | 'primitives'
-  | 'layout'
-  | 'feedback'
-  | 'buttons'
-  | 'forms'
-  | 'navigation'
-  | 'dataDisplay'
-  | 'overlays';
 
 interface OverviewTile {
   id: string;
@@ -69,23 +64,12 @@ interface OverviewStat {
   label: string;
 }
 
-/** Ordered category keys (defines the section order too). */
-const CATEGORY_ORDER: CategoryKey[] = [
-  'primitives',
-  'layout',
-  'feedback',
-  'buttons',
-  'forms',
-  'navigation',
-  'dataDisplay',
-  'overlays',
-];
-
 /**
  * Escaparate de la librería: un tile por componente con un preview EN VIVO
  * (los overlays usan mocks estáticos), agrupado en secciones por categoría
  * (patrón HeroUI/MUI). REGLA: todo componente nuevo de la librería añade aquí
- * su tile a la categoría correspondiente.
+ * su entrada en `COMPONENT_REGISTRY` (core/component-registry.ts) — esa lista
+ * es también la fuente del stat "N components" de la Home.
  */
 @Component({
   selector: 'app-overview-page',
@@ -100,10 +84,15 @@ const CATEGORY_ORDER: CategoryKey[] = [
     DmSwitchComponent,
     DmCheckboxComponent,
     DmFormFieldComponent,
+    DmIconComponent,
     DmInputDirective,
     DmKbdComponent,
     DmRadioGroupComponent,
     DmRadioComponent,
+    DmSearchFieldComponent,
+    DmDatePickerComponent,
+    DmColorPickerComponent,
+    DmErrorComponent,
     DmSelectComponent,
     DmTabsComponent,
     DmTabComponent,
@@ -147,44 +136,13 @@ export class OverviewPageComponent {
 
   protected readonly tiles = computed<OverviewTile[]>(() => {
     const nav = this.i18n.t().shell.nav;
-    const t = (key: CategoryKey, id: string, name: string): OverviewTile => ({
-      id,
-      name,
-      categoryKey: key,
-      category: nav[key],
-      route: `/components/${id}`,
-    });
-    return [
-      t('primitives', 'skeleton', nav.skeleton),
-      t('primitives', 'spinner', nav.spinner),
-      t('primitives', 'badge', nav.badge),
-      t('primitives', 'avatar', nav.avatar),
-      t('primitives', 'kbd', nav.kbd),
-      t('layout', 'card', nav.card),
-      t('layout', 'accordion', nav.accordion),
-      t('layout', 'divider', nav.divider),
-      t('feedback', 'progress', nav.progress),
-      t('feedback', 'alert', nav.alert),
-      t('buttons', 'button', nav.button),
-      t('forms', 'switch', nav.switch),
-      t('forms', 'checkbox', nav.checkbox),
-      t('forms', 'radio-group', nav.radioGroup),
-      t('forms', 'select', nav.select),
-      t('forms', 'paginated-select', nav.paginatedSelect),
-      t('forms', 'slider', nav.slider),
-      t('forms', 'form-field', nav.formField),
-      t('navigation', 'breadcrumbs', nav.breadcrumbs),
-      t('navigation', 'tabs', nav.tabs),
-      t('navigation', 'pagination', nav.pagination),
-      t('dataDisplay', 'table', nav.table),
-      t('overlays', 'tooltip', nav.tooltip),
-      t('overlays', 'popover', nav.popover),
-      t('overlays', 'menu', nav.menu),
-      t('overlays', 'dialog', nav.dialog),
-      t('overlays', 'drawer', nav.drawer),
-      t('overlays', 'toast', nav.toast),
-      t('overlays', 'command', nav.command),
-    ];
+    return COMPONENT_REGISTRY.map((entry) => ({
+      id: entry.id,
+      name: nav[entry.navKey],
+      categoryKey: entry.categoryKey,
+      category: nav[entry.categoryKey],
+      route: `/components/${entry.id}`,
+    }));
   });
 
   /** Tiles grouped by category, honoring `CATEGORY_ORDER`; empty groups dropped. */
@@ -232,4 +190,7 @@ export class OverviewPageComponent {
   protected readonly ovPage = signal<number>(2);
   protected readonly ovSlider = signal<number>(60);
   protected readonly ovSelect = signal<string>('angular');
+  protected readonly ovSearch = signal<string>('components');
+  protected readonly ovDate = signal<Date | null>(new Date());
+  protected readonly ovColor = signal<string>('#338ef7');
 }

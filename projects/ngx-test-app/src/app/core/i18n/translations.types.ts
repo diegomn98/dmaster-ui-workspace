@@ -51,12 +51,17 @@ export interface DashboardTranslations {
       spinner: string;
       badge: string;
       avatar: string;
+      icon: string;
       card: string;
       accordion: string;
       button: string;
       switch: string;
       checkbox: string;
       formField: string;
+      searchField: string;
+      datePicker: string;
+      errorMessage: string;
+      colorPicker: string;
       select: string;
       paginatedSelect: string;
       radioGroup: string;
@@ -268,6 +273,10 @@ export interface DashboardTranslations {
     switch: SimplePageTranslations;
     checkbox: SimplePageTranslations;
     formField: SimplePageTranslations;
+    searchField: SimplePageTranslations;
+    datePicker: SimplePageTranslations;
+    errorMessage: SimplePageTranslations;
+    colorPicker: SimplePageTranslations;
     select: SimplePageTranslations;
     paginatedSelect: SimplePageTranslations;
     radioGroup: SimplePageTranslations;
@@ -287,5 +296,6 @@ export interface DashboardTranslations {
     drawer: SimplePageTranslations;
     kbd: SimplePageTranslations;
     command: SimplePageTranslations;
+    icon: SimplePageTranslations;
   };
 }

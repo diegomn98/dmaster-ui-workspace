@@ -3,7 +3,6 @@ import { Injectable, inject, signal } from '@angular/core';
 
 import { PALETTE_PRESETS } from './palette';
 
-const STORAGE_KEY = 'dmaster-ui-palette';
 const DEFAULT_KEY = 'default';
 
 /**
@@ -11,26 +10,23 @@ const DEFAULT_KEY = 'default';
  * to <html>'s inline style so every component re-skins live. The `default`
  * preset removes the inline overrides — the library's own light/dark values
  * from _themes.scss take over.
+ *
+ * Deliberately NOT persisted: the app always starts on the default theme
+ * (brand identity — logo, favicon, hero — is derived from --dm-primary, so a
+ * stale non-default palette surviving a reload would make the whole brand
+ * look inconsistent). The picker is a live "try it out" tool for the current
+ * session only.
  */
 @Injectable({ providedIn: 'root' })
 export class PaletteService {
   private readonly document = inject(DOCUMENT);
-  private readonly _current = signal<string>(this.readInitial());
+  private readonly _current = signal<string>(DEFAULT_KEY);
   readonly current = this._current.asReadonly();
-
-  constructor() {
-    this.apply(this._current());
-  }
 
   setPalette(key: string): void {
     if (!PALETTE_PRESETS.some((p) => p.key === key)) return;
     this._current.set(key);
     this.apply(key);
-    try {
-      this.document.defaultView?.localStorage?.setItem(STORAGE_KEY, key);
-    } catch {
-      /* localStorage unavailable — silently ignore (privacy mode) */
-    }
   }
 
   private apply(key: string): void {
@@ -52,15 +48,5 @@ export class PaletteService {
     root.setProperty('--dm-primary-hover', preset.primaryHover);
     root.setProperty('--dm-primary-fg', preset.primaryFg);
     root.setProperty('--dm-primary-subtle', preset.primarySubtle);
-  }
-
-  private readInitial(): string {
-    try {
-      const stored = this.document.defaultView?.localStorage?.getItem(STORAGE_KEY);
-      if (stored && PALETTE_PRESETS.some((p) => p.key === stored)) return stored;
-    } catch {
-      /* localStorage unavailable */
-    }
-    return DEFAULT_KEY;
   }
 }

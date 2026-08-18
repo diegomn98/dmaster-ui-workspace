@@ -127,12 +127,6 @@ $bar-height: 2.75rem;
   @include mixins.transition(background-color, color, border-color, box-shadow, transform);
   @include mixins.touch-target;
 
-  svg {
-    width: 0.75rem;
-    height: 0.75rem;
-    flex-shrink: 0;
-  }
-
   &:hover {
     color: var(--dm-fg);
     border-color: var(--dm-border-strong);
@@ -180,11 +174,6 @@ $bar-height: 2.75rem;
     border-radius: var(--dm-radius-md);
     background: color-mix(in srgb, var(--dm-bg-subtle) 85%, transparent);
     backdrop-filter: blur(6px);
-
-    svg {
-      width: 0.875rem;
-      height: 0.875rem;
-    }
 
     &:hover {
       background: var(--dm-bg-elevated);

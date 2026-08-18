@@ -7,6 +7,7 @@
   <url><loc>https://dmasterui.com/components/spinner</loc></url>
   <url><loc>https://dmasterui.com/components/badge</loc></url>
   <url><loc>https://dmasterui.com/components/avatar</loc></url>
+  <url><loc>https://dmasterui.com/components/icon</loc></url>
   <url><loc>https://dmasterui.com/components/card</loc></url>
   <url><loc>https://dmasterui.com/components/accordion</loc></url>
   <url><loc>https://dmasterui.com/components/button</loc></url>
@@ -15,6 +16,10 @@
   <url><loc>https://dmasterui.com/components/radio-group</loc></url>
   <url><loc>https://dmasterui.com/components/select</loc></url>
   <url><loc>https://dmasterui.com/components/paginated-select</loc></url>
+  <url><loc>https://dmasterui.com/components/search-field</loc></url>
+  <url><loc>https://dmasterui.com/components/date-picker</loc></url>
+  <url><loc>https://dmasterui.com/components/color-picker</loc></url>
+  <url><loc>https://dmasterui.com/components/error-message</loc></url>
   <url><loc>https://dmasterui.com/components/form-field</loc></url>
   <url><loc>https://dmasterui.com/components/tabs</loc></url>
   <url><loc>https://dmasterui.com/components/table</loc></url>

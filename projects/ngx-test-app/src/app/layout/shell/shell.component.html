@@ -9,27 +9,9 @@
       [attr.aria-label]="sidebarOpen() ? i18n.t().shell.closeNav : i18n.t().shell.openNav"
     >
       @if (sidebarOpen()) {
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          aria-hidden="true"
-        >
-          <path d="M18 6 6 18M6 6l12 12" />
-        </svg>
+        <dm-icon name="x" size="1.125rem" />
       } @else {
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          aria-hidden="true"
-        >
-          <path d="M4 7h16M4 12h16M4 17h16" />
-        </svg>
+        <dm-icon name="menu" size="1.125rem" />
       }
     </button>
 
@@ -37,9 +19,8 @@
       <svg class="shell__brand-mark" viewBox="0 0 64 64" aria-hidden="true">
         <defs>
           <linearGradient id="dm-logo-g" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#6366f1" />
-            <stop offset="0.55" stop-color="#8b5cf6" />
-            <stop offset="1" stop-color="#a855f7" />
+            <stop offset="0" style="stop-color: var(--dm-primary-hover)" />
+            <stop offset="1" style="stop-color: var(--dm-primary)" />
           </linearGradient>
           <linearGradient id="dm-logo-s" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stop-color="#ffffff" stop-opacity="0.22" />
@@ -73,10 +54,7 @@
       (click)="openPalette()"
       [attr.aria-label]="i18n.t().shell.searchLabel"
     >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-        <circle cx="11" cy="11" r="7" stroke-width="2" />
-        <path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round" />
-      </svg>
+      <dm-icon name="search" size="1rem" />
       <span class="shell__search-label">{{ i18n.t().shell.searchLabel }}</span>
       <dm-kbd class="shell__search-kbd" keys="command" size="sm">K</dm-kbd>
     </button>
@@ -90,12 +68,7 @@
       rel="noreferrer noopener"
       [attr.aria-label]="i18n.t().shell.githubAria"
     >
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path
-          fill="currentColor"
-          d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2c-3.2.69-3.88-1.37-3.88-1.37-.52-1.34-1.28-1.7-1.28-1.7-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.19 1.18a11.1 11.1 0 0 1 5.81 0c2.22-1.49 3.19-1.18 3.19-1.18.63 1.59.23 2.76.11 3.05.74.81 1.18 1.84 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"
-        />
-      </svg>
+      <dm-icon name="github" size="1rem" />
       <span class="shell__github-label">GitHub</span>
     </a>
 
@@ -120,31 +93,9 @@
       "
     >
       @if (theme.resolvedTheme() === 'dark') {
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="4" />
-          <path
-            d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4m11.4-11.4 1.4-1.4"
-          />
-        </svg>
+        <dm-icon name="sun" size="1.125rem" />
       } @else {
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" />
-        </svg>
+        <dm-icon name="moon" size="1.125rem" />
       }
     </button>
   </div>
