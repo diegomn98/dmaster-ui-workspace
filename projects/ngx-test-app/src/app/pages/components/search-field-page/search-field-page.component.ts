@@ -147,7 +147,7 @@ export class SearchFieldPageComponent {
     '  label="Search"',
     '  placeholder="Type and press Enter…"',
     '  [(value)]="query"',
-    '  (search)="onSubmit($event)"',
+    '  (searchSubmit)="onSubmit($event)"',
     '  (cleared)="onCleared()"',
     '/>',
   ].join('\n');
@@ -223,7 +223,12 @@ export class SearchFieldPageComponent {
         default: "'Clear search'",
         description: api['clearAriaLabel'],
       },
-      { name: 'search', type: 'output<string>', default: '—', description: api['search'] },
+      {
+        name: 'searchSubmit',
+        type: 'output<string>',
+        default: '—',
+        description: api['search'],
+      },
       { name: 'cleared', type: 'output<void>', default: '—', description: api['cleared'] },
     ];
   });

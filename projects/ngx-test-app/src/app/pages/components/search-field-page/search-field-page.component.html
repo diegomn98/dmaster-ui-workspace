@@ -81,7 +81,7 @@
           [ariaLabel]="page().labels['searchLabel']"
           [placeholder]="page().labels['eventsPlaceholder']"
           [(value)]="eventsValue"
-          (search)="onSubmit($event)"
+          (searchSubmit)="onSubmit($event)"
           (cleared)="onCleared()"
         />
       </div>
