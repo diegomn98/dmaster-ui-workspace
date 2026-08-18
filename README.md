@@ -29,6 +29,7 @@ npm start            # serve the docs app at http://localhost:4200
 | `npm run test:coverage`                   | Library tests with coverage report                                                                                            |
 | `npm run lint` / `npm run lint:styles`    | ESLint / Stylelint                                                                                                            |
 | `npm run format` / `npm run format:check` | Prettier                                                                                                                      |
+| `npm run size`                            | Per-component tree-shaken bundle-size audit (requires `npm run build` first)                                                  |
 | `npm run release:check`                   | Everything CI runs, locally                                                                                                   |
 
 ## Testing
