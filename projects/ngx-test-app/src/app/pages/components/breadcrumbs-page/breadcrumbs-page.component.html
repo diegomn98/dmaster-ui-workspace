@@ -85,6 +85,59 @@
       <dm-breadcrumb-item>Item</dm-breadcrumb-item>
     </dm-breadcrumbs>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 40rem">
+      <dm-breadcrumbs size="sm" ariaLabel="Page location">
+        <dm-breadcrumb-item href="/">
+          <span style="display: inline-flex; align-items: center; gap: 0.35rem">
+            <dm-icon name="home" size="1em" /> Home
+          </span>
+        </dm-breadcrumb-item>
+        <dm-breadcrumb-item href="/projects">Projects</dm-breadcrumb-item>
+        <dm-breadcrumb-item>Design system</dm-breadcrumb-item>
+      </dm-breadcrumbs>
+      <div
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 1rem;
+          margin-top: 1rem;
+        "
+      >
+        <div style="flex: 1 1 16rem; min-width: 0">
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap">
+            <span style="font-size: 1.375rem; font-weight: 700; letter-spacing: -0.01em">
+              Design system
+            </span>
+            <dm-badge color="warning" variant="flat" size="sm">Draft</dm-badge>
+          </div>
+          <p
+            style="
+              margin: 0.35rem 0 0;
+              color: var(--dm-fg-muted);
+              font-size: 0.9375rem;
+              line-height: 1.6;
+            "
+          >
+            Tokens, components and guidelines shared across every product surface.
+          </p>
+        </div>
+        <div style="display: inline-flex; gap: 0.5rem; flex-shrink: 0">
+          <dm-button variant="bordered" color="default">
+            <dm-icon name="external-link" size="1.15em" /> Share
+          </dm-button>
+          <dm-button color="primary"><dm-icon name="check" size="1.15em" /> Publish</dm-button>
+        </div>
+      </div>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

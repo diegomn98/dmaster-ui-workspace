@@ -90,6 +90,60 @@
       {{ i18n.t().buttonPage.asyncButtonLabel }}
     </dm-button>
   </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.iconButtons" [code]="iconButtonsCode">
+    <div class="demo-row" style="align-items: center">
+      <dm-button variant="flat"> <dm-icon name="download" size="1.15em" /> Download </dm-button>
+      <dm-button color="primary"> <dm-icon name="plus" size="1.15em" /> New file </dm-button>
+      <dm-button variant="ghost"><dm-icon name="edit" label="Edit" /></dm-button>
+      <dm-button variant="ghost"><dm-icon name="copy" label="Duplicate" /></dm-button>
+      <dm-button color="danger" variant="flat"><dm-icon name="trash" label="Delete" /></dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 30rem">
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem">
+        <strong style="flex: 1; min-width: 0">Release notes</strong>
+        <div style="display: inline-flex; gap: 0.25rem">
+          <dm-button variant="ghost" size="sm"><dm-icon name="star" label="Star" /></dm-button>
+          <dm-button variant="ghost" size="sm">
+            <dm-icon name="copy" label="Duplicate" />
+          </dm-button>
+          <dm-button variant="ghost" size="sm">
+            <dm-icon name="more-horizontal" label="More actions" />
+          </dm-button>
+        </div>
+      </div>
+      <p
+        style="
+          margin: 0 0 1.25rem;
+          color: var(--dm-fg-muted);
+          font-size: 0.9375rem;
+          line-height: 1.6;
+        "
+      >
+        Ship the color × variant button API, icon slots and async states. Docs and tests updated
+        across all three locales.
+      </p>
+      <div
+        style="
+          display: flex;
+          justify-content: flex-end;
+          gap: 0.5rem;
+          padding-top: 1rem;
+          border-top: 1px solid var(--dm-border);
+        "
+      >
+        <dm-button variant="ghost">Cancel</dm-button>
+        <dm-button color="primary"> <dm-icon name="check" size="1.15em" /> Publish </dm-button>
+      </div>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

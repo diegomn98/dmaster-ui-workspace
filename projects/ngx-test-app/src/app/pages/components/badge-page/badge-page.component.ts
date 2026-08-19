@@ -5,6 +5,9 @@ import {
   DmBadgeRadius,
   DmBadgeSize,
   DmBadgeVariant,
+  DmButtonComponent,
+  DmCardComponent,
+  DmIconComponent,
 } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
@@ -22,6 +25,9 @@ const VARIANTS: DmBadgeVariant[] = ['solid', 'flat', 'bordered', 'light', 'dot',
   selector: 'app-badge-page',
   imports: [
     DmBadgeComponent,
+    DmButtonComponent,
+    DmCardComponent,
+    DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -106,10 +112,98 @@ export class BadgePageComponent {
     (v) => `<dm-badge color="primary" variant="${v}">${v}</dm-badge>`,
   ).join('\n');
 
+  protected readonly sizesRadiusCode = [
+    '<!-- Two sizes -->',
+    '<dm-badge color="primary" size="sm">sm</dm-badge>',
+    '<dm-badge color="primary" size="md">md</dm-badge>',
+    '',
+    '<!-- Radius scale — full (pill) is the default -->',
+    '<dm-badge color="primary" radius="sm">sm</dm-badge>',
+    '<dm-badge color="primary" radius="md">md</dm-badge>',
+    '<dm-badge color="primary" radius="lg">lg</dm-badge>',
+    '<dm-badge color="primary" radius="full">full</dm-badge>',
+  ].join('\n');
+
   protected readonly dotCode = [
     '<dm-badge color="success" variant="dot">Active</dm-badge>',
     '<dm-badge color="warning" variant="dot">Degraded</dm-badge>',
     '<dm-badge color="danger" variant="dot">Down</dm-badge>',
+  ].join('\n');
+
+  protected readonly withIconCode = [
+    "<!-- Project a dm-icon before the text; the badge's own gap spaces it. -->",
+    '<dm-badge color="success" variant="flat">',
+    '  <dm-icon name="check-circle" size="1em" />Verified',
+    '</dm-badge>',
+    '<dm-badge color="primary" variant="solid">',
+    '  <dm-icon name="zap" size="1em" />Pro',
+    '</dm-badge>',
+    '<dm-badge color="warning" variant="flat">',
+    '  <dm-icon name="star" size="1em" />Featured',
+    '</dm-badge>',
+    '<dm-badge color="secondary" variant="bordered">',
+    '  <dm-icon name="shield-check" size="1em" />Secure',
+    '</dm-badge>',
+  ].join('\n');
+
+  protected readonly compositionCode = [
+    '<!-- A project card: badges carry the plan, live status, tags and counts. -->',
+    '<dm-card style="max-width: 26rem">',
+    '  <div style="display: flex; align-items: flex-start; gap: 0.75rem">',
+    '    <dm-icon name="box" size="lg" style="color: var(--dm-primary)" />',
+    '    <div style="flex: 1; min-width: 0">',
+    '      <div style="display: flex; align-items: center; gap: 0.5rem">',
+    '        <strong>Design System</strong>',
+    '        <dm-badge color="primary" variant="flat" size="sm">Pro</dm-badge>',
+    '      </div>',
+    '      <p class="muted">&#64;dmaster/ui · updated 2h ago</p>',
+    '    </div>',
+    '    <dm-badge color="success" variant="dot" size="sm">Deployed</dm-badge>',
+    '  </div>',
+    '',
+    '  <div style="display: flex; flex-wrap: wrap; gap: 0.375rem">',
+    '    <dm-badge variant="bordered" size="sm">angular</dm-badge>',
+    '    <dm-badge variant="bordered" size="sm">typescript</dm-badge>',
+    '    <dm-badge variant="bordered" size="sm">a11y</dm-badge>',
+    '  </div>',
+    '',
+    '  <div style="display: flex; align-items: center; gap: 0.5rem">',
+    '    <dm-badge color="danger" variant="flat" size="sm">',
+    '      <dm-icon name="warning" size="1em" />3 issues',
+    '    </dm-badge>',
+    '    <dm-badge color="secondary" variant="flat" size="sm">',
+    '      <dm-icon name="star" size="1em" />128',
+    '    </dm-badge>',
+    '    <dm-button size="sm" variant="bordered">View</dm-button>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component } from '@angular/core';",
+    'import {',
+    '  DmBadgeComponent,',
+    '  DmButtonComponent,',
+    '  DmCardComponent,',
+    '  DmIconComponent,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-project-card',",
+    '  imports: [DmBadgeComponent, DmButtonComponent, DmCardComponent, DmIconComponent],',
+    "  templateUrl: './project-card.component.html',",
+    '})',
+    'export class ProjectCardComponent {',
+    '  protected readonly project = {',
+    "    name: 'Design System',",
+    "    slug: '@dmaster/ui',",
+    "    plan: 'Pro',",
+    "    status: 'Deployed',",
+    "    tags: ['angular', 'typescript', 'a11y'],",
+    '    issues: 3,',
+    '    stars: 128,',
+    '  };',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

@@ -70,6 +70,58 @@
       {{ page().labels['openPersistent'] }}
     </dm-button>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 20rem">
+      <div style="display: grid; gap: 0.875rem">
+        <div
+          aria-hidden="true"
+          style="
+            display: grid;
+            place-items: center;
+            aspect-ratio: 4 / 3;
+            border-radius: 0.75rem;
+            background: var(--dm-primary-subtle);
+            color: var(--dm-primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+          "
+        >
+          dm.
+        </div>
+        <div style="display: grid; gap: 0.125rem">
+          <strong style="font-size: 1rem; letter-spacing: -0.01em">
+            {{ page().labels['cartProduct'] }}
+          </strong>
+          <span style="color: var(--dm-fg-muted); font-size: 0.875rem">
+            {{ page().labels['cartProductMeta'] }}
+          </span>
+        </div>
+        <div
+          style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem"
+        >
+          <span style="font-size: 1.125rem; font-weight: 600">$29.00</span>
+          <dm-button color="primary" size="sm" (clicked)="openCart()">
+            {{ page().labels['addToCart'] }}
+            @if (cartCount() > 0) {
+              <span aria-hidden="true">· {{ cartCount() }}</span>
+            }
+          </dm-button>
+        </div>
+      </div>
+    </dm-card>
+    <p
+      style="margin: 0.75rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem"
+      aria-live="polite"
+    >
+      {{ page().labels['result'] }}: {{ cartResult() }}
+    </p>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

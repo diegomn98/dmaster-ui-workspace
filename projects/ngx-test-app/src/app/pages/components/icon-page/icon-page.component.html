@@ -215,6 +215,60 @@
       </dm-icon>
     </div>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+        gap: 1rem;
+        width: 100%;
+      "
+    >
+      @for (s of stats; track s.label) {
+        <dm-card>
+          <div
+            style="
+              display: flex;
+              align-items: flex-start;
+              justify-content: space-between;
+              gap: 0.75rem;
+            "
+          >
+            <span
+              [style.color]="'var(--dm-' + s.color + ')'"
+              style="
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: var(--dm-radius-md);
+                background: color-mix(in srgb, currentColor 14%, transparent);
+              "
+            >
+              <dm-icon [name]="s.icon" size="1.25rem" />
+            </span>
+            <span
+              [style.color]="'var(--dm-' + s.color + ')'"
+              style="font-size: 0.75rem; font-weight: 600"
+              >{{ s.delta }}</span
+            >
+          </div>
+          <p style="margin: 0.9rem 0 0; font-size: 1.5rem; font-weight: 700; line-height: 1.1">
+            {{ s.value }}
+          </p>
+          <p style="margin: 0.2rem 0 0; color: var(--dm-fg-muted); font-size: 0.8125rem">
+            {{ s.label }}
+          </p>
+        </dm-card>
+      }
+    </div>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="set-title">

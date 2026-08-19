@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
+  DmAvatarComponent,
   DmButtonComponent,
+  DmCardComponent,
   DmIconComponent,
   DmMenuComponent,
   DmMenuDividerComponent,
@@ -18,10 +20,18 @@ import { DemoBlockComponent } from '../../../shared/demo-block/demo-block.compon
 import { PropSignalComponent } from '../../../shared/prop-signal/prop-signal.component';
 import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal.types';
 
+/** Self-contained colored avatar (data URI) — initials on a flat fill. */
+function avatarSvg(initials: string, color: string): string {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" fill="${color}"/><text x="24" y="30" font-family="system-ui, sans-serif" font-size="19" font-weight="600" fill="#fff" text-anchor="middle">${initials}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
 @Component({
   selector: 'app-menu-page',
   imports: [
+    DmAvatarComponent,
     DmButtonComponent,
+    DmCardComponent,
     DmIconComponent,
     DmMenuComponent,
     DmMenuTriggerDirective,
@@ -141,6 +151,98 @@ export class MenuPageComponent {
     '  <dm-menu-item (selected)="toggleItalic()">Italic</dm-menu-item>',
     '  <dm-menu-item (selected)="toggleUnderline()">Underline</dm-menu-item>',
     '</dm-menu>',
+  ].join('\n');
+
+  /** Demo user for the app-header composition (self-contained avatar, no network). */
+  protected readonly user = {
+    name: 'Ada Lovelace',
+    email: 'ada@dmaster.io',
+    src: avatarSvg('AL', '#6366f1'),
+  };
+
+  protected readonly compositionCode = [
+    '<!-- App top bar: brand left, avatar button right → user menu. -->',
+    '<dm-card>',
+    '  <div style="display: flex; align-items: center; justify-content: space-between">',
+    '    <strong>Acme</strong>',
+    '',
+    '    <button type="button" class="avatar-btn" [dmMenuTrigger]="userMenu" aria-label="Account">',
+    '      <dm-avatar [src]="user.src" [alt]="user.name" />',
+    '    </button>',
+    '',
+    '    <dm-menu #userMenu placement="bottom-end" ariaLabel="Account">',
+    '      <!-- Non-interactive header: identity at a glance -->',
+    '      <div class="menu-user">',
+    '        <dm-avatar [src]="user.src" [alt]="user.name" size="sm" />',
+    '        <div>',
+    '          <div class="menu-user__name">{{ user.name }}</div>',
+    '          <div class="menu-user__email">{{ user.email }}</div>',
+    '        </div>',
+    '      </div>',
+    '      <dm-menu-divider />',
+    '      <dm-menu-item (selected)="profile()">',
+    '        <dm-icon dmMenuItemStart name="user" size="1rem" />',
+    '        Profile',
+    '      </dm-menu-item>',
+    '      <dm-menu-item shortcut="⌘," (selected)="settings()">',
+    '        <dm-icon dmMenuItemStart name="settings" size="1rem" />',
+    '        Settings',
+    '      </dm-menu-item>',
+    '      <dm-menu-item (selected)="billing()">',
+    '        <dm-icon dmMenuItemStart name="clipboard" size="1rem" />',
+    '        Billing',
+    '      </dm-menu-item>',
+    '      <dm-menu-divider />',
+    '      <dm-menu-item color="danger" (selected)="signOut()">',
+    '        <dm-icon dmMenuItemStart name="arrow-right" size="1rem" />',
+    '        Sign out',
+    '      </dm-menu-item>',
+    '    </dm-menu>',
+    '  </div>',
+    '</dm-card>',
+    '',
+    '/* .avatar-btn { padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer } */',
+    '/* .menu-user { display: flex; align-items: center; gap: .75rem; padding: .5rem .75rem } */',
+    '/* .menu-user__email { font-size: .75rem; color: var(--dm-fg-muted) } */',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, inject } from '@angular/core';",
+    "import { Router } from '@angular/router';",
+    'import {',
+    '  DmAvatarComponent,',
+    '  DmCardComponent,',
+    '  DmIconComponent,',
+    '  DmMenuComponent,',
+    '  DmMenuDividerComponent,',
+    '  DmMenuItemComponent,',
+    '  DmMenuTriggerDirective,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-header',",
+    '  imports: [',
+    '    DmAvatarComponent,',
+    '    DmCardComponent,',
+    '    DmIconComponent,',
+    '    DmMenuComponent,',
+    '    DmMenuDividerComponent,',
+    '    DmMenuItemComponent,',
+    '    DmMenuTriggerDirective,',
+    '  ],',
+    "  templateUrl: './header.component.html',",
+    '})',
+    'export class HeaderComponent {',
+    '  private readonly router = inject(Router);',
+    '  private readonly auth = inject(AuthService);',
+    '',
+    "  protected readonly user = { name: 'Ada Lovelace', email: 'ada@dmaster.io', src: '/u/ada.png' };",
+    '',
+    "  protected profile(): void { this.router.navigate(['/profile']); }",
+    "  protected settings(): void { this.router.navigate(['/settings']); }",
+    "  protected billing(): void { this.router.navigate(['/billing']); }",
+    '  protected signOut(): void { this.auth.signOut(); }',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

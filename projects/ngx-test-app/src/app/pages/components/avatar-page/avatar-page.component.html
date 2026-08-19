@@ -30,7 +30,7 @@
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
   <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
-    <div class="demo-row">
+    <div class="demo-row" style="align-items: center">
       <dm-avatar initials="DM" size="sm" />
       <dm-avatar initials="DM" size="md" />
       <dm-avatar initials="DM" size="lg" />
@@ -38,12 +38,125 @@
     </div>
   </app-demo-block>
 
+  <app-demo-block [heading]="page().labels['shapes']" [code]="shapesCode">
+    <div class="demo-row" style="align-items: center">
+      <dm-avatar [src]="team[0].src" [alt]="team[0].name" shape="circle" size="lg" />
+      <dm-avatar [src]="team[0].src" [alt]="team[0].name" shape="square" size="lg" />
+      <dm-avatar initials="AL" shape="square" />
+    </div>
+  </app-demo-block>
+
   <app-demo-block [heading]="page().labels['fallbackHeading']" [code]="fallbackCode">
-    <div class="demo-row">
+    <div class="demo-row" style="align-items: center">
       <dm-avatar [src]="demoSrc" alt="Diego Maestro" initials="DM" />
       <dm-avatar initials="DM" alt="Diego Maestro" />
       <dm-avatar />
     </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['group']" [code]="groupCode">
+    <div style="display: flex; align-items: center; padding-left: 0.6rem">
+      @for (u of team; track u.name) {
+        <dm-avatar
+          [src]="u.src"
+          [alt]="u.name"
+          style="
+            margin-left: -0.6rem;
+            border-radius: 50%;
+            box-shadow: 0 0 0 3px var(--dm-bg-elevated);
+          "
+        />
+      }
+      <span
+        style="
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.5rem;
+          height: 2.5rem;
+          margin-left: -0.6rem;
+          border-radius: 50%;
+          background: var(--dm-bg-muted);
+          color: var(--dm-fg-muted);
+          font-size: 0.8125rem;
+          font-weight: 600;
+          box-shadow: 0 0 0 3px var(--dm-bg-elevated);
+        "
+        >+3</span
+      >
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['status']" [code]="statusCode">
+    <div class="demo-row" style="align-items: center; gap: 1.25rem">
+      <span style="position: relative; display: inline-flex">
+        <dm-avatar [src]="team[0].src" [alt]="team[0].name + ' — online'" size="lg" />
+        <span
+          style="
+            position: absolute;
+            right: 1px;
+            bottom: 1px;
+            width: 0.85rem;
+            height: 0.85rem;
+            border-radius: 50%;
+            background: var(--dm-success);
+            box-shadow: 0 0 0 3px var(--dm-bg-elevated);
+          "
+        ></span>
+      </span>
+      <span style="position: relative; display: inline-flex">
+        <dm-avatar [src]="team[1].src" [alt]="team[1].name + ' — away'" size="lg" />
+        <span
+          style="
+            position: absolute;
+            right: 1px;
+            bottom: 1px;
+            width: 0.85rem;
+            height: 0.85rem;
+            border-radius: 50%;
+            background: var(--dm-warning);
+            box-shadow: 0 0 0 3px var(--dm-bg-elevated);
+          "
+        ></span>
+      </span>
+      <span style="position: relative; display: inline-flex">
+        <dm-avatar [src]="team[2].src" [alt]="team[2].name + ' — busy'" size="lg" />
+        <span
+          style="
+            position: absolute;
+            right: 1px;
+            bottom: 1px;
+            width: 0.85rem;
+            height: 0.85rem;
+            border-radius: 50%;
+            background: var(--dm-danger);
+            box-shadow: 0 0 0 3px var(--dm-bg-elevated);
+          "
+        ></span>
+      </span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 24rem">
+      <div style="display: flex; align-items: center; gap: 1rem">
+        <dm-avatar [src]="team[0].src" [alt]="team[0].name" size="lg" />
+        <div style="flex: 1; min-width: 0">
+          <div style="display: flex; align-items: center; gap: 0.5rem">
+            <strong>{{ team[0].name }}</strong>
+            <dm-badge color="primary" variant="flat" size="sm">Owner</dm-badge>
+          </div>
+          <p style="margin: 0.15rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem">
+            ada&#64;dmaster.io
+          </p>
+        </div>
+        <dm-button size="sm" variant="bordered">Follow</dm-button>
+      </div>
+    </dm-card>
   </app-demo-block>
 </section>
 

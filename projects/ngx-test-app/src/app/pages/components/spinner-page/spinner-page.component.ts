@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmButtonComponent, DmSpinnerComponent } from '@dmaster/ui';
+import { DmButtonComponent, DmCardComponent, DmSpinnerComponent } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -14,6 +14,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   imports: [
     DmSpinnerComponent,
     DmButtonComponent,
+    DmCardComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -73,12 +74,77 @@ export class SpinnerPageComponent {
     '<dm-spinner [size]="40" />',
   ].join('\n');
 
+  protected readonly colorsCode = [
+    '<!-- The spinner draws with currentColor, so it takes the color -->',
+    '<!-- of whatever wraps it. No color input needed. -->',
+    '<dm-spinner />                                        <!-- inherits text color -->',
+    '<span style="color: var(--dm-primary)"><dm-spinner /></span>',
+    '<span style="color: var(--dm-success)"><dm-spinner /></span>',
+    '<span style="color: var(--dm-warning)"><dm-spinner /></span>',
+    '<span style="color: var(--dm-danger)"><dm-spinner /></span>',
+  ].join('\n');
+
+  protected readonly strokeCode = [
+    '<dm-spinner [strokeWidth]="1.5" size="lg" />   <!-- hairline -->',
+    '<dm-spinner [strokeWidth]="2.5" size="lg" />   <!-- default -->',
+    '<dm-spinner [strokeWidth]="4" size="lg" />     <!-- bold -->',
+  ].join('\n');
+
+  protected readonly withLabelCode = [
+    '<!-- A visible label promotes it to role="status" + aria-label, -->',
+    '<!-- so assistive tech announces the loading state. -->',
+    '<div style="display: flex; align-items: center; gap: 0.625rem">',
+    '  <dm-spinner label="Loading results" />',
+    '  <span>Loading results…</span>',
+    '</div>',
+  ].join('\n');
+
   protected readonly inButtonCode = [
-    '<!-- dm-button lo usa internamente -->',
+    '<!-- dm-button drives one internally through its loading state -->',
     '<dm-button state="loading" loadingLabel="Saving…">Save</dm-button>',
     '',
-    '<!-- hereda currentColor de cualquier contexto -->',
-    '<span style="color: var(--dm-primary)"><dm-spinner /></span>',
+    '<!-- Or inline in a sentence — it flows with the text baseline -->',
+    '<p>Syncing your files <dm-spinner size="sm" />…</p>',
+  ].join('\n');
+
+  protected readonly compositionCode = [
+    '<!-- The canonical "panel is fetching" placeholder: a centered',
+    '     spinner + message inside a card, swapped for content once ready. -->',
+    '<dm-card style="width: 100%; max-width: 22rem">',
+    '  <div style="display: grid; gap: 0.75rem; justify-items: center;',
+    '              padding: 2rem 0; text-align: center">',
+    '    <dm-spinner size="lg" label="Loading workspace" />',
+    '    <p style="margin: 0; color: var(--dm-fg-muted)">Loading your workspace…</p>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmCardComponent, DmSpinnerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-workspace',",
+    '  imports: [DmCardComponent, DmSpinnerComponent],',
+    '  template: `',
+    '    @if (loading()) {',
+    '      <dm-card>',
+    '        <dm-spinner size="lg" label="Loading workspace" />',
+    '        <p>Loading your workspace…</p>',
+    '      </dm-card>',
+    '    } @else {',
+    '      <!-- real content -->',
+    '    }',
+    '  `,',
+    '})',
+    'export class WorkspaceComponent {',
+    '  protected readonly loading = signal(true);',
+    '',
+    '  constructor() {',
+    '    // flip to false once your data resolves',
+    "    fetch('/api/workspace').then(() => this.loading.set(false));",
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

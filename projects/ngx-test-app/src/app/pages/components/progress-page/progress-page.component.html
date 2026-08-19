@@ -80,6 +80,75 @@
       />
     </div>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 24rem">
+      <div style="display: flex; align-items: center; gap: 0.875rem">
+        <span
+          style="
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            flex: none;
+            border-radius: var(--dm-radius-md);
+            background: var(--dm-primary-subtle);
+            color: var(--dm-primary);
+          "
+        >
+          <dm-icon name="upload" size="1.25rem" />
+        </span>
+        <div style="flex: 1; min-width: 0">
+          <strong
+            style="display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap"
+            >annual-report-2026.pdf</strong
+          >
+          <p style="margin: 0.1rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem">12.4 MB</p>
+        </div>
+        @if (!uploadDone()) {
+          <dm-button
+            size="sm"
+            variant="light"
+            color="default"
+            aria-label="Cancel upload"
+            (click)="uploadPct.set(0)"
+          >
+            <dm-icon name="x" size="1.1rem" />
+          </dm-button>
+        } @else {
+          <dm-icon name="check-circle" size="1.4rem" style="color: var(--dm-success)" />
+        }
+      </div>
+
+      <dm-progress
+        style="display: block; margin-top: 1rem"
+        [value]="uploadPct()"
+        [color]="uploadColor()"
+        [ariaLabel]="uploadDone() ? 'Upload complete' : 'Uploading annual-report-2026.pdf'"
+      />
+
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          margin-top: 0.55rem;
+          font-size: 0.8125rem;
+        "
+      >
+        <span style="color: var(--dm-fg-muted)">{{
+          uploadDone() ? 'Upload complete' : 'Uploading…'
+        }}</span>
+        <span style="font-variant-numeric: tabular-nums; color: var(--dm-fg-muted)"
+          >{{ uploadPct() }}%</span
+        >
+      </div>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

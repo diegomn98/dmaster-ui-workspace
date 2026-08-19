@@ -129,6 +129,7 @@ export class ShellComponent implements OnInit {
           { label: t.shell.nav.checkbox, path: '/components/checkbox' },
           { label: t.shell.nav.radioGroup, path: '/components/radio-group' },
           { label: t.shell.nav.select, path: '/components/select' },
+          { label: t.shell.nav.autocomplete, path: '/components/autocomplete' },
           { label: t.shell.nav.paginatedSelect, path: '/components/paginated-select' },
           { label: t.shell.nav.searchField, path: '/components/search-field' },
           { label: t.shell.nav.datePicker, path: '/components/date-picker' },

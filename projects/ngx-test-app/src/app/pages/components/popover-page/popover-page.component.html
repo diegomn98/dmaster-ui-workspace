@@ -86,6 +86,82 @@
       </div>
     </dm-popover>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <p
+      style="
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.375rem;
+        font-size: 0.9375rem;
+        line-height: 1.6;
+      "
+    >
+      <span>{{ page().labels['hoverCardText'] }}</span>
+      <button
+        type="button"
+        [dmPopoverTrigger]="userCard"
+        style="
+          display: inline-flex;
+          align-items: center;
+          gap: 0.375rem;
+          padding: 0.125rem 0.625rem 0.125rem 0.25rem;
+          border: 0;
+          border-radius: 999px;
+          background: var(--dm-primary-subtle);
+          color: var(--dm-primary);
+          font: inherit;
+          font-weight: 600;
+          cursor: pointer;
+        "
+      >
+        <dm-avatar initials="AL" size="1.25rem" alt="" />
+        &#64;ada
+      </button>
+      <span style="color: var(--dm-fg-muted)">· {{ page().labels['hoverCardWhen'] }}</span>
+    </p>
+
+    <dm-popover #userCard placement="bottom-start" ariaLabel="Ada Lovelace">
+      <div style="display: grid; gap: 0.75rem; width: 17rem">
+        <div
+          style="
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.75rem;
+          "
+        >
+          <dm-avatar initials="AL" size="lg" alt="Ada Lovelace" />
+          <dm-button
+            size="sm"
+            [color]="following() ? 'default' : 'primary'"
+            [variant]="following() ? 'bordered' : 'solid'"
+            (clicked)="toggleFollow()"
+          >
+            {{ following() ? page().labels['following'] : page().labels['follow'] }}
+          </dm-button>
+        </div>
+        <div style="display: grid; gap: 0.125rem">
+          <strong style="font-size: 1rem; letter-spacing: -0.01em">Ada Lovelace</strong>
+          <span style="color: var(--dm-fg-muted); font-size: 0.875rem">&#64;ada</span>
+        </div>
+        <p style="margin: 0; font-size: 0.875rem; line-height: 1.55">
+          {{ page().labels['hoverCardBio'] }}
+        </p>
+        <p style="margin: 0; color: var(--dm-fg-muted); font-size: 0.8125rem">
+          <strong style="color: var(--dm-fg)">1,204</strong> {{ page().labels['followers'] }}
+          <span aria-hidden="true"> · </span>
+          <strong style="color: var(--dm-fg)">86</strong> {{ page().labels['followingCount'] }}
+        </p>
+      </div>
+    </dm-popover>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

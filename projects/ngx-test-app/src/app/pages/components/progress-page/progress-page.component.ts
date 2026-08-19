@@ -1,5 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmProgressColor, DmProgressComponent, DmProgressSize } from '@dmaster/ui';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
+import {
+  DmButtonComponent,
+  DmCardComponent,
+  DmIconComponent,
+  DmProgressColor,
+  DmProgressComponent,
+  DmProgressSize,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -13,6 +27,9 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   selector: 'app-progress-page',
   imports: [
     DmProgressComponent,
+    DmCardComponent,
+    DmButtonComponent,
+    DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -127,6 +144,89 @@ export class ProgressPageComponent {
   ].join('\n');
 
   protected readonly gbFormat = (value: number, max: number): string => `${value} GB of ${max} GB`;
+
+  // Composition — live "uploading a file" card. Drives the bar with a signal
+  // ticked by a browser-only timer (afterNextRender never runs during prerender,
+  // so the SSR pass stays static and window is never touched).
+  protected readonly uploadPct = signal(0);
+  protected readonly uploadDone = computed(() => this.uploadPct() >= 100);
+  protected readonly uploadColor = computed<DmProgressColor>(() =>
+    this.uploadDone() ? 'success' : 'primary',
+  );
+
+  protected readonly compositionCode = [
+    '<dm-card style="width: 100%; max-width: 24rem">',
+    '  <div style="display: flex; align-items: center; gap: 0.875rem">',
+    '    <span class="file-tile"><dm-icon name="upload" size="1.25rem" /></span>',
+    '    <div style="flex: 1; min-width: 0">',
+    '      <strong>annual-report-2026.pdf</strong>',
+    '      <p style="margin: 0.1rem 0 0; color: var(--dm-fg-muted)">12.4 MB</p>',
+    '    </div>',
+    '    @if (!done()) {',
+    '      <dm-button size="sm" variant="light" color="default"',
+    '        aria-label="Cancel upload" (click)="cancel()">',
+    '        <dm-icon name="x" size="1.1rem" />',
+    '      </dm-button>',
+    '    } @else {',
+    '      <dm-icon name="check-circle" size="1.4rem" style="color: var(--dm-success)" />',
+    '    }',
+    '  </div>',
+    '',
+    '  <dm-progress',
+    '    style="margin-top: 1rem"',
+    '    [value]="progress()"',
+    "    [color]=\"done() ? 'success' : 'primary'\"",
+    "    [ariaLabel]=\"done() ? 'Upload complete' : 'Uploading annual-report-2026.pdf'\"",
+    '  />',
+    '',
+    '  <div style="display: flex; justify-content: space-between; margin-top: 0.55rem">',
+    '    <span style="color: var(--dm-fg-muted)">',
+    "      {{ done() ? 'Upload complete' : 'Uploading…' }}",
+    '    </span>',
+    '    <span style="font-variant-numeric: tabular-nums">{{ progress() }}%</span>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { afterNextRender, Component, computed, signal } from '@angular/core';",
+    "import { DmButtonComponent, DmCardComponent, DmIconComponent, DmProgressComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-upload-card',",
+    '  imports: [DmCardComponent, DmProgressComponent, DmButtonComponent, DmIconComponent],',
+    "  templateUrl: './upload-card.component.html',",
+    '})',
+    'export class UploadCardComponent {',
+    '  protected readonly progress = signal(0);',
+    '  protected readonly done = computed(() => this.progress() >= 100);',
+    '',
+    '  private timer?: ReturnType<typeof setInterval>;',
+    '',
+    '  constructor() {',
+    '    // afterNextRender only runs in the browser — the prerender stays static.',
+    '    afterNextRender(() => {',
+    '      this.timer = setInterval(() => {',
+    '        this.progress.update((p) => (p >= 100 ? 0 : Math.min(p + 4, 100)));',
+    '      }, 450);',
+    '    });',
+    '  }',
+    '',
+    '  protected cancel(): void {',
+    '    clearInterval(this.timer);',
+    '    this.progress.set(0);',
+    '  }',
+    '}',
+  ].join('\n');
+
+  constructor() {
+    // Loop the demo bar so the page always shows motion (browser only).
+    afterNextRender(() => {
+      setInterval(() => {
+        this.uploadPct.update((p) => (p >= 100 ? 0 : Math.min(p + 4, 100)));
+      }, 450);
+    });
+  }
 
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;

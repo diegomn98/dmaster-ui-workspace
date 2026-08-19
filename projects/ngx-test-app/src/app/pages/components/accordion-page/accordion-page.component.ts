@@ -3,6 +3,7 @@ import {
   DmAccordionComponent,
   DmAccordionItemComponent,
   DmAccordionVariant,
+  DmCardComponent,
   DmIconComponent,
 } from '@dmaster/ui';
 
@@ -19,6 +20,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   imports: [
     DmAccordionComponent,
     DmAccordionItemComponent,
+    DmCardComponent,
     DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
@@ -188,6 +190,85 @@ export class AccordionPageComponent {
     '</dm-accordion>',
   ].join('\n');
 
+  // ---- Composition: a real Help Center FAQ card --------------------------- //
+  protected readonly compositionCode = [
+    '<!-- A real help/FAQ surface: an accordion sitting flush inside a card,',
+    '     each header carrying a leading icon and a muted answer. -->',
+    '<dm-card padding="none" style="width: 100%; max-width: 34rem">',
+    '  <div style="display: flex; align-items: center; gap: 0.75rem;',
+    '              padding: 1.25rem 1.25rem 1rem; border-bottom: 1px solid var(--dm-border)">',
+    '    <span style="display: inline-flex; align-items: center; justify-content: center;',
+    '                 width: 2.5rem; height: 2.5rem; border-radius: var(--dm-radius-md);',
+    '                 background: var(--dm-primary-subtle); color: var(--dm-primary)">',
+    '      <dm-icon name="sparkles" size="1.25rem" />',
+    '    </span>',
+    '    <div>',
+    '      <strong style="display: block; font-size: 1.0625rem">Help Center</strong>',
+    '      <span style="color: var(--dm-fg-muted); font-size: 0.875rem">',
+    '        Answers to the questions we hear most',
+    '      </span>',
+    '    </div>',
+    '  </div>',
+    '',
+    '  <dm-accordion variant="light" selectionMode="single" [(expandedValues)]="faqOpen"',
+    '                style="padding: 0.25rem 0.5rem 0.5rem">',
+    '    <dm-accordion-item value="invite" title="How do I invite my team?">',
+    '      <dm-icon dm-accordion-icon name="user" size="1em" />',
+    '      <span style="color: var(--dm-fg-muted)">',
+    '        Open <strong style="color: var(--dm-fg)">Settings → Members</strong>, paste a list',
+    '        of emails and pick a role. Invites expire after 7 days.',
+    '      </span>',
+    '    </dm-accordion-item>',
+    '    <dm-accordion-item value="security" title="Is my data encrypted?">',
+    '      <dm-icon dm-accordion-icon name="shield-check" size="1em" />',
+    '      <span style="color: var(--dm-fg-muted)">',
+    '        Everything is encrypted in transit (TLS 1.3) and at rest (AES-256). We are',
+    '        SOC 2 Type II certified and never sell your data.',
+    '      </span>',
+    '    </dm-accordion-item>',
+    '    <dm-accordion-item value="billing" title="Can I change plans or cancel anytime?">',
+    '      <dm-icon dm-accordion-icon name="refresh" size="1em" />',
+    '      <span style="color: var(--dm-fg-muted)">',
+    '        Yes — upgrade, downgrade or cancel from the billing page. Changes are',
+    '        prorated to the day, no lock-in.',
+    '      </span>',
+    '    </dm-accordion-item>',
+    '    <dm-accordion-item value="support" title="How do I reach support?">',
+    '      <dm-icon dm-accordion-icon name="mail" size="1em" />',
+    '      <span style="color: var(--dm-fg-muted)">',
+    '        Email <strong style="color: var(--dm-fg)">help@dmaster.io</strong> or use the',
+    '        in-app chat. Paid plans get a reply within one business day.',
+    '      </span>',
+    '    </dm-accordion-item>',
+    '  </dm-accordion>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, signal } from '@angular/core';",
+    'import {',
+    '  DmAccordionComponent,',
+    '  DmAccordionItemComponent,',
+    '  DmCardComponent,',
+    '  DmIconComponent,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-help-faq',",
+    '  imports: [',
+    '    DmCardComponent,',
+    '    DmAccordionComponent,',
+    '    DmAccordionItemComponent,',
+    '    DmIconComponent,',
+    '  ],',
+    '  template: `...`, // paste the HTML above',
+    '})',
+    'export class HelpFaqComponent {',
+    '  // First question opens by default; single mode keeps one panel at a time.',
+    "  protected readonly faqOpen = signal<string[]>(['invite']);",
+    '}',
+  ].join('\n');
+
   protected readonly defaultsCode = [
     "import { provideAccordionDefaults } from '@dmaster/ui';",
     '',
@@ -198,6 +279,7 @@ export class AccordionPageComponent {
 
   // Signals for demos
   protected readonly multipleOpen = signal<string[]>(['a', 'c']);
+  protected readonly faqOpen = signal<string[]>(['invite']);
 
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;

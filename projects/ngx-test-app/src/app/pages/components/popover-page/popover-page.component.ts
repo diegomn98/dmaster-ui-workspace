@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
+  DmAvatarComponent,
   DmButtonComponent,
   DmFormFieldComponent,
   DmInputDirective,
@@ -21,6 +22,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   imports: [
     DmPopoverComponent,
     DmPopoverTriggerDirective,
+    DmAvatarComponent,
     DmButtonComponent,
     DmFormFieldComponent,
     DmInputDirective,
@@ -123,6 +125,56 @@ export class PopoverPageComponent {
     '  <dm-button variant="light" size="sm">Duplicate</dm-button>',
     '  <dm-button variant="light" size="sm" color="danger">Delete</dm-button>',
     '</dm-popover>',
+  ].join('\n');
+
+  // Composition: user hover-card
+  protected readonly following = signal(false);
+
+  protected toggleFollow(): void {
+    this.following.update((value) => !value);
+  }
+
+  protected readonly compositionCode = [
+    '<p>',
+    '  Reviewed and approved by',
+    '  <button type="button" [dmPopoverTrigger]="userCard" class="mention">',
+    '    <dm-avatar initials="AL" size="1.25rem" alt="" />',
+    '    @ada',
+    '  </button>',
+    '  · 2 hours ago',
+    '</p>',
+    '',
+    '<dm-popover #userCard placement="bottom-start" ariaLabel="Ada Lovelace">',
+    '  <div style="display: grid; gap: 0.75rem; width: 17rem">',
+    '    <div style="display: flex; justify-content: space-between; gap: 0.75rem">',
+    '      <dm-avatar initials="AL" size="lg" alt="Ada Lovelace" />',
+    '      <dm-button',
+    '        size="sm"',
+    `        [color]="following() ? 'default' : 'primary'"`,
+    `        [variant]="following() ? 'bordered' : 'solid'"`,
+    '        (clicked)="toggleFollow()"',
+    '      >',
+    "        {{ following() ? 'Following' : 'Follow' }}",
+    '      </dm-button>',
+    '    </div>',
+    '    <div>',
+    '      <strong>Ada Lovelace</strong>',
+    '      <span style="color: var(--dm-fg-muted)">@ada</span>',
+    '    </div>',
+    '    <p>Mathematician. Wrote the first algorithm meant to run on a machine.</p>',
+    '    <p style="color: var(--dm-fg-muted)">',
+    '      <strong>1,204</strong> followers · <strong>86</strong> following',
+    '    </p>',
+    '  </div>',
+    '</dm-popover>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    'readonly following = signal(false);',
+    '',
+    'toggleFollow(): void {',
+    '  this.following.update((value) => !value);',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

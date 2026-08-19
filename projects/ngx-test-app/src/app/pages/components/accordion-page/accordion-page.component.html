@@ -130,6 +130,81 @@
       </dm-accordion>
     </div>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card padding="none" style="width: 100%; max-width: 34rem">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 1.25rem 1.25rem 1rem;
+          border-bottom: 1px solid var(--dm-border);
+        "
+      >
+        <span
+          style="
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: var(--dm-radius-md);
+            background: var(--dm-primary-subtle);
+            color: var(--dm-primary);
+          "
+        >
+          <dm-icon name="sparkles" size="1.25rem" />
+        </span>
+        <div>
+          <strong style="display: block; font-size: 1.0625rem">Help Center</strong>
+          <span style="color: var(--dm-fg-muted); font-size: 0.875rem">
+            Answers to the questions we hear most
+          </span>
+        </div>
+      </div>
+
+      <dm-accordion
+        variant="light"
+        selectionMode="single"
+        [(expandedValues)]="faqOpen"
+        style="display: block; padding: 0.25rem 0.5rem 0.5rem"
+      >
+        <dm-accordion-item value="invite" title="How do I invite my team?">
+          <dm-icon dm-accordion-icon name="user" size="1em" />
+          <span style="color: var(--dm-fg-muted)">
+            Open <strong style="color: var(--dm-fg)">Settings → Members</strong>, paste a list of
+            emails and pick a role. Invites expire after 7 days.
+          </span>
+        </dm-accordion-item>
+        <dm-accordion-item value="security" title="Is my data encrypted?">
+          <dm-icon dm-accordion-icon name="shield-check" size="1em" />
+          <span style="color: var(--dm-fg-muted)">
+            Everything is encrypted in transit (TLS 1.3) and at rest (AES-256). We're SOC 2 Type II
+            certified and never sell your data.
+          </span>
+        </dm-accordion-item>
+        <dm-accordion-item value="billing" title="Can I change plans or cancel anytime?">
+          <dm-icon dm-accordion-icon name="refresh" size="1em" />
+          <span style="color: var(--dm-fg-muted)">
+            Yes — upgrade, downgrade or cancel from the billing page. Changes are prorated to the
+            day, with no lock-in.
+          </span>
+        </dm-accordion-item>
+        <dm-accordion-item value="support" title="How do I reach support?">
+          <dm-icon dm-accordion-icon name="mail" size="1em" />
+          <span style="color: var(--dm-fg-muted)">
+            Email <strong style="color: var(--dm-fg)">help&#64;dmaster.io</strong> or use the in-app
+            chat. Paid plans get a reply within one business day.
+          </span>
+        </dm-accordion-item>
+      </dm-accordion>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

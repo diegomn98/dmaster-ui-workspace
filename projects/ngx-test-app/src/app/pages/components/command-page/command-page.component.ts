@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmButtonComponent, DmCommandComponent, DmCommandItem, DmKbdComponent } from '@dmaster/ui';
+import {
+  DmButtonComponent,
+  DmCardComponent,
+  DmCommandComponent,
+  DmCommandItem,
+  DmIconComponent,
+  DmKbdComponent,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -13,7 +20,9 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   selector: 'app-command-page',
   imports: [
     DmButtonComponent,
+    DmCardComponent,
     DmCommandComponent,
+    DmIconComponent,
     DmKbdComponent,
     DemoBlockComponent,
     ApiTableComponent,
@@ -64,6 +73,93 @@ export class CommandPageComponent {
   protected onSelect(item: DmCommandItem): void {
     this.lastAction.set(item.label);
   }
+
+  // Composition: app top-bar
+  protected readonly appOpen = signal(false);
+  protected readonly appAction = signal<string>('—');
+
+  protected readonly appItems = computed<DmCommandItem[]>(() => {
+    const labels = this.page().labels;
+    return [
+      {
+        id: 'dashboard',
+        label: labels['navDashboard'],
+        group: labels['groupNavigation'],
+        shortcut: 'G D',
+        keywords: ['home'],
+      },
+      {
+        id: 'projects',
+        label: labels['navProjects'],
+        group: labels['groupNavigation'],
+        shortcut: 'G P',
+      },
+      {
+        id: 'settings',
+        label: labels['navSettings'],
+        group: labels['groupNavigation'],
+        shortcut: '⌘,',
+      },
+      {
+        id: 'new-project',
+        label: labels['actionNewProject'],
+        group: labels['groupActions'],
+        shortcut: '⌘N',
+        keywords: ['create'],
+      },
+      {
+        id: 'invite',
+        label: labels['actionInvite'],
+        group: labels['groupActions'],
+        keywords: ['team', 'member'],
+      },
+      { id: 'theme-light', label: labels['themeLight'], group: labels['groupTheme'] },
+      { id: 'theme-dark', label: labels['themeDark'], group: labels['groupTheme'] },
+    ];
+  });
+
+  protected onAppSelect(item: DmCommandItem): void {
+    this.appAction.set(item.label);
+  }
+
+  protected readonly compositionCode = [
+    '<dm-card padding="sm">',
+    '  <div style="display: flex; align-items: center; gap: 0.75rem">',
+    '    <span class="brand">Acme</span>',
+    '',
+    '    <dm-button variant="bordered" size="sm" radius="md" style="flex: 1" (clicked)="open.set(true)">',
+    '      <span style="display: flex; align-items: center; gap: 0.5rem; width: 100%; color: var(--dm-fg-muted)">',
+    '        <dm-icon name="search" size="1rem" />',
+    '        <span style="flex: 1; text-align: start">Search…</span>',
+    '        <dm-kbd size="sm" keys="command">K</dm-kbd>',
+    '      </span>',
+    '    </dm-button>',
+    '  </div>',
+    '</dm-card>',
+    '',
+    '<dm-command [items]="commands" [(open)]="open" (selected)="run($event)" />',
+    '',
+    '<p>Last action: {{ lastAction() }}</p>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    'readonly open = signal(false);',
+    "readonly lastAction = signal('—');",
+    '',
+    'readonly commands: DmCommandItem[] = [',
+    "  { id: 'dashboard', label: 'Dashboard', group: 'Navigation', shortcut: 'G D' },",
+    "  { id: 'projects', label: 'Projects', group: 'Navigation', shortcut: 'G P' },",
+    "  { id: 'settings', label: 'Settings', group: 'Navigation', shortcut: '⌘,' },",
+    "  { id: 'new-project', label: 'New project', group: 'Actions', shortcut: '⌘N', keywords: ['create'] },",
+    "  { id: 'invite', label: 'Invite member', group: 'Actions', keywords: ['team'] },",
+    "  { id: 'theme-light', label: 'Light', group: 'Theme' },",
+    "  { id: 'theme-dark', label: 'Dark', group: 'Theme' },",
+    '];',
+    '',
+    'run(item: DmCommandItem): void {',
+    '  this.lastAction.set(item.label);',
+    '}',
+  ].join('\n');
 
   // Playground
   protected readonly playground = signal<PropValues>({ hotkey: 'mod+k' });

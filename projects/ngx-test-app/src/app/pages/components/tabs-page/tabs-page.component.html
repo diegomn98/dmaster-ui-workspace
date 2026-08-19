@@ -196,6 +196,125 @@
       </dm-tabs>
     </div>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card padding="none" style="width: 100%; max-width: 26rem">
+      <header
+        style="display: flex; align-items: center; gap: 0.875rem; padding: 1.25rem 1.25rem 1rem"
+      >
+        <dm-avatar [src]="avatarSrc" alt="Ada Lovelace" size="lg" />
+        <div style="flex: 1; min-width: 0">
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap">
+            <strong style="font-size: 1rem">Ada Lovelace</strong>
+            <dm-badge color="primary" variant="flat" size="sm">Admin</dm-badge>
+          </div>
+          <p style="margin: 0; font-size: 0.8125rem; color: var(--dm-fg-muted)">
+            ada&#64;example.com
+          </p>
+        </div>
+      </header>
+
+      <div style="padding: 0 1.25rem 1.25rem">
+        <dm-tabs variant="underlined" color="primary" [(selectedValue)]="profileTab">
+          <dm-tab value="overview">Overview</dm-tab>
+          <dm-tab value="activity">Activity</dm-tab>
+          <dm-tab value="settings">Settings</dm-tab>
+
+          <dm-tab-panel value="overview">
+            <div
+              style="
+                display: grid;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 0.75rem;
+                padding-top: 1rem;
+              "
+            >
+              @for (stat of profileStats; track stat.label) {
+                <div
+                  style="
+                    padding: 0.75rem;
+                    border-radius: var(--dm-radius-md);
+                    background: var(--dm-bg-muted);
+                  "
+                >
+                  <p style="margin: 0; font-size: 0.75rem; color: var(--dm-fg-muted)">
+                    {{ stat.label }}
+                  </p>
+                  <p
+                    style="
+                      margin: 0.125rem 0 0;
+                      font-size: 1.25rem;
+                      font-weight: 700;
+                      letter-spacing: -0.02em;
+                    "
+                  >
+                    {{ stat.value }}
+                  </p>
+                </div>
+              }
+            </div>
+          </dm-tab-panel>
+
+          <dm-tab-panel value="activity">
+            <ul
+              style="list-style: none; margin: 0; padding: 1rem 0 0; display: grid; gap: 0.875rem"
+            >
+              @for (item of profileActivity; track item.text) {
+                <li style="display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem">
+                  <dm-avatar [initials]="item.initials" size="sm" />
+                  <span style="flex: 1; min-width: 0">{{ item.text }}</span>
+                  <span style="font-size: 0.75rem; color: var(--dm-fg-muted); white-space: nowrap">
+                    {{ item.time }}
+                  </span>
+                </li>
+              }
+            </ul>
+          </dm-tab-panel>
+
+          <dm-tab-panel value="settings">
+            <div style="display: grid; gap: 1rem; padding-top: 1rem">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  gap: 1rem;
+                "
+              >
+                <div style="min-width: 0">
+                  <strong style="font-size: 0.875rem">Email notifications</strong>
+                  <p style="margin: 0; font-size: 0.8125rem; color: var(--dm-fg-muted)">
+                    Weekly digest and mentions.
+                  </p>
+                </div>
+                <dm-switch [(checked)]="emailNotifications" ariaLabel="Email notifications" />
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  gap: 1rem;
+                "
+              >
+                <div style="min-width: 0">
+                  <strong style="font-size: 0.875rem">Public profile</strong>
+                  <p style="margin: 0; font-size: 0.8125rem; color: var(--dm-fg-muted)">
+                    Visible to anyone with the link.
+                  </p>
+                </div>
+                <dm-switch [(checked)]="publicProfile" ariaLabel="Public profile" />
+              </div>
+            </div>
+          </dm-tab-panel>
+        </dm-tabs>
+      </div>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

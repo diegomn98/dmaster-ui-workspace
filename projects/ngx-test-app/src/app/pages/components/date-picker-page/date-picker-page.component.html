@@ -48,10 +48,41 @@
     </div>
   </app-demo-block>
 
+  <app-demo-block [heading]="page().labels['rangeHeading']" [code]="rangeCode">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+      <div style="width: 18rem">
+        <dm-date-picker
+          range
+          [label]="page().labels['rangeLabel']"
+          [placeholder]="page().labels['rangePlaceholder']"
+          [(rangeValue)]="rangeValue"
+          [clearable]="true"
+        />
+      </div>
+      <span class="demo-output">
+        {{ page().labels['selectedRange'] }}: {{ format(rangeValue()?.start ?? null) }} –
+        {{ format(rangeValue()?.end ?? null) }}
+      </span>
+    </div>
+  </app-demo-block>
+
   <app-demo-block [heading]="page().labels['localizedHeading']" [code]="localizedCode">
-    <div class="demo-grid demo-grid--2col">
-      <dm-date-picker label="Español" locale="es" [(value)]="localizedEsValue" />
-      <dm-date-picker label="Français" locale="fr" [(value)]="localizedFrValue" />
+    <div class="demo-stack" style="max-width: 22rem; gap: var(--dm-space-3)">
+      <dm-select
+        style="width: 100%"
+        variant="bordered"
+        size="sm"
+        [items]="localeOptions"
+        [value]="localizedLocale()"
+        (valueChange)="localizedLocale.set($event ?? 'es')"
+        [ariaLabel]="page().labels['localizedHeading']"
+      />
+      <dm-date-picker
+        style="width: 100%"
+        [label]="localizedLocale()"
+        [locale]="localizedLocale()"
+        [(value)]="localizedValue"
+      />
     </div>
   </app-demo-block>
 
@@ -122,6 +153,43 @@
       </div>
       <span class="demo-output">{{ page().labels['formValue'] }}: {{ format(formValue()) }}</span>
     </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 22rem">
+      <div style="display: grid; gap: 0.75rem">
+        <div>
+          <h3 style="margin: 0 0 0.15rem">{{ page().labels['cabinTitle'] }}</h3>
+          <p style="margin: 0; color: var(--dm-fg-muted); font-size: 0.875rem">
+            {{ page().labels['cabinSubtitle'] }}
+          </p>
+        </div>
+
+        <dm-date-picker
+          range
+          [label]="page().labels['checkInOut']"
+          [(rangeValue)]="bookingRange"
+          [min]="today"
+        />
+
+        @if (bookingNights() > 0) {
+          <div style="display: flex; align-items: center; justify-content: space-between">
+            <dm-badge color="primary" variant="flat"
+              >{{ bookingNights() }} {{ page().labels['nights'] }}</dm-badge
+            >
+            <strong>${{ bookingTotal() }}</strong>
+          </div>
+        }
+
+        <dm-button [disabled]="bookingNights() === 0" color="primary">
+          {{ page().labels['reserve'] }}
+        </dm-button>
+      </div>
+    </dm-card>
   </app-demo-block>
 </section>
 

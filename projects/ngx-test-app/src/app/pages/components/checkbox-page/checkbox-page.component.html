@@ -18,6 +18,7 @@
       (checkedChange)="patchChecked($event)"
       [indeterminate]="pgIndeterminate()"
       [disabled]="pgDisabled()"
+      [size]="pgSize()"
     >
       {{ page().labels['terms'] }}
     </dm-checkbox>
@@ -31,10 +32,28 @@
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
   <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
-    <dm-checkbox [checked]="true">{{ page().labels['terms'] }}</dm-checkbox>
+    <div class="demo-stack">
+      <dm-checkbox [checked]="basicTerms()" (checkedChange)="basicTerms.set($event)">
+        {{ page().labels['terms'] }}
+      </dm-checkbox>
+      <dm-checkbox [checked]="basicUpdates()" (checkedChange)="basicUpdates.set($event)">
+        Email me about product updates
+      </dm-checkbox>
+    </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['indeterminateHeading']" [code]="indeterminateCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-stack">
+      <dm-checkbox size="sm" [checked]="true">Small — dense rows and filters</dm-checkbox>
+      <dm-checkbox [checked]="true">Medium — the default for forms</dm-checkbox>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['indeterminateHeading']"
+    [code]="indeterminateCode"
+    [ts]="indeterminateTs"
+  >
     <div class="demo-stack">
       <dm-checkbox
         [checked]="allSelected()"
@@ -43,26 +62,78 @@
       >
         {{ page().labels['selectAll'] }}
       </dm-checkbox>
-      <dm-checkbox [checked]="optionA()" (checkedChange)="optionA.set($event)"
-        >Option A</dm-checkbox
-      >
-      <dm-checkbox [checked]="optionB()" (checkedChange)="optionB.set($event)"
-        >Option B</dm-checkbox
-      >
+      <div style="display: grid; gap: 0.625rem; padding-left: 1.75rem">
+        <dm-checkbox [checked]="optionA()" (checkedChange)="optionA.set($event)">
+          Chrome
+        </dm-checkbox>
+        <dm-checkbox [checked]="optionB()" (checkedChange)="optionB.set($event)">
+          Firefox
+        </dm-checkbox>
+        <dm-checkbox [checked]="optionC()" (checkedChange)="optionC.set($event)">
+          Safari
+        </dm-checkbox>
+      </div>
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode" language="ts">
-    <div class="demo-row">
-      <dm-checkbox [formControl]="formControl">{{ page().labels['terms'] }}</dm-checkbox>
-      <span class="demo-output">value: {{ formValue() }}</span>
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode">
+    <div class="demo-stack">
+      <dm-checkbox [disabled]="true">Disabled</dm-checkbox>
+      <dm-checkbox [disabled]="true" [checked]="true">Disabled checked</dm-checkbox>
+      <dm-checkbox [disabled]="true" [indeterminate]="true">Disabled indeterminate</dm-checkbox>
     </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode" [ts]="formsTs">
+    <div style="display: grid; gap: 0.75rem; justify-items: start">
+      <dm-checkbox [formControl]="termsControl">I agree to the Terms of Service</dm-checkbox>
+      @if (termsError()) {
+        <dm-error>Please accept the terms to continue</dm-error>
+      }
+      @if (termsOk()) {
+        <span style="color: var(--dm-success); font-size: 0.875rem">
+          Thanks — your account is on its way.
+        </span>
+      }
+      <dm-button size="sm" (clicked)="submitTerms()">Create account</dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 24rem">
+      <div style="display: grid; gap: 0.875rem">
+        <div style="display: flex; align-items: center; justify-content: space-between">
+          <strong>Today</strong>
+          <dm-badge [color]="allDone() ? 'success' : 'default'" variant="flat" size="sm">
+            {{ doneCount() }}/{{ tasks().length }} done
+          </dm-badge>
+        </div>
+        @for (task of tasks(); track task.label; let i = $index) {
+          <dm-checkbox [checked]="task.done" (checkedChange)="toggleTask(i, $event)">
+            <span
+              [style.color]="task.done ? 'var(--dm-fg-muted)' : null"
+              [style.text-decoration]="task.done ? 'line-through' : null"
+            >
+              {{ task.label }}
+            </span>
+          </dm-checkbox>
+        }
+      </div>
+    </dm-card>
   </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">
   <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
   <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
 </section>
 
 <section class="page__section" aria-labelledby="a11y-title">

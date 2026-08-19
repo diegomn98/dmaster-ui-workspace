@@ -1,0 +1,196 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">Autocomplete</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmAutocompleteComponent, DmAutocompleteOption &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 22rem">
+      <dm-autocomplete
+        [label]="page().labels['fruit']"
+        [placeholder]="page().labels['typeToSearch']"
+        [noResultsLabel]="page().labels['noMatches']"
+        [options]="fruits"
+        [(value)]="playgroundValue"
+        [color]="pgColor()"
+        [variant]="pgVariant()"
+        [size]="pgSize()"
+        [radius]="pgRadius()"
+        [clearable]="pgClearable()"
+        [openOnFocus]="pgOpenOnFocus()"
+        [disabled]="pgDisabled()"
+      />
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['basicHeading']" [code]="basicCode">
+    <div style="width: 100%; max-width: 20rem">
+      <dm-autocomplete
+        [label]="page().labels['fruit']"
+        [placeholder]="page().labels['typeToSearch']"
+        [noResultsLabel]="page().labels['noMatches']"
+        [options]="fruits"
+        [(value)]="basicValue"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['openOnFocusHeading']" [code]="openOnFocusCode">
+    <div style="width: 100%; max-width: 20rem">
+      <dm-autocomplete
+        [label]="page().labels['fruit']"
+        [placeholder]="page().labels['typeToSearch']"
+        [noResultsLabel]="page().labels['noMatches']"
+        openOnFocus
+        [options]="fruits"
+        [(value)]="openOnFocusValue"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['eventsHeading']" [code]="eventsCode">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+      <div style="width: 18rem">
+        <dm-autocomplete
+          [ariaLabel]="page().labels['fruit']"
+          [placeholder]="page().labels['typeToSearch']"
+          [noResultsLabel]="page().labels['noMatches']"
+          [options]="fruits"
+          [(value)]="eventsValue"
+          (optionSelected)="onSelected($event)"
+        />
+      </div>
+      <span class="demo-output">{{ page().labels['lastSelected'] }}: {{ lastSelected() }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" language="ts">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+      <div style="width: 18rem">
+        <dm-autocomplete
+          [ariaLabel]="page().labels['fruit']"
+          [placeholder]="page().labels['typeToSearch']"
+          [options]="fruits"
+          [formControl]="formControl"
+        />
+      </div>
+      <span class="demo-output">{{ page().labels['formValue'] }}: {{ formValue() || '—' }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['validationHeading']"
+    [code]="validationCode"
+    [ts]="validationTs"
+  >
+    <div style="display: grid; gap: 0.375rem; width: 100%; max-width: 20rem">
+      <dm-autocomplete
+        [label]="page().labels['cityLabel']"
+        [placeholder]="page().labels['cityPlaceholder']"
+        [noResultsLabel]="page().labels['noMatches']"
+        [options]="cities"
+        [required]="true"
+        [formControl]="requiredControl"
+      />
+      @if (requiredControl.touched && requiredControl.hasError('required')) {
+        <dm-error>{{ page().labels['cityRequired'] }}</dm-error>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 26rem">
+      <form
+        [formGroup]="shipForm"
+        style="display: grid; gap: 1rem"
+        (ngSubmit)="continueShipping()"
+        novalidate
+      >
+        <div>
+          <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700">
+            {{ page().labels['shipTitle'] }}
+          </h3>
+          <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['shipSubtitle'] }}
+          </p>
+        </div>
+
+        <div style="display: grid; gap: 0.375rem">
+          <dm-autocomplete
+            [label]="page().labels['cityLabel']"
+            [placeholder]="page().labels['cityPlaceholder']"
+            [noResultsLabel]="page().labels['noMatches']"
+            [options]="cities"
+            [required]="true"
+            openOnFocus
+            formControlName="city"
+          />
+          @if (shipForm.controls.city.touched && shipForm.controls.city.hasError('required')) {
+            <dm-error>{{ page().labels['cityRequired'] }}</dm-error>
+          }
+        </div>
+
+        <dm-form-field [label]="page().labels['streetLabel']" [required]="true">
+          <input
+            dmInput
+            type="text"
+            formControlName="street"
+            autocomplete="street-address"
+            [placeholder]="page().labels['streetPlaceholder']"
+          />
+          @if (shipForm.controls.street.touched && shipForm.controls.street.hasError('required')) {
+            <dm-error>{{ page().labels['streetRequired'] }}</dm-error>
+          }
+        </dm-form-field>
+
+        <dm-button
+          type="submit"
+          color="primary"
+          style="width: 100%"
+          [state]="shipState()"
+          [loadingLabel]="page().labels['shipChecking']"
+          [successLabel]="page().labels['shipDone']"
+        >
+          {{ page().labels['continueLabel'] }}
+        </dm-button>
+      </form>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

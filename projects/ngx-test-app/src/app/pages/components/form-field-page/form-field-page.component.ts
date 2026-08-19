@@ -1,6 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DmErrorComponent, DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  DmButtonComponent,
+  DmCardComponent,
+  DmErrorComponent,
+  DmFormFieldComponent,
+  DmIconComponent,
+  DmInputDirective,
+  DmSelectComponent,
+  DmSelectItem,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -18,6 +27,10 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     DmFormFieldComponent,
     DmInputDirective,
     DmErrorComponent,
+    DmCardComponent,
+    DmButtonComponent,
+    DmIconComponent,
+    DmSelectComponent,
     ReactiveFormsModule,
     DemoBlockComponent,
     ApiTableComponent,
@@ -72,7 +85,85 @@ export class FormFieldPageComponent {
     ].join('\n');
   });
 
-  // Demo de validación en vivo: el error aparece al salir del campo.
+  // --- Basic ---------------------------------------------------------------
+
+  protected readonly basicCode = [
+    '<dm-form-field label="Email" hint="We never share your email." [required]="true">',
+    '  <input dmInput type="email" placeholder="you@example.com" />',
+    '</dm-form-field>',
+  ].join('\n');
+
+  // --- Input types ---------------------------------------------------------
+
+  /**
+   * A native `<select>` only themes its closed state via `dmInput` — the
+   * open dropdown is rendered by the browser/OS and can't be styled. For a
+   * fully themed dropdown, use the real `dm-select` component instead; it is
+   * a self-contained field (own label, no `dmInput`/`dm-form-field` needed).
+   */
+  protected readonly countryOptions: DmSelectItem<string>[] = [
+    { value: 'es', label: 'Spain' },
+    { value: 'fr', label: 'France' },
+    { value: 'de', label: 'Germany' },
+  ];
+  protected readonly countryValue = signal<string | null>('es');
+
+  /** Show/hide toggle for the two password demos (input-types + signup). */
+  protected readonly passwordVisible = signal(false);
+  protected readonly signupPasswordVisible = signal(false);
+
+  protected readonly typesCode = [
+    '<!-- dmInput styles any native input or textarea. -->',
+    '<dm-form-field label="Full name">',
+    '  <input dmInput type="text" placeholder="Ada Lovelace" />',
+    '</dm-form-field>',
+    '',
+    "<!-- Trailing show/hide toggle: dm-form-field's control is a positioning",
+    '     context, so an absolutely-positioned button works as-is. -->',
+    '<dm-form-field label="Password" hint="At least 8 characters.">',
+    '  <input',
+    '    dmInput',
+    "    [type]=\"visible() ? 'text' : 'password'\"",
+    '    autocomplete="new-password"',
+    '    style="padding-right: 2.25rem"',
+    '  />',
+    '  <button',
+    '    type="button"',
+    "    [attr.aria-label]=\"visible() ? 'Hide password' : 'Show password'\"",
+    '    (click)="visible.set(!visible())"',
+    '  >',
+    '    <dm-icon [name]="visible() ? \'eye-off\' : \'eye\'" size="1.1rem" />',
+    '  </button>',
+    '</dm-form-field>',
+    '',
+    '<dm-form-field label="Quantity">',
+    '  <input dmInput type="number" min="1" max="99" value="2" />',
+    '</dm-form-field>',
+    '',
+    '<!-- Not dmInput: dm-select is the themed answer for dropdowns. -->',
+    '<dm-select label="Country" [items]="countryOptions" [(value)]="country" />',
+    '',
+    '<dm-form-field label="Message" hint="Markdown supported.">',
+    '  <textarea dmInput rows="4"></textarea>',
+    '</dm-form-field>',
+  ].join('\n');
+
+  // --- States (disabled / readonly) ---------------------------------------
+
+  protected readonly statesCode = [
+    '<!-- disabled: skipped by keyboard, excluded from form submission -->',
+    '<dm-form-field label="Disabled">',
+    '  <input dmInput type="text" value="dm_user" disabled />',
+    '</dm-form-field>',
+    '',
+    '<!-- readonly: focusable and announced, but not editable -->',
+    '<dm-form-field label="Read-only" hint="Assigned automatically.">',
+    '  <input dmInput type="text" value="ACC-2041-XK" readonly />',
+    '</dm-form-field>',
+  ].join('\n');
+
+  // --- Error as an input (live: the error appears on blur) -----------------
+
   protected readonly email = signal('');
   protected readonly emailTouched = signal(false);
   protected readonly emailError = computed(() =>
@@ -85,41 +176,152 @@ export class FormFieldPageComponent {
     this.email.set((event.target as HTMLInputElement).value);
   }
 
-  protected readonly basicCode = [
-    '<dm-form-field label="Email" hint="We never share your email." [required]="true">',
-    '  <input dmInput type="email" placeholder="you@example.com" />',
-    '</dm-form-field>',
-  ].join('\n');
-
   protected readonly errorCode = [
+    '<!-- You own the display logic: pass a string, non-empty = error state -->',
     '<dm-form-field label="Email" [error]="emailError()">',
     '  <input dmInput type="email" (input)="…" (blur)="touched.set(true)" />',
     '</dm-form-field>',
   ].join('\n');
 
-  // Projected <dm-error> slot (mat-error-style) with Reactive Forms.
+  // --- Reactive Forms + projected <dm-error> -------------------------------
+
   protected readonly emailControl = new FormControl<string>('', {
     nonNullable: true,
-    validators: [Validators.required, Validators.email],
+    validators: [Validators.required, Validators.pattern(EMAIL_PATTERN)],
   });
 
   protected readonly slotErrorCode = [
-    'email = new FormControl("", [Validators.required, Validators.email]);',
-    '',
+    '<!-- One message per validation error. dm-form-field wires the input’s',
+    '     aria-invalid + aria-describedby to whichever <dm-error> is shown. -->',
     '<dm-form-field label="Email">',
     '  <input dmInput type="email" [formControl]="email" />',
     '  @if (email.touched && email.hasError("required")) {',
-    '    <dm-error>Email is required</dm-error>',
-    '  } @else if (email.touched && email.hasError("email")) {',
-    '    <dm-error>Enter a valid email address</dm-error>',
+    '    <dm-error>Email is required.</dm-error>',
+    '  } @else if (email.touched && email.hasError("pattern")) {',
+    '    <dm-error>Enter a valid email address.</dm-error>',
     '  }',
     '</dm-form-field>',
   ].join('\n');
 
-  protected readonly textareaCode = [
-    '<dm-form-field label="Message" hint="Markdown supported">',
-    '  <textarea dmInput rows="4"></textarea>',
-    '</dm-form-field>',
+  protected readonly slotErrorTs = [
+    "import { FormControl, Validators } from '@angular/forms';",
+    '',
+    'const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;',
+    '',
+    "email = new FormControl('', {",
+    '  nonNullable: true,',
+    '  validators: [Validators.required, Validators.pattern(EMAIL_PATTERN)],',
+    '});',
+  ].join('\n');
+
+  // --- Composition: signup card --------------------------------------------
+
+  protected readonly signupForm = new FormGroup({
+    name: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
+    email: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.pattern(EMAIL_PATTERN)],
+    }),
+    password: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(8)],
+    }),
+  });
+
+  protected readonly compositionCode = [
+    '<dm-card style="width: 100%; max-width: 24rem">',
+    '  <form [formGroup]="form" style="display: grid; gap: 1rem">',
+    '    <div>',
+    '      <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700">Create your account</h3>',
+    '      <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--dm-fg-muted)">',
+    '        Start your free trial. No credit card required.',
+    '      </p>',
+    '    </div>',
+    '',
+    '    <dm-form-field label="Full name" [required]="true">',
+    '      <input dmInput type="text" formControlName="name" autocomplete="name" />',
+    '      @if (form.controls.name.touched && form.controls.name.hasError("required")) {',
+    '        <dm-error>Your name is required.</dm-error>',
+    '      }',
+    '    </dm-form-field>',
+    '',
+    '    <dm-form-field label="Email" [required]="true">',
+    '      <input dmInput type="email" formControlName="email" autocomplete="email" />',
+    '      @if (form.controls.email.touched && form.controls.email.hasError("required")) {',
+    '        <dm-error>Email is required.</dm-error>',
+    '      } @else if (form.controls.email.touched && form.controls.email.hasError("pattern")) {',
+    '        <dm-error>Enter a valid email address.</dm-error>',
+    '      }',
+    '    </dm-form-field>',
+    '',
+    '    <dm-form-field label="Password" hint="At least 8 characters." [required]="true">',
+    '      <input',
+    '        dmInput',
+    "        [type]=\"passwordVisible() ? 'text' : 'password'\"",
+    '        formControlName="password"',
+    '        autocomplete="new-password"',
+    '        style="padding-right: 2.25rem"',
+    '      />',
+    '      <button',
+    '        type="button"',
+    "        [attr.aria-label]=\"passwordVisible() ? 'Hide password' : 'Show password'\"",
+    '        (click)="passwordVisible.set(!passwordVisible())"',
+    '      >',
+    '        <dm-icon [name]="passwordVisible() ? \'eye-off\' : \'eye\'" size="1.1rem" />',
+    '      </button>',
+    '      @if (form.controls.password.touched && form.controls.password.hasError("required")) {',
+    '        <dm-error>Password is required.</dm-error>',
+    '      } @else if (form.controls.password.touched && form.controls.password.hasError("minlength")) {',
+    '        <dm-error>Password must be at least 8 characters.</dm-error>',
+    '      }',
+    '    </dm-form-field>',
+    '',
+    '    <dm-button color="primary" style="width: 100%" [disabled]="form.invalid">',
+    '      Create account',
+    '    </dm-button>',
+    '  </form>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
+    'import {',
+    '  DmButtonComponent, DmCardComponent, DmErrorComponent,',
+    '  DmFormFieldComponent, DmIconComponent, DmInputDirective,',
+    "} from '@dmaster/ui';",
+    '',
+    'const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;',
+    '',
+    '@Component({',
+    "  selector: 'app-signup-card',",
+    '  imports: [',
+    '    ReactiveFormsModule, DmCardComponent, DmFormFieldComponent,',
+    '    DmInputDirective, DmIconComponent, DmErrorComponent, DmButtonComponent,',
+    '  ],',
+    "  templateUrl: './signup-card.component.html',",
+    '})',
+    'export class SignupCardComponent {',
+    '  protected readonly passwordVisible = signal(false);',
+    '',
+    '  protected readonly form = new FormGroup({',
+    "    name: new FormControl('', {",
+    '      nonNullable: true,',
+    '      validators: [Validators.required],',
+    '    }),',
+    "    email: new FormControl('', {",
+    '      nonNullable: true,',
+    '      validators: [Validators.required, Validators.pattern(EMAIL_PATTERN)],',
+    '    }),',
+    "    password: new FormControl('', {",
+    '      nonNullable: true,',
+    '      validators: [Validators.required, Validators.minLength(8)],',
+    '    }),',
+    '  });',
+    '}',
   ].join('\n');
 
   protected readonly apiRows = computed<ApiTableRow[]>(() => {

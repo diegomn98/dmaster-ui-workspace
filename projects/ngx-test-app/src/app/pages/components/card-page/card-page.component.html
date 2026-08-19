@@ -35,23 +35,141 @@
     <div class="demo-grid">
       <dm-card>
         <h3 class="card-demo__title">elevated</h3>
-        <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
+        <p class="card-demo__body">Soft diffuse shadow on an elevated surface.</p>
       </dm-card>
       <dm-card appearance="outlined">
         <h3 class="card-demo__title">outlined</h3>
-        <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
+        <p class="card-demo__body">Flat surface defined by a strong border.</p>
       </dm-card>
       <dm-card appearance="flat">
         <h3 class="card-demo__title">flat</h3>
-        <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
+        <p class="card-demo__body">Muted fill, no border or shadow.</p>
       </dm-card>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['paddingHeading']" [code]="paddingCode">
+    <div class="demo-grid demo-grid--2col">
+      @for (p of ['none', 'sm', 'md', 'lg']; track p) {
+        <dm-card appearance="outlined" [padding]="$any(p)">
+          <div
+            style="
+              background: color-mix(in srgb, var(--dm-primary) 12%, transparent);
+              border-radius: var(--dm-radius-md);
+              padding: 0.75rem;
+              text-align: center;
+              font-size: 0.8125rem;
+              font-weight: 600;
+              color: var(--dm-primary);
+            "
+          >
+            padding="{{ p }}"
+          </div>
+        </dm-card>
+      }
     </div>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['interactiveHeading']" [code]="interactiveCode">
     <dm-card [interactive]="true" style="width: 100%; max-width: 20rem">
-      <h3 class="card-demo__title">{{ page().labels['interactiveHeading'] }}</h3>
-      <p class="card-demo__body">{{ page().labels['cardBody'] }}</p>
+      <div style="display: flex; align-items: center; gap: 0.75rem">
+        <dm-icon name="box" size="1.35rem" style="color: var(--dm-primary)" />
+        <div style="flex: 1; min-width: 0">
+          <h3 class="card-demo__title">Open dashboard</h3>
+          <p class="card-demo__body">Hover to see the lift; press to feel it settle.</p>
+        </div>
+        <dm-icon name="chevron-right" size="1.15rem" style="color: var(--dm-fg-muted)" />
+      </div>
+    </dm-card>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['sectionsHeading']" [code]="sectionsCode">
+    <dm-card padding="none" style="width: 100%; max-width: 24rem">
+      <header
+        style="
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 1rem 1.25rem;
+          border-bottom: 1px solid var(--dm-border);
+        "
+      >
+        <dm-avatar [src]="avatarSrc" alt="Ada Lovelace" />
+        <div style="flex: 1; min-width: 0">
+          <strong>Ada Lovelace</strong>
+          <p style="margin: 0; font-size: 0.8125rem; color: var(--dm-fg-muted)">2 hours ago</p>
+        </div>
+        <dm-badge color="success" variant="flat" size="sm">New</dm-badge>
+      </header>
+      <div style="padding: 1.25rem; color: var(--dm-fg-muted); font-size: 0.9375rem">
+        Shipped the new overlay primitives — tooltip, dialog and toast all land in the next release.
+        Take a look when you get a moment.
+      </div>
+      <footer
+        style="
+          display: flex;
+          justify-content: flex-end;
+          gap: 0.5rem;
+          padding: 0.875rem 1.25rem;
+          border-top: 1px solid var(--dm-border);
+        "
+      >
+        <dm-button variant="ghost" size="sm">Dismiss</dm-button>
+        <dm-button color="primary" size="sm">Reply</dm-button>
+      </footer>
+    </dm-card>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['mediaHeading']" [code]="mediaCode">
+    <dm-card padding="none" style="width: 100%; max-width: 22rem; overflow: hidden">
+      <div
+        style="
+          height: 8rem;
+          background: linear-gradient(135deg, var(--dm-primary-hover), var(--dm-primary));
+        "
+      ></div>
+      <div style="padding: 1.25rem; display: grid; gap: 0.5rem">
+        <div style="display: flex; align-items: center; gap: 0.5rem">
+          <h3 style="margin: 0; font-size: 1rem">Design tokens</h3>
+          <dm-badge color="primary" variant="flat" size="sm">Guide</dm-badge>
+        </div>
+        <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+          How the semantic color, spacing and radius scales fit together.
+        </p>
+      </div>
+    </dm-card>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card
+      appearance="outlined"
+      [interactive]="true"
+      style="width: 100%; max-width: 20rem; display: grid; gap: 1rem"
+    >
+      <div style="display: flex; align-items: center; justify-content: space-between">
+        <span style="font-weight: 600">Pro</span>
+        <dm-badge color="primary" variant="flat" size="sm">Most popular</dm-badge>
+      </div>
+
+      <div style="display: flex; align-items: baseline; gap: 0.25rem">
+        <span style="font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em">$19</span>
+        <span style="color: var(--dm-fg-muted)">/month</span>
+      </div>
+
+      <ul style="list-style: none; margin: 0; padding: 0; display: grid; gap: 0.625rem">
+        @for (feature of planFeatures; track feature) {
+          <li style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.9375rem">
+            <dm-icon name="check" size="1.15em" style="color: var(--dm-success)" />
+            {{ feature }}
+          </li>
+        }
+      </ul>
+
+      <dm-button color="primary" style="width: 100%">Choose Pro</dm-button>
     </dm-card>
   </app-demo-block>
 </section>

@@ -74,6 +74,26 @@
     </div>
   </app-demo-block>
 
+  <app-demo-block
+    [heading]="page().labels['validationHeading']"
+    [code]="validationCode"
+    [ts]="validationTs"
+  >
+    <div style="display: grid; gap: 0.375rem; width: 100%; max-width: 20rem">
+      <dm-select
+        [label]="page().labels['pet']"
+        [placeholder]="page().labels['pickOne']"
+        [items]="pets"
+        [required]="true"
+        [clearable]="true"
+        [formControl]="requiredControl"
+      />
+      @if (requiredControl.touched && requiredControl.hasError('required')) {
+        <dm-error>{{ page().labels['petRequired'] }}</dm-error>
+      }
+    </div>
+  </app-demo-block>
+
   <app-demo-block [heading]="page().labels['clearableHeading']" [code]="clearableCode">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
@@ -89,6 +109,138 @@
         >{{ page().labels['formValue'] }}: {{ clearableValue() ?? '—' }}</span
       >
     </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['multipleHeading']" [code]="multipleCode">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+      <div style="width: 20rem">
+        <dm-select
+          [label]="page().labels['pets']"
+          [placeholder]="page().labels['pickSome']"
+          multiple
+          [clearable]="true"
+          [items]="pets"
+          [(values)]="multipleValues"
+        />
+      </div>
+      <span class="demo-output"
+        >{{ page().labels['formValue'] }}: {{ multipleValues().join(', ') || '—' }}</span
+      >
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['filterableHeading']" [code]="filterableCode">
+    <div style="width: 20rem">
+      <dm-select
+        [label]="page().labels['pet']"
+        [placeholder]="page().labels['pickOne']"
+        filterable
+        [filterPlaceholder]="page().labels['searchPlaceholder']"
+        [noResultsLabel]="page().labels['noMatches']"
+        [items]="pets"
+        [(value)]="filterableValue"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['groupedHeading']" [code]="groupedCode" language="ts">
+    <div style="width: 20rem">
+      <dm-select
+        [label]="page().labels['pet']"
+        [placeholder]="page().labels['pickOne']"
+        [items]="groupedPets"
+        [(value)]="groupedValue"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['multiFilterHeading']" [code]="multiFilterCode">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+      <div style="width: 20rem">
+        <dm-select
+          [label]="page().labels['pets']"
+          [placeholder]="page().labels['pickSome']"
+          multiple
+          filterable
+          [clearable]="true"
+          [filterPlaceholder]="page().labels['searchPlaceholder']"
+          [noResultsLabel]="page().labels['noMatches']"
+          [selectAllLabel]="page().labels['selectAll']"
+          [clearAllLabel]="page().labels['clearAll']"
+          [items]="groupedPets"
+          [(values)]="multiFilterValues"
+        />
+      </div>
+      <span class="demo-output"
+        >{{ page().labels['formValue'] }}: {{ multiFilterValues().join(', ') || '—' }}</span
+      >
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 26rem">
+      <form
+        [formGroup]="inviteForm"
+        style="display: grid; gap: 1rem"
+        (ngSubmit)="sendInvite()"
+        novalidate
+      >
+        <div>
+          <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700">
+            {{ page().labels['inviteTitle'] }}
+          </h3>
+          <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['inviteSubtitle'] }}
+          </p>
+        </div>
+
+        <div style="display: grid; gap: 0.375rem">
+          <dm-select
+            [label]="page().labels['roleLabel']"
+            [placeholder]="page().labels['rolePlaceholder']"
+            [items]="roles"
+            [required]="true"
+            formControlName="role"
+          />
+          @if (inviteForm.controls.role.touched && inviteForm.controls.role.hasError('required')) {
+            <dm-error>{{ page().labels['roleRequired'] }}</dm-error>
+          }
+        </div>
+
+        <div style="display: grid; gap: 0.375rem">
+          <dm-select
+            [label]="page().labels['teamsLabel']"
+            [placeholder]="page().labels['teamsPlaceholder']"
+            [description]="page().labels['teamsHint']"
+            [items]="teams"
+            [required]="true"
+            [clearable]="true"
+            multiple
+            formControlName="teams"
+          />
+          @if (
+            inviteForm.controls.teams.touched && inviteForm.controls.teams.hasError('required')
+          ) {
+            <dm-error>{{ page().labels['teamsRequired'] }}</dm-error>
+          }
+        </div>
+
+        <dm-button
+          type="submit"
+          color="primary"
+          style="width: 100%"
+          [state]="inviteState()"
+          [loadingLabel]="page().labels['inviteSending']"
+          [successLabel]="page().labels['inviteSent']"
+        >
+          {{ page().labels['sendInvite'] }}
+        </dm-button>
+      </form>
+    </dm-card>
   </app-demo-block>
 </section>
 

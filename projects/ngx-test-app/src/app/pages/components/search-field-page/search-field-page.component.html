@@ -101,6 +101,81 @@
       <span class="demo-output">{{ page().labels['formValue'] }}: {{ formValue() || '—' }}</span>
     </div>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 24rem">
+      <div style="display: flex; flex-direction: column; gap: 0.75rem">
+        <div
+          style="display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem"
+        >
+          <strong>{{ page().labels['contactsTitle'] || 'Contacts' }}</strong>
+          <span style="color: var(--dm-fg-muted); font-size: 0.8125rem">
+            {{ filteredContacts().length }} / {{ contacts.length }}
+          </span>
+        </div>
+        <dm-search-field
+          [ariaLabel]="page().labels['contactsSearchLabel'] || 'Search contacts'"
+          [placeholder]="page().labels['contactsSearchPlaceholder'] || 'Search by name or email…'"
+          size="sm"
+          [(value)]="contactQuery"
+        />
+        <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+          @for (c of filteredContacts(); track c.email) {
+            <li
+              style="
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.5rem 0.25rem;
+                border-top: 1px solid var(--dm-border);
+              "
+            >
+              <dm-avatar [src]="c.src" [alt]="c.name" size="sm" />
+              <div style="flex: 1; min-width: 0">
+                <div
+                  style="
+                    font-weight: 500;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  "
+                >
+                  {{ c.name }}
+                </div>
+                <div
+                  style="
+                    color: var(--dm-fg-muted);
+                    font-size: 0.8125rem;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  "
+                >
+                  {{ c.email }}
+                </div>
+              </div>
+            </li>
+          } @empty {
+            <li
+              style="
+                padding: 1.25rem 0.5rem;
+                text-align: center;
+                color: var(--dm-fg-muted);
+                font-size: 0.875rem;
+                border-top: 1px solid var(--dm-border);
+              "
+            >
+              {{ page().labels['noMatches'] || 'No matches for' }} “{{ contactQuery() }}”
+            </li>
+          }
+        </ul>
+      </div>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

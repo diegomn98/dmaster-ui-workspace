@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmPaginationColor, DmPaginationComponent, DmSize } from '@dmaster/ui';
+import {
+  DmBadgeColor,
+  DmBadgeComponent,
+  DmCardComponent,
+  DmPaginationColor,
+  DmPaginationComponent,
+  DmSize,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -9,10 +16,73 @@ import { DemoBlockComponent } from '../../../shared/demo-block/demo-block.compon
 import { PropSignalComponent } from '../../../shared/prop-signal/prop-signal.component';
 import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal.types';
 
+interface DemoArticle {
+  id: number;
+  title: string;
+  excerpt: string;
+  tag: string;
+  tagColor: DmBadgeColor;
+}
+
+const ARTICLE_TOPICS: { title: string; excerpt: string; tag: string; tagColor: DmBadgeColor }[] = [
+  {
+    title: 'Getting started with signals',
+    excerpt: 'Reactive state without zone.js in ten minutes.',
+    tag: 'Angular',
+    tagColor: 'primary',
+  },
+  {
+    title: 'Designing accessible pagers',
+    excerpt: 'Why nav landmarks and aria-current matter.',
+    tag: 'A11y',
+    tagColor: 'success',
+  },
+  {
+    title: 'Theming with CSS custom properties',
+    excerpt: 'Semantic tokens that follow light and dark modes.',
+    tag: 'Design',
+    tagColor: 'secondary',
+  },
+  {
+    title: 'Server-driven lists with rxResource',
+    excerpt: 'Fetch a page at a time and keep the UI responsive.',
+    tag: 'Data',
+    tagColor: 'warning',
+  },
+  {
+    title: 'Testing components with Vitest',
+    excerpt: 'Fast, headless specs for a zoneless library.',
+    tag: 'Testing',
+    tagColor: 'danger',
+  },
+  {
+    title: 'Container queries in practice',
+    excerpt: 'Let components adapt to the space they get.',
+    tag: 'CSS',
+    tagColor: 'default',
+  },
+];
+
+const ARTICLES: DemoArticle[] = Array.from({ length: 23 }, (_, i) => {
+  const t = ARTICLE_TOPICS[i % ARTICLE_TOPICS.length];
+  const round = Math.floor(i / ARTICLE_TOPICS.length);
+  return {
+    id: i + 1,
+    title: round === 0 ? t.title : `${t.title} — part ${round + 1}`,
+    excerpt: t.excerpt,
+    tag: t.tag,
+    tagColor: t.tagColor,
+  };
+});
+
+const ARTICLE_PAGE_SIZE = 5;
+
 @Component({
   selector: 'app-pagination-page',
   imports: [
     DmPaginationComponent,
+    DmCardComponent,
+    DmBadgeComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -138,6 +208,83 @@ export class PaginationPageComponent {
   protected readonly colorPage = signal<number>(3);
   protected readonly noControlsPage = signal<number>(2);
   protected readonly disabledPage = signal<number>(2);
+
+  // ---- Composition: paginated article list ---------------------------------
+  protected readonly articles = ARTICLES;
+  protected readonly articlePage = signal<number>(1);
+  protected readonly articleTotalPages = computed(() =>
+    Math.max(1, Math.ceil(this.articles.length / ARTICLE_PAGE_SIZE)),
+  );
+  protected readonly pagedArticles = computed<DemoArticle[]>(() => {
+    const start = (this.articlePage() - 1) * ARTICLE_PAGE_SIZE;
+    return this.articles.slice(start, start + ARTICLE_PAGE_SIZE);
+  });
+  protected readonly articleRangeStart = computed(
+    () => (this.articlePage() - 1) * ARTICLE_PAGE_SIZE + 1,
+  );
+  protected readonly articleRangeEnd = computed(() =>
+    Math.min(this.articlePage() * ARTICLE_PAGE_SIZE, this.articles.length),
+  );
+
+  protected readonly compositionCode = [
+    '<!-- A paginated article list: header with range, 5 rows per page, pager in the footer. -->',
+    '<dm-card padding="none" style="max-width: 32rem">',
+    '  <header class="articles__head">',
+    '    <strong>Articles</strong>',
+    '    <span class="muted">Showing {{ rangeStart() }}–{{ rangeEnd() }} of {{ articles.length }}</span>',
+    '  </header>',
+    '  <ul class="articles">',
+    '    @for (a of paged(); track a.id) {',
+    '      <li class="articles__row">',
+    '        <div>',
+    '          <div>{{ a.title }}</div>',
+    '          <div class="muted">{{ a.excerpt }}</div>',
+    '        </div>',
+    '        <dm-badge [color]="a.tagColor" variant="flat" size="sm">{{ a.tag }}</dm-badge>',
+    '      </li>',
+    '    }',
+    '  </ul>',
+    '  <footer class="articles__foot">',
+    '    <dm-pagination size="sm" [totalPages]="totalPages()" [(page)]="page" />',
+    '  </footer>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, computed, signal } from '@angular/core';",
+    "import { DmBadgeComponent, DmCardComponent, DmPaginationComponent } from '@dmaster/ui';",
+    '',
+    'const PAGE_SIZE = 5;',
+    '',
+    '@Component({',
+    "  selector: 'app-article-list',",
+    '  imports: [DmBadgeComponent, DmCardComponent, DmPaginationComponent],',
+    "  templateUrl: './article-list.component.html',",
+    '})',
+    'export class ArticleListComponent {',
+    '  protected readonly articles = [',
+    "    { id: 1, title: 'Getting started with signals', excerpt: '…', tag: 'Angular', tagColor: 'primary' },",
+    "    { id: 2, title: 'Designing accessible pagers', excerpt: '…', tag: 'A11y', tagColor: 'success' },",
+    '    // … 23 items in total',
+    '  ];',
+    '',
+    '  protected readonly page = signal(1);',
+    '',
+    '  protected readonly totalPages = computed(() =>',
+    '    Math.max(1, Math.ceil(this.articles.length / PAGE_SIZE)),',
+    '  );',
+    '',
+    '  protected readonly paged = computed(() => {',
+    '    const start = (this.page() - 1) * PAGE_SIZE;',
+    '    return this.articles.slice(start, start + PAGE_SIZE);',
+    '  });',
+    '',
+    '  protected readonly rangeStart = computed(() => (this.page() - 1) * PAGE_SIZE + 1);',
+    '  protected readonly rangeEnd = computed(() =>',
+    '    Math.min(this.page() * PAGE_SIZE, this.articles.length),',
+    '  );',
+    '}',
+  ].join('\n');
 
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;

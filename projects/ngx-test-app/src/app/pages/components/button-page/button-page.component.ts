@@ -12,6 +12,8 @@ import {
   DmButtonRadius,
   DmButtonState,
   DmButtonVariant,
+  DmCardComponent,
+  DmIconComponent,
   DmSize,
 } from '@dmaster/ui';
 
@@ -38,6 +40,8 @@ const VARIANTS: DmButtonVariant[] = [
   selector: 'app-button-page',
   imports: [
     DmButtonComponent,
+    DmCardComponent,
+    DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -195,6 +199,71 @@ export class ButtonPageComponent {
     '<dm-button [state]="state()" loadingLabel="Saving…" (clicked)="save()">',
     '  Save changes',
     '</dm-button>',
+  ].join('\n');
+
+  protected readonly iconButtonsCode = [
+    '<!-- Leading icon + label: both project into the button. -->',
+    '<dm-button variant="flat">',
+    '  <dm-icon name="download" size="1.15em" /> Download',
+    '</dm-button>',
+    '<dm-button color="primary">',
+    '  <dm-icon name="plus" size="1.15em" /> New file',
+    '</dm-button>',
+    '',
+    '<!-- Icon-only: `label` on dm-icon names the button for AT. -->',
+    '<dm-button variant="ghost"><dm-icon name="edit" label="Edit" /></dm-button>',
+    '<dm-button variant="ghost"><dm-icon name="copy" label="Duplicate" /></dm-button>',
+    '<dm-button color="danger" variant="flat">',
+    '  <dm-icon name="trash" label="Delete" />',
+    '</dm-button>',
+  ].join('\n');
+
+  protected readonly compositionCode = [
+    '<!-- A document card: an icon-button toolbar up top, then a -->',
+    '<!-- Cancel / Publish action bar in the footer. -->',
+    '<dm-card style="max-width: 30rem">',
+    '  <div style="display: flex; align-items: center; gap: 0.75rem">',
+    '    <strong style="flex: 1; min-width: 0">Release notes</strong>',
+    '    <dm-button variant="ghost" size="sm">',
+    '      <dm-icon name="star" label="Star" />',
+    '    </dm-button>',
+    '    <dm-button variant="ghost" size="sm">',
+    '      <dm-icon name="copy" label="Duplicate" />',
+    '    </dm-button>',
+    '    <dm-button variant="ghost" size="sm">',
+    '      <dm-icon name="more-horizontal" label="More actions" />',
+    '    </dm-button>',
+    '  </div>',
+    '',
+    '  <p class="muted">Ship the color × variant button API…</p>',
+    '',
+    '  <div class="card-actions">',
+    '    <dm-button variant="ghost">Cancel</dm-button>',
+    '    <dm-button color="primary">',
+    '      <dm-icon name="check" size="1.15em" /> Publish',
+    '    </dm-button>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component } from '@angular/core';",
+    'import {',
+    '  DmButtonComponent,',
+    '  DmCardComponent,',
+    '  DmIconComponent,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-note-card',",
+    '  imports: [DmButtonComponent, DmCardComponent, DmIconComponent],',
+    "  templateUrl: './note-card.component.html',",
+    '})',
+    'export class NoteCardComponent {',
+    '  save(): void {',
+    '    // persist the note…',
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

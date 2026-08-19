@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
+  DmAvatarComponent,
+  DmCardComponent,
   DmSearchFieldColor,
   DmSearchFieldComponent,
   DmSearchFieldRadius,
@@ -26,10 +28,26 @@ const COLORS: DmSearchFieldColor[] = [
   'danger',
 ];
 
+/** Self-contained colored avatar (data URI) — initials on a flat fill. */
+function avatarSvg(initials: string, color: string): string {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" fill="${color}"/><text x="24" y="30" font-family="system-ui, sans-serif" font-size="19" font-weight="600" fill="#fff" text-anchor="middle">${initials}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+interface DemoContact {
+  name: string;
+  email: string;
+  initials: string;
+  color: string;
+  src: string;
+}
+
 @Component({
   selector: 'app-search-field-page',
   imports: [
     DmSearchFieldComponent,
+    DmAvatarComponent,
+    DmCardComponent,
     ReactiveFormsModule,
     DemoBlockComponent,
     ApiTableComponent,
@@ -182,6 +200,80 @@ export class SearchFieldPageComponent {
   constructor() {
     this.formControl.valueChanges.subscribe((v) => this.formValue.set(v ?? ''));
   }
+
+  // ---- Composition: searchable contact list --------------------------------
+  protected readonly contacts: DemoContact[] = [
+    { name: 'Ada Lovelace', email: 'ada@dmaster.io', initials: 'AL', color: '#6366f1' },
+    { name: 'Grace Hopper', email: 'grace@dmaster.io', initials: 'GH', color: '#0ea5e9' },
+    { name: 'Alan Turing', email: 'alan@dmaster.io', initials: 'AT', color: '#10b981' },
+    { name: 'Katherine Johnson', email: 'katherine@dmaster.io', initials: 'KJ', color: '#f59e0b' },
+    { name: 'Linus Torvalds', email: 'linus@dmaster.io', initials: 'LT', color: '#ef4444' },
+  ].map((c) => ({ ...c, src: avatarSvg(c.initials, c.color) }));
+
+  protected readonly contactQuery = signal<string>('');
+
+  protected readonly filteredContacts = computed<DemoContact[]>(() => {
+    const q = this.contactQuery().trim().toLowerCase();
+    if (!q) {
+      return this.contacts;
+    }
+    return this.contacts.filter(
+      (c) => c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q),
+    );
+  });
+
+  protected readonly compositionCode = [
+    '<!-- A searchable contact list: field on top, rows filtered live below. -->',
+    '<dm-card style="max-width: 24rem">',
+    '  <dm-search-field',
+    '    ariaLabel="Search contacts"',
+    '    placeholder="Search by name or email…"',
+    '    size="sm"',
+    '    [(value)]="query"',
+    '  />',
+    '  <ul class="contacts">',
+    '    @for (c of filtered(); track c.email) {',
+    '      <li class="contacts__row">',
+    '        <dm-avatar [src]="c.src" [alt]="c.name" size="sm" />',
+    '        <div>',
+    '          <div>{{ c.name }}</div>',
+    '          <div class="muted">{{ c.email }}</div>',
+    '        </div>',
+    '      </li>',
+    '    } @empty {',
+    '      <li class="contacts__empty">No matches for “{{ query() }}”</li>',
+    '    }',
+    '  </ul>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, computed, signal } from '@angular/core';",
+    "import { DmAvatarComponent, DmCardComponent, DmSearchFieldComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-contact-list',",
+    '  imports: [DmAvatarComponent, DmCardComponent, DmSearchFieldComponent],',
+    "  templateUrl: './contact-list.component.html',",
+    '})',
+    'export class ContactListComponent {',
+    '  protected readonly contacts = [',
+    "    { name: 'Ada Lovelace', email: 'ada@dmaster.io', src: '/u/ada.png' },",
+    "    { name: 'Grace Hopper', email: 'grace@dmaster.io', src: '/u/grace.png' },",
+    "    { name: 'Alan Turing', email: 'alan@dmaster.io', src: '/u/alan.png' },",
+    '  ];',
+    '',
+    "  protected readonly query = signal('');",
+    '',
+    '  protected readonly filtered = computed(() => {',
+    '    const q = this.query().trim().toLowerCase();',
+    '    if (!q) return this.contacts;',
+    '    return this.contacts.filter(',
+    '      (c) => c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q),',
+    '    );',
+    '  });',
+    '}',
+  ].join('\n');
 
   // ---- API -----------------------------------------------------------------
   protected readonly apiRows = computed<ApiTableRow[]>(() => {

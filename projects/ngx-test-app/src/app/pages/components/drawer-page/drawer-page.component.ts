@@ -6,6 +6,8 @@ import {
   DmDrawerPlacement,
   DmDrawerSize,
   DmButtonComponent,
+  DmCardComponent,
+  DmDividerComponent,
   DmSwitchComponent,
 } from '@dmaster/ui';
 
@@ -81,10 +83,141 @@ export class SettingsDrawerComponent {
   protected readonly compact = signal(false);
 }
 
+/* Composition: shopping-cart drawer ------------------------------------ */
+
+interface CartLine {
+  name: string;
+  meta: string;
+  qty: number;
+  price: number;
+}
+
+interface CartDrawerData {
+  title: string;
+  lines: CartLine[];
+  subtotal: string;
+  shippingNote: string;
+  checkout: string;
+  continueShopping: string;
+}
+
+@Component({
+  imports: [DmButtonComponent, DmDividerComponent],
+  template: `
+    <div class="cart">
+      <h2 class="cart__title">{{ data.title }}</h2>
+      <ul class="cart__lines">
+        @for (line of data.lines; track line.name) {
+          <li class="cart__line">
+            <div class="cart__thumb" aria-hidden="true">{{ line.name.charAt(0) }}</div>
+            <div class="cart__info">
+              <span class="cart__name">{{ line.name }}</span>
+              <span class="cart__meta">{{ line.meta }} · ×{{ line.qty }}</span>
+            </div>
+            <span class="cart__price">{{ format(line.price * line.qty) }}</span>
+          </li>
+        }
+      </ul>
+      <dm-divider />
+      <div class="cart__subtotal">
+        <span>{{ data.subtotal }}</span>
+        <strong>{{ format(subtotal) }}</strong>
+      </div>
+      <p class="cart__note">{{ data.shippingNote }}</p>
+      <div class="cart__actions">
+        <dm-button color="primary" size="lg" (clicked)="ref.close('checkout')">
+          {{ data.checkout }}
+        </dm-button>
+        <dm-button color="default" variant="light" (clicked)="ref.close()">
+          {{ data.continueShopping }}
+        </dm-button>
+      </div>
+    </div>
+  `,
+  styles: `
+    .cart {
+      display: flex;
+      flex-direction: column;
+      gap: var(--dm-space-4);
+      height: 100%;
+    }
+    .cart__title {
+      margin: 0;
+      font-size: var(--dm-text-lg);
+      font-weight: var(--dm-font-semibold);
+      letter-spacing: -0.01em;
+    }
+    .cart__lines {
+      display: grid;
+      gap: var(--dm-space-3);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      flex: 1;
+    }
+    .cart__line {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--dm-space-3);
+    }
+    .cart__thumb {
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: var(--dm-radius-md);
+      background: var(--dm-primary-subtle);
+      color: var(--dm-primary);
+      font-weight: var(--dm-font-semibold);
+    }
+    .cart__info {
+      display: grid;
+      gap: 0.125rem;
+      min-width: 0;
+    }
+    .cart__name {
+      font-weight: var(--dm-font-medium);
+    }
+    .cart__meta,
+    .cart__note {
+      margin: 0;
+      font-size: var(--dm-text-sm);
+      color: var(--dm-fg-muted);
+    }
+    .cart__price {
+      font-variant-numeric: tabular-nums;
+    }
+    .cart__subtotal {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--dm-text-base);
+    }
+    .cart__actions {
+      display: grid;
+      gap: var(--dm-space-2);
+    }
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CartDrawerComponent {
+  protected readonly data = inject<CartDrawerData>(DIALOG_DATA);
+  protected readonly ref = inject<DialogRef<string>>(DialogRef);
+  protected readonly subtotal = this.data.lines.reduce(
+    (sum, line) => sum + line.price * line.qty,
+    0,
+  );
+
+  protected format(value: number): string {
+    return `$${value.toFixed(2)}`;
+  }
+}
+
 @Component({
   selector: 'app-drawer-page',
   imports: [
     DmButtonComponent,
+    DmCardComponent,
     ApiTableComponent,
     CodeSnippetComponent,
     DemoBlockComponent,
@@ -169,6 +302,99 @@ export class DrawerPageComponent {
       },
     });
   }
+
+  /* Composition: shopping cart */
+  protected readonly cartCount = signal(0);
+  protected readonly cartResult = signal<string>('—');
+
+  protected openCart(): void {
+    const labels = this.page().labels;
+    this.cartCount.update((count) => count + 1);
+    const ref = this.drawer.open<string, CartDrawerData, CartDrawerComponent>(CartDrawerComponent, {
+      placement: 'right',
+      size: 'sm',
+      ariaLabel: labels['cartTitle'],
+      data: {
+        title: labels['cartTitle'],
+        lines: [
+          {
+            name: labels['cartProduct'],
+            meta: labels['cartProductMeta'],
+            qty: this.cartCount(),
+            price: 29,
+          },
+          { name: 'Icon pack', meta: 'SVG · 53 icons', qty: 1, price: 12 },
+          { name: 'Figma kit', meta: 'Community file', qty: 1, price: 0 },
+        ],
+        subtotal: labels['subtotal'],
+        shippingNote: labels['shippingNote'],
+        checkout: labels['checkout'],
+        continueShopping: labels['continueShopping'],
+      },
+    });
+    ref.closed.subscribe((result) => {
+      if (result === 'checkout') {
+        this.cartResult.set(labels['checkoutDone']);
+        this.cartCount.set(0);
+      } else {
+        this.cartResult.set(labels['cartKept']);
+      }
+    });
+  }
+
+  protected readonly compositionCode = [
+    '<dm-card style="max-width: 20rem">',
+    '  <div style="display: grid; gap: 0.875rem">',
+    '    <div class="product__image" aria-hidden="true">dm.</div>',
+    '    <strong>Design system license</strong>',
+    '    <span style="color: var(--dm-fg-muted)">Unlimited projects · 1 seat</span>',
+    '    <div style="display: flex; justify-content: space-between; align-items: center">',
+    '      <span>$29.00</span>',
+    '      <dm-button color="primary" size="sm" (clicked)="openCart()">Add to cart</dm-button>',
+    '    </div>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    '@Component({',
+    '  imports: [DmButtonComponent, DmDividerComponent],',
+    '  template: `',
+    '    <h2>{{ data.title }}</h2>',
+    '    <ul>',
+    '      @for (line of data.lines; track line.name) {',
+    '        <li>{{ line.name }} ×{{ line.qty }} — {{ format(line.price * line.qty) }}</li>',
+    '      }',
+    '    </ul>',
+    '    <dm-divider />',
+    '    <div>Subtotal <strong>{{ format(subtotal) }}</strong></div>',
+    '    <dm-button color="primary" size="lg" (clicked)="ref.close(\'checkout\')">Checkout</dm-button>',
+    '    <dm-button variant="light" (clicked)="ref.close()">Continue shopping</dm-button>',
+    '  `,',
+    '})',
+    'export class CartDrawerComponent {',
+    '  protected readonly data = inject<CartDrawerData>(DIALOG_DATA);',
+    '  protected readonly ref = inject<DialogRef<string>>(DialogRef);',
+    '  protected readonly subtotal = this.data.lines.reduce((s, l) => s + l.price * l.qty, 0);',
+    '',
+    '  format(value: number): string {',
+    '    return `$${value.toFixed(2)}`;',
+    '  }',
+    '}',
+    '',
+    '// caller',
+    'private readonly drawer = inject(DmDrawerService);',
+    '',
+    'openCart(): void {',
+    '  const ref = this.drawer.open<string>(CartDrawerComponent, {',
+    "    placement: 'right',",
+    "    size: 'sm',",
+    "    ariaLabel: 'Your cart',",
+    "    data: { title: 'Your cart', lines: this.cart(), /* … */ },",
+    '  });',
+    "  ref.closed.subscribe((result) => { if (result === 'checkout') { /* go to checkout */ } });",
+    '}',
+  ].join('\n');
 
   protected readonly playgroundCode = computed(() => {
     const options: string[] = [];

@@ -87,6 +87,122 @@
       <span class="demo-output">{{ page().labels['formValue'] }}: {{ formValue() || '—' }}</span>
     </div>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 30rem">
+      <div style="display: flex; flex-direction: column; gap: 1rem">
+        <div style="display: flex; align-items: center; gap: 0.75rem">
+          <span
+            aria-hidden="true"
+            [style.background]="brand() || 'var(--dm-bg-muted)'"
+            style="
+              width: 2.5rem;
+              height: 2.5rem;
+              flex: none;
+              border-radius: var(--dm-radius-md);
+              box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dm-fg) 12%, transparent);
+              transition: background var(--dm-duration-normal, 200ms);
+            "
+          ></span>
+          <div style="flex: 1; min-width: 0">
+            <strong>{{ page().labels['brandTitle'] }}</strong>
+            <p style="margin: 0.15rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem">
+              {{ page().labels['brandDesc'] }}
+            </p>
+          </div>
+          <code
+            style="
+              font-family: var(--dm-font-mono);
+              font-size: 0.75rem;
+              padding: 0.2rem 0.5rem;
+              border-radius: var(--dm-radius-full);
+              background: var(--dm-bg-muted);
+              color: var(--dm-fg);
+              flex: none;
+            "
+            >{{ brand() || '—' }}</code
+          >
+        </div>
+
+        <dm-color-picker
+          [label]="page().labels['brandLabel']"
+          [placeholder]="page().labels['pickPlaceholder']"
+          [(value)]="brand"
+          [swatches]="brandSwatches"
+        />
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.5rem;
+            padding-top: 0.875rem;
+            border-top: 1px solid var(--dm-border);
+          "
+        >
+          <span
+            [style.background]="brandColor()"
+            [style.color]="brandFg()"
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              min-height: 2.5rem;
+              padding: 0 0.75rem;
+              border-radius: var(--dm-radius-full);
+              font-size: 0.8125rem;
+              font-weight: 600;
+              transition:
+                background var(--dm-duration-normal, 200ms),
+                color var(--dm-duration-normal, 200ms);
+            "
+            >{{ page().labels['tileSolid'] }}</span
+          >
+          <span
+            [style.border-color]="brandColor()"
+            [style.color]="brandColor()"
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              min-height: 2.5rem;
+              padding: 0 0.75rem;
+              border: 2px solid;
+              border-radius: var(--dm-radius-full);
+              font-size: 0.8125rem;
+              font-weight: 600;
+              transition:
+                border-color var(--dm-duration-normal, 200ms),
+                color var(--dm-duration-normal, 200ms);
+            "
+            >{{ page().labels['tileOutlined'] }}</span
+          >
+          <span
+            [style.background]="brandTint()"
+            [style.color]="brandColor()"
+            style="
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              min-height: 2.5rem;
+              padding: 0 0.75rem;
+              border-radius: var(--dm-radius-full);
+              font-size: 0.8125rem;
+              font-weight: 600;
+              transition:
+                background var(--dm-duration-normal, 200ms),
+                color var(--dm-duration-normal, 200ms);
+            "
+            >{{ page().labels['tileTint'] }}</span
+          >
+        </div>
+      </div>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">
