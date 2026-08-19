@@ -38,6 +38,15 @@ testem.log
 /typings
 __screenshots__/
 
+# Playwright (e2e a11y + visual regression)
+/test-results/
+/playwright-report/
+/playwright/.cache/
+# Only the container-generated Linux visual baselines are committed; a dev
+# running the suite on macOS/Windows generates throwaway per-platform snapshots.
+e2e/**/*-darwin.png
+e2e/**/*-win32.png
+
 # System files
 .DS_Store
 Thumbs.db

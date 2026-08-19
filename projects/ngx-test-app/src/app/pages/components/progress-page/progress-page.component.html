@@ -40,20 +40,20 @@
 
   <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
     <div class="demo-stack" style="width: 100%; max-width: 26rem">
-      <dm-progress [value]="40" color="primary" />
-      <dm-progress [value]="55" color="secondary" />
-      <dm-progress [value]="70" color="success" />
-      <dm-progress [value]="60" color="warning" />
-      <dm-progress [value]="35" color="danger" />
-      <dm-progress [value]="50" color="default" />
+      <dm-progress [value]="40" color="primary" ariaLabel="Primary example" />
+      <dm-progress [value]="55" color="secondary" ariaLabel="Secondary example" />
+      <dm-progress [value]="70" color="success" ariaLabel="Success example" />
+      <dm-progress [value]="60" color="warning" ariaLabel="Warning example" />
+      <dm-progress [value]="35" color="danger" ariaLabel="Danger example" />
+      <dm-progress [value]="50" color="default" ariaLabel="Default example" />
     </div>
   </app-demo-block>
 
   <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
     <div class="demo-stack" style="width: 100%; max-width: 26rem">
-      <dm-progress [value]="60" size="sm" />
-      <dm-progress [value]="60" size="md" />
-      <dm-progress [value]="60" size="lg" />
+      <dm-progress [value]="60" size="sm" ariaLabel="Small example" />
+      <dm-progress [value]="60" size="md" ariaLabel="Medium example" />
+      <dm-progress [value]="60" size="lg" ariaLabel="Large example" />
     </div>
   </app-demo-block>
 
@@ -65,7 +65,13 @@
 
   <app-demo-block [heading]="page().labels['striped']" [code]="stripedCode">
     <div style="width: 100%; max-width: 26rem">
-      <dm-progress [value]="70" color="warning" [striped]="true" [showValueLabel]="true" />
+      <dm-progress
+        [value]="70"
+        color="warning"
+        [striped]="true"
+        [showValueLabel]="true"
+        ariaLabel="Striped example"
+      />
     </div>
   </app-demo-block>
 
@@ -115,7 +121,7 @@
             size="sm"
             variant="light"
             color="default"
-            aria-label="Cancel upload"
+            ariaLabel="Cancel upload"
             (click)="uploadPct.set(0)"
           >
             <dm-icon name="x" size="1.1rem" />
