@@ -41,7 +41,11 @@ Unit tests run on **Vitest** through the `@angular/build:unit-test` builder (no 
 
 **Accessibility gate.** `npm run test:a11y` runs [axe-core](https://github.com/dequelabs/axe-core) (WCAG 2.1 A + AA) against the prerendered docs build — every component and variant, in **light and dark**, plus every overlay opened. CI runs it on every PR (`a11y` job). See the [library README](projects/ngx-dmaster-ui/README.md#accessibility).
 
-**Visual regression.** `npm run test:visual` screenshots every route in both themes and pixel-diffs against committed baselines. Because rendering (fonts, anti-aliasing) is environment-specific, baselines are both generated **and** compared **inside the official Playwright container** — never on your host — so the `visual` CI job is deterministic. To create or refresh baselines after an intentional UI change, run the same image locally:
+**Visual regression.** `npm run test:visual` screenshots every route in both themes and pixel-diffs against committed baselines. Because rendering (fonts, anti-aliasing) is environment-specific, baselines are both generated **and** compared **inside the official Playwright container** — never on your host — so the `visual` CI job is deterministic. Until the first baselines land, the `visual` job passes with a notice; it becomes a hard gate the moment they exist.
+
+To create or refresh baselines after an intentional UI change, **the easy way** is one click: run the **“Update visual baselines”** workflow from the repo’s **Actions** tab (`.github/workflows/visual-baselines.yml`). It regenerates every route’s light + dark baseline in the container and commits them back automatically.
+
+Or do it locally with the same image:
 
 ```bash
 docker run --rm -v "$PWD:/work" -w /work mcr.microsoft.com/playwright:v1.62.1-noble \
