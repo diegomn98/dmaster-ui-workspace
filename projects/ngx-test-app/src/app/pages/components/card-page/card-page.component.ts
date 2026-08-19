@@ -1,5 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmBadgeComponent, DmCardAppearance, DmCardComponent, DmCardPadding } from '@dmaster/ui';
+import {
+  DmAvatarComponent,
+  DmBadgeComponent,
+  DmButtonComponent,
+  DmCardAppearance,
+  DmCardComponent,
+  DmCardPadding,
+  DmIconComponent,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -9,11 +17,17 @@ import { DemoBlockComponent } from '../../../shared/demo-block/demo-block.compon
 import { PropSignalComponent } from '../../../shared/prop-signal/prop-signal.component';
 import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal.types';
 
+/** Self-contained portrait (data URI) so demos never hit the network. */
+const AVATAR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" fill="#6366f1"/><circle cx="24" cy="18" r="8" fill="#fff" opacity="0.92"/><path d="M8 46c0-9 7-15 16-15s16 6 16 15" fill="#fff" opacity="0.92"/></svg>`;
+
 @Component({
   selector: 'app-card-page',
   imports: [
     DmCardComponent,
+    DmAvatarComponent,
     DmBadgeComponent,
+    DmButtonComponent,
+    DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -26,6 +40,17 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
 export class CardPageComponent {
   protected readonly i18n = inject(LocaleService);
   protected readonly page = computed(() => this.i18n.t().pages.card);
+
+  /** Demo portrait for the sections and composition cards. */
+  protected readonly avatarSrc = `data:image/svg+xml;utf8,${encodeURIComponent(AVATAR_SVG)}`;
+
+  /** Feature list for the pricing composition. */
+  protected readonly planFeatures = [
+    'Unlimited projects',
+    'Advanced analytics',
+    'Priority support',
+    'Custom domains',
+  ];
 
   protected readonly playground = signal<PropValues>({
     appearance: 'elevated',
@@ -71,12 +96,123 @@ export class CardPageComponent {
   });
 
   protected readonly appearancesCode = [
-    '<dm-card>elevated</dm-card>',
-    '<dm-card appearance="outlined">outlined</dm-card>',
-    '<dm-card appearance="flat">flat</dm-card>',
+    '<!-- Three flat surface treatments; no gradients, no sheen. -->',
+    '<dm-card>elevated — soft diffuse shadow</dm-card>',
+    '<dm-card appearance="outlined">outlined — strong border</dm-card>',
+    '<dm-card appearance="flat">flat — muted fill</dm-card>',
   ].join('\n');
 
-  protected readonly interactiveCode = '<dm-card [interactive]="true">…</dm-card>';
+  protected readonly paddingCode = [
+    '<!-- Four padding steps. Use "none" when a child (media, a table,',
+    '     a list) needs to bleed to the card edges. -->',
+    '<dm-card padding="none">none</dm-card>',
+    '<dm-card padding="sm">sm</dm-card>',
+    '<dm-card padding="md">md</dm-card>',
+    '<dm-card padding="lg">lg</dm-card>',
+  ].join('\n');
+
+  protected readonly interactiveCode = [
+    '<!-- interactive adds the hover lift + press. Wrap the card in a',
+    '     link or button so it gets real focus and click semantics. -->',
+    '<a routerLink="/projects/42" style="text-decoration: none; color: inherit">',
+    '  <dm-card [interactive]="true">…</dm-card>',
+    '</a>',
+  ].join('\n');
+
+  protected readonly sectionsCode = [
+    '<!-- padding="none" hands layout to inner sections divided by',
+    '     hairline borders: header, scrollable body, footer actions. -->',
+    '<dm-card padding="none" style="max-width: 24rem">',
+    '  <header style="display: flex; align-items: center; gap: 0.75rem;',
+    '                 padding: 1rem 1.25rem; border-bottom: 1px solid var(--dm-border)">',
+    '    <dm-avatar [src]="avatar" alt="Ada Lovelace" />',
+    '    <div style="flex: 1; min-width: 0">',
+    '      <strong>Ada Lovelace</strong>',
+    '      <p style="margin: 0; font-size: 0.8125rem; color: var(--dm-fg-muted)">2 hours ago</p>',
+    '    </div>',
+    '    <dm-badge color="success" variant="flat" size="sm">New</dm-badge>',
+    '  </header>',
+    '  <div style="padding: 1.25rem; color: var(--dm-fg-muted); font-size: 0.9375rem">',
+    '    Shipped the new overlay primitives — tooltip, dialog and toast all',
+    '    land in the next release. Take a look when you get a moment.',
+    '  </div>',
+    '  <footer style="display: flex; justify-content: flex-end; gap: 0.5rem;',
+    '                 padding: 0.875rem 1.25rem; border-top: 1px solid var(--dm-border)">',
+    '    <dm-button variant="ghost" size="sm">Dismiss</dm-button>',
+    '    <dm-button color="primary" size="sm">Reply</dm-button>',
+    '  </footer>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly mediaCode = [
+    '<!-- A cover card: padding="none" lets a full-bleed banner sit flush',
+    '     to the rounded corners, with padded content beneath it. -->',
+    '<dm-card padding="none" style="max-width: 22rem; overflow: hidden">',
+    '  <div style="height: 8rem; background:',
+    '              linear-gradient(135deg, var(--dm-primary-hover), var(--dm-primary))"></div>',
+    '  <div style="padding: 1.25rem; display: grid; gap: 0.5rem">',
+    '    <div style="display: flex; align-items: center; gap: 0.5rem">',
+    '      <h3 style="margin: 0; font-size: 1rem">Design tokens</h3>',
+    '      <dm-badge color="primary" variant="flat" size="sm">Guide</dm-badge>',
+    '    </div>',
+    '    <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">',
+    '      How the semantic color, spacing and radius scales fit together.',
+    '    </p>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionCode = [
+    '<!-- A real pricing card: highlighted plan, price, a feature list with',
+    '     check icons, and a full-width CTA — assembled from four primitives. -->',
+    '<dm-card appearance="outlined" [interactive]="true"',
+    '         style="max-width: 20rem; display: grid; gap: 1rem">',
+    '  <div style="display: flex; align-items: center; justify-content: space-between">',
+    '    <span style="font-weight: 600">Pro</span>',
+    '    <dm-badge color="primary" variant="flat" size="sm">Most popular</dm-badge>',
+    '  </div>',
+    '',
+    '  <div style="display: flex; align-items: baseline; gap: 0.25rem">',
+    '    <span style="font-size: 2.25rem; font-weight: 700; letter-spacing: -0.02em">$19</span>',
+    '    <span style="color: var(--dm-fg-muted)">/month</span>',
+    '  </div>',
+    '',
+    '  <ul style="list-style: none; margin: 0; padding: 0; display: grid; gap: 0.625rem">',
+    '    @for (feature of features; track feature) {',
+    '      <li style="display: flex; align-items: center; gap: 0.6rem; font-size: 0.9375rem">',
+    '        <dm-icon name="check" size="1.15em" style="color: var(--dm-success)" />',
+    '        {{ feature }}',
+    '      </li>',
+    '    }',
+    '  </ul>',
+    '',
+    '  <dm-button color="primary" style="width: 100%">Choose Pro</dm-button>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component } from '@angular/core';",
+    'import {',
+    '  DmBadgeComponent,',
+    '  DmButtonComponent,',
+    '  DmCardComponent,',
+    '  DmIconComponent,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pricing-card',",
+    '  imports: [DmCardComponent, DmBadgeComponent, DmButtonComponent, DmIconComponent],',
+    "  templateUrl: './pricing-card.component.html',",
+    '})',
+    'export class PricingCardComponent {',
+    '  protected readonly features = [',
+    "    'Unlimited projects',",
+    "    'Advanced analytics',",
+    "    'Priority support',",
+    "    'Custom domains',",
+    '  ];',
+    '}',
+  ].join('\n');
 
   protected readonly defaultsCode = [
     "import { provideCardDefaults } from '@dmaster/ui';",

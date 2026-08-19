@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmAlertColor, DmAlertComponent, DmAlertVariant, DmButtonComponent } from '@dmaster/ui';
+import {
+  DmAlertColor,
+  DmAlertComponent,
+  DmAlertVariant,
+  DmButtonComponent,
+  DmCardComponent,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -14,6 +20,7 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   imports: [
     DmAlertComponent,
     DmButtonComponent,
+    DmCardComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -152,6 +159,75 @@ export class AlertPageComponent {
 
   // Signals for demos
   protected readonly demoDismissed = signal(false);
+
+  // Composition: a real billing panel driven by state.
+  protected readonly billingSaved = signal(false);
+  protected readonly cardExpiring = signal(true);
+
+  protected readonly compositionCode = [
+    '<!-- Alerts doing real work inside a billing panel. -->',
+    '<dm-card style="width: 100%; max-width: 30rem">',
+    '  <div style="display: grid; gap: 1rem">',
+    '    <div style="display: flex; align-items: baseline; justify-content: space-between">',
+    '      <h3 style="margin: 0; font-size: 1.05rem">Billing</h3>',
+    '      <span style="color: var(--dm-fg-muted); font-size: 0.85rem">Pro · $24/mo</span>',
+    '    </div>',
+    '',
+    '    <!-- Success confirmation appears only after saving. -->',
+    '    @if (billingSaved()) {',
+    '      <dm-alert',
+    '        color="success"',
+    '        title="Changes saved"',
+    '        description="Your billing details were updated."',
+    '        [dismissible]="true"',
+    '        (closed)="billingSaved.set(false)"',
+    '      />',
+    '    }',
+    '',
+    '    <!-- Warning with an inline action to fix the problem. -->',
+    '    @if (cardExpiring()) {',
+    '      <dm-alert',
+    '        color="warning"',
+    '        variant="faded"',
+    '        title="Card expiring soon"',
+    '        description="Visa ending 4242 expires next month. Update it to avoid a failed charge."',
+    '      >',
+    '        <dm-button',
+    '          dmAlertAction',
+    '          size="sm"',
+    '          variant="flat"',
+    '          color="warning"',
+    '          (clicked)="cardExpiring.set(false)"',
+    '        >',
+    '          Update card',
+    '        </dm-button>',
+    '      </dm-alert>',
+    '    }',
+    '',
+    '    <div style="display: flex; justify-content: flex-end; gap: 0.5rem">',
+    '      <dm-button size="sm" variant="light">Cancel</dm-button>',
+    '      <dm-button size="sm" (clicked)="billingSaved.set(true)">Save changes</dm-button>',
+    '    </div>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { ChangeDetectionStrategy, Component, signal } from '@angular/core';",
+    "import { DmAlertComponent, DmButtonComponent, DmCardComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-billing-panel',",
+    '  imports: [DmAlertComponent, DmButtonComponent, DmCardComponent],',
+    "  templateUrl: './billing-panel.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class BillingPanelComponent {',
+    '  // A save confirmation and a card-expiry warning, each toggled independently.',
+    '  protected readonly billingSaved = signal(false);',
+    '  protected readonly cardExpiring = signal(true);',
+    '}',
+  ].join('\n');
 
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;

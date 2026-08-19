@@ -25,6 +25,23 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <div class="demo-row" style="align-items: center">
+      <dm-button dmTooltip="Save your changes (⌘S)">Save</dm-button>
+      <dm-button variant="bordered" dmTooltip="Discard all edits since last save"
+        >Discard</dm-button
+      >
+      <a
+        href="#"
+        dmTooltip="Opens the docs in a new tab"
+        style="color: var(--dm-primary); text-decoration: underline"
+        (click)="$event.preventDefault()"
+      >
+        Documentation
+      </a>
+    </div>
+  </app-demo-block>
+
   <app-demo-block [heading]="i18n.t().common.demos.positions" [code]="positionsCode">
     <div class="demo-row">
       <dm-button variant="ghost" dmTooltip="Top">top</dm-button>
@@ -32,6 +49,179 @@
       <dm-button variant="ghost" dmTooltip="Left" dmTooltipPosition="left"> left </dm-button>
       <dm-button variant="ghost" dmTooltip="Right" dmTooltipPosition="right"> right </dm-button>
     </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['iconButtons']" [code]="iconButtonsCode">
+    <div class="demo-row" style="align-items: center">
+      <dm-button variant="ghost" dmTooltip="Edit">
+        <dm-icon name="edit" label="Edit" />
+      </dm-button>
+      <dm-button variant="ghost" dmTooltip="Copy link">
+        <dm-icon name="copy" label="Copy link" />
+      </dm-button>
+      <dm-button variant="ghost" dmTooltip="Download">
+        <dm-icon name="download" label="Download" />
+      </dm-button>
+      <dm-button variant="ghost" dmTooltip="Add to favorites">
+        <dm-icon name="star" label="Add to favorites" />
+      </dm-button>
+      <dm-button color="danger" variant="flat" dmTooltip="Delete permanently">
+        <dm-icon name="trash" label="Delete permanently" />
+      </dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['conditional']"
+    [code]="conditionalCode"
+    [ts]="conditionalTs"
+  >
+    <div class="demo-row" style="align-items: center">
+      <dm-button
+        variant="ghost"
+        [dmTooltip]="favorite() ? 'Remove from favorites' : 'Add to favorites'"
+      >
+        <dm-icon
+          name="star"
+          [fill]="favorite()"
+          [color]="favorite() ? 'warning' : ''"
+          [label]="favorite() ? 'Remove from favorites' : 'Add to favorites'"
+        />
+      </dm-button>
+      <dm-button
+        variant="ghost"
+        [dmTooltip]="favorite() ? 'Share this item' : ''"
+        [disabled]="!favorite()"
+      >
+        <dm-icon name="external-link" label="Share this item" />
+      </dm-button>
+      <span style="color: var(--dm-fg-muted); font-size: var(--dm-text-sm)">
+        {{ favorite() ? page().labels['tipOn'] : page().labels['tipOff'] }}
+      </span>
+      <dm-button size="sm" variant="bordered" (click)="favorite.set(!favorite())">
+        {{ page().labels['toggle'] }}
+      </dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['onContent']" [code]="onContentCode">
+    <div class="demo-row" style="align-items: center; gap: 1.25rem">
+      <span
+        tabindex="0"
+        dmTooltip="quarterly-financial-report-2026-final-v3.pdf"
+        style="
+          display: inline-block;
+          max-width: 11rem;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          border-radius: var(--dm-radius-sm);
+        "
+      >
+        quarterly-financial-report-2026-final-v3.pdf
+      </span>
+      <dm-badge color="success" variant="flat" tabindex="0" dmTooltip="Deployed 4 minutes ago">
+        Live
+      </dm-badge>
+      <dm-badge color="warning" variant="dot" tabindex="0" dmTooltip="3 checks still running">
+        Pending
+      </dm-badge>
+      <div style="display: inline-flex">
+        <dm-avatar
+          initials="DM"
+          size="sm"
+          tabindex="0"
+          dmTooltip="Diego Maestro — owner"
+          style="border-radius: var(--dm-radius-full)"
+        />
+        <dm-avatar
+          initials="AL"
+          size="sm"
+          tabindex="0"
+          dmTooltip="Ana López — reviewer"
+          style="margin-inline-start: -0.5rem; border-radius: var(--dm-radius-full)"
+        />
+        <dm-avatar
+          initials="+3"
+          size="sm"
+          tabindex="0"
+          dmTooltip="Marc, Sofía and Iris"
+          style="margin-inline-start: -0.5rem; border-radius: var(--dm-radius-full)"
+        />
+      </div>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 32rem">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 0.125rem;
+          flex-wrap: wrap;
+          padding: 0.25rem;
+          margin: -0.5rem -0.5rem 0.75rem;
+          border-radius: var(--dm-radius-md);
+          background: var(--dm-bg-muted);
+        "
+      >
+        <dm-button variant="ghost" size="sm" dmTooltip="Bold (⌘B)">
+          <dm-icon name="edit" label="Bold" />
+        </dm-button>
+        <dm-button variant="ghost" size="sm" dmTooltip="Code block">
+          <dm-icon name="code" label="Code block" />
+        </dm-button>
+        <dm-button variant="ghost" size="sm" dmTooltip="Insert link (⌘K)">
+          <dm-icon name="external-link" label="Insert link" />
+        </dm-button>
+        <dm-divider orientation="vertical" style="height: 1.25rem; margin-inline: 0.375rem" />
+        <dm-button variant="ghost" size="sm" dmTooltip="Copy as Markdown">
+          <dm-icon name="clipboard" label="Copy as Markdown" />
+        </dm-button>
+        <dm-button variant="ghost" size="sm" dmTooltip="Upload image">
+          <dm-icon name="upload" label="Upload image" />
+        </dm-button>
+        <dm-button variant="ghost" size="sm" dmTooltip="Insert emoji">
+          <dm-icon name="sparkles" label="Insert emoji" />
+        </dm-button>
+        <dm-divider orientation="vertical" style="height: 1.25rem; margin-inline: 0.375rem" />
+        <dm-button variant="ghost" size="sm" dmTooltip="Undo (⌘Z)">
+          <dm-icon name="arrow-left" label="Undo" />
+        </dm-button>
+        <dm-button variant="ghost" size="sm" dmTooltip="Redo (⇧⌘Z)">
+          <dm-icon name="arrow-right" label="Redo" />
+        </dm-button>
+        <span style="flex: 1"></span>
+        <dm-button variant="ghost" size="sm" dmTooltip="More actions" dmTooltipPosition="left">
+          <dm-icon name="more-horizontal" label="More actions" />
+        </dm-button>
+      </div>
+      <p style="margin: 0 0 0.25rem; font-weight: 600">{{ page().labels['docTitle'] }}</p>
+      <p style="margin: 0; color: var(--dm-fg-muted); line-height: 1.6">
+        {{ page().labels['docBody'] }}
+      </p>
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 0.75rem;
+          margin-top: 1rem;
+        "
+      >
+        <dm-badge variant="flat" size="sm" tabindex="0" dmTooltip="Autosaved 12 seconds ago">
+          {{ page().labels['saved'] }}
+        </dm-badge>
+        <dm-button color="primary" size="sm" dmTooltip="Publish to everyone (⌘⏎)">
+          <dm-icon name="check" size="1.15em" /> {{ page().labels['publish'] }}
+        </dm-button>
+      </div>
+    </dm-card>
   </app-demo-block>
 </section>
 

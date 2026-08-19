@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
+  DmButtonComponent,
+  DmCardComponent,
   DmSkeletonAnimation,
   DmSkeletonComponent,
   DmSkeletonRounded,
@@ -18,6 +20,8 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   selector: 'app-skeleton-page',
   imports: [
     DmSkeletonComponent,
+    DmCardComponent,
+    DmButtonComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -174,6 +178,56 @@ export class SkeletonPageComponent {
     '      <dm-skeleton width="65%" />',
     '    </div>',
     '  </div>',
+    '}',
+  ].join('\n');
+
+  protected readonly compositionCode = [
+    '<!-- The canonical "content is loading" state: a skeleton that mirrors',
+    "     the real card's shape one-to-one, so nothing shifts when the data",
+    '     resolves and the placeholder is swapped for the real content. -->',
+    '@if (loading()) {',
+    '  <dm-card style="max-width: 20rem">',
+    '    <div style="display: grid; gap: 1rem">',
+    '      <div style="display: flex; align-items: center; gap: 0.875rem">',
+    '        <dm-skeleton variant="circular" [width]="48" [height]="48" />',
+    '        <div style="flex: 1; display: grid; gap: 0.5rem">',
+    '          <dm-skeleton width="55%" />',
+    '          <dm-skeleton width="35%" />',
+    '        </div>',
+    '      </div>',
+    '      <dm-skeleton variant="rounded" rounded="lg" height="5rem" animation="wave" />',
+    '      <dm-skeleton variant="rounded" rounded="full" [width]="104" height="2.25rem" />',
+    '    </div>',
+    '  </dm-card>',
+    '} @else {',
+    '  <!-- the real profile card, identical shape -->',
+    '  <app-profile-card [user]="user()" />',
+    '}',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmCardComponent, DmSkeletonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-profile-card',",
+    '  imports: [DmCardComponent, DmSkeletonComponent],',
+    "  templateUrl: './profile-card.component.html',",
+    '})',
+    'export class ProfileCardComponent {',
+    '  protected readonly loading = signal(true);',
+    '  protected readonly user = signal<User | null>(null);',
+    '',
+    '  constructor() {',
+    '    // Because the skeleton matches the real card box for box, the',
+    '    // layout stays put the instant the data lands — no reflow jank.',
+    "    fetch('/api/me')",
+    '      .then((r) => r.json())',
+    '      .then((user) => {',
+    '        this.user.set(user);',
+    '        this.loading.set(false);',
+    '      });',
+    '  }',
     '}',
   ].join('\n');
 

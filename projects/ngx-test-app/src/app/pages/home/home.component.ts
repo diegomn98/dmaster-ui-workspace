@@ -27,6 +27,7 @@ import { LocaleService } from '../../core/i18n/locale.service';
 import { DashboardLocale } from '../../core/i18n/translations.types';
 import { PALETTE_PRESETS } from '../../core/palette/palette';
 import { PaletteService } from '../../core/palette/palette.service';
+import { LIB_VERSION } from '../../core/version';
 import { PalettePickerComponent } from '../../layout/palette-picker/palette-picker.component';
 import { CodeSnippetComponent } from '../../shared/code-snippet/code-snippet.component';
 import { RevealDirective } from '../../shared/reveal.directive';
@@ -67,6 +68,9 @@ export class HomeComponent {
 
   /** Same source of truth as the Overview page — never hand-typed/stale. */
   protected readonly componentsCount = COMPONENT_REGISTRY.length;
+
+  /** Not i18n content — a version number isn't translated. */
+  protected readonly versionBadge = `v${LIB_VERSION}`;
 
   protected readonly installCode = 'ng add @dmaster/ui';
   protected readonly presets = PALETTE_PRESETS;

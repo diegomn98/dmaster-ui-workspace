@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmKbdComponent, DmKbdKey, DmKbdSize } from '@dmaster/ui';
+import { DmCardComponent, DmKbdComponent, DmKbdKey, DmKbdSize } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -11,10 +11,18 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
 
 const MODIFIERS: (DmKbdKey | 'none')[] = ['none', 'command', 'shift', 'ctrl', 'option', 'alt'];
 
+/** Fila de un cheat-sheet de atajos: acción + combinación de teclas. */
+interface Shortcut {
+  action: string;
+  mods: DmKbdKey[];
+  key: string;
+}
+
 @Component({
   selector: 'app-kbd-page',
   imports: [
     DmKbdComponent,
+    DmCardComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -30,6 +38,16 @@ export class KbdPageComponent {
 
   // Named-key array references for the combo demos (avoids template literals).
   protected readonly comboPalette: DmKbdKey[] = ['shift', 'command'];
+  protected readonly comboEnter: DmKbdKey[] = ['command', 'enter'];
+
+  /** Cheat-sheet de atajos para el demo de composición. */
+  protected readonly shortcuts: Shortcut[] = [
+    { action: 'Command palette', mods: ['command'], key: 'K' },
+    { action: 'New file', mods: ['command'], key: 'N' },
+    { action: 'Save', mods: ['command'], key: 'S' },
+    { action: 'Toggle sidebar', mods: ['command'], key: 'B' },
+    { action: 'Reformat', mods: ['shift', 'command'], key: 'F' },
+  ];
 
   // Playground
   protected readonly playground = signal<PropValues>({
@@ -83,23 +101,90 @@ export class KbdPageComponent {
     '<dm-kbd keys="escape"></dm-kbd>',
     '<dm-kbd keys="enter"></dm-kbd>',
     '<dm-kbd keys="backspace"></dm-kbd>',
+    '<dm-kbd keys="tab"></dm-kbd>',
+    '<dm-kbd keys="up"></dm-kbd>',
+    '<dm-kbd keys="down"></dm-kbd>',
+    '<dm-kbd keys="left"></dm-kbd>',
+    '<dm-kbd keys="right"></dm-kbd>',
   ].join('\n');
 
   protected readonly combosCode = [
+    '<!-- One modifier + a letter, or a stack of named keys. -->',
     '<dm-kbd keys="command">K</dm-kbd>',
     "<dm-kbd [keys]=\"['shift', 'command']\">P</dm-kbd>",
     '<dm-kbd keys="ctrl">C</dm-kbd>',
+    "<dm-kbd [keys]=\"['command', 'enter']\"></dm-kbd>",
   ].join('\n');
 
   protected readonly lettersCode = [
+    '<!-- Anything not a named key is projected verbatim. -->',
     '<dm-kbd>Ctrl</dm-kbd>',
     '<dm-kbd>Enter</dm-kbd>',
+    '<dm-kbd>F1</dm-kbd>',
     '<dm-kbd>A</dm-kbd>',
   ].join('\n');
 
   protected readonly sizesCode = [
     '<dm-kbd keys="command" size="sm">K</dm-kbd>',
     '<dm-kbd keys="command" size="md">K</dm-kbd>',
+  ].join('\n');
+
+  protected readonly inlineCode = [
+    '<!-- Keys flow inline with copy — great for hints and menu rows. -->',
+    '<p>',
+    '  Press <dm-kbd keys="command" size="sm">K</dm-kbd> to open the palette,',
+    '  or <dm-kbd keys="escape" size="sm"></dm-kbd> to dismiss it.',
+    '</p>',
+    '',
+    '<!-- A menu item with a trailing shortcut hint -->',
+    '<div class="menu-item">',
+    '  <span>Copy</span>',
+    '  <dm-kbd keys="command" size="sm">C</dm-kbd>',
+    '</div>',
+  ].join('\n');
+
+  protected readonly compositionCode = [
+    '<!-- A shortcuts cheat-sheet: action on the left, its combo aligned',
+    '     right. Rows read as siblings thanks to a shared muted label. -->',
+    '<dm-card style="width: 100%; max-width: 22rem">',
+    '  <p class="sheet__title">Keyboard shortcuts</p>',
+    '  @for (s of shortcuts; track s.action) {',
+    '    <div class="sheet__row">',
+    '      <span class="sheet__action">{{ s.action }}</span>',
+    '      <dm-kbd [keys]="s.mods" size="sm">{{ s.key }}</dm-kbd>',
+    '    </div>',
+    '  }',
+    '</dm-card>',
+    '',
+    '/* .sheet__row { display: flex; align-items: center;',
+    '   justify-content: space-between; padding: 0.5rem 0 }',
+    '   .sheet__action { color: var(--dm-fg-muted) } */',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmCardComponent, DmKbdComponent, DmKbdKey } from '@dmaster/ui';",
+    '',
+    'interface Shortcut {',
+    '  action: string;',
+    '  mods: DmKbdKey[];',
+    '  key: string;',
+    '}',
+    '',
+    '@Component({',
+    "  selector: 'app-shortcuts-card',",
+    '  imports: [DmCardComponent, DmKbdComponent],',
+    "  templateUrl: './shortcuts-card.component.html',",
+    '})',
+    'export class ShortcutsCardComponent {',
+    '  protected readonly shortcuts: Shortcut[] = [',
+    "    { action: 'Command palette', mods: ['command'], key: 'K' },",
+    "    { action: 'New file', mods: ['command'], key: 'N' },",
+    "    { action: 'Save', mods: ['command'], key: 'S' },",
+    "    { action: 'Toggle sidebar', mods: ['command'], key: 'B' },",
+    "    { action: 'Reformat', mods: ['shift', 'command'], key: 'F' },",
+    '  ];',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

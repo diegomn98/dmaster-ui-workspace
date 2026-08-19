@@ -46,7 +46,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['inFieldHeading']" [code]="formFieldCode" language="ts">
+  <app-demo-block
+    [heading]="page().labels['inFieldHeading']"
+    [code]="formFieldCode"
+    [ts]="formFieldTs"
+  >
     <form (submit)="onSubmit($event)" style="width: 100%; max-width: 22rem">
       <dm-form-field [label]="page().labels['emailLabel']">
         <input
@@ -65,6 +69,89 @@
         <dm-button type="submit" size="sm">{{ page().labels['submit'] }}</dm-button>
       </div>
     </form>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['perErrorHeading']"
+    [code]="perErrorCode"
+    [ts]="perErrorTs"
+  >
+    <div style="width: 100%; max-width: 22rem">
+      <dm-form-field
+        [label]="page().labels['usernameLabel']"
+        [hint]="page().labels['usernameHint']"
+      >
+        <input
+          dmInput
+          [formControl]="username"
+          [placeholder]="page().labels['usernamePlaceholder']"
+        />
+        @if (username.touched && username.hasError('required')) {
+          <dm-error>{{ page().labels['usernameRequired'] }}</dm-error>
+        } @else if (username.touched && username.hasError('minlength')) {
+          <dm-error>{{ page().labels['usernameMinlength'] }}</dm-error>
+        } @else if (username.touched && username.hasError('pattern')) {
+          <dm-error>{{ page().labels['usernamePattern'] }}</dm-error>
+        }
+      </dm-form-field>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 24rem">
+      <form [formGroup]="checkout" (ngSubmit)="pay()" style="display: grid; gap: 1rem">
+        <h3 style="margin: 0; font-size: 1rem">{{ page().labels['checkoutTitle'] }}</h3>
+
+        <dm-form-field [label]="page().labels['cardholderLabel']" [required]="true">
+          <input
+            dmInput
+            formControlName="holder"
+            [placeholder]="page().labels['cardholderPlaceholder']"
+          />
+          @if (co.holder.touched && co.holder.hasError('required')) {
+            <dm-error>
+              <dm-icon name="warning" size="sm" />
+              {{ page().labels['cardholderRequired'] }}
+            </dm-error>
+          }
+        </dm-form-field>
+
+        <dm-form-field [label]="page().labels['cardNumberLabel']" [required]="true">
+          <input
+            dmInput
+            formControlName="number"
+            placeholder="4242 4242 4242 4242"
+            inputmode="numeric"
+          />
+          @if (co.number.touched && co.number.hasError('required')) {
+            <dm-error>{{ page().labels['cardNumberRequired'] }}</dm-error>
+          } @else if (co.number.touched && co.number.hasError('pattern')) {
+            <dm-error>{{ page().labels['cardNumberPattern'] }}</dm-error>
+          }
+        </dm-form-field>
+
+        <dm-form-field
+          [label]="page().labels['cvcLabel']"
+          [required]="true"
+          style="max-width: 8rem"
+        >
+          <input dmInput formControlName="cvc" placeholder="123" inputmode="numeric" />
+          @if (co.cvc.touched && co.cvc.hasError('required')) {
+            <dm-error>{{ page().labels['cvcRequired'] }}</dm-error>
+          } @else if (co.cvc.touched && co.cvc.hasError('pattern')) {
+            <dm-error>{{ page().labels['cvcPattern'] }}</dm-error>
+          }
+        </dm-form-field>
+
+        <dm-button type="submit" [disabled]="checkout.invalid">
+          {{ page().labels['payNow'] }}
+        </dm-button>
+      </form>
+    </dm-card>
   </app-demo-block>
 </section>
 

@@ -112,6 +112,14 @@ export const routes: Routes = [
         title: 'Select · @dmaster/ui',
       },
       {
+        path: 'components/autocomplete',
+        loadComponent: () =>
+          import('./pages/components/autocomplete-page/autocomplete-page.component').then(
+            (m) => m.AutocompletePageComponent,
+          ),
+        title: 'Autocomplete · @dmaster/ui',
+      },
+      {
         path: 'components/paginated-select',
         loadComponent: () =>
           import('./pages/components/paginated-select-page/paginated-select-page.component').then(

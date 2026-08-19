@@ -67,6 +67,75 @@
   <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
     <dm-pagination [totalPages]="8" [disabled]="true" [(page)]="disabledPage" />
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card padding="none" style="width: 100%; max-width: 32rem">
+      <div
+        style="
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          gap: 0.75rem;
+          padding: 0.875rem 1rem;
+          border-bottom: 1px solid var(--dm-border);
+        "
+      >
+        <strong>{{ page().labels['articlesTitle'] || 'Articles' }}</strong>
+        <span style="color: var(--dm-fg-muted); font-size: 0.8125rem; white-space: nowrap">
+          {{ page().labels['showing'] || 'Showing' }} {{ articleRangeStart() }}–{{
+            articleRangeEnd()
+          }}
+          {{ page().labels['of'] || 'of' }} {{ articles.length }}
+        </span>
+      </div>
+      <ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+        @for (a of pagedArticles(); track a.id) {
+          <li
+            style="
+              display: flex;
+              align-items: flex-start;
+              justify-content: space-between;
+              gap: 0.75rem;
+              padding: 0.625rem 1rem;
+              border-bottom: 1px solid var(--dm-border);
+            "
+          >
+            <div style="flex: 1; min-width: 0">
+              <div
+                style="
+                  font-weight: 500;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                "
+              >
+                {{ a.title }}
+              </div>
+              <div
+                style="
+                  color: var(--dm-fg-muted);
+                  font-size: 0.8125rem;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                "
+              >
+                {{ a.excerpt }}
+              </div>
+            </div>
+            <dm-badge [color]="a.tagColor" variant="flat" size="sm">{{ a.tag }}</dm-badge>
+          </li>
+        }
+      </ul>
+      <div style="display: flex; justify-content: center; padding: 0.75rem 1rem">
+        <dm-pagination size="sm" [totalPages]="articleTotalPages()" [(page)]="articlePage" />
+      </div>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

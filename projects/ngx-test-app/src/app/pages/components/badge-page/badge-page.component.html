@@ -41,12 +41,91 @@
     </div>
   </app-demo-block>
 
+  <app-demo-block [heading]="page().labels['sizesRadiusHeading']" [code]="sizesRadiusCode">
+    <div style="display: flex; flex-direction: column; gap: 1rem">
+      <div class="demo-row" style="align-items: center">
+        <dm-badge color="primary" size="sm">sm</dm-badge>
+        <dm-badge color="primary" size="md">md</dm-badge>
+      </div>
+      <div class="demo-row" style="align-items: center">
+        <dm-badge color="primary" radius="sm">sm</dm-badge>
+        <dm-badge color="primary" radius="md">md</dm-badge>
+        <dm-badge color="primary" radius="lg">lg</dm-badge>
+        <dm-badge color="primary" radius="full">full</dm-badge>
+      </div>
+    </div>
+  </app-demo-block>
+
   <app-demo-block [heading]="page().labels['dotHeading']" [code]="dotCode">
     <div class="demo-row">
       <dm-badge color="success" variant="dot">Active</dm-badge>
       <dm-badge color="warning" variant="dot">Degraded</dm-badge>
       <dm-badge color="danger" variant="dot">Down</dm-badge>
     </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['withIconHeading']" [code]="withIconCode">
+    <div class="demo-row" style="align-items: center">
+      <dm-badge color="success" variant="flat">
+        <dm-icon name="check-circle" size="1em" />Verified
+      </dm-badge>
+      <dm-badge color="primary" variant="solid"> <dm-icon name="zap" size="1em" />Pro </dm-badge>
+      <dm-badge color="warning" variant="flat">
+        <dm-icon name="star" size="1em" />Featured
+      </dm-badge>
+      <dm-badge color="secondary" variant="bordered">
+        <dm-icon name="shield-check" size="1em" />Secure
+      </dm-badge>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 26rem">
+      <div style="display: flex; flex-direction: column; gap: 1rem">
+        <div style="display: flex; align-items: flex-start; gap: 0.75rem">
+          <dm-icon name="box" size="lg" style="color: var(--dm-primary)" />
+          <div style="flex: 1; min-width: 0">
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <strong>Design System</strong>
+              <dm-badge color="primary" variant="flat" size="sm">Pro</dm-badge>
+            </div>
+            <p style="margin: 0.15rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem">
+              &#64;dmaster/ui · updated 2h ago
+            </p>
+          </div>
+          <dm-badge color="success" variant="dot" size="sm">Deployed</dm-badge>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 0.375rem">
+          <dm-badge variant="bordered" size="sm">angular</dm-badge>
+          <dm-badge variant="bordered" size="sm">typescript</dm-badge>
+          <dm-badge variant="bordered" size="sm">a11y</dm-badge>
+        </div>
+
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-top: 0.875rem;
+            border-top: 1px solid var(--dm-border);
+          "
+        >
+          <dm-badge color="danger" variant="flat" size="sm">
+            <dm-icon name="warning" size="1em" />3 issues
+          </dm-badge>
+          <dm-badge color="secondary" variant="flat" size="sm">
+            <dm-icon name="star" size="1em" />128
+          </dm-badge>
+          <span style="flex: 1"></span>
+          <dm-button size="sm" variant="bordered">View</dm-button>
+        </div>
+      </div>
+    </dm-card>
   </app-demo-block>
 </section>
 

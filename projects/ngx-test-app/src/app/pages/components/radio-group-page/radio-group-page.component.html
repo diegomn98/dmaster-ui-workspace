@@ -34,16 +34,69 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
+  <!-- 1. Basic -->
   <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
-    <dm-radio-group name="plan-basic" [(value)]="plan">
-      <dm-radio value="free">Free</dm-radio>
-      <dm-radio value="pro">Pro</dm-radio>
-      <dm-radio value="enterprise">Enterprise</dm-radio>
-    </dm-radio-group>
+    <div style="display: grid; gap: 0.75rem; justify-items: start">
+      <dm-radio-group name="plan-basic" [(value)]="plan">
+        <dm-radio value="free">Free</dm-radio>
+        <dm-radio value="pro">Pro</dm-radio>
+        <dm-radio value="enterprise">Enterprise</dm-radio>
+      </dm-radio-group>
+      <span style="font-size: 0.8125rem; color: var(--dm-fg-muted)">
+        {{ page().labels['selected'] }}
+        <code>{{ plan() }}</code>
+      </span>
+    </div>
   </app-demo-block>
 
+  <!-- 2. Orientation -->
+  <app-demo-block [heading]="page().labels['orientation']" [code]="orientationCode">
+    <div style="display: flex; flex-wrap: wrap; gap: 2.5rem; align-items: flex-start">
+      <div style="display: grid; gap: 0.5rem">
+        <span
+          style="
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--dm-fg-muted);
+          "
+        >
+          {{ page().labels['vertical'] }}
+        </span>
+        <dm-radio-group name="side-v" orientation="vertical" [(value)]="side">
+          <dm-radio value="left">Left</dm-radio>
+          <dm-radio value="center">Center</dm-radio>
+          <dm-radio value="right">Right</dm-radio>
+        </dm-radio-group>
+      </div>
+      <div style="display: grid; gap: 0.5rem">
+        <span
+          style="
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--dm-fg-muted);
+          "
+        >
+          {{ page().labels['horizontal'] }}
+        </span>
+        <dm-radio-group name="side-h" orientation="horizontal" [(value)]="side">
+          <dm-radio value="left">Left</dm-radio>
+          <dm-radio value="center">Center</dm-radio>
+          <dm-radio value="right">Right</dm-radio>
+        </dm-radio-group>
+      </div>
+    </div>
+  </app-demo-block>
+
+  <!-- 3. Colors -->
   <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
-    <div class="radio-colors">
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem 1.5rem">
+      <dm-radio-group name="c-default" color="default" [(value)]="colorPick">
+        <dm-radio value="a">Default</dm-radio>
+      </dm-radio-group>
       <dm-radio-group name="c-primary" color="primary" [(value)]="colorPick">
         <dm-radio value="a">Primary</dm-radio>
       </dm-radio-group>
@@ -62,23 +115,188 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['horizontal']" [code]="horizontalCode">
-    <dm-radio-group name="side-h" orientation="horizontal" [(value)]="side">
-      <dm-radio value="left">Left</dm-radio>
-      <dm-radio value="center">Center</dm-radio>
-      <dm-radio value="right">Right</dm-radio>
-    </dm-radio-group>
+  <!-- 4. Sizes -->
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; align-items: flex-start">
+      <dm-radio-group name="size-sm" size="sm" [(value)]="sizePick">
+        <dm-radio value="a">Small</dm-radio>
+        <dm-radio value="b">Small</dm-radio>
+      </dm-radio-group>
+      <dm-radio-group name="size-md" size="md" [(value)]="sizePick">
+        <dm-radio value="a">Medium</dm-radio>
+        <dm-radio value="b">Medium</dm-radio>
+      </dm-radio-group>
+      <dm-radio-group name="size-lg" size="lg" [(value)]="sizePick">
+        <dm-radio value="a">Large</dm-radio>
+        <dm-radio value="b">Large</dm-radio>
+      </dm-radio-group>
+    </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['forms']" [code]="formsCode">
-    <div class="demo-stack">
-      <dm-radio-group name="size-forms" [formControl]="sizeCtrl">
-        <dm-radio value="small">Small</dm-radio>
-        <dm-radio value="medium">Medium</dm-radio>
-        <dm-radio value="large">Large</dm-radio>
-      </dm-radio-group>
-      <span class="demo-output">value: {{ sizeCtrl.value }}</span>
+  <!-- 5. Disabled options -->
+  <app-demo-block [heading]="page().labels['disabledOptions']" [code]="disabledCode">
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; align-items: flex-start">
+      <div style="display: grid; gap: 0.5rem">
+        <span
+          style="
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--dm-fg-muted);
+          "
+        >
+          {{ page().labels['singleOption'] }}
+        </span>
+        <dm-radio-group name="delivery" [(value)]="delivery">
+          <dm-radio value="standard">Standard</dm-radio>
+          <dm-radio value="priority">Priority</dm-radio>
+          <dm-radio value="overnight" [disabled]="true">
+            Overnight
+            <span
+              style="margin-inline-start: 0.375rem; font-size: 0.75rem; color: var(--dm-fg-muted)"
+            >
+              ({{ page().labels['unavailable'] }})
+            </span>
+          </dm-radio>
+        </dm-radio-group>
+      </div>
+      <div style="display: grid; gap: 0.5rem">
+        <span
+          style="
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--dm-fg-muted);
+          "
+        >
+          {{ page().labels['wholeGroup'] }}
+        </span>
+        <dm-radio-group name="delivery-locked" [disabled]="true" [value]="'priority'">
+          <dm-radio value="standard">Standard</dm-radio>
+          <dm-radio value="priority">Priority</dm-radio>
+          <dm-radio value="overnight">Overnight</dm-radio>
+        </dm-radio-group>
+      </div>
     </div>
+  </app-demo-block>
+
+  <!-- 6. Reactive Forms + dm-error -->
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode" [ts]="formsTs">
+    <div style="display: grid; gap: 0.75rem; justify-items: start; width: 100%; max-width: 22rem">
+      <span style="font-size: 0.875rem; font-weight: 600">{{
+        page().labels['shippingLegend']
+      }}</span>
+      <dm-radio-group
+        name="shipping"
+        [formControl]="shippingCtrl"
+        [ariaLabel]="page().labels['shippingLegend']"
+      >
+        <dm-radio value="standard">{{ page().labels['shippingStandard'] }}</dm-radio>
+        <dm-radio value="express">{{ page().labels['shippingExpress'] }}</dm-radio>
+        <dm-radio value="pickup">{{ page().labels['shippingPickup'] }}</dm-radio>
+      </dm-radio-group>
+      @if (shippingCtrl.touched && shippingCtrl.hasError('required')) {
+        <dm-error>{{ page().labels['shippingRequired'] }}</dm-error>
+      }
+      <div style="display: flex; gap: 0.5rem; margin-top: 0.25rem">
+        <dm-button color="primary" size="sm" (clicked)="submitShipping()">
+          {{ page().labels['continue'] }}
+        </dm-button>
+        <dm-button variant="light" size="sm" (clicked)="resetShipping()">
+          {{ page().labels['reset'] }}
+        </dm-button>
+      </div>
+      <span style="font-size: 0.8125rem; color: var(--dm-fg-muted)">
+        value: <code>{{ shippingCtrl.value ?? 'null' }}</code> · touched:
+        <code>{{ shippingCtrl.touched }}</code> · valid: <code>{{ shippingCtrl.valid }}</code>
+      </span>
+    </div>
+  </app-demo-block>
+
+  <!-- 7. Composition: plan selection card -->
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 26rem">
+      <div style="display: grid; gap: 1rem">
+        <div>
+          <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700">
+            {{ page().labels['planTitle'] }}
+          </h3>
+          <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['planSubtitle'] }}
+          </p>
+        </div>
+
+        <dm-radio-group
+          name="plan-card"
+          [ariaLabel]="page().labels['planTitle']"
+          [(value)]="selectedPlan"
+          style="display: grid; gap: 0.625rem"
+        >
+          @for (p of plans; track p.id) {
+            <!-- The dm-radio host IS the tile: click anywhere selects, keyboard + focus ring intact. -->
+            <dm-radio
+              [value]="p.id"
+              style="
+                display: grid;
+                padding: 0.875rem 5.5rem 0.875rem 1rem;
+                border: 2px solid;
+                border-radius: var(--dm-radius-md);
+                transition:
+                  border-color var(--dm-duration-fast),
+                  background-color var(--dm-duration-fast);
+              "
+              [style.border-color]="
+                selectedPlan() === p.id ? 'var(--dm-primary)' : 'var(--dm-border)'
+              "
+              [style.background-color]="
+                selectedPlan() === p.id ? 'var(--dm-primary-subtle)' : 'transparent'
+              "
+            >
+              <span style="display: grid; gap: 0.125rem">
+                <span style="display: flex; align-items: center; gap: 0.5rem; font-weight: 600">
+                  {{ p.name }}
+                  @if (p.recommended) {
+                    <dm-badge color="primary" variant="flat" size="sm">
+                      {{ page().labels['recommended'] }}
+                    </dm-badge>
+                  }
+                </span>
+                <span style="font-size: 0.8125rem; color: var(--dm-fg-muted)">
+                  {{ page().labels[p.descKey] }}
+                </span>
+              </span>
+              <span
+                style="
+                  position: absolute;
+                  inset-inline-end: 1rem;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  white-space: nowrap;
+                "
+              >
+                <span style="font-size: 1.125rem; font-weight: 700">{{ p.price }}</span>
+                <span style="font-size: 0.75rem; color: var(--dm-fg-muted)">
+                  {{ page().labels['perMonth'] }}
+                </span>
+              </span>
+            </dm-radio>
+          }
+        </dm-radio-group>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem">
+          <span style="font-size: 0.8125rem; color: var(--dm-fg-muted)">
+            {{ page().labels['selected'] }} <strong>{{ selectedPlanName() }}</strong>
+          </span>
+          <dm-button color="primary">{{ page().labels['continue'] }}</dm-button>
+        </div>
+      </div>
+    </dm-card>
   </app-demo-block>
 </section>
 

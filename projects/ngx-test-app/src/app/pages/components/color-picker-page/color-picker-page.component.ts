@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
+  DmCardComponent,
   DmColorPickerColor,
   DmColorPickerComponent,
   DmColorPickerRadius,
@@ -40,6 +41,7 @@ const BRAND_SWATCHES = [
 @Component({
   selector: 'app-color-picker-page',
   imports: [
+    DmCardComponent,
     DmColorPickerComponent,
     ReactiveFormsModule,
     DemoBlockComponent,
@@ -171,6 +173,94 @@ export class ColorPickerPageComponent {
     'providers: [',
     "  provideColorPickerDefaults({ showAlpha: true, variant: 'bordered' })",
     ']',
+  ].join('\n');
+
+  // ---- Composition: brand color theme card --------------------------------
+  protected readonly brand = signal<string | null>('#7828c8');
+  /** Effective hex (falls back to primary when the picker is cleared). */
+  protected readonly brandColor = computed(() => this.brand() || 'var(--dm-primary)');
+  /** Subtle tint of the brand color for the flat tile. */
+  protected readonly brandTint = computed(
+    () => `color-mix(in srgb, ${this.brandColor()} 15%, transparent)`,
+  );
+  /** Readable text on top of the solid tile: dark on light hues, white otherwise. */
+  protected readonly brandFg = computed(() => {
+    const hex = this.brand();
+    if (!hex) {
+      return 'var(--dm-primary-fg)';
+    }
+    const raw = hex.replace('#', '');
+    const full =
+      raw.length === 3 || raw.length === 4
+        ? raw
+            .slice(0, 3)
+            .split('')
+            .map((c) => c + c)
+            .join('')
+        : raw.slice(0, 6);
+    const r = parseInt(full.slice(0, 2), 16) / 255;
+    const g = parseInt(full.slice(2, 4), 16) / 255;
+    const b = parseInt(full.slice(4, 6), 16) / 255;
+    if ([r, g, b].some((n) => Number.isNaN(n))) {
+      return '#ffffff';
+    }
+    const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    return luminance > 0.6 ? '#111827' : '#ffffff';
+  });
+
+  protected readonly compositionCode = [
+    '<!-- Pick a brand color; the tiles follow it through inline styles. -->',
+    '<dm-card style="max-width: 30rem">',
+    '  <div style="display: flex; align-items: center; gap: 0.75rem">',
+    '    <span aria-hidden="true" class="swatch" [style.background]="brand()"></span>',
+    '    <div style="flex: 1">',
+    '      <strong>Brand color</strong>',
+    '      <p class="muted">Pick your brand color, watch the UI follow.</p>',
+    '    </div>',
+    '    <code class="chip">{{ brand() }}</code>',
+    '  </div>',
+    '',
+    '  <dm-color-picker label="Brand" [(value)]="brand" [swatches]="swatches" />',
+    '',
+    '  <div class="tiles">',
+    '    <span class="tile" [style.background]="brand()" [style.color]="brandFg()">',
+    '      Solid',
+    '    </span>',
+    '    <span class="tile" [style.border-color]="brand()" [style.color]="brand()">',
+    '      Outlined',
+    '    </span>',
+    '    <span',
+    '      class="tile"',
+    "      [style.background]=\"'color-mix(in srgb, ' + brand() + ' 15%, transparent)'\"",
+    '      [style.color]="brand()"',
+    '    >',
+    '      Tint',
+    '    </span>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, computed, signal } from '@angular/core';",
+    "import { DmCardComponent, DmColorPickerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-brand-card',",
+    '  imports: [DmCardComponent, DmColorPickerComponent],',
+    "  templateUrl: './brand-card.component.html',",
+    '})',
+    'export class BrandCardComponent {',
+    "  protected readonly swatches = ['#338ef7', '#7828c8', '#17c964', '#f5a524', '#f31260'];",
+    "  protected readonly brand = signal<string | null>('#7828c8');",
+    '',
+    '  /** White text on dark hues, near-black on light ones. */',
+    '  protected readonly brandFg = computed(() => {',
+    "    const hex = (this.brand() ?? '#000000').slice(1, 7);",
+    '    const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);',
+    '    const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;',
+    "    return luminance > 0.6 ? '#111827' : '#ffffff';",
+    '  });',
+    '}',
   ].join('\n');
 
   constructor() {

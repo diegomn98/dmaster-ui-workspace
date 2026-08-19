@@ -161,6 +161,109 @@
       </div>
     </div>
   </app-demo-block>
+
+  <!-- Composition: loading placeholder that mirrors the real card, side by side -->
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <div class="demo-surface">
+      <div
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+          align-items: stretch;
+          justify-content: center;
+        "
+      >
+        <!-- Loading state -->
+        <div style="display: grid; gap: 0.625rem; width: 100%; max-width: 20rem">
+          <span
+            style="
+              font-size: 0.6875rem;
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.06em;
+              color: var(--dm-fg-muted);
+            "
+            >Loading</span
+          >
+          <dm-card style="width: 100%">
+            <div style="display: grid; gap: 1rem">
+              <div style="display: flex; align-items: center; gap: 0.875rem">
+                <dm-skeleton variant="circular" [width]="48" [height]="48" />
+                <div style="flex: 1; display: grid; gap: 0.5rem">
+                  <dm-skeleton width="55%" />
+                  <dm-skeleton width="35%" />
+                </div>
+              </div>
+              <dm-skeleton variant="rounded" rounded="lg" height="5rem" animation="wave" />
+              <dm-skeleton variant="rounded" rounded="full" [width]="104" height="2.25rem" />
+            </div>
+          </dm-card>
+        </div>
+
+        <!-- Loaded state — identical shape -->
+        <div style="display: grid; gap: 0.625rem; width: 100%; max-width: 20rem">
+          <span
+            style="
+              font-size: 0.6875rem;
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.06em;
+              color: var(--dm-primary);
+            "
+            >Loaded</span
+          >
+          <dm-card style="width: 100%">
+            <div style="display: grid; gap: 1rem">
+              <div style="display: flex; align-items: center; gap: 0.875rem">
+                <span
+                  aria-hidden="true"
+                  style="
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 50%;
+                    background: var(--dm-primary-subtle);
+                    color: var(--dm-primary);
+                    font-weight: 700;
+                    font-size: 1rem;
+                  "
+                  >AL</span
+                >
+                <div style="flex: 1; min-width: 0">
+                  <strong style="display: block; line-height: 1.3">Ada Lovelace</strong>
+                  <span style="font-size: 0.875rem; color: var(--dm-fg-muted)"
+                    >Product designer</span
+                  >
+                </div>
+              </div>
+              <div
+                style="
+                  height: 5rem;
+                  border-radius: var(--dm-radius-lg);
+                  background: linear-gradient(
+                    135deg,
+                    var(--dm-primary) 0%,
+                    var(--dm-primary-hover) 100%
+                  );
+                "
+              ></div>
+              <dm-button size="sm" radius="full" variant="flat" color="primary"
+                >View profile</dm-button
+              >
+            </div>
+          </dm-card>
+        </div>
+      </div>
+    </div>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

@@ -1,6 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { DmSliderColor, DmSliderComponent, DmSliderSize } from '@dmaster/ui';
+import {
+  DmCardComponent,
+  DmIconComponent,
+  DmSliderColor,
+  DmSliderComponent,
+  DmSliderSize,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -14,6 +20,8 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   selector: 'app-slider-page',
   imports: [
     DmSliderComponent,
+    DmCardComponent,
+    DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -164,6 +172,127 @@ export class SliderPageComponent {
   ];
 
   protected readonly asCurrency = (v: number) => `$${v}`;
+
+  // Composition — settings panel card. Each row is a signal-driven slider with a
+  // leading icon, muted description and a right-aligned live readout.
+  protected readonly brightness = signal<number>(72);
+  protected readonly notifVolume = signal<number>(45);
+  protected readonly textSize = signal<number>(16);
+
+  protected readonly settingRows = computed(() => {
+    const labels = this.page().labels;
+    return [
+      {
+        key: 'brightness' as const,
+        icon: 'sun',
+        label: labels['brightness'],
+        description: labels['brightnessDesc'],
+        min: 0,
+        max: 100,
+        step: 1,
+        value: this.brightness(),
+        display: `${this.brightness()}%`,
+      },
+      {
+        key: 'notifVolume' as const,
+        icon: 'bell',
+        label: labels['notifVolume'],
+        description: labels['notifVolumeDesc'],
+        min: 0,
+        max: 100,
+        step: 5,
+        value: this.notifVolume(),
+        display: `${this.notifVolume()}%`,
+      },
+      {
+        key: 'textSize' as const,
+        icon: 'eye',
+        label: labels['textSize'],
+        description: labels['textSizeDesc'],
+        min: 12,
+        max: 24,
+        step: 1,
+        value: this.textSize(),
+        display: `${this.textSize()}px`,
+      },
+    ];
+  });
+
+  protected setSetting(key: 'brightness' | 'notifVolume' | 'textSize', value: number): void {
+    this[key].set(value);
+  }
+
+  protected readonly compositionCode = [
+    '<dm-card style="width: 100%; max-width: 26rem">',
+    '  <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem">',
+    '    <span class="settings-tile"><dm-icon name="zap" size="1.25rem" /></span>',
+    '    <div>',
+    '      <strong>Quick settings</strong>',
+    '      <p style="margin: 0.1rem 0 0; color: var(--dm-fg-muted)">Changes apply instantly</p>',
+    '    </div>',
+    '  </div>',
+    '',
+    '  <div style="display: grid; gap: 1.25rem">',
+    '    @for (row of rows(); track row.key) {',
+    '      <div style="display: grid; gap: 0.5rem">',
+    '        <div style="display: flex; align-items: center; gap: 0.625rem">',
+    '          <dm-icon [name]="row.icon" size="1.125rem" style="color: var(--dm-fg-muted)" />',
+    '          <div style="flex: 1; min-width: 0">',
+    '            <span style="display: block; font-weight: 500">{{ row.label }}</span>',
+    '            <span style="color: var(--dm-fg-muted); font-size: 0.8125rem">{{ row.description }}</span>',
+    '          </div>',
+    '          <span style="font-variant-numeric: tabular-nums; font-weight: 600; color: var(--dm-primary)">',
+    '            {{ row.display }}',
+    '          </span>',
+    '        </div>',
+    '        <dm-slider',
+    '          size="sm"',
+    '          [min]="row.min"',
+    '          [max]="row.max"',
+    '          [step]="row.step"',
+    '          [value]="row.value"',
+    '          (valueChange)="set(row.key, $event)"',
+    '          [ariaLabel]="row.label"',
+    '        />',
+    '      </div>',
+    '    }',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, computed, signal } from '@angular/core';",
+    "import { DmCardComponent, DmIconComponent, DmSliderComponent } from '@dmaster/ui';",
+    '',
+    "type SettingKey = 'brightness' | 'volume' | 'textSize';",
+    '',
+    '@Component({',
+    "  selector: 'app-quick-settings',",
+    '  imports: [DmCardComponent, DmSliderComponent, DmIconComponent],',
+    "  templateUrl: './quick-settings.component.html',",
+    '})',
+    'export class QuickSettingsComponent {',
+    '  protected readonly brightness = signal(72);',
+    '  protected readonly volume = signal(45);',
+    '  protected readonly textSize = signal(16);',
+    '',
+    '  protected readonly rows = computed(() => [',
+    "    { key: 'brightness' as const, icon: 'sun', label: 'Brightness',",
+    "      description: 'Screen brightness', min: 0, max: 100, step: 1,",
+    '      value: this.brightness(), display: `${this.brightness()}%` },',
+    "    { key: 'volume' as const, icon: 'bell', label: 'Notifications',",
+    "      description: 'Alert volume', min: 0, max: 100, step: 5,",
+    '      value: this.volume(), display: `${this.volume()}%` },',
+    "    { key: 'textSize' as const, icon: 'eye', label: 'Text size',",
+    "      description: 'Base font size', min: 12, max: 24, step: 1,",
+    '      value: this.textSize(), display: `${this.textSize()}px` },',
+    '  ]);',
+    '',
+    '  protected set(key: SettingKey, value: number): void {',
+    '    this[key].set(value);',
+    '  }',
+    '}',
+  ].join('\n');
 
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;

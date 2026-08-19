@@ -119,6 +119,57 @@
       </dm-button>
     </dm-alert>
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 30rem">
+      <div style="display: grid; gap: 1rem">
+        <div
+          style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem"
+        >
+          <h3 style="margin: 0; font-size: 1.05rem">Billing</h3>
+          <span style="color: var(--dm-fg-muted); font-size: 0.85rem">Pro · $24/mo</span>
+        </div>
+
+        @if (billingSaved()) {
+          <dm-alert
+            color="success"
+            [title]="'Changes saved'"
+            description="Your billing details were updated."
+            [dismissible]="true"
+            (closed)="billingSaved.set(false)"
+          />
+        }
+
+        @if (cardExpiring()) {
+          <dm-alert
+            color="warning"
+            variant="faded"
+            [title]="'Card expiring soon'"
+            description="Visa ending 4242 expires next month. Update it to avoid a failed charge."
+          >
+            <dm-button
+              dmAlertAction
+              size="sm"
+              variant="flat"
+              color="warning"
+              (clicked)="cardExpiring.set(false)"
+            >
+              Update card
+            </dm-button>
+          </dm-alert>
+        }
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
+          <dm-button size="sm" variant="light">Cancel</dm-button>
+          <dm-button size="sm" (clicked)="billingSaved.set(true)">Save changes</dm-button>
+        </div>
+      </div>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

@@ -60,6 +60,84 @@
       (selected)="onSelect($event)"
     />
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card padding="sm" style="width: 100%; max-width: 40rem">
+      <div style="display: flex; align-items: center; gap: 0.75rem">
+        <span
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+          "
+        >
+          <span
+            aria-hidden="true"
+            style="
+              display: grid;
+              place-items: center;
+              width: 1.75rem;
+              height: 1.75rem;
+              border-radius: 0.5rem;
+              background: var(--dm-primary);
+              color: var(--dm-primary-fg);
+              font-size: 0.875rem;
+            "
+          >
+            d.
+          </span>
+          Acme
+        </span>
+
+        <dm-button
+          variant="bordered"
+          size="sm"
+          radius="md"
+          style="flex: 1; min-width: 0"
+          (clicked)="appOpen.set(true)"
+        >
+          <span
+            style="
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              width: 100%;
+              color: var(--dm-fg-muted);
+              font-weight: 400;
+            "
+          >
+            <dm-icon name="search" size="1rem" />
+            <span style="flex: 1; text-align: start; overflow: hidden; text-overflow: ellipsis">
+              {{ page().labels['searchPlaceholder'] }}
+            </span>
+            <dm-kbd size="sm" keys="command">K</dm-kbd>
+          </span>
+        </dm-button>
+      </div>
+    </dm-card>
+
+    <dm-command
+      [items]="appItems()"
+      [(open)]="appOpen"
+      hotkey=""
+      [placeholder]="page().labels['searchPlaceholder']"
+      (selected)="onAppSelect($event)"
+    />
+
+    <p
+      style="margin: 0.75rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem"
+      aria-live="polite"
+    >
+      {{ page().labels['lastAction'] }}: {{ appAction() }}
+    </p>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

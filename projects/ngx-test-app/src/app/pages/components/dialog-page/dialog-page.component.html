@@ -28,9 +28,90 @@
   <app-code-snippet [code]="contentCode" language="ts" />
 </section>
 
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" language="ts">
+    <dm-button (clicked)="openBasic()">{{ page().labels['open'] }}</dm-button>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['confirmDialog']" [code]="confirmCode" language="ts">
+    <div class="demo-row">
+      <dm-button color="danger" variant="flat" (clicked)="openConfirm()">
+        {{ page().labels['demoTitle'] }}
+      </dm-button>
+      <span class="demo-output">{{ page().labels['result'] }}: {{ confirmResult() }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['formDialog']" [code]="formCode" language="ts">
+    <div class="demo-row">
+      <dm-button color="primary" variant="flat" (clicked)="openForm()">
+        {{ page().labels['formTitle'] }}
+      </dm-button>
+      <span class="demo-output">{{ page().labels['result'] }}: {{ formResult() }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" language="ts">
+    <div class="demo-row">
+      <dm-button variant="flat" (clicked)="openBasic('sm')">{{ page().labels['sm'] }}</dm-button>
+      <dm-button variant="flat" (clicked)="openBasic('md')">{{ page().labels['md'] }}</dm-button>
+      <dm-button variant="flat" (clicked)="openBasic('lg')">{{ page().labels['lg'] }}</dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['persistent']" [code]="persistentCode" language="ts">
+    <dm-button color="secondary" (clicked)="openPersistent()">
+      {{ page().labels['openPersistent'] }}
+    </dm-button>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 24rem">
+      <div style="display: grid; gap: 0.75rem">
+        <div
+          style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem"
+        >
+          <strong style="font-size: 1rem; letter-spacing: -0.01em">
+            {{ page().labels['projectName'] }}
+          </strong>
+          @if (projectDeleted()) {
+            <dm-badge color="danger" variant="flat">{{ page().labels['projectDeleted'] }}</dm-badge>
+          } @else {
+            <dm-badge color="success" variant="flat">{{ page().labels['projectActive'] }}</dm-badge>
+          }
+        </div>
+        <p style="margin: 0; color: var(--dm-fg-muted); font-size: 0.875rem">
+          {{ page().labels['projectMeta'] }}
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
+          @if (projectDeleted()) {
+            <dm-button size="sm" variant="flat" (clicked)="restoreProject()">
+              {{ page().labels['restore'] }}
+            </dm-button>
+          } @else {
+            <dm-button size="sm" color="danger" variant="flat" (clicked)="deleteProject()">
+              {{ page().labels['confirm'] }}
+            </dm-button>
+          }
+        </div>
+      </div>
+    </dm-card>
+  </app-demo-block>
+</section>
+
 <section class="page__section" aria-labelledby="api-title">
   <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
   <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
 </section>
 
 <section class="page__section" aria-labelledby="a11y-title">

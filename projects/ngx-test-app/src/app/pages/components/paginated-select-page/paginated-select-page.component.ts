@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
+  DmAvatarComponent,
+  DmButtonComponent,
+  DmCardComponent,
   DmPaginatedSelectColor,
   DmPaginatedSelectComponent,
   DmPaginatedSelectItem,
@@ -31,6 +34,37 @@ const ALL_USERS: DmPaginatedSelectItem<string>[] = Array.from({ length: 87 }, (_
   };
 });
 
+/** Self-contained colored avatar (data URI) — initials on a flat fill. */
+function avatarSvg(initials: string, color: string): string {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" fill="${color}"/><text x="24" y="30" font-family="system-ui, sans-serif" font-size="19" font-weight="600" fill="#fff" text-anchor="middle">${initials}</text></svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+const AVATAR_COLORS = ['#6366f1', '#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+const ROLES = ['Frontend engineer', 'Backend engineer', 'Tech lead', 'Product designer'];
+
+interface DemoReviewer {
+  name: string;
+  role: string;
+  src: string;
+}
+
+/** Derives a display profile (name, role, avatar) from a mock user id (`u-N`). */
+function toReviewer(item: DmPaginatedSelectItem<string>): DemoReviewer {
+  const index = Number(item.value.slice(2)) - 1;
+  const name = item.label.replace(/\s#\d+$/, '');
+  const initials = name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase();
+  return {
+    name,
+    role: ROLES[index % ROLES.length],
+    src: avatarSvg(initials, AVATAR_COLORS[index % AVATAR_COLORS.length]),
+  };
+}
+
 const VARIANTS: DmPaginatedSelectVariant[] = ['flat', 'bordered', 'faded', 'underlined'];
 const COLORS: DmPaginatedSelectColor[] = [
   'default',
@@ -45,6 +79,9 @@ const COLORS: DmPaginatedSelectColor[] = [
   selector: 'app-paginated-select-page',
   imports: [
     DmPaginatedSelectComponent,
+    DmAvatarComponent,
+    DmButtonComponent,
+    DmCardComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -171,6 +208,14 @@ export class PaginatedSelectPageComponent {
   protected readonly searchValue = signal<string | null>(null);
   protected readonly clearableValue = signal<string | null>(null);
 
+  // ---- Composition: assign reviewer ----------------------------------------
+  protected readonly reviewerValue = signal<string | null>(null);
+  protected readonly reviewer = computed<DemoReviewer | null>(() => {
+    const value = this.reviewerValue();
+    const item = value ? ALL_USERS.find((u) => u.value === value) : undefined;
+    return item ? toReviewer(item) : null;
+  });
+
   // ---- Code snippets -------------------------------------------------------
   protected readonly loadFnCode = [
     '// Works directly with HttpClient — no wrappers needed.',
@@ -206,6 +251,99 @@ export class PaginatedSelectPageComponent {
     '  [clearable]="true"',
     '  [searchable]="true"',
     '/>',
+  ].join('\n');
+
+  protected readonly compositionCode = [
+    '<!-- Assign reviewer: server-driven select + live preview + gated action. -->',
+    '<dm-card style="max-width: 26rem">',
+    '  <div style="display: flex; flex-direction: column; gap: 1rem">',
+    '    <div>',
+    '      <strong>Assign reviewer</strong>',
+    '      <p class="muted">Pick a teammate to review this pull request.</p>',
+    '    </div>',
+    '',
+    '    <dm-paginated-select',
+    '      label="Reviewer"',
+    '      placeholder="Pick a user"',
+    '      [loadFn]="loadFn"',
+    '      [(value)]="reviewerId"',
+    '      [searchable]="true"',
+    '      [clearable]="true"',
+    '    />',
+    '',
+    '    <div class="reviewer-row">',
+    '      @if (reviewer(); as user) {',
+    '        <dm-avatar [src]="user.avatar" [alt]="user.name" />',
+    '        <div style="flex: 1; min-width: 0">',
+    '          <strong>{{ user.name }}</strong>',
+    '          <span class="muted">{{ user.role }}</span>',
+    '        </div>',
+    '      } @else {',
+    '        <span class="muted">No reviewer selected yet</span>',
+    '      }',
+    '    </div>',
+    '',
+    '    <div style="display: flex; justify-content: flex-end">',
+    '      <dm-button color="primary" [disabled]="!reviewer()" (click)="assign()">',
+    '        Assign',
+    '      </dm-button>',
+    '    </div>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, computed, inject, signal } from '@angular/core';",
+    "import { HttpClient } from '@angular/common/http';",
+    "import { map } from 'rxjs';",
+    'import {',
+    '  DmAvatarComponent,',
+    '  DmButtonComponent,',
+    '  DmCardComponent,',
+    '  DmPaginatedSelectComponent,',
+    '  DmPaginatedSelectLoadFn,',
+    "} from '@dmaster/ui';",
+    '',
+    'interface User { id: string; name: string; role: string; avatar: string; }',
+    '',
+    '@Component({',
+    "  selector: 'app-assign-reviewer',",
+    '  imports: [',
+    '    DmAvatarComponent,',
+    '    DmButtonComponent,',
+    '    DmCardComponent,',
+    '    DmPaginatedSelectComponent,',
+    '  ],',
+    "  templateUrl: './assign-reviewer.component.html',",
+    '})',
+    'export class AssignReviewerComponent {',
+    '  private readonly http = inject(HttpClient);',
+    '  /** Cache of every user seen so far — the picked one may live on any page. */',
+    '  private readonly seen = new Map<string, User>();',
+    '',
+    '  protected readonly reviewerId = signal<string | null>(null);',
+    '  protected readonly reviewer = computed(() => {',
+    '    const id = this.reviewerId();',
+    '    return id ? (this.seen.get(id) ?? null) : null;',
+    '  });',
+    '',
+    '  protected readonly loadFn: DmPaginatedSelectLoadFn<string> = ({ page, pageSize, query }) =>',
+    "    this.http.get<{ data: User[]; total: number }>('/api/users', {",
+    '      params: { page, pageSize, query },',
+    '    }).pipe(',
+    '      map((res) => {',
+    '        res.data.forEach((u) => this.seen.set(u.id, u));',
+    '        return {',
+    '          items: res.data.map((u) => ({ value: u.id, label: u.name, description: u.role })),',
+    '          total: res.total,',
+    '        };',
+    '      }),',
+    '    );',
+    '',
+    '  protected assign(): void {',
+    "    this.http.post('/api/pull-requests/42/reviewers', { userId: this.reviewerId() }).subscribe();",
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

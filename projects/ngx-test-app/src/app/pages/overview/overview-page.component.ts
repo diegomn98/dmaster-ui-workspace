@@ -9,6 +9,8 @@ import {
 import { RouterLink } from '@angular/router';
 import {
   DmAlertComponent,
+  DmAutocompleteComponent,
+  DmAutocompleteOption,
   DmAvatarComponent,
   DmBadgeComponent,
   DmBreadcrumbItemComponent,
@@ -90,6 +92,7 @@ interface OverviewStat {
     DmRadioGroupComponent,
     DmRadioComponent,
     DmSearchFieldComponent,
+    DmAutocompleteComponent,
     DmDatePickerComponent,
     DmColorPickerComponent,
     DmErrorComponent,
@@ -183,6 +186,15 @@ export class OverviewPageComponent {
     { value: 'vue', label: 'Vue' },
     { value: 'svelte', label: 'Svelte' },
   ];
+
+  // Real dm-autocomplete preview data
+  protected readonly ovAutoOptions: DmAutocompleteOption[] = [
+    { value: 'apple', label: 'Apple' },
+    { value: 'banana', label: 'Banana' },
+    { value: 'cherry', label: 'Cherry' },
+    { value: 'grape', label: 'Grape' },
+  ];
+  protected readonly ovAuto = signal<string>('');
 
   // Signals for interactive mini-previews (bounded inside inert containers)
   protected readonly ovRadio = signal<string>('pro');

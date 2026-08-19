@@ -22,19 +22,121 @@
 
   <app-demo-block [heading]="page().labels['helpers']" [code]="helpersCode" language="ts">
     <div class="demo-row">
-      <dm-button variant="flat" (clicked)="toast.success(page().labels['message'])">
+      <dm-button variant="flat" (clicked)="toast.show(page().labels['neutralMessage'])">
+        neutral
+      </dm-button>
+      <dm-button variant="flat" color="success" (clicked)="toast.success(page().labels['message'])">
         success
       </dm-button>
-      <dm-button variant="flat" (clicked)="toast.warning(page().labels['message'])">
+      <dm-button
+        variant="flat"
+        color="warning"
+        (clicked)="toast.warning(page().labels['warningMessage'])"
+      >
         warning
       </dm-button>
-      <dm-button variant="flat" (clicked)="toast.danger(page().labels['message'])">
+      <dm-button
+        variant="flat"
+        color="danger"
+        (clicked)="toast.danger(page().labels['dangerMessage'])"
+      >
         danger
       </dm-button>
-      <dm-button variant="flat" (clicked)="showSticky()">
-        {{ page().labels['sticky'] }}
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['duration']" [code]="durationCode" language="ts">
+    <div class="demo-row">
+      <dm-button variant="flat" (clicked)="showShort()">{{ page().labels['short'] }}</dm-button>
+      <dm-button variant="flat" (clicked)="showDefault()">
+        {{ page().labels['defaultDuration'] }}
+      </dm-button>
+      <dm-button variant="flat" (clicked)="showSticky()">{{ page().labels['sticky'] }}</dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['dismissible']" [code]="dismissibleCode" language="ts">
+    <div class="demo-row">
+      <dm-button variant="flat" (clicked)="showDismissible()">
+        {{ page().labels['withDismiss'] }}
+      </dm-button>
+      <dm-button variant="flat" (clicked)="showNotDismissible()">
+        {{ page().labels['noDismiss'] }}
       </dm-button>
     </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['programmatic']" [code]="programmaticCode" language="ts">
+    <div class="demo-row">
+      <dm-button variant="flat" [disabled]="uploading()" (clicked)="startUpload()">
+        {{ page().labels['startUpload'] }}
+      </dm-button>
+      <dm-button
+        variant="flat"
+        color="success"
+        [disabled]="!uploading()"
+        (clicked)="finishUpload()"
+      >
+        {{ page().labels['finishUpload'] }}
+      </dm-button>
+      <dm-button variant="light" color="danger" (clicked)="dismissAll()">
+        {{ page().labels['dismissAll'] }}
+      </dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['queue']" [code]="queueCode" language="ts">
+    <div class="demo-row">
+      <dm-button variant="flat" (clicked)="fireMany()">{{ page().labels['fireMany'] }}</dm-button>
+      <dm-button variant="light" (clicked)="dismissAll()">
+        {{ page().labels['dismissAll'] }}
+      </dm-button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 28rem">
+      <div style="display: grid; gap: 1rem">
+        <div
+          style="display: flex; align-items: baseline; justify-content: space-between; gap: 1rem"
+        >
+          <h3 style="margin: 0; font-size: 1.05rem">Notifications</h3>
+          <span style="color: var(--dm-fg-muted); font-size: 0.85rem">Workspace · Acme</span>
+        </div>
+
+        <dm-form-field label="Display name">
+          <input dmInput type="text" value="Ada Lovelace" />
+        </dm-form-field>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem">
+          <span>Email alerts</span>
+          <dm-switch [(checked)]="emailAlerts" ariaLabel="Email alerts" />
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem">
+          <span>Weekly digest</span>
+          <dm-switch [(checked)]="weeklyDigest" ariaLabel="Weekly digest" />
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
+          @if (canUndo()) {
+            <dm-button size="sm" variant="light" (clicked)="undoSettings()">Undo</dm-button>
+          }
+          <dm-button
+            size="sm"
+            [state]="saveState()"
+            loadingLabel="Saving settings"
+            successLabel="Settings saved"
+            (clicked)="saveSettings()"
+          >
+            Save
+          </dm-button>
+        </div>
+      </div>
+    </dm-card>
   </app-demo-block>
 </section>
 

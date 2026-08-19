@@ -72,6 +72,78 @@
       ariaLabel="Budget"
     />
   </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 26rem">
+      <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem">
+        <span
+          style="
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            flex: none;
+            border-radius: var(--dm-radius-md);
+            background: var(--dm-primary-subtle);
+            color: var(--dm-primary);
+          "
+        >
+          <dm-icon name="zap" size="1.25rem" />
+        </span>
+        <div style="flex: 1; min-width: 0">
+          <strong style="display: block">{{ page().labels['compositionTitle'] }}</strong>
+          <p style="margin: 0.1rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem">
+            {{ page().labels['compositionDesc'] }}
+          </p>
+        </div>
+      </div>
+
+      <div style="display: grid; gap: 1.25rem">
+        @for (row of settingRows(); track row.key) {
+          <div style="display: grid; gap: 0.5rem">
+            <div style="display: flex; align-items: center; gap: 0.625rem">
+              <dm-icon
+                [name]="row.icon"
+                size="1.125rem"
+                style="flex: none; color: var(--dm-fg-muted)"
+              />
+              <div style="flex: 1; min-width: 0">
+                <span style="display: block; font-weight: 500">{{ row.label }}</span>
+                <span style="display: block; color: var(--dm-fg-muted); font-size: 0.8125rem">{{
+                  row.description
+                }}</span>
+              </div>
+              <span
+                style="
+                  flex: none;
+                  min-width: 3.5rem;
+                  text-align: right;
+                  font-variant-numeric: tabular-nums;
+                  font-weight: 600;
+                  color: var(--dm-primary);
+                "
+                >{{ row.display }}</span
+              >
+            </div>
+            <dm-slider
+              size="sm"
+              [min]="row.min"
+              [max]="row.max"
+              [step]="row.step"
+              [value]="row.value"
+              (valueChange)="setSetting(row.key, $event)"
+              [ariaLabel]="row.label"
+            />
+          </div>
+        }
+      </div>
+    </dm-card>
+  </app-demo-block>
 </section>
 
 <section class="page__section" aria-labelledby="api-title">

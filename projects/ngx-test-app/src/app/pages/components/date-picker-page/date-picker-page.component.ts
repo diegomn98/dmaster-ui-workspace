@@ -1,11 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
+  DmBadgeComponent,
+  DmButtonComponent,
+  DmCardComponent,
   DmDatePickerColor,
   DmDatePickerComponent,
   DmDatePickerRadius,
   DmDatePickerVariant,
+  DmDateRange,
   DmErrorComponent,
+  DmSelectComponent,
+  DmSelectItem,
   DmSize,
 } from '@dmaster/ui';
 
@@ -36,8 +42,12 @@ function today(): Date {
 @Component({
   selector: 'app-date-picker-page',
   imports: [
+    DmBadgeComponent,
+    DmButtonComponent,
+    DmCardComponent,
     DmDatePickerComponent,
     DmErrorComponent,
+    DmSelectComponent,
     ReactiveFormsModule,
     DemoBlockComponent,
     ApiTableComponent,
@@ -150,8 +160,24 @@ export class DatePickerPageComponent {
 
   // ---- Demos ---------------------------------------------------------------
   protected readonly basicValue = signal<Date | null>(null);
-  protected readonly localizedEsValue = signal<Date | null>(this.today);
-  protected readonly localizedFrValue = signal<Date | null>(this.today);
+  protected readonly rangeValue = signal<DmDateRange | null>(null);
+
+  /**
+   * Locales for the "choose a localization" demo. Each starts the week on a
+   * different day (per CLDR), and `ar-EG` also renders native Arabic digits —
+   * so switching the selector shows names, digits AND the week convention adapt.
+   */
+  protected readonly localeOptions: DmSelectItem<string>[] = [
+    { value: 'es', label: 'Español — es (lunes)' },
+    { value: 'en-US', label: 'English (US) — en-US (Sunday)' },
+    { value: 'fr', label: 'Français — fr (lundi)' },
+    { value: 'de', label: 'Deutsch — de (Montag)' },
+    { value: 'ar-EG', label: 'العربية — ar-EG (السبت)' },
+  ];
+  /** Selected localization — `es` is marked by default. */
+  protected readonly localizedLocale = signal<string>('es');
+  protected readonly localizedValue = signal<Date | null>(this.today);
+
   protected readonly constraintsValue = signal<Date | null>(null);
   protected readonly formControl = new FormControl<Date | null>(null);
   protected readonly formValue = computed(() => this.formControlValue());
@@ -161,11 +187,24 @@ export class DatePickerPageComponent {
     '<dm-date-picker label="Start date" [(value)]="date" [clearable]="true" />',
   ].join('\n');
 
+  protected readonly rangeCode = [
+    'range = signal<DmDateRange | null>(null);',
+    '',
+    '<dm-date-picker',
+    '  range',
+    '  label="Trip dates"',
+    '  [(rangeValue)]="range"',
+    '  [clearable]="true"',
+    '/>',
+  ].join('\n');
+
   protected readonly localizedCode = [
+    "locale = signal('es'); // marked by default",
+    '',
     '<!-- Names, digits AND the week convention follow the locale: -->',
     '<!-- es/fr start on Monday, en-US on Sunday, ar-EG on Saturday. -->',
-    '<dm-date-picker label="Fecha" locale="es" [(value)]="date" />',
-    '<dm-date-picker label="Date" locale="fr" [(value)]="date" />',
+    '<dm-select [items]="localeOptions" [(value)]="locale" />',
+    '<dm-date-picker label="Fecha" [locale]="locale()" [(value)]="date" />',
   ].join('\n');
 
   protected readonly constraintsCode = [
@@ -225,6 +264,70 @@ export class DatePickerPageComponent {
     ']',
   ].join('\n');
 
+  // ---- Composition: a booking card ------------------------------------------
+  protected readonly bookingRange = signal<DmDateRange | null>(null);
+  protected readonly nightlyRate = 42;
+
+  protected readonly bookingNights = computed(() => {
+    const range = this.bookingRange();
+    if (!range?.start || !range?.end) return 0;
+    const ms = range.end.getTime() - range.start.getTime();
+    return Math.max(0, Math.round(ms / (1000 * 60 * 60 * 24)));
+  });
+
+  protected readonly bookingTotal = computed(() => this.bookingNights() * this.nightlyRate);
+
+  protected readonly compositionCode = [
+    '<!-- A stay-booking card: range picker drives a live nights/total summary -->',
+    '<!-- and gates the Reserve button until both dates are picked. -->',
+    '<dm-card style="max-width: 22rem">',
+    '  <h3>Cabin by the lake</h3>',
+    '  <p class="muted">Sleeps 4 · Free cancellation</p>',
+    '',
+    '  <dm-date-picker',
+    '    range',
+    '    label="Check-in — Check-out"',
+    '    [(rangeValue)]="range"',
+    '    [min]="today"',
+    '  />',
+    '',
+    '  @if (nights() > 0) {',
+    '    <dm-badge color="primary" variant="flat">{{ nights() }} nights</dm-badge>',
+    '    <span class="total">${{ nights() * 42 }}</span>',
+    '  }',
+    '',
+    '  <dm-button [disabled]="nights() === 0" color="primary">Reserve</dm-button>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, computed, signal } from '@angular/core';",
+    'import {',
+    '  DmBadgeComponent,',
+    '  DmButtonComponent,',
+    '  DmCardComponent,',
+    '  DmDatePickerComponent,',
+    '  DmDateRange,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-booking-card',",
+    '  imports: [DmBadgeComponent, DmButtonComponent, DmCardComponent, DmDatePickerComponent],',
+    "  templateUrl: './booking-card.component.html',",
+    '})',
+    'export class BookingCardComponent {',
+    '  protected readonly today = new Date();',
+    '  protected readonly range = signal<DmDateRange | null>(null);',
+    '',
+    '  protected readonly nights = computed(() => {',
+    '    const r = this.range();',
+    '    if (!r?.start || !r?.end) return 0;',
+    '    const ms = r.end.getTime() - r.start.getTime();',
+    '    return Math.max(0, Math.round(ms / (1000 * 60 * 60 * 24)));',
+    '  });',
+    '}',
+  ].join('\n');
+
   constructor() {
     this.formControl.valueChanges.subscribe((v) => this.formControlValue.set(v ?? null));
   }
@@ -240,6 +343,13 @@ export class DatePickerPageComponent {
     const api = this.page().api;
     return [
       { name: 'value', type: 'model<Date | null>', default: 'null', description: api['value'] },
+      { name: 'range', type: 'boolean', default: 'false', description: api['range'] },
+      {
+        name: 'rangeValue',
+        type: 'model<DmDateRange | null>',
+        default: 'null',
+        description: api['rangeValue'],
+      },
       { name: 'min', type: 'Date | null', default: 'null', description: api['min'] },
       { name: 'max', type: 'Date | null', default: 'null', description: api['max'] },
       {

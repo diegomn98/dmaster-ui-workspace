@@ -188,6 +188,16 @@
                     ariaLabel="Framework"
                   />
                 }
+                @case ('autocomplete') {
+                  <dm-autocomplete
+                    class="ov__ex-search"
+                    size="sm"
+                    ariaLabel="Fruit"
+                    placeholder="Type…"
+                    [options]="ovAutoOptions"
+                    [(value)]="ovAuto"
+                  />
+                }
                 @case ('search-field') {
                   <dm-search-field
                     class="ov__ex-search"

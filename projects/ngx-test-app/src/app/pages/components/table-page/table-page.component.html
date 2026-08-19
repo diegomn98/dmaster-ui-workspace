@@ -94,6 +94,25 @@
     </div>
   </app-demo-block>
 
+  <!-- Virtual scroll -->
+  <app-demo-block [heading]="page().labels['virtualScroll']" [code]="virtualScrollCode">
+    <div style="width: 100%">
+      <dm-table
+        virtualScroll
+        [rowHeight]="44"
+        viewportHeight="24rem"
+        [columns]="columns"
+        [data]="bigData()"
+        [rowKey]="byId"
+        selectionMode="multiple"
+        [searchable]="true"
+        [(selectedKeys)]="virtualSelected"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        caption="1,000 members"
+      />
+    </div>
+  </app-demo-block>
+
   <!-- Densities -->
   <app-demo-block [heading]="page().labels['densities']" [code]="densitiesCode">
     <div class="demo-stack" style="width: 100%">
@@ -115,6 +134,122 @@
       <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" variant="striped" />
       <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" variant="bordered" />
     </div>
+  </app-demo-block>
+
+  <!-- Composition: team members admin panel -->
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card padding="none" style="width: 100%; overflow: hidden">
+      <!-- Header: title + count + status summary + invite -->
+      <div
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 1rem 1.25rem;
+          border-bottom: 1px solid var(--dm-border);
+        "
+      >
+        <div style="flex: 1; min-width: 12rem">
+          <div style="display: flex; align-items: baseline; gap: 0.5rem">
+            <strong style="font-size: 1.0625rem">Team members</strong>
+            <span style="color: var(--dm-fg-muted); font-size: 0.875rem">
+              {{ teamMembers().length }} {{ page().labels['membersUnit'] }}
+            </span>
+          </div>
+          <p style="margin: 0.15rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem">
+            {{ page().labels['compositionSubtitle'] }}
+          </p>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.375rem">
+          <dm-badge color="success" variant="dot" size="sm">
+            {{ statusCounts().active }} {{ page().labels['statusActive'] }}
+          </dm-badge>
+          <dm-badge color="warning" variant="dot" size="sm">
+            {{ statusCounts().away }} {{ page().labels['statusAway'] }}
+          </dm-badge>
+          <dm-badge variant="dot" size="sm">
+            {{ statusCounts().invited }} {{ page().labels['statusInvited'] }}
+          </dm-badge>
+        </div>
+
+        <dm-button size="sm" color="primary" (clicked)="invite()">
+          <dm-icon name="plus" size="1.15em" />
+          {{ page().labels['invite'] }}
+        </dm-button>
+      </div>
+
+      <!-- Table -->
+      <div style="padding: 1rem 1.25rem">
+        <dm-table
+          [columns]="columns"
+          [data]="teamMembers()"
+          [rowKey]="byId"
+          selectionMode="multiple"
+          [searchable]="true"
+          [pageSize]="5"
+          [(selectedKeys)]="teamSelected"
+          [searchPlaceholder]="page().labels['searchPlaceholder']"
+          [rowsPerPageLabel]="page().labels['rowsPerPage']"
+          [emptyText]="page().labels['empty']"
+          caption="Team members"
+        />
+      </div>
+
+      <!-- Selection tray: avatar chips + bulk actions -->
+      <div
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 0.5rem;
+          min-height: 3.5rem;
+          padding: 0.75rem 1.25rem;
+          border-top: 1px solid var(--dm-border);
+          background: var(--dm-bg-subtle);
+        "
+      >
+        @if (teamSelectedRows().length > 0) {
+          <span style="font-size: 0.875rem; font-weight: 600">
+            {{ teamSelectedRows().length }} {{ page().labels['selectedSuffix'] }}
+          </span>
+          @for (m of teamSelectedRows(); track m.id) {
+            <span
+              style="
+                display: inline-flex;
+                align-items: center;
+                gap: 0.375rem;
+                padding: 0.125rem 0.625rem 0.125rem 0.125rem;
+                font-size: 0.8125rem;
+                background: var(--dm-bg-elevated);
+                border: 1px solid var(--dm-border);
+                border-radius: 9999px;
+              "
+            >
+              <dm-avatar [initials]="initials(m.name)" [alt]="m.name" size="1.5rem" />
+              {{ m.name.split(' ')[0] }}
+            </span>
+          }
+          <span style="flex: 1"></span>
+          <dm-button size="sm" variant="light" (clicked)="teamSelected.set([])">
+            {{ page().labels['clearSelection'] }}
+          </dm-button>
+          <dm-button size="sm" color="danger" variant="flat" (clicked)="removeSelected()">
+            <dm-icon name="trash" size="1.15em" />
+            {{ page().labels['remove'] }}
+          </dm-button>
+        } @else {
+          <span style="color: var(--dm-fg-muted); font-size: 0.875rem">
+            {{ page().labels['nothingSelected'] }}
+          </span>
+        }
+      </div>
+    </dm-card>
   </app-demo-block>
 
   <!-- Loading & empty states -->

@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
+  DmAvatarComponent,
+  DmBadgeComponent,
   DmButtonComponent,
+  DmCardComponent,
+  DmIconComponent,
   DmTableColumn,
   DmTableComponent,
   DmTableDensity,
@@ -125,11 +129,63 @@ const MEMBERS: Member[] = [
   },
 ];
 
+const FIRST_NAMES = [
+  'Ada',
+  'Alan',
+  'Grace',
+  'Katherine',
+  'Linus',
+  'Margaret',
+  'Dennis',
+  'Barbara',
+  'Tim',
+  'Donald',
+  'Radia',
+  'Vint',
+];
+const LAST_NAMES = [
+  'Lovelace',
+  'Turing',
+  'Hopper',
+  'Johnson',
+  'Torvalds',
+  'Hamilton',
+  'Ritchie',
+  'Liskov',
+  'Berners-Lee',
+  'Knuth',
+  'Perlman',
+  'Cerf',
+];
+const ROLES = ['Owner', 'Admin', 'Editor', 'Viewer'];
+const STATUSES: Member['status'][] = ['Active', 'Away', 'Invited'];
+
+/** Deterministically synthesize a large dataset for the virtual-scroll demo. */
+function generateMembers(count: number): Member[] {
+  return Array.from({ length: count }, (_, i) => {
+    const first = FIRST_NAMES[i % FIRST_NAMES.length];
+    const last = LAST_NAMES[(i * 7) % LAST_NAMES.length];
+    const n = i + 1;
+    return {
+      id: n,
+      name: `${first} ${last} #${n}`,
+      email: `${first.toLowerCase()}.${n}@dmaster.io`,
+      role: ROLES[i % ROLES.length],
+      status: STATUSES[i % STATUSES.length],
+      joined: `20${18 + (i % 8)}-${String((i % 12) + 1).padStart(2, '0')}-${String((i % 28) + 1).padStart(2, '0')}`,
+    };
+  });
+}
+
 @Component({
   selector: 'app-table-page',
   imports: [
     DmTableComponent,
     DmButtonComponent,
+    DmCardComponent,
+    DmAvatarComponent,
+    DmBadgeComponent,
+    DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -144,6 +200,7 @@ export class TablePageComponent {
   protected readonly page = computed(() => this.i18n.t().pages.table);
 
   protected readonly members = signal<Member[]>(MEMBERS);
+  protected readonly bigData = signal<Member[]>(generateMembers(1000));
   protected readonly byId = (row: Member) => row.id;
 
   protected readonly columns: DmTableColumn<Member>[] = [
@@ -280,6 +337,25 @@ export class TablePageComponent {
     '  [pageSizeOptions]="[5, 10, 25]" />',
   ].join('\n');
 
+  // ---- Virtual scroll demo -------------------------------------------------
+  protected readonly virtualSelected = signal<DmTableKey[]>([]);
+  protected readonly virtualScrollCode = [
+    '// 1,000 rows, but only the visible slice is ever in the DOM.',
+    'protected readonly bigData = signal<Member[]>(generateMembers(1000));',
+    '',
+    '<dm-table',
+    '  virtualScroll',
+    '  [rowHeight]="44"',
+    '  viewportHeight="24rem"',
+    '  [columns]="columns"',
+    '  [data]="bigData()"',
+    '  [rowKey]="byId"',
+    '  selectionMode="multiple"',
+    '  [searchable]="true"',
+    '  [(selectedKeys)]="selected"',
+    '  caption="1,000 members" />',
+  ].join('\n');
+
   // ---- Densities / variants ------------------------------------------------
   protected readonly densitiesCode = [
     '<dm-table [columns]="cols" [data]="rows" density="compact" />',
@@ -304,6 +380,182 @@ export class TablePageComponent {
   protected toggleLoading(): void {
     this.loadingDemo.update((v) => !v);
   }
+
+  // ---- Composition: team members admin panel -------------------------------
+  protected readonly teamMembers = signal<Member[]>(MEMBERS);
+  protected readonly teamSelected = signal<DmTableKey[]>([1, 3]);
+
+  protected readonly teamSelectedRows = computed(() => {
+    const set = new Set(this.teamSelected());
+    return this.teamMembers().filter((m) => set.has(m.id));
+  });
+
+  protected readonly statusCounts = computed(() => {
+    const counts = { active: 0, away: 0, invited: 0 };
+    for (const m of this.teamMembers()) {
+      if (m.status === 'Active') counts.active++;
+      else if (m.status === 'Away') counts.away++;
+      else counts.invited++;
+    }
+    return counts;
+  });
+
+  protected initials(name: string): string {
+    return name
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0].toUpperCase())
+      .join('');
+  }
+
+  protected invite(): void {
+    this.teamMembers.update((rows) => {
+      const id = rows.reduce((max, r) => Math.max(max, r.id), 0) + 1;
+      return [
+        ...rows,
+        {
+          id,
+          name: `New teammate #${id}`,
+          email: `member${id}@dmaster.io`,
+          role: 'Viewer',
+          status: 'Invited',
+          joined: new Date().toISOString().slice(0, 10),
+        },
+      ];
+    });
+  }
+
+  protected removeSelected(): void {
+    const remove = new Set(this.teamSelected());
+    this.teamMembers.update((rows) => rows.filter((r) => !remove.has(r.id)));
+    this.teamSelected.set([]);
+  }
+
+  protected readonly compositionCode = [
+    '<!-- Admin panel: card header + table + selection tray. -->',
+    '<dm-card padding="none">',
+    '  <!-- Header: title, count, status summary and primary action -->',
+    '  <div class="panel__header">',
+    '    <div>',
+    '      <strong>Team members</strong>',
+    '      <span class="muted">{{ members().length }} members</span>',
+    '      <p class="muted">Manage who has access to this workspace.</p>',
+    '    </div>',
+    '    <dm-badge color="success" variant="dot" size="sm">{{ counts().active }} active</dm-badge>',
+    '    <dm-badge color="warning" variant="dot" size="sm">{{ counts().away }} away</dm-badge>',
+    '    <dm-badge variant="dot" size="sm">{{ counts().invited }} invited</dm-badge>',
+    '    <dm-button size="sm" color="primary" (clicked)="invite()">',
+    '      <dm-icon name="plus" size="1.15em" /> Invite',
+    '    </dm-button>',
+    '  </div>',
+    '',
+    '  <!-- Table: search + multi-select + pagination -->',
+    '  <dm-table',
+    '    [columns]="columns"',
+    '    [data]="members()"',
+    '    [rowKey]="byId"',
+    '    selectionMode="multiple"',
+    '    [searchable]="true"',
+    '    [pageSize]="5"',
+    '    [(selectedKeys)]="selected"',
+    '    caption="Team members" />',
+    '',
+    '  <!-- Selection tray: avatar chips + bulk actions -->',
+    '  <div class="panel__tray">',
+    '    @if (selectedRows().length > 0) {',
+    '      <strong>{{ selectedRows().length }} selected</strong>',
+    '      @for (m of selectedRows(); track m.id) {',
+    '        <span class="chip">',
+    '          <dm-avatar [initials]="initials(m.name)" [alt]="m.name" size="1.5rem" />',
+    "          {{ m.name.split(' ')[0] }}",
+    '        </span>',
+    '      }',
+    '      <dm-button size="sm" variant="light" (clicked)="selected.set([])">Clear</dm-button>',
+    '      <dm-button size="sm" color="danger" variant="flat" (clicked)="removeSelected()">',
+    '        <dm-icon name="trash" size="1.15em" /> Remove',
+    '      </dm-button>',
+    '    } @else {',
+    '      <span class="muted">No rows selected</span>',
+    '    }',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, computed, signal } from '@angular/core';",
+    'import {',
+    '  DmAvatarComponent,',
+    '  DmBadgeComponent,',
+    '  DmButtonComponent,',
+    '  DmCardComponent,',
+    '  DmIconComponent,',
+    '  DmTableColumn,',
+    '  DmTableComponent,',
+    '  DmTableKey,',
+    "} from '@dmaster/ui';",
+    '',
+    'interface Member {',
+    '  id: number;',
+    '  name: string;',
+    '  email: string;',
+    '  role: string;',
+    "  status: 'Active' | 'Away' | 'Invited';",
+    '  joined: string;',
+    '}',
+    '',
+    '@Component({',
+    "  selector: 'app-team-panel',",
+    '  imports: [',
+    '    DmTableComponent,',
+    '    DmCardComponent,',
+    '    DmAvatarComponent,',
+    '    DmBadgeComponent,',
+    '    DmButtonComponent,',
+    '    DmIconComponent,',
+    '  ],',
+    "  templateUrl: './team-panel.component.html',",
+    '})',
+    'export class TeamPanelComponent {',
+    '  protected readonly members = signal<Member[]>([...]);',
+    '  protected readonly selected = signal<DmTableKey[]>([]);',
+    '  protected readonly byId = (row: Member) => row.id;',
+    '',
+    '  protected readonly columns: DmTableColumn<Member>[] = [',
+    "    { key: 'name', header: 'Name', sortable: true },",
+    "    { key: 'email', header: 'Email', sortable: true },",
+    "    { key: 'role', header: 'Role', sortable: true },",
+    "    { key: 'status', header: 'Status', sortable: true, align: 'center' },",
+    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end' },",
+    '  ];',
+    '',
+    '  // Selected ROWS derived from the two-way selectedKeys model.',
+    '  protected readonly selectedRows = computed(() => {',
+    '    const set = new Set(this.selected());',
+    '    return this.members().filter((m) => set.has(m.id));',
+    '  });',
+    '',
+    '  protected readonly counts = computed(() => ({',
+    "    active: this.members().filter((m) => m.status === 'Active').length,",
+    "    away: this.members().filter((m) => m.status === 'Away').length,",
+    "    invited: this.members().filter((m) => m.status === 'Invited').length,",
+    '  }));',
+    '',
+    '  protected initials(name: string): string {',
+    "    return name.split(' ').slice(0, 2).map((p) => p[0]).join('');",
+    '  }',
+    '',
+    '  protected invite(): void {',
+    "    this.members.update((rows) => [...rows, { id: Date.now(), name: 'New teammate', status: 'Invited', /* … */ }]);",
+    '  }',
+    '',
+    '  protected removeSelected(): void {',
+    '    const remove = new Set(this.selected());',
+    '    this.members.update((rows) => rows.filter((r) => !remove.has(r.id)));',
+    '    this.selected.set([]);',
+    '  }',
+    '}',
+  ].join('\n');
 
   // Small dataset for the compact density/variant demos.
   protected readonly fewMembers = computed(() => this.members().slice(0, 4));
@@ -356,6 +608,19 @@ export class TablePageComponent {
         description: api['pageSizeOptions'],
       },
       { name: 'loading', type: 'boolean', default: 'false', description: api['loading'] },
+      {
+        name: 'virtualScroll',
+        type: 'boolean',
+        default: 'false',
+        description: api['virtualScroll'],
+      },
+      { name: 'rowHeight', type: 'number', default: '44', description: api['rowHeight'] },
+      {
+        name: 'viewportHeight',
+        type: 'string',
+        default: "'24rem'",
+        description: api['viewportHeight'],
+      },
       {
         name: 'density',
         type: "'compact' | 'comfortable' | 'spacious'",

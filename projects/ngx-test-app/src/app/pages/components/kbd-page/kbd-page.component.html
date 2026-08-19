@@ -27,6 +27,11 @@
       <dm-kbd keys="escape"></dm-kbd>
       <dm-kbd keys="enter"></dm-kbd>
       <dm-kbd keys="backspace"></dm-kbd>
+      <dm-kbd keys="tab"></dm-kbd>
+      <dm-kbd keys="up"></dm-kbd>
+      <dm-kbd keys="down"></dm-kbd>
+      <dm-kbd keys="left"></dm-kbd>
+      <dm-kbd keys="right"></dm-kbd>
     </div>
   </app-demo-block>
 
@@ -35,6 +40,7 @@
       <dm-kbd keys="command">K</dm-kbd>
       <dm-kbd [keys]="comboPalette">P</dm-kbd>
       <dm-kbd keys="ctrl">C</dm-kbd>
+      <dm-kbd [keys]="comboEnter"></dm-kbd>
     </div>
   </app-demo-block>
 
@@ -42,6 +48,7 @@
     <div class="demo-row">
       <dm-kbd>Ctrl</dm-kbd>
       <dm-kbd>Enter</dm-kbd>
+      <dm-kbd>F1</dm-kbd>
       <dm-kbd>A</dm-kbd>
     </div>
   </app-demo-block>
@@ -51,6 +58,54 @@
       <dm-kbd keys="command" size="sm">K</dm-kbd>
       <dm-kbd keys="command" size="md">K</dm-kbd>
     </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['inline']" [code]="inlineCode">
+    <div style="display: grid; gap: 1rem; max-width: 26rem">
+      <p style="margin: 0; line-height: 1.7">
+        Press <dm-kbd keys="command" size="sm">K</dm-kbd> to open the palette, or
+        <dm-kbd keys="escape" size="sm"></dm-kbd> to dismiss it.
+      </p>
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          padding: 0.5rem 0.75rem;
+          border-radius: 0.5rem;
+          background: var(--dm-bg-muted);
+        "
+      >
+        <span>Copy</span>
+        <dm-kbd keys="command" size="sm">C</dm-kbd>
+      </div>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 22rem">
+      <p style="margin: 0 0 0.75rem; font-weight: 600">Keyboard shortcuts</p>
+      @for (s of shortcuts; track s.action) {
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.5rem 0;
+            border-top: 1px solid var(--dm-border);
+          "
+        >
+          <span style="color: var(--dm-fg-muted)">{{ s.action }}</span>
+          <dm-kbd [keys]="s.mods" size="sm">{{ s.key }}</dm-kbd>
+        </div>
+      }
+    </dm-card>
   </app-demo-block>
 </section>
 

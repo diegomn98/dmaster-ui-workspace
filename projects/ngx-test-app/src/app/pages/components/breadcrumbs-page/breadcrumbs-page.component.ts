@@ -1,5 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent, DmBreadcrumbsSize } from '@dmaster/ui';
+import {
+  DmBadgeComponent,
+  DmBreadcrumbItemComponent,
+  DmBreadcrumbsComponent,
+  DmBreadcrumbsSize,
+  DmButtonComponent,
+  DmCardComponent,
+  DmIconComponent,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -14,6 +22,10 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   imports: [
     DmBreadcrumbsComponent,
     DmBreadcrumbItemComponent,
+    DmBadgeComponent,
+    DmButtonComponent,
+    DmCardComponent,
+    DmIconComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -103,6 +115,63 @@ export class BreadcrumbsPageComponent {
     '  <dm-breadcrumb-item href="/a/b/c">Subcategory</dm-breadcrumb-item>',
     '  <dm-breadcrumb-item>Item</dm-breadcrumb-item>',
     '</dm-breadcrumbs>',
+  ].join('\n');
+
+  protected readonly compositionCode = [
+    '<!-- A page header: breadcrumb trail on top, then title + status -->',
+    '<!-- badge and description on the left, actions cluster on the right. -->',
+    '<dm-card style="max-width: 40rem">',
+    '  <dm-breadcrumbs size="sm" ariaLabel="Page location">',
+    '    <dm-breadcrumb-item href="/">',
+    '      <span style="display: inline-flex; align-items: center; gap: 0.35rem">',
+    '        <dm-icon name="home" size="1em" /> Home',
+    '      </span>',
+    '    </dm-breadcrumb-item>',
+    '    <dm-breadcrumb-item href="/projects">Projects</dm-breadcrumb-item>',
+    '    <dm-breadcrumb-item>Design system</dm-breadcrumb-item>',
+    '  </dm-breadcrumbs>',
+    '',
+    '  <div class="page-header">',
+    '    <div class="page-header__text">',
+    '      <h1>Design system <dm-badge color="warning" variant="flat" size="sm">Draft</dm-badge></h1>',
+    '      <p class="muted">Tokens, components and guidelines shared across every product surface.</p>',
+    '    </div>',
+    '    <div class="page-header__actions">',
+    '      <dm-button variant="bordered" color="default">',
+    '        <dm-icon name="external-link" size="1.15em" /> Share',
+    '      </dm-button>',
+    '      <dm-button color="primary">',
+    '        <dm-icon name="check" size="1.15em" /> Publish',
+    '      </dm-button>',
+    '    </div>',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component } from '@angular/core';",
+    'import {',
+    '  DmBadgeComponent,',
+    '  DmBreadcrumbItemComponent,',
+    '  DmBreadcrumbsComponent,',
+    '  DmButtonComponent,',
+    '  DmCardComponent,',
+    '  DmIconComponent,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-page-header',",
+    '  imports: [',
+    '    DmBadgeComponent,',
+    '    DmBreadcrumbItemComponent,',
+    '    DmBreadcrumbsComponent,',
+    '    DmButtonComponent,',
+    '    DmCardComponent,',
+    '    DmIconComponent,',
+    '  ],',
+    "  templateUrl: './page-header.component.html',",
+    '})',
+    'export class PageHeaderComponent {}',
   ].join('\n');
 
   protected readonly defaultsCode = [

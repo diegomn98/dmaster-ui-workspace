@@ -1,6 +1,20 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { DmSwitchComponent, DmSwitchSize } from '@dmaster/ui';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+  WritableSignal,
+} from '@angular/core';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  DmButtonComponent,
+  DmCardComponent,
+  DmDividerComponent,
+  DmErrorComponent,
+  DmSwitchComponent,
+  DmSwitchSize,
+} from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -10,10 +24,20 @@ import { DemoBlockComponent } from '../../../shared/demo-block/demo-block.compon
 import { PropSignalComponent } from '../../../shared/prop-signal/prop-signal.component';
 import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal.types';
 
+interface NotificationRow {
+  title: string;
+  description: string;
+  enabled: WritableSignal<boolean>;
+}
+
 @Component({
   selector: 'app-switch-page',
   imports: [
     DmSwitchComponent,
+    DmButtonComponent,
+    DmCardComponent,
+    DmDividerComponent,
+    DmErrorComponent,
     ReactiveFormsModule,
     DemoBlockComponent,
     ApiTableComponent,
@@ -64,27 +88,208 @@ export class SwitchPageComponent {
     return `<dm-switch ${attrs.join(' ')}>${this.page().labels['notifications']}</dm-switch>`;
   });
 
-  // Demo reactive forms
+  // ---- With label ----------------------------------------------------------
+  protected readonly withLabelCode = [
+    '<!-- The projected content becomes the accessible label. -->',
+    '<dm-switch [(checked)]="notifications">Email notifications</dm-switch>',
+    '',
+    '<!-- No visible label? Pass ariaLabel instead. -->',
+    '<dm-switch [(checked)]="darkMode" ariaLabel="Dark mode" />',
+  ].join('\n');
+
+  // ---- Sizes ---------------------------------------------------------------
+  protected readonly sizesCode = [
+    '<dm-switch size="sm" [checked]="true">Small</dm-switch>',
+    '<dm-switch size="md" [checked]="true">Medium</dm-switch>',
+  ].join('\n');
+
+  // ---- Colors (token override) --------------------------------------------
+  protected readonly colorsCode = [
+    '<!-- The checked track paints with --dm-primary. Re-color a single -->',
+    '<!-- switch (or a whole section) by overriding the token locally. -->',
+    '<dm-switch [checked]="true" ariaLabel="Primary" />',
+    '<dm-switch',
+    '  [checked]="true"',
+    '  ariaLabel="Success"',
+    '  style="--dm-primary: var(--dm-success); --dm-primary-hover: var(--dm-success-hover)"',
+    '/>',
+    '<dm-switch',
+    '  [checked]="true"',
+    '  ariaLabel="Warning"',
+    '  style="--dm-primary: var(--dm-warning); --dm-primary-hover: var(--dm-warning-hover)"',
+    '/>',
+    '<dm-switch',
+    '  [checked]="true"',
+    '  ariaLabel="Danger"',
+    '  style="--dm-primary: var(--dm-danger); --dm-primary-hover: var(--dm-danger-hover)"',
+    '/>',
+  ].join('\n');
+
+  // ---- States --------------------------------------------------------------
+  protected readonly statesCode = [
+    '<dm-switch [checked]="true">Interactive</dm-switch>',
+    '<dm-switch [disabled]="true">Disabled off</dm-switch>',
+    '<dm-switch [disabled]="true" [checked]="true">Disabled on</dm-switch>',
+  ].join('\n');
+
+  // ---- Reactive forms ------------------------------------------------------
   protected readonly formControl = new FormControl(true, { nonNullable: true });
   protected readonly formValue = signal(true);
-
-  constructor() {
-    this.formControl.valueChanges.subscribe((value) => this.formValue.set(value));
-  }
-
-  protected readonly withLabelCode = [
-    '<dm-switch [(checked)]="notifications">Email notifications</dm-switch>',
-  ].join('\n');
-
-  protected readonly sizesCode = [
-    '<dm-switch size="sm" [checked]="true" ariaLabel="Small" />',
-    '<dm-switch size="md" [checked]="true" ariaLabel="Medium" />',
-  ].join('\n');
 
   protected readonly formsCode = [
     'control = new FormControl(true, { nonNullable: true });',
     '',
     '<dm-switch [formControl]="control">Email notifications</dm-switch>',
+    '',
+    '<!-- writeValue flows back into the switch -->',
+    '<dm-button size="sm" variant="bordered"',
+    '           (clicked)="control.setValue(!control.value)">',
+    '  Toggle from code',
+    '</dm-button>',
+  ].join('\n');
+
+  // ---- Validation (requiredTrue + dm-error) --------------------------------
+  protected readonly consentControl = new FormControl(false, {
+    nonNullable: true,
+    validators: [Validators.requiredTrue],
+  });
+  protected readonly consentError = signal(false);
+  protected readonly consentDone = signal(false);
+
+  protected submitConsent(): void {
+    this.consentControl.markAsTouched();
+    this.consentError.set(this.consentControl.invalid);
+    this.consentDone.set(this.consentControl.valid);
+  }
+
+  protected readonly validationCode = [
+    '<dm-switch [formControl]="consent">I accept the Terms of Service</dm-switch>',
+    '',
+    '@if (showError()) {',
+    '  <dm-error>You must accept the terms to continue</dm-error>',
+    '}',
+    '',
+    '<dm-button size="sm" (clicked)="submit()">Continue</dm-button>',
+  ].join('\n');
+
+  protected readonly validationTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
+    "import { DmButtonComponent, DmErrorComponent, DmSwitchComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-consent',",
+    '  imports: [DmSwitchComponent, DmErrorComponent, DmButtonComponent, ReactiveFormsModule],',
+    "  templateUrl: './consent.component.html',",
+    '})',
+    'export class ConsentComponent {',
+    '  protected readonly consent = new FormControl(false, {',
+    '    nonNullable: true,',
+    '    validators: [Validators.requiredTrue],',
+    '  });',
+    '  protected readonly showError = signal(false);',
+    '',
+    '  protected submit(): void {',
+    '    this.consent.markAsTouched();',
+    '    this.showError.set(this.consent.invalid);',
+    '    if (this.consent.valid) {',
+    '      // proceed…',
+    '    }',
+    '  }',
+    '}',
+  ].join('\n');
+
+  // ---- Composition: notification settings card -----------------------------
+  protected readonly notificationRows: NotificationRow[] = [
+    {
+      title: 'Email notifications',
+      description: 'Product updates and billing receipts, straight to your inbox.',
+      enabled: signal(true),
+    },
+    {
+      title: 'Push notifications',
+      description: 'Mentions and replies, the moment they happen.',
+      enabled: signal(false),
+    },
+    {
+      title: 'Weekly digest',
+      description: 'A summary of your workspace activity, every Monday.',
+      enabled: signal(true),
+    },
+  ];
+
+  protected readonly enabledCount = computed(
+    () => this.notificationRows.filter((row) => row.enabled()).length,
+  );
+
+  protected readonly compositionCode = [
+    '<!-- A product settings card: title + muted description on the left, -->',
+    '<!-- the switch on the right, rows separated by dm-divider. -->',
+    '<dm-card style="width: 100%; max-width: 26rem">',
+    '  <div style="display: grid; gap: 0.875rem">',
+    '    <div>',
+    '      <p style="margin: 0; font-weight: 600">Notifications</p>',
+    '      <p style="margin: 0.125rem 0 0; font-size: 0.8125rem; color: var(--dm-fg-muted)">',
+    '        {{ enabledCount() }} of {{ rows.length }} enabled',
+    '      </p>',
+    '    </div>',
+    '    <dm-divider />',
+    '    @for (row of rows; track row.title) {',
+    '      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem">',
+    '        <div style="min-width: 0">',
+    '          <p style="margin: 0; font-size: 0.875rem; font-weight: 600">{{ row.title }}</p>',
+    '          <p style="margin: 0.125rem 0 0; font-size: 0.8125rem; color: var(--dm-fg-muted)">',
+    '            {{ row.description }}',
+    '          </p>',
+    '        </div>',
+    '        <dm-switch [(checked)]="row.enabled" [ariaLabel]="row.title" />',
+    '      </div>',
+    '      @if (!$last) {',
+    '        <dm-divider />',
+    '      }',
+    '    }',
+    '  </div>',
+    '</dm-card>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { Component, computed, signal, WritableSignal } from '@angular/core';",
+    "import { DmCardComponent, DmDividerComponent, DmSwitchComponent } from '@dmaster/ui';",
+    '',
+    'interface NotificationRow {',
+    '  title: string;',
+    '  description: string;',
+    '  enabled: WritableSignal<boolean>;',
+    '}',
+    '',
+    '@Component({',
+    "  selector: 'app-notification-settings',",
+    '  imports: [DmCardComponent, DmDividerComponent, DmSwitchComponent],',
+    "  templateUrl: './notification-settings.component.html',",
+    '})',
+    'export class NotificationSettingsComponent {',
+    '  protected readonly rows: NotificationRow[] = [',
+    '    {',
+    "      title: 'Email notifications',",
+    "      description: 'Product updates and billing receipts, straight to your inbox.',",
+    '      enabled: signal(true),',
+    '    },',
+    '    {',
+    "      title: 'Push notifications',",
+    "      description: 'Mentions and replies, the moment they happen.',",
+    '      enabled: signal(false),',
+    '    },',
+    '    {',
+    "      title: 'Weekly digest',",
+    "      description: 'A summary of your workspace activity, every Monday.',",
+    '      enabled: signal(true),',
+    '    },',
+    '  ];',
+    '',
+    '  protected readonly enabledCount = computed(',
+    '    () => this.rows.filter((row) => row.enabled()).length,',
+    '  );',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [
@@ -92,6 +297,14 @@ export class SwitchPageComponent {
     '',
     "providers: [provideSwitchDefaults({ size: 'sm' })]",
   ].join('\n');
+
+  constructor() {
+    this.formControl.valueChanges.subscribe((value) => this.formValue.set(value));
+    this.consentControl.valueChanges.subscribe(() => {
+      this.consentError.set(this.consentControl.touched && this.consentControl.invalid);
+      this.consentDone.set(false);
+    });
+  }
 
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;

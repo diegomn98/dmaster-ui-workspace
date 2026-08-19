@@ -4,7 +4,7 @@
   <p class="page__lead" [innerHTML]="page().lead"></p>
   <app-code-snippet
     language="ts"
-    code="import &#123; DmFormFieldComponent, DmInputDirective &#125; from '@dmaster/ui';"
+    code="import &#123; DmFormFieldComponent, DmInputDirective, DmErrorComponent &#125; from '@dmaster/ui';"
   />
 </header>
 
@@ -42,7 +42,83 @@
     </dm-form-field>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="errorCode">
+  <app-demo-block [heading]="page().labels['inputTypes']" [code]="typesCode">
+    <div
+      style="
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+        width: 100%;
+        max-width: 34rem;
+      "
+    >
+      <dm-form-field [label]="page().labels['nameLabel']">
+        <input dmInput type="text" placeholder="Ada Lovelace" />
+      </dm-form-field>
+      <dm-form-field
+        [label]="page().labels['passwordLabel']"
+        [hint]="page().labels['passwordHint']"
+      >
+        <input
+          dmInput
+          [type]="passwordVisible() ? 'text' : 'password'"
+          autocomplete="new-password"
+          style="padding-right: 2.25rem"
+        />
+        <button
+          type="button"
+          class="dm-field-toggle"
+          [attr.aria-label]="
+            passwordVisible() ? page().labels['hidePassword'] : page().labels['showPassword']
+          "
+          (click)="passwordVisible.set(!passwordVisible())"
+        >
+          <dm-icon [name]="passwordVisible() ? 'eye-off' : 'eye'" size="1.1rem" />
+        </button>
+      </dm-form-field>
+      <dm-form-field [label]="page().labels['quantityLabel']">
+        <input dmInput type="number" min="1" max="99" value="2" />
+      </dm-form-field>
+      <!-- Not dmInput: a native <select>'s open dropdown is drawn by the -->
+      <!-- browser/OS and can't be themed — dm-select is the real answer. -->
+      <dm-select
+        [label]="page().labels['countryLabel']"
+        [items]="countryOptions"
+        [(value)]="countryValue"
+      />
+      <dm-form-field
+        style="grid-column: 1 / -1"
+        [label]="page().labels['messageLabel']"
+        [hint]="page().labels['messageHint']"
+      >
+        <textarea dmInput rows="4"></textarea>
+      </dm-form-field>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode">
+    <div
+      style="
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+        width: 100%;
+        max-width: 34rem;
+      "
+    >
+      <dm-form-field [label]="page().labels['disabledLabel']">
+        <input dmInput type="text" value="dm_user" disabled />
+      </dm-form-field>
+      <dm-form-field
+        [label]="page().labels['readonlyLabel']"
+        [hint]="page().labels['readonlyHint']"
+      >
+        <input dmInput type="text" value="ACC-2041-XK" readonly />
+      </dm-form-field>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['errorInput']" [code]="errorCode">
     <dm-form-field
       style="width: 100%; max-width: 20rem"
       [label]="page().labels['emailLabel']"
@@ -59,25 +135,95 @@
     </dm-form-field>
   </app-demo-block>
 
-  <app-demo-block
-    [heading]="i18n.t().pages.errorMessage.labels['inFieldHeading']"
-    [code]="slotErrorCode"
-    language="ts"
-  >
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="slotErrorCode" [ts]="slotErrorTs">
     <dm-form-field style="width: 100%; max-width: 20rem" [label]="page().labels['emailLabel']">
       <input dmInput type="email" placeholder="you@example.com" [formControl]="emailControl" />
       @if (emailControl.touched && emailControl.hasError('required')) {
-        <dm-error>{{ i18n.t().pages.errorMessage.labels['emailRequired'] }}</dm-error>
-      } @else if (emailControl.touched && emailControl.hasError('email')) {
-        <dm-error>{{ i18n.t().pages.errorMessage.labels['emailInvalid'] }}</dm-error>
+        <dm-error>{{ page().labels['emailRequired'] }}</dm-error>
+      } @else if (emailControl.touched && emailControl.hasError('pattern')) {
+        <dm-error>{{ page().labels['emailError'] }}</dm-error>
       }
     </dm-form-field>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['withTextarea']" [code]="textareaCode">
-    <dm-form-field style="width: 100%; max-width: 24rem" [label]="page().labels['messageLabel']">
-      <textarea dmInput rows="4"></textarea>
-    </dm-form-field>
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 24rem">
+      <form [formGroup]="signupForm" style="display: grid; gap: 1rem">
+        <div>
+          <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700">
+            {{ page().labels['signupTitle'] }}
+          </h3>
+          <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['signupSubtitle'] }}
+          </p>
+        </div>
+
+        <dm-form-field [label]="page().labels['nameLabel']" [required]="true">
+          <input dmInput type="text" formControlName="name" autocomplete="name" />
+          @if (signupForm.controls.name.touched && signupForm.controls.name.hasError('required')) {
+            <dm-error>{{ page().labels['nameRequired'] }}</dm-error>
+          }
+        </dm-form-field>
+
+        <dm-form-field [label]="page().labels['emailLabel']" [required]="true">
+          <input dmInput type="email" formControlName="email" autocomplete="email" />
+          @if (
+            signupForm.controls.email.touched && signupForm.controls.email.hasError('required')
+          ) {
+            <dm-error>{{ page().labels['emailRequired'] }}</dm-error>
+          } @else if (
+            signupForm.controls.email.touched && signupForm.controls.email.hasError('pattern')
+          ) {
+            <dm-error>{{ page().labels['emailError'] }}</dm-error>
+          }
+        </dm-form-field>
+
+        <dm-form-field
+          [label]="page().labels['passwordLabel']"
+          [hint]="page().labels['passwordHint']"
+          [required]="true"
+        >
+          <input
+            dmInput
+            [type]="signupPasswordVisible() ? 'text' : 'password'"
+            formControlName="password"
+            autocomplete="new-password"
+            style="padding-right: 2.25rem"
+          />
+          <button
+            type="button"
+            class="dm-field-toggle"
+            [attr.aria-label]="
+              signupPasswordVisible()
+                ? page().labels['hidePassword']
+                : page().labels['showPassword']
+            "
+            (click)="signupPasswordVisible.set(!signupPasswordVisible())"
+          >
+            <dm-icon [name]="signupPasswordVisible() ? 'eye-off' : 'eye'" size="1.1rem" />
+          </button>
+          @if (
+            signupForm.controls.password.touched &&
+            signupForm.controls.password.hasError('required')
+          ) {
+            <dm-error>{{ page().labels['passwordRequired'] }}</dm-error>
+          } @else if (
+            signupForm.controls.password.touched &&
+            signupForm.controls.password.hasError('minlength')
+          ) {
+            <dm-error>{{ page().labels['passwordMinLength'] }}</dm-error>
+          }
+        </dm-form-field>
+
+        <dm-button color="primary" style="width: 100%" [disabled]="signupForm.invalid">
+          {{ page().labels['createAccount'] }}
+        </dm-button>
+      </form>
+    </dm-card>
   </app-demo-block>
 </section>
 

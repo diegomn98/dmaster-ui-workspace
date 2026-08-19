@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import {
+  DmCardComponent,
   DmIconColor,
   DmIconComponent,
   DmIconFamily,
@@ -104,6 +105,7 @@ const MODE_CONTROL: PropControl = {
   selector: 'app-icon-page',
   imports: [
     DmIconComponent,
+    DmCardComponent,
     DmInputDirective,
     DemoBlockComponent,
     ApiTableComponent,
@@ -351,6 +353,63 @@ export class IconPageComponent {
     "import { provideIconDefaults } from '@dmaster/ui';",
     '',
     "providers: [provideIconDefaults({ size: 'sm', weight: 500 })]",
+  ].join('\n');
+
+  // ---- Composition: icons as leading glyphs in a stat-card grid -------------
+  protected readonly stats: {
+    icon: string;
+    color: string;
+    label: string;
+    value: string;
+    delta: string;
+  }[] = [
+    { icon: 'zap', color: 'primary', label: 'Deployments', value: '1,284', delta: '+12%' },
+    { icon: 'user', color: 'success', label: 'Active users', value: '8,392', delta: '+4.6%' },
+    { icon: 'globe', color: 'secondary', label: 'Requests', value: '2.4M', delta: '+18%' },
+    { icon: 'shield-check', color: 'warning', label: 'Uptime', value: '99.98%', delta: 'SLA' },
+  ];
+
+  protected readonly compositionCode = [
+    '<div class="stats">',
+    '  @for (s of stats; track s.label) {',
+    '    <dm-card>',
+    '      <span class="stat__icon" [style.color]="\'var(--dm-\' + s.color + \')\'">',
+    '        <dm-icon [name]="s.icon" size="1.25rem" />',
+    '      </span>',
+    '      <p class="stat__value">{{ s.value }}</p>',
+    '      <p class="stat__label">{{ s.label }}</p>',
+    '    </dm-card>',
+    '  }',
+    '</div>',
+  ].join('\n');
+
+  protected readonly compositionTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmCardComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    'interface Stat {',
+    '  icon: string;',
+    '  color: string;',
+    '  label: string;',
+    '  value: string;',
+    '}',
+    '',
+    '@Component({',
+    "  selector: 'app-stats',",
+    '  imports: [DmCardComponent, DmIconComponent],',
+    "  templateUrl: './stats.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class StatsComponent {',
+    '  // A registered SVG name + a semantic color token per row —',
+    '  // the icon inherits the tint via currentColor.',
+    '  protected readonly stats: Stat[] = [',
+    "    { icon: 'zap', color: 'primary', label: 'Deployments', value: '1,284' },",
+    "    { icon: 'user', color: 'success', label: 'Active users', value: '8,392' },",
+    "    { icon: 'globe', color: 'secondary', label: 'Requests', value: '2.4M' },",
+    "    { icon: 'shield-check', color: 'warning', label: 'Uptime', value: '99.98%' },",
+    '  ];',
+    '}',
   ].join('\n');
 
   protected readonly apiRows = computed<ApiTableRow[]>(() => {

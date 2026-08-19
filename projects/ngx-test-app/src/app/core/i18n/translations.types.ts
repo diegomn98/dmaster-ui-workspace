@@ -63,6 +63,7 @@ export interface DashboardTranslations {
       errorMessage: string;
       colorPicker: string;
       select: string;
+      autocomplete: string;
       paginatedSelect: string;
       radioGroup: string;
       tabs: string;
@@ -119,7 +120,6 @@ export interface DashboardTranslations {
     navDocs: string;
     navComponents: string;
     footerRights: string;
-    versionBadge: string;
     heroChipAngular: string;
     heroChipMit: string;
     heroLine1: string;
@@ -244,7 +244,14 @@ export interface DashboardTranslations {
   };
   buttonPage: {
     lead: string;
-    demos: { colors: string; variants: string; sizes: string; states: string; async: string };
+    demos: {
+      colors: string;
+      variants: string;
+      sizes: string;
+      states: string;
+      async: string;
+      iconButtons: string;
+    };
     apiCaption: string;
     defaultsDesc: string;
     a11yItems: string[];
@@ -278,6 +285,7 @@ export interface DashboardTranslations {
     errorMessage: SimplePageTranslations;
     colorPicker: SimplePageTranslations;
     select: SimplePageTranslations;
+    autocomplete: SimplePageTranslations;
     paginatedSelect: SimplePageTranslations;
     radioGroup: SimplePageTranslations;
     tabs: SimplePageTranslations;

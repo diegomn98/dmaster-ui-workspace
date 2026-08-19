@@ -63,20 +63,32 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.composition" [code]="compositionCode">
-    <dm-card appearance="outlined" style="width: 100%; max-width: 22rem">
-      <div style="display: grid; gap: var(--dm-space-3)">
-        <p class="card-demo__title">Acme Cloud</p>
-        <dm-divider />
-        <p class="card-demo__body">All systems operational — 99.99% uptime.</p>
-        <dm-divider labelPlacement="start">Links</dm-divider>
-        <div style="display: flex; align-items: center; gap: var(--dm-space-3); height: 1.25rem">
-          <span class="card-demo__body">Status</span>
-          <dm-divider orientation="vertical" />
-          <span class="card-demo__body">Docs</span>
-          <dm-divider orientation="vertical" />
-          <span class="card-demo__body">Support</span>
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 22rem">
+      <div style="display: grid; gap: var(--dm-space-4)">
+        <div style="display: grid; gap: var(--dm-space-1)">
+          <p class="card-demo__title" style="font-size: 1.125rem">Sign in to Acme</p>
+          <p class="card-demo__body" style="color: var(--dm-fg-muted)">
+            Welcome back — pick up where you left off.
+          </p>
         </div>
+
+        <dm-button variant="bordered" style="width: 100%">Continue with Google</dm-button>
+
+        <dm-divider>OR</dm-divider>
+
+        <dm-form-field label="Email">
+          <input dmInput type="email" placeholder="you@acme.com" />
+        </dm-form-field>
+        <dm-form-field label="Password">
+          <input dmInput type="password" placeholder="••••••••" />
+        </dm-form-field>
+
+        <dm-button color="primary" style="width: 100%">Sign in</dm-button>
       </div>
     </dm-card>
   </app-demo-block>
