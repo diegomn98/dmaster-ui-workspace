@@ -25,6 +25,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "size": "node scripts/size-audit.mjs",
+    "verify:package": "node scripts/verify-package.mjs",
     "release:check": "npm run build && npm run build:app && npm test && npm run test:app && npm run lint && npm run lint:styles && npm run format:check",
     "release:npm": "npm run release:check && cd dist/dmaster-ui && npm publish --access public",
     "push:lib": "git subtree push --prefix=projects/ngx-dmaster-ui lib-origin main",

@@ -1,0 +1,22 @@
+/*
+ * The @dmaster/ui theme tokens + light/dark themes and the CDK overlay
+ * structural styles are loaded in angular.json (see "styles"). This file only
+ * carries the tiny page reset, all of it built on the library's own tokens so
+ * the whole app follows the active theme.
+ */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--dm-bg);
+  color: var(--dm-fg);
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  line-height: 1.5;
+}

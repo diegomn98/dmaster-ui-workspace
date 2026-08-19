@@ -33,3 +33,23 @@ jobs:
 
       # Validate the publishable package layout (exports, files, types)
       - run: npx publint dist/dmaster-ui
+
+  # Consumer-perspective check: pack the built library and build a real, isolated
+  # Angular app against the tarball (examples/starter). Catches packaging /
+  # exports / peer-dep / type-resolution problems that never surface inside the
+  # monorepo (whose tsconfig points @dmaster/ui at source). Runs in parallel.
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+
+      # Builds the library, packs it, installs it into examples/starter and
+      # builds that app. Fails if the published package wouldn't work.
+      - run: npm run verify:package

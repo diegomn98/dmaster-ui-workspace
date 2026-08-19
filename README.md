@@ -21,20 +21,23 @@ npm start            # serve the docs app at http://localhost:4200
 
 ## Scripts
 
-| Script                                    | What it does                                                                                                                  |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| `npm run build`                           | Build the library: ng-packagr → `dist/dmaster-ui`, plus precompiled CSS (`styles/dmaster-ui.css`) and the `ng add` schematics |
-| `npm run build:app`                       | Build the docs app with full static prerender (`dist/ngx-test-app/browser`)                                                   |
-| `npm test` / `npm run test:app`           | Vitest unit tests (library / app)                                                                                             |
-| `npm run test:coverage`                   | Library tests with coverage report                                                                                            |
-| `npm run lint` / `npm run lint:styles`    | ESLint / Stylelint                                                                                                            |
-| `npm run format` / `npm run format:check` | Prettier                                                                                                                      |
-| `npm run size`                            | Per-component tree-shaken bundle-size audit (requires `npm run build` first)                                                  |
-| `npm run release:check`                   | Everything CI runs, locally                                                                                                   |
+| Script                                    | What it does                                                                                                                                          |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run build`                           | Build the library: ng-packagr → `dist/dmaster-ui`, plus precompiled CSS (`styles/dmaster-ui.css`) and the `ng add` schematics                         |
+| `npm run build:app`                       | Build the docs app with full static prerender (`dist/ngx-test-app/browser`)                                                                           |
+| `npm test` / `npm run test:app`           | Vitest unit tests (library / app)                                                                                                                     |
+| `npm run test:coverage`                   | Library tests with coverage report                                                                                                                    |
+| `npm run lint` / `npm run lint:styles`    | ESLint / Stylelint                                                                                                                                    |
+| `npm run format` / `npm run format:check` | Prettier                                                                                                                                              |
+| `npm run size`                            | Per-component tree-shaken bundle-size audit (requires `npm run build` first)                                                                          |
+| `npm run verify:package`                  | Build + pack the library and build [`examples/starter`](examples/starter) against the tarball — validates the package as a real consumer would see it |
+| `npm run release:check`                   | Everything CI runs, locally                                                                                                                           |
 
 ## Testing
 
 Unit tests run on **Vitest** through the `@angular/build:unit-test` builder (no Karma). The docs app uses `provideZonelessChangeDetection()`; the library never depends on zone.js.
+
+**Consumer check.** [`examples/starter`](examples/starter) is a standalone, zoneless Angular 20 app that lives outside the workspace and installs `@dmaster/ui` like any external project. `npm run verify:package` packs the freshly built library and builds the starter against that tarball, so packaging/exports/peer-dep/type-resolution regressions surface here — inside the monorepo, `@dmaster/ui` resolves to source and never exercises the real package. The same app is the [StackBlitz starter](https://stackblitz.com/github/diegomn98/dmaster-ui-workspace/tree/main/examples/starter) linked from the library README, and CI runs the check on every PR.
 
 ## Releasing
 
