@@ -85,6 +85,8 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.62.1-noble
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -97,17 +99,26 @@ jobs:
 
       - run: npm run build:app
 
-      # Enforce only once baselines are committed. They must be generated in this
-      # same container (`npm run test:visual:update`) so rendering matches; until
-      # then there's nothing to diff against, so the job passes with a notice
-      # instead of failing every build. Drops to a hard gate the moment the first
-      # *-linux.png lands under e2e/.
+      # First run bootstraps: with no baselines yet, generate them in this
+      # container (deterministic rendering) and commit them back once — so the
+      # gate goes live without a manual step. Every run afterwards diffs against
+      # those committed baselines. To refresh after an intentional UI change, run
+      # the "Update visual baselines" workflow (or delete the *-linux.png files).
       - name: Visual regression
         run: |
           if ls e2e/*-snapshots/*-linux.png >/dev/null 2>&1; then
             npm run test:visual
           else
-            echo "::notice::No visual baselines committed yet — skipping. Generate them with 'npm run test:visual:update' inside this container and commit the *-linux.png files."
+            echo "::notice::No baselines found — generating and committing them (one-time bootstrap)."
+            npm run test:visual:update
+            git config --global --add safe.directory "$GITHUB_WORKSPACE"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add e2e
+            if ! git diff --staged --quiet; then
+              git commit -m "test(visual): bootstrap baselines [skip ci]"
+              git push origin "HEAD:${GITHUB_REF_NAME}"
+            fi
           fi
 
       # Surface the diff images when a snapshot changes, so review is one click.
