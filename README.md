@@ -1,6 +1,13 @@
 # ngx-dmaster — @dmaster/ui workspace
 
+[![CI](https://img.shields.io/github/actions/workflow/status/diegomn98/dmaster-ui-workspace/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/diegomn98/dmaster-ui-workspace/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@dmaster/ui?color=006FEE&style=flat-square)](https://www.npmjs.com/package/@dmaster/ui)
+[![WCAG 2.1 AA](https://img.shields.io/badge/a11y-WCAG_2.1_AA-0F6E56?style=flat-square)](projects/ngx-dmaster-ui/README.md#accessibility)
+[![license](https://img.shields.io/badge/license-MIT-7EE7FC?style=flat-square)](LICENSE)
+
 Angular 20 workspace for **[@dmaster/ui](https://www.npmjs.com/package/@dmaster/ui)**, a premium, signals-based, zoneless-ready Angular component library — **41 components**, `input()`/`model()` throughout, no NgModules — and its living documentation site, **[dmasterui.com](https://dmasterui.com)**.
+
+**Contributing:** see [CONTRIBUTING.md](CONTRIBUTING.md) · [Code of Conduct](CODE_OF_CONDUCT.md) · [Security policy](SECURITY.md).
 
 | Project        | Path                                                 | What it is                                                                                                                                                                  |
 | -------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

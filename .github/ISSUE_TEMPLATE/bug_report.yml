@@ -1,0 +1,73 @@
+name: Bug report
+description: Something in @dmaster/ui doesn't work as documented.
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report! A minimal reproduction is the fastest path to a fix —
+        fork the [StackBlitz starter](https://stackblitz.com/github/diegomn98/dmaster-ui-workspace/tree/main/examples/starter)
+        and paste the link below.
+  - type: input
+    id: version
+    attributes:
+      label: '@dmaster/ui version'
+      description: 'Output of `npm ls @dmaster/ui` (please confirm it is the latest).'
+      placeholder: '0.6.0'
+    validations:
+      required: true
+  - type: input
+    id: angular
+    attributes:
+      label: Angular version
+      placeholder: '20.3.0'
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Area
+      description: Which component or part is affected?
+      options:
+        - A specific component (name it below)
+        - Theming / tokens
+        - Accessibility
+        - SSR / prerendering
+        - Packaging / build / types
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: input
+    id: repro
+    attributes:
+      label: Reproduction link
+      description: A StackBlitz (forked from the starter) or a minimal repo.
+      placeholder: 'https://stackblitz.com/edit/...'
+    validations:
+      required: false
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Add `<dm-... />`
+        2. …
+        3. See the error
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before submitting
+      options:
+        - label: I'm on the latest version of `@dmaster/ui`.
+          required: true
+        - label: I searched existing issues and didn't find a duplicate.
+          required: true
