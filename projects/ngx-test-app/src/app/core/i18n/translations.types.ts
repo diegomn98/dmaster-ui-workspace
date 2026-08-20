@@ -68,6 +68,8 @@ export interface DashboardTranslations {
       radioGroup: string;
       tabs: string;
       table: string;
+      tree: string;
+      timeline: string;
       tooltip: string;
       dialog: string;
       toast: string;
@@ -76,12 +78,16 @@ export interface DashboardTranslations {
       alert: string;
       pagination: string;
       slider: string;
+      rating: string;
       breadcrumbs: string;
       menu: string;
       popover: string;
       drawer: string;
       kbd: string;
       command: string;
+      stepper: string;
+      fileUpload: string;
+      numberInput: string;
     };
   };
   common: {
@@ -290,6 +296,8 @@ export interface DashboardTranslations {
     radioGroup: SimplePageTranslations;
     tabs: SimplePageTranslations;
     table: SimplePageTranslations;
+    tree: SimplePageTranslations;
+    timeline: SimplePageTranslations;
     tooltip: SimplePageTranslations;
     dialog: SimplePageTranslations;
     toast: SimplePageTranslations;
@@ -298,6 +306,7 @@ export interface DashboardTranslations {
     alert: SimplePageTranslations;
     pagination: SimplePageTranslations;
     slider: SimplePageTranslations;
+    rating: SimplePageTranslations;
     breadcrumbs: SimplePageTranslations;
     menu: SimplePageTranslations;
     popover: SimplePageTranslations;
@@ -305,5 +314,8 @@ export interface DashboardTranslations {
     kbd: SimplePageTranslations;
     command: SimplePageTranslations;
     icon: SimplePageTranslations;
+    stepper: SimplePageTranslations;
+    fileUpload: SimplePageTranslations;
+    numberInput: SimplePageTranslations;
   };
 }

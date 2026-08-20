@@ -1,0 +1,176 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">Rating</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmRatingComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-rating
+      [max]="pgMax()"
+      [allowHalf]="pgAllowHalf()"
+      [readonly]="pgReadonly()"
+      [size]="pgSize()"
+      [color]="pgColor()"
+      ariaLabel="Rate this product"
+      [(value)]="pgValue"
+    />
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <div class="demo-stack">
+      <dm-rating [(value)]="score" ariaLabel="Rate this product" />
+      <span class="demo-output">value: {{ score() }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['halfStars']" [code]="halfCode">
+    <div class="demo-stack">
+      <dm-rating [(value)]="quality" allowHalf ariaLabel="Quality" />
+      <span class="demo-output">value: {{ quality() }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['readonlyAvg']" [code]="readonlyCode">
+    <div style="display: flex; align-items: center; gap: 0.875rem">
+      <strong style="font-size: 2.25rem; line-height: 1; font-variant-numeric: tabular-nums">
+        3.7
+      </strong>
+      <div style="display: grid; gap: 0.25rem">
+        <dm-rating [value]="3.7" readonly ariaLabel="Average rating: 3.7 of 5" />
+        <span style="color: var(--dm-fg-muted); font-size: 0.875rem">
+          {{ page().labels['reviewsCount'] }}
+        </span>
+      </div>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-stack">
+      <dm-rating size="sm" [(value)]="sizeValue" ariaLabel="Small" />
+      <dm-rating size="md" [(value)]="sizeValue" ariaLabel="Medium" />
+      <dm-rating size="lg" [(value)]="sizeValue" ariaLabel="Large" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="colorsCode">
+    <div class="demo-stack">
+      <dm-rating color="default" [(value)]="colorValue" ariaLabel="Default" />
+      <dm-rating color="primary" [(value)]="colorValue" ariaLabel="Primary" />
+      <dm-rating color="secondary" [(value)]="colorValue" ariaLabel="Secondary" />
+      <dm-rating color="success" [(value)]="colorValue" ariaLabel="Success" />
+      <dm-rating color="warning" [(value)]="colorValue" ariaLabel="Warning" />
+      <dm-rating color="danger" [(value)]="colorValue" ariaLabel="Danger" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['character']" [code]="characterCode">
+    <div class="demo-stack">
+      <dm-rating [(value)]="love" character="❤" color="danger" allowHalf ariaLabel="Favourite" />
+      <dm-rating [(value)]="spice" character="🌶" [max]="3" ariaLabel="Spiciness" />
+      <dm-rating [(value)]="level" character="●" color="primary" size="sm" ariaLabel="Level" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 26rem">
+      <form
+        [formGroup]="reviewForm"
+        (ngSubmit)="submitReview()"
+        novalidate
+        style="display: grid; gap: 1rem"
+      >
+        <div style="display: flex; align-items: center; gap: 0.75rem">
+          <dm-avatar initials="AX" shape="square" />
+          <div style="flex: 1; min-width: 0">
+            <strong style="display: block">{{ page().labels['productName'] }}</strong>
+            <span style="display: block; color: var(--dm-fg-muted); font-size: 0.8125rem">
+              {{ page().labels['orderMeta'] }}
+            </span>
+          </div>
+        </div>
+
+        <div style="display: grid; gap: 0.375rem">
+          <span style="font-weight: 500">{{ page().labels['yourRating'] }}</span>
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap">
+            <dm-rating
+              formControlName="score"
+              size="lg"
+              [ariaLabel]="page().labels['yourRating']"
+            />
+            <span
+              style="
+                color: var(--dm-fg-muted);
+                font-size: 0.875rem;
+                font-variant-numeric: tabular-nums;
+              "
+              aria-live="polite"
+              >{{ reviewHint() }}</span
+            >
+          </div>
+          @if (reviewForm.controls.score.touched && reviewForm.controls.score.hasError('min')) {
+            <dm-error>{{ page().labels['ratingRequired'] }}</dm-error>
+          }
+        </div>
+
+        <dm-form-field [label]="page().labels['reviewLabel']" [hint]="page().labels['reviewHint']">
+          <textarea
+            dmInput
+            rows="3"
+            formControlName="review"
+            [placeholder]="page().labels['reviewPlaceholder']"
+          ></textarea>
+        </dm-form-field>
+
+        <dm-button
+          type="submit"
+          color="primary"
+          style="width: 100%"
+          [state]="reviewState()"
+          [loadingLabel]="page().labels['submitting']"
+          [successLabel]="page().labels['submitted']"
+        >
+          {{ page().labels['submit'] }}
+        </dm-button>
+      </form>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

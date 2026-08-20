@@ -99,13 +99,19 @@ projects/ngx-dmaster-ui/src/
         │   ├── date-picker/        # CVA: calendario en overlay, vistas día→mes→año, teclado ARIA (roving grid); Date nativo; Intl para nombres/formato/dígitos (sin date lib); firstDayOfWeek 'auto' = semana según locale (CLDR); DM_DATE_LOCALE reactivo (string|Signal); + date-utils.ts puro. Modo `range` (attribute) con modelo SEPARADO `[(rangeValue)]` = DmDateRange {start,end} (no rompe el `[(value)]` simple); banda in-range con color-mix, hover-preview; helper puro isBetween en date-utils
         │   ├── color-picker/       # CVA: hex string; trigger de campo + panel overlay (área S/V drag+teclado, tono, alpha, hex input, swatches); + color-utils.ts puro (hex⇄rgb⇄hsv)
         │   ├── slider/            # CVA: pointer drag + teclado completo + value bubble + marks
+        │   ├── rating/            # CVA: estrellas (role=slider + aria-value*), allowHalf (hover/teclado), readonly con fracciones precisas (3.7), clic en el valor actual = 0, glyph custom `character`
+        │   ├── number-input/      # CVA: spinbutton (input text + inputmode=decimal + role=spinbutton, NO type=number) con ± (press-and-hold), min/max/step/precision, teclado completo (↑↓, Shift×10, PageUp/Down, Home/End), `formatOptions` Intl en blur / raw en focus; hermano de la familia de campos
+        │   ├── file-upload/       # CONTROLADO por [(files)] (NO CVA: File[] no encaja bien); dropzone = <button> + input file oculto; accept/maxSize/maxFiles → (fileRejected) tipado + role=alert; thumbnails por object URL SSR-safe (DOCUMENT.defaultView?.URL, revoke en DestroyRef); progress map por nombre; helper puro formatFileSize
         │   ├── error/              # dm-error — equivalente a mat-error: role=alert, proyección pura (sin icono propio; se proyecta uno si se quiere, p. ej. dm-icon); slot proyectable en dm-form-field (aria-describedby auto)
         │   └── form-field/        # estilos de .dm-input en _forms.scss (global); acepta <dm-error> proyectado
         ├── navigation/
         │   ├── tabs/
         │   ├── breadcrumbs/       # composite; router-agnóstico (href → <a>, sin href → <span>); collapse
-        │   └── pagination/        # windowed pager, two-way page; dm-table lo dogfooddea en su footer
+        │   ├── pagination/        # windowed pager, two-way page; dm-table lo dogfooddea en su footer
+        │   └── stepper/           # composite dm-stepper + dm-step (hijo con html/scss propio). Host role=group + ariaLabel (NO list: `list` no admite nombre accesible — aria-allowed-attr); los dm-step no llevan rol, la unidad semántica es el <button> header con aria-current=step; linear bloquea saltar pasos; next()/previous()
         ├── data-display/
+        │   ├── tree/              # data-driven, recursivo vía NgTemplateOutlet; WAI-ARIA Tree View completo (tree/treeitem/group, aria-level/setsize/posinset, roving tabindex, ↑↓→← Home End Enter Space `*`); [(selectedIds)] single|multiple + [(expandedIds)]; --dm-tree-depth por <li> para indent/guías
+        │   ├── timeline/          # composite dm-timeline + dm-timeline-item (role=list/listitem); <time datetime>; state active (pulse por token) / completed / error; variant solid|outlined; align alternate zig-zag ≥md; marker custom vía directiva dmTimelineMarker (reemplaza el dot)
         │   └── table/             # search → sort → paginate + selección. Modo `virtualScroll` (+ rowHeight + viewportHeight): renderiza filas como div-grid role=table dentro de cdk-virtual-scroll-viewport (el wrapper del CDK NO puede ir dentro de <table> nativo, por eso el modo virtual usa divs); columnas alineadas por --dm-table-cols compartido entre cabecera sticky y filas; modo tabla normal (<table>) intacto por defecto
         └── overlays/              # CDK: requieren overlay-prebuilt.css en el consumidor
             ├── tooltip/           # directiva dmTooltip + panel interno

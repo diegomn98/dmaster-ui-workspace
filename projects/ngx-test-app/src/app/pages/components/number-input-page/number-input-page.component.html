@@ -1,0 +1,375 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">Number input</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmNumberInputComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="usage-title">
+  <h2 class="page__section-title" id="usage-title">{{ i18n.t().common.usageTitle }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().labels['usageDesc']"></p>
+  <app-code-snippet [code]="basicCode" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 18rem">
+      <dm-number-input
+        [label]="page().labels['qtyLabel']"
+        [description]="page().labels['qtyHint']"
+        [(value)]="playgroundValue"
+        [min]="0"
+        [max]="100"
+        [step]="pgStep()"
+        [size]="pgSize()"
+        [variant]="pgVariant()"
+        [color]="pgColor()"
+        [radius]="pgRadius()"
+        [hideControls]="pgHideControls()"
+        [disabled]="pgDisabled()"
+      />
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4); align-items: flex-end">
+      <div style="width: 14rem">
+        <dm-number-input
+          [label]="page().labels['qtyLabel']"
+          [description]="page().labels['qtyHint']"
+          [(value)]="basicValue"
+          (valueCommit)="onCommit($event)"
+        />
+      </div>
+      <div style="display: grid; gap: 0.375rem">
+        <span class="demo-output">{{ page().labels['value'] }}: {{ basicValue() ?? 'null' }}</span>
+        <span class="demo-output">{{ page().labels['lastCommit'] }}: {{ lastCommit() }}</span>
+      </div>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['rangeHeading']" [code]="rangeCode">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4); align-items: flex-end">
+      <div style="width: 14rem">
+        <dm-number-input
+          [label]="page().labels['rangeLabel']"
+          [description]="page().labels['rangeHint']"
+          [(value)]="rangeValue"
+          [min]="0"
+          [max]="100"
+          [step]="5"
+        />
+      </div>
+      <span class="demo-output">{{ page().labels['value'] }}: {{ rangeValue() ?? 'null' }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['decimalsHeading']" [code]="decimalsCode">
+    <div class="demo-grid demo-grid--2col" style="max-width: 32rem">
+      <dm-number-input
+        [label]="page().labels['hoursLabel']"
+        [description]="page().labels['hoursHint']"
+        [(value)]="hoursValue"
+        [min]="0"
+        [max]="24"
+        [step]="0.25"
+      />
+      <dm-number-input
+        [label]="page().labels['weightLabel']"
+        [description]="page().labels['weightHint']"
+        [(value)]="weightValue"
+        [min]="0"
+        [step]="0.1"
+        [precision]="2"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['formatHeading']" [code]="formatCode">
+    <div style="display: grid; gap: var(--dm-space-4); width: 100%">
+      <p class="page__section-desc" style="margin: 0" [innerHTML]="page().labels['formatNote']"></p>
+      <div class="demo-grid demo-grid--2col" style="max-width: 32rem">
+        <dm-number-input
+          [label]="page().labels['priceLabel']"
+          [description]="page().labels['priceHint']"
+          [(value)]="priceValue"
+          [min]="0"
+          [step]="0.5"
+          [formatOptions]="eurFormat"
+          [locale]="demoLocale()"
+        />
+        <dm-number-input
+          [label]="page().labels['budgetLabel']"
+          [(value)]="budgetValue"
+          [min]="0"
+          [step]="100"
+          [formatOptions]="usdFormat"
+          locale="en-US"
+        />
+        <dm-number-input
+          [label]="page().labels['distanceLabel']"
+          [(value)]="distanceValue"
+          [min]="0"
+          [step]="0.1"
+          [formatOptions]="kmFormat"
+          [locale]="demoLocale()"
+        />
+      </div>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
+    <div class="demo-grid demo-grid--2col" style="max-width: 32rem">
+      @for (v of variants; track v) {
+        <dm-number-input [variant]="v" [label]="v" [value]="10" />
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4); align-items: flex-end">
+      @for (s of sizes; track s) {
+        <div style="width: 9rem">
+          <dm-number-input [size]="s" [ariaLabel]="s" [value]="10" />
+        </div>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['keyboardHeading']" [code]="keyboardCode">
+    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-6); align-items: flex-start">
+      <div style="width: 12rem">
+        <dm-number-input
+          [label]="page().labels['yearLabel']"
+          [description]="page().labels['yearHint']"
+          [(value)]="yearValue"
+          [min]="1900"
+          [max]="2100"
+          hideControls
+        />
+      </div>
+      <dl
+        style="
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 0.625rem 1rem;
+          align-items: center;
+          margin: 0;
+          font-size: 0.875rem;
+        "
+      >
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="up"></dm-kbd>
+          <dm-kbd size="sm" keys="down"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbUpDown'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="shift"></dm-kbd>
+          <dm-kbd size="sm" keys="up"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbShift'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="pageup"></dm-kbd>
+          <dm-kbd size="sm" keys="pagedown"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbPage'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="home"></dm-kbd>
+          <dm-kbd size="sm" keys="end"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbHomeEnd'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="enter"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbEnter'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="escape"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbEscape'] }}</dd>
+      </dl>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode">
+    <div class="demo-grid demo-grid--2col" style="max-width: 32rem">
+      <dm-number-input [label]="page().labels['disabledLabel']" [value]="3" [disabled]="true" />
+      <dm-number-input [label]="page().labels['readonlyLabel']" [value]="3" [readonly]="true" />
+      <dm-number-input
+        [label]="page().labels['requiredLabel']"
+        [required]="true"
+        placeholder="0"
+        [min]="0"
+      />
+      <dm-number-input
+        [label]="page().labels['seatsLabel']"
+        [value]="12"
+        [max]="10"
+        [error]="page().labels['seatsError']"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 28rem">
+      <div style="display: flex; flex-direction: column; gap: 0.875rem">
+        <div
+          style="display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem"
+        >
+          <strong>{{ page().labels['cartTitle'] }}</strong>
+          <dm-badge color="primary" variant="flat" size="sm">
+            {{ itemCount() }} {{ page().labels['cartItems'] }}
+          </dm-badge>
+        </div>
+
+        <div style="display: flex; flex-direction: column">
+          @for (p of cart; track p.id; let i = $index) {
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 0.375rem;
+                padding: 0.75rem 0;
+                border-top: 1px solid var(--dm-border);
+              "
+            >
+              <div style="display: flex; align-items: center; gap: 0.75rem">
+                <dm-avatar
+                  [src]="p.src"
+                  [alt]="page().labels[p.nameKey]"
+                  size="sm"
+                  shape="square"
+                />
+                <div style="flex: 1; min-width: 0">
+                  <div
+                    style="
+                      font-weight: 500;
+                      white-space: nowrap;
+                      overflow: hidden;
+                      text-overflow: ellipsis;
+                    "
+                  >
+                    {{ page().labels[p.nameKey] }}
+                  </div>
+                  <div style="color: var(--dm-fg-muted); font-size: 0.8125rem">
+                    {{ money(p.price) }} {{ page().labels['each'] }} · {{ p.stock }}
+                    {{ page().labels['inStock'] }}
+                  </div>
+                </div>
+                <div style="width: 6.5rem; flex: none">
+                  <dm-number-input
+                    size="sm"
+                    [min]="1"
+                    [max]="99"
+                    [formControl]="qtyControls.at(i)"
+                    [ariaLabel]="page().labels['qtyFor'] + ' ' + page().labels[p.nameKey]"
+                    [ariaDescribedby]="qtyControls.at(i).hasError('max') ? qtyErrorId(i) : ''"
+                    [decrementLabel]="page().labels['decrease']"
+                    [incrementLabel]="page().labels['increase']"
+                  />
+                </div>
+                <strong
+                  style="
+                    width: 5.5rem;
+                    flex: none;
+                    text-align: right;
+                    font-variant-numeric: tabular-nums;
+                  "
+                >
+                  {{ money(lineTotals()[i]) }}
+                </strong>
+              </div>
+              @if (qtyControls.at(i).hasError('max')) {
+                <dm-error [id]="qtyErrorId(i)">
+                  {{ page().labels['onlyLeftPrefix'] }} {{ p.stock }}
+                  {{ page().labels['onlyLeftSuffix'] }}
+                </dm-error>
+              }
+            </div>
+          }
+        </div>
+
+        <dl
+          style="
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.375rem 1rem;
+            margin: 0;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--dm-border);
+            font-size: 0.875rem;
+            font-variant-numeric: tabular-nums;
+          "
+        >
+          <dt style="color: var(--dm-fg-muted)">{{ page().labels['subtotal'] }}</dt>
+          <dd style="margin: 0; text-align: right">{{ money(subtotal()) }}</dd>
+          <dt style="color: var(--dm-fg-muted)">{{ page().labels['shipping'] }}</dt>
+          <dd style="margin: 0; text-align: right">
+            @if (shipping() === 0) {
+              <span style="color: var(--dm-success-text); font-weight: 600">
+                {{ page().labels['freeShipping'] }}
+              </span>
+            } @else {
+              {{ money(shipping()) }}
+            }
+          </dd>
+          <dt style="font-weight: 600; font-size: 1rem">{{ page().labels['total'] }}</dt>
+          <dd style="margin: 0; text-align: right; font-weight: 700; font-size: 1rem">
+            {{ money(total()) }}
+          </dd>
+        </dl>
+
+        <dm-button
+          color="primary"
+          style="width: 100%"
+          [state]="checkoutState()"
+          [disabled]="qtyControls.invalid"
+          [loadingLabel]="page().labels['processing']"
+          [successLabel]="page().labels['orderPlaced']"
+          (clicked)="checkout()"
+        >
+          {{ page().labels['checkout'] }}
+        </dm-button>
+      </div>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

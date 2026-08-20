@@ -264,6 +264,54 @@ export const routes: Routes = [
         title: 'Slider · @dmaster/ui',
       },
       {
+        path: 'components/rating',
+        loadComponent: () =>
+          import('./pages/components/rating-page/rating-page.component').then(
+            (m) => m.RatingPageComponent,
+          ),
+        title: 'Rating · @dmaster/ui',
+      },
+      {
+        path: 'components/stepper',
+        loadComponent: () =>
+          import('./pages/components/stepper-page/stepper-page.component').then(
+            (m) => m.StepperPageComponent,
+          ),
+        title: 'Stepper · @dmaster/ui',
+      },
+      {
+        path: 'components/file-upload',
+        loadComponent: () =>
+          import('./pages/components/file-upload-page/file-upload-page.component').then(
+            (m) => m.FileUploadPageComponent,
+          ),
+        title: 'File upload · @dmaster/ui',
+      },
+      {
+        path: 'components/tree',
+        loadComponent: () =>
+          import('./pages/components/tree-page/tree-page.component').then(
+            (m) => m.TreePageComponent,
+          ),
+        title: 'Tree · @dmaster/ui',
+      },
+      {
+        path: 'components/number-input',
+        loadComponent: () =>
+          import('./pages/components/number-input-page/number-input-page.component').then(
+            (m) => m.NumberInputPageComponent,
+          ),
+        title: 'Number input · @dmaster/ui',
+      },
+      {
+        path: 'components/timeline',
+        loadComponent: () =>
+          import('./pages/components/timeline-page/timeline-page.component').then(
+            (m) => m.TimelinePageComponent,
+          ),
+        title: 'Timeline · @dmaster/ui',
+      },
+      {
         path: 'components/breadcrumbs',
         loadComponent: () =>
           import('./pages/components/breadcrumbs-page/breadcrumbs-page.component').then(

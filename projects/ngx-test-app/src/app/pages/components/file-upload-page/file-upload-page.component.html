@@ -1,0 +1,330 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">File upload</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+</header>
+
+<section class="page__section" aria-labelledby="import-title">
+  <h2 class="page__section-title" id="import-title">{{ i18n.t().common.importTitle }}</h2>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmFileUploadComponent, formatFileSize &#125; from '@dmaster/ui';"
+  />
+</section>
+
+<section class="page__section" aria-labelledby="usage-title">
+  <h2 class="page__section-title" id="usage-title">{{ i18n.t().common.usageTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.usageDesc }}</p>
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 26rem">
+      <dm-file-upload
+        [label]="page().labels['dropLabelSingle']"
+        [removeLabel]="page().labels['remove']"
+        [messages]="messages()"
+        [(files)]="usageFiles"
+      />
+    </div>
+  </div>
+  <app-code-snippet language="html" [code]="usageCode" />
+</section>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 26rem">
+      <dm-file-upload
+        [label]="pgMultiple() ? page().labels['dropLabel'] : page().labels['dropLabelSingle']"
+        [hint]="page().labels['dropHint']"
+        [removeLabel]="page().labels['remove']"
+        [messages]="messages()"
+        [multiple]="pgMultiple()"
+        [maxFiles]="pgMaxFiles()"
+        [accept]="pgAccept()"
+        [disabled]="pgDisabled()"
+        [(files)]="playgroundFiles"
+      />
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['singleHeading']" [code]="basicCode">
+    <div style="width: 100%; max-width: 26rem; display: grid; gap: 0.75rem">
+      <dm-file-upload
+        [label]="page().labels['dropLabelSingle']"
+        [removeLabel]="page().labels['remove']"
+        [messages]="messages()"
+        [(files)]="basicFiles"
+      />
+      <span class="demo-output">
+        {{ page().labels['selected'] }}:
+        {{ basicFiles().length ? basicFiles()[0].name : '—' }}
+      </span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['multipleHeading']" [code]="multipleCode">
+    <div style="width: 100%; max-width: 26rem; display: grid; gap: 0.75rem">
+      <dm-file-upload
+        multiple
+        [label]="page().labels['dropLabel']"
+        [hint]="page().labels['anyTypeHint']"
+        [removeLabel]="page().labels['remove']"
+        [messages]="messages()"
+        [(files)]="multipleFiles"
+      />
+      <span class="demo-output">
+        {{ multipleFiles().length }} {{ page().labels['filesWord'] }} ·
+        {{ multipleTotal() || '0 B' }}
+      </span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['imagesHeading']" [code]="imagesCode">
+    <div style="width: 100%; max-width: 26rem">
+      <dm-file-upload
+        multiple
+        accept="image/*"
+        [label]="page().labels['dropImagesLabel']"
+        [hint]="page().labels['imagesHint']"
+        [removeLabel]="page().labels['remove']"
+        [messages]="messages()"
+        [(files)]="imageFiles"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['limitHeading']" [code]="limitCode">
+    <div style="width: 100%; max-width: 26rem; display: grid; gap: 0.75rem">
+      <dm-file-upload
+        multiple
+        accept="image/*,.pdf"
+        [maxSize]="limitMaxSize"
+        [maxFiles]="2"
+        [label]="page().labels['dropLabel']"
+        [hint]="
+          page().labels['limitHint'] + ' ' + limitMaxSizeLabel + ' · ' + page().labels['maxTwo']
+        "
+        [removeLabel]="page().labels['remove']"
+        [messages]="messages()"
+        [(files)]="limitFiles"
+        (fileRejected)="onRejected($event)"
+      />
+      @if (lastRejection()) {
+        <dm-alert
+          color="danger"
+          variant="flat"
+          [title]="page().labels['rejectedTitle']"
+          [dismissible]="true"
+          [dismissLabel]="page().labels['dismiss']"
+          (closed)="lastRejection.set(null)"
+        >
+          {{ lastRejectionText() }}
+        </dm-alert>
+      } @else {
+        <span class="demo-output">{{ page().labels['limitIdle'] }}</span>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['progressHeading']"
+    [code]="progressCode"
+    [ts]="progressTs"
+  >
+    <div style="width: 100%; max-width: 26rem; display: grid; gap: 0.75rem">
+      <dm-file-upload
+        multiple
+        [label]="page().labels['dropLabel']"
+        [hint]="page().labels['progressHint']"
+        [removeLabel]="page().labels['remove']"
+        [messages]="messages()"
+        [files]="progressFiles()"
+        [progress]="progressMap()"
+        (filesChange)="onProgressFilesChange($event)"
+      />
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center">
+        <dm-button
+          color="primary"
+          size="sm"
+          [state]="uploadState()"
+          [disabled]="progressFiles().length === 0"
+          [loadingLabel]="page().labels['uploading']"
+          [successLabel]="page().labels['uploaded']"
+          (clicked)="simulateUpload()"
+        >
+          {{ page().labels['simulateUpload'] }}
+        </dm-button>
+        <dm-button variant="light" size="sm" [disabled]="!progressMap()" (clicked)="resetUpload()">
+          {{ page().labels['reset'] }}
+        </dm-button>
+        @if (progressDone()) {
+          <dm-badge color="success" variant="flat">{{ page().labels['allDone'] }}</dm-badge>
+        }
+      </div>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="disabledCode">
+    <div class="demo-grid demo-grid--2col" style="width: 100%">
+      <dm-file-upload
+        disabled
+        [label]="page().labels['disabledLabel']"
+        [hint]="page().labels['disabledHint']"
+        [removeLabel]="page().labels['remove']"
+      />
+      <dm-file-upload
+        disabled
+        [label]="page().labels['disabledLabel']"
+        [removeLabel]="page().labels['remove']"
+        [files]="disabledFiles()"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 28rem">
+      <form
+        [formGroup]="ticketForm"
+        (ngSubmit)="submitTicket()"
+        novalidate
+        style="display: grid; gap: 1rem"
+      >
+        <div>
+          <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700">
+            {{ page().labels['ticketTitle'] }}
+          </h3>
+          <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['ticketSubtitle'] }}
+          </p>
+        </div>
+
+        <dm-form-field [label]="page().labels['subjectLabel']" [required]="true">
+          <input
+            dmInput
+            type="text"
+            formControlName="subject"
+            [placeholder]="page().labels['subjectPlaceholder']"
+          />
+          @if (
+            ticketForm.controls.subject.touched && ticketForm.controls.subject.hasError('required')
+          ) {
+            <dm-error>{{ page().labels['subjectRequired'] }}</dm-error>
+          }
+        </dm-form-field>
+
+        <div style="display: grid; gap: 0.375rem">
+          <dm-select
+            [label]="page().labels['categoryLabel']"
+            [placeholder]="page().labels['categoryPlaceholder']"
+            [items]="ticketCategories()"
+            [required]="true"
+            formControlName="category"
+          />
+          @if (
+            ticketForm.controls.category.touched &&
+            ticketForm.controls.category.hasError('required')
+          ) {
+            <dm-error>{{ page().labels['categoryRequired'] }}</dm-error>
+          }
+        </div>
+
+        <dm-form-field
+          [label]="page().labels['messageLabel']"
+          [hint]="page().labels['messageHint']"
+          [required]="true"
+        >
+          <textarea dmInput rows="4" formControlName="message"></textarea>
+          @if (
+            ticketForm.controls.message.touched && ticketForm.controls.message.hasError('required')
+          ) {
+            <dm-error>{{ page().labels['messageRequired'] }}</dm-error>
+          } @else if (
+            ticketForm.controls.message.touched && ticketForm.controls.message.hasError('minlength')
+          ) {
+            <dm-error>{{ page().labels['messageMinLength'] }}</dm-error>
+          }
+        </dm-form-field>
+
+        <div style="display: grid; gap: 0.375rem">
+          <span style="font-size: 0.875rem; font-weight: 500">
+            {{ page().labels['attachmentsLabel'] }}
+            <span aria-hidden="true" style="color: var(--dm-danger)">*</span>
+          </span>
+          <dm-file-upload
+            multiple
+            accept="image/*,.pdf"
+            [maxFiles]="3"
+            [maxSize]="ticketMaxSize"
+            [ariaLabel]="page().labels['attachmentsLabel']"
+            [label]="page().labels['attachmentsDrop']"
+            [hint]="
+              page().labels['attachmentsHint'] +
+              ' ' +
+              ticketMaxSizeLabel +
+              ' · ' +
+              page().labels['maxThree']
+            "
+            [removeLabel]="page().labels['remove']"
+            [messages]="messages()"
+            [files]="ticketForm.controls.attachments.value"
+            (filesChange)="onTicketFiles($event)"
+          />
+          @if (
+            ticketForm.controls.attachments.touched &&
+            ticketForm.controls.attachments.hasError('minFiles')
+          ) {
+            <dm-error>{{ page().labels['attachmentsRequired'] }}</dm-error>
+          }
+        </div>
+
+        <dm-button
+          type="submit"
+          color="primary"
+          style="width: 100%"
+          [state]="ticketState()"
+          [loadingLabel]="page().labels['sending']"
+          [successLabel]="page().labels['sent']"
+        >
+          {{ page().labels['sendTicket'] }}
+        </dm-button>
+
+        @if (ticketSubmitted() !== null && ticketState() === 'success') {
+          <dm-alert color="success" variant="flat" [title]="page().labels['sent']">
+            {{ page().labels['ticketThanks'] }} ({{ ticketSubmitted() }}
+            {{ page().labels['attachmentsWord'] }})
+          </dm-alert>
+        }
+      </form>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

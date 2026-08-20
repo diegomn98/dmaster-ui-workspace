@@ -1,6 +1,6 @@
 # ngx-dmaster — @dmaster/ui workspace
 
-Angular 20 workspace for **[@dmaster/ui](https://www.npmjs.com/package/@dmaster/ui)**, a premium, signals-based, zoneless-ready Angular component library — **35 components**, `input()`/`model()` throughout, no NgModules — and its living documentation site, **[dmasterui.com](https://dmasterui.com)**.
+Angular 20 workspace for **[@dmaster/ui](https://www.npmjs.com/package/@dmaster/ui)**, a premium, signals-based, zoneless-ready Angular component library — **41 components**, `input()`/`model()` throughout, no NgModules — and its living documentation site, **[dmasterui.com](https://dmasterui.com)**.
 
 | Project        | Path                                                 | What it is                                                                                                                                                                  |
 | -------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

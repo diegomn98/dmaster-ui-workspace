@@ -1,0 +1,440 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.navigation }}</p>
+  <h1 class="page__title">Stepper</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmStepperComponent, DmStepComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="usage-title">
+  <h2 class="page__section-title" id="usage-title">{{ i18n.t().common.usageTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.usageDesc }}</p>
+  <app-code-snippet [code]="basicCode" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 34rem">
+      <dm-stepper
+        [orientation]="pgOrientation()"
+        [color]="pgColor()"
+        [size]="pgSize()"
+        [linear]="pgLinear()"
+        [(activeStep)]="pgActive"
+        [ariaLabel]="page().labels['checkoutAria']"
+      >
+        <dm-step [label]="page().labels['stepAccount']" completed>
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['accountBody'] }}
+          </p>
+        </dm-step>
+        <dm-step [label]="page().labels['stepShipping']">
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['shippingBody'] }}
+          </p>
+        </dm-step>
+        <dm-step [label]="page().labels['stepPayment']">
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['paymentBody'] }}
+          </p>
+        </dm-step>
+      </dm-stepper>
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
+    <div style="width: 100%; max-width: 34rem">
+      <dm-stepper [(activeStep)]="basicActive" [ariaLabel]="page().labels['checkoutAria']">
+        <dm-step [label]="page().labels['stepAccount']">
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['accountBody'] }}
+          </p>
+        </dm-step>
+        <dm-step [label]="page().labels['stepShipping']">
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['shippingBody'] }}
+          </p>
+        </dm-step>
+        <dm-step [label]="page().labels['stepPayment']">
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['paymentBody'] }}
+          </p>
+        </dm-step>
+      </dm-stepper>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode">
+    <div style="width: 100%; max-width: 26rem">
+      <dm-stepper
+        orientation="vertical"
+        color="success"
+        [(activeStep)]="verticalActive"
+        [ariaLabel]="page().labels['trackingAria']"
+      >
+        <dm-step [label]="page().labels['orderPlaced']" completed>
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['orderPlacedBody'] }}
+          </p>
+        </dm-step>
+        <dm-step [label]="page().labels['outForDelivery']">
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['outForDeliveryBody'] }}
+          </p>
+        </dm-step>
+        <dm-step [label]="page().labels['delivered']">
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['deliveredBody'] }}
+          </p>
+        </dm-step>
+      </dm-stepper>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['linear']" [code]="linearCode" [ts]="linearTs">
+    <div style="width: 100%; max-width: 34rem; display: grid; gap: 1rem">
+      <dm-stepper
+        #wizard
+        [(activeStep)]="linearActive"
+        linear
+        [ariaLabel]="page().labels['linearAria']"
+      >
+        <dm-step [label]="page().labels['stepProfile']" [completed]="profileDone()">
+          <div style="display: grid; gap: 0.75rem">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+              {{ page().labels['linearProfileBody'] }}
+            </p>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <dm-checkbox [(checked)]="profileDone" [ariaLabel]="page().labels['markDone']" />
+              <span style="font-size: 0.875rem">{{ page().labels['markDone'] }}</span>
+            </div>
+          </div>
+        </dm-step>
+        <dm-step [label]="page().labels['stepPreferences']" [completed]="prefsDone()">
+          <div style="display: grid; gap: 0.75rem">
+            <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+              {{ page().labels['linearPrefsBody'] }}
+            </p>
+            <div style="display: flex; align-items: center; gap: 0.5rem">
+              <dm-checkbox [(checked)]="prefsDone" [ariaLabel]="page().labels['markDone']" />
+              <span style="font-size: 0.875rem">{{ page().labels['markDone'] }}</span>
+            </div>
+          </div>
+        </dm-step>
+        <dm-step [label]="page().labels['stepReview']">
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['linearReviewBody'] }}
+          </p>
+        </dm-step>
+      </dm-stepper>
+
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem">
+        <dm-button
+          variant="bordered"
+          [disabled]="linearActive() === 0"
+          (clicked)="wizard.previous()"
+        >
+          {{ page().labels['back'] }}
+        </dm-button>
+        <dm-button color="primary" [disabled]="!canAdvance()" (clicked)="wizard.next()">
+          {{ page().labels['next'] }}
+        </dm-button>
+      </div>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode">
+    <div style="width: 100%; max-width: 40rem">
+      <dm-stepper [(activeStep)]="statesActive" [ariaLabel]="page().labels['statesAria']">
+        <dm-step [label]="page().labels['completedStep']" completed>
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['statesBody'] }}
+          </p>
+        </dm-step>
+        <dm-step [label]="page().labels['errorStep']" error>
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['statesBody'] }}
+          </p>
+        </dm-step>
+        <dm-step [label]="page().labels['activeStep']">
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['statesBody'] }}
+          </p>
+        </dm-step>
+        <dm-step
+          [label]="page().labels['optionalStep']"
+          optional
+          [optionalLabel]="page().labels['optionalHint']"
+        >
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['statesBody'] }}
+          </p>
+        </dm-step>
+        <dm-step [label]="page().labels['disabledStep']" disabled>
+          <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['statesBody'] }}
+          </p>
+        </dm-step>
+      </dm-stepper>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+    <div style="width: 100%; max-width: 34rem; display: grid; gap: 1.25rem">
+      @for (color of colors; track color) {
+        <dm-stepper [color]="color" size="sm" [activeStep]="1" [ariaLabel]="color">
+          <dm-step [label]="page().labels['stepAccount']" completed />
+          <dm-step [label]="page().labels['stepShipping']" />
+          <dm-step [label]="page().labels['stepPayment']" />
+        </dm-stepper>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div style="width: 100%; max-width: 34rem; display: grid; gap: 1.5rem">
+      @for (size of sizes; track size) {
+        <dm-stepper [size]="size" [activeStep]="1" [ariaLabel]="size">
+          <dm-step [label]="page().labels['stepAccount']" completed />
+          <dm-step [label]="page().labels['stepShipping']" />
+          <dm-step [label]="page().labels['stepPayment']" />
+        </dm-stepper>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 36rem">
+      <form [formGroup]="checkoutForm" style="display: grid; gap: 1.25rem">
+        <div>
+          <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700">
+            {{ page().labels['checkoutTitle'] }}
+          </h3>
+          <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+            {{ page().labels['checkoutSubtitle'] }}
+          </p>
+        </div>
+
+        <dm-stepper
+          #checkout
+          [(activeStep)]="checkoutActive"
+          linear
+          [ariaLabel]="page().labels['checkoutAria']"
+        >
+          <dm-step
+            [label]="page().labels['stepAccount']"
+            [completed]="checkoutForm.controls.account.valid"
+          >
+            <div formGroupName="account" style="display: grid; gap: 1rem; padding-top: 0.5rem">
+              <dm-form-field [label]="page().labels['fullName']" [required]="true">
+                <input dmInput type="text" formControlName="name" autocomplete="name" />
+                @if (
+                  checkoutForm.controls.account.controls.name.touched &&
+                  checkoutForm.controls.account.controls.name.hasError('required')
+                ) {
+                  <dm-error>{{ page().labels['nameRequired'] }}</dm-error>
+                }
+              </dm-form-field>
+
+              <dm-form-field [label]="page().labels['email']" [required]="true">
+                <input dmInput type="email" formControlName="email" autocomplete="email" />
+                @if (
+                  checkoutForm.controls.account.controls.email.touched &&
+                  checkoutForm.controls.account.controls.email.hasError('required')
+                ) {
+                  <dm-error>{{ page().labels['emailRequired'] }}</dm-error>
+                } @else if (
+                  checkoutForm.controls.account.controls.email.touched &&
+                  checkoutForm.controls.account.controls.email.hasError('pattern')
+                ) {
+                  <dm-error>{{ page().labels['emailInvalid'] }}</dm-error>
+                }
+              </dm-form-field>
+            </div>
+          </dm-step>
+
+          <dm-step
+            [label]="page().labels['stepShipping']"
+            [completed]="checkoutForm.controls.shipping.valid"
+          >
+            <div formGroupName="shipping" style="display: grid; gap: 1rem; padding-top: 0.5rem">
+              <dm-form-field [label]="page().labels['address']" [required]="true">
+                <input
+                  dmInput
+                  type="text"
+                  formControlName="address"
+                  autocomplete="street-address"
+                />
+                @if (
+                  checkoutForm.controls.shipping.controls.address.touched &&
+                  checkoutForm.controls.shipping.controls.address.hasError('required')
+                ) {
+                  <dm-error>{{ page().labels['addressRequired'] }}</dm-error>
+                }
+              </dm-form-field>
+
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+                  gap: 1rem;
+                "
+              >
+                <dm-form-field [label]="page().labels['city']" [required]="true">
+                  <input dmInput type="text" formControlName="city" autocomplete="address-level2" />
+                  @if (
+                    checkoutForm.controls.shipping.controls.city.touched &&
+                    checkoutForm.controls.shipping.controls.city.hasError('required')
+                  ) {
+                    <dm-error>{{ page().labels['cityRequired'] }}</dm-error>
+                  }
+                </dm-form-field>
+
+                <div style="display: grid; gap: 0.375rem; align-content: start">
+                  <dm-select
+                    [label]="page().labels['country']"
+                    [placeholder]="page().labels['countryPlaceholder']"
+                    [items]="countries()"
+                    [required]="true"
+                    formControlName="country"
+                  />
+                  @if (
+                    checkoutForm.controls.shipping.controls.country.touched &&
+                    checkoutForm.controls.shipping.controls.country.hasError('required')
+                  ) {
+                    <dm-error>{{ page().labels['countryRequired'] }}</dm-error>
+                  }
+                </div>
+              </div>
+            </div>
+          </dm-step>
+
+          <dm-step
+            [label]="page().labels['stepPayment']"
+            [completed]="checkoutForm.controls.payment.valid"
+          >
+            <div formGroupName="payment" style="display: grid; gap: 1rem; padding-top: 0.5rem">
+              <div style="display: grid; gap: 0.375rem">
+                <dm-select
+                  [label]="page().labels['paymentMethod']"
+                  [placeholder]="page().labels['paymentPlaceholder']"
+                  [items]="paymentMethods()"
+                  [required]="true"
+                  formControlName="method"
+                />
+                @if (
+                  checkoutForm.controls.payment.controls.method.touched &&
+                  checkoutForm.controls.payment.controls.method.hasError('required')
+                ) {
+                  <dm-error>{{ page().labels['paymentRequired'] }}</dm-error>
+                }
+              </div>
+
+              <div style="display: grid; gap: 0.375rem">
+                <div style="display: flex; align-items: center; gap: 0.5rem">
+                  <dm-checkbox formControlName="terms" [ariaLabel]="page().labels['acceptTerms']" />
+                  <span style="font-size: 0.875rem">{{ page().labels['acceptTerms'] }}</span>
+                </div>
+                @if (
+                  checkoutForm.controls.payment.controls.terms.touched &&
+                  checkoutForm.controls.payment.controls.terms.hasError('required')
+                ) {
+                  <dm-error>{{ page().labels['termsRequired'] }}</dm-error>
+                }
+              </div>
+            </div>
+          </dm-step>
+
+          <dm-step [label]="page().labels['stepReview']">
+            <dl
+              style="
+                display: grid;
+                grid-template-columns: auto minmax(0, 1fr);
+                gap: 0.5rem 1rem;
+                margin: 0.5rem 0 0;
+                font-size: 0.875rem;
+              "
+            >
+              <dt style="color: var(--dm-fg-muted)">{{ page().labels['summaryShipTo'] }}</dt>
+              <dd style="margin: 0; overflow-wrap: anywhere">
+                {{ checkoutForm.controls.account.controls.name.value }} ·
+                {{ checkoutForm.controls.shipping.controls.address.value }},
+                {{ checkoutForm.controls.shipping.controls.city.value }}
+                ({{ labelOf(countries(), checkoutForm.controls.shipping.controls.country.value) }})
+              </dd>
+              <dt style="color: var(--dm-fg-muted)">{{ page().labels['summaryPayWith'] }}</dt>
+              <dd style="margin: 0">
+                {{ labelOf(paymentMethods(), checkoutForm.controls.payment.controls.method.value) }}
+              </dd>
+              <dt style="color: var(--dm-fg-muted)">{{ page().labels['summaryTotal'] }}</dt>
+              <dd style="margin: 0">
+                <dm-badge color="success" variant="flat">€ 148.00</dm-badge>
+              </dd>
+            </dl>
+          </dm-step>
+        </dm-stepper>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; flex-wrap: wrap">
+          <dm-button
+            variant="bordered"
+            [disabled]="checkoutActive() === 0"
+            (clicked)="checkout.previous()"
+          >
+            {{ page().labels['back'] }}
+          </dm-button>
+          @if (checkoutActive() < 3) {
+            <dm-button color="primary" (clicked)="checkoutNext(checkout)">
+              {{ page().labels['next'] }}
+            </dm-button>
+          } @else {
+            <dm-button
+              color="primary"
+              [state]="orderState()"
+              [loadingLabel]="page().labels['placing']"
+              [successLabel]="page().labels['placed']"
+              (clicked)="placeOrder()"
+            >
+              {{ page().labels['placeOrder'] }}
+            </dm-button>
+          }
+        </div>
+      </form>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

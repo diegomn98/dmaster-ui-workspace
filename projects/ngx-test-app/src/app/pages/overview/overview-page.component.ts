@@ -33,8 +33,17 @@ import {
   DmSearchFieldComponent,
   DmSelectComponent,
   DmSelectItem,
+  DmTreeNode,
   DmSkeletonComponent,
   DmSliderComponent,
+  DmRatingComponent,
+  DmStepperComponent,
+  DmStepComponent,
+  DmTreeComponent,
+  DmFileUploadComponent,
+  DmNumberInputComponent,
+  DmTimelineComponent,
+  DmTimelineItemComponent,
   DmSpinnerComponent,
   DmSwitchComponent,
   DmTabComponent,
@@ -106,6 +115,14 @@ interface OverviewStat {
     DmAlertComponent,
     DmPaginationComponent,
     DmSliderComponent,
+    DmRatingComponent,
+    DmStepperComponent,
+    DmStepComponent,
+    DmTreeComponent,
+    DmFileUploadComponent,
+    DmNumberInputComponent,
+    DmTimelineComponent,
+    DmTimelineItemComponent,
     DmBreadcrumbsComponent,
     DmBreadcrumbItemComponent,
   ],
@@ -193,6 +210,17 @@ export class OverviewPageComponent {
     { value: 'banana', label: 'Banana' },
     { value: 'cherry', label: 'Cherry' },
     { value: 'grape', label: 'Grape' },
+  ];
+  protected readonly ovTreeNodes: DmTreeNode[] = [
+    {
+      id: 'src',
+      label: 'src',
+      children: [
+        { id: 'app', label: 'app' },
+        { id: 'assets', label: 'assets' },
+      ],
+    },
+    { id: 'readme', label: 'README.md' },
   ];
   protected readonly ovAuto = signal<string>('');
 

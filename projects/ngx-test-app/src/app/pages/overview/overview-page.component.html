@@ -350,6 +350,40 @@
                     <dm-tab-panel value="b" />
                   </dm-tabs>
                 }
+                @case ('number-input') {
+                  <dm-number-input
+                    style="width: 9rem"
+                    [value]="3"
+                    [min]="0"
+                    [max]="10"
+                    size="sm"
+                    ariaLabel="Quantity"
+                  />
+                }
+                @case ('timeline') {
+                  <dm-timeline size="sm" style="width: 100%; text-align: start">
+                    <dm-timeline-item title="Order placed" time="09:12" state="completed" />
+                    <dm-timeline-item title="Shipped" time="14:40" state="active" />
+                    <dm-timeline-item title="Delivered" />
+                  </dm-timeline>
+                }
+                @case ('tree') {
+                  <dm-tree
+                    style="width: 100%; text-align: start"
+                    [nodes]="ovTreeNodes"
+                    [expandedIds]="['src']"
+                    [selectedIds]="['app']"
+                    ariaLabel="Files preview"
+                  />
+                }
+                @case ('file-upload') {
+                  <dm-file-upload
+                    style="width: 100%"
+                    label="Drop files here"
+                    hint="PNG, JPG or PDF · up to 5 MB"
+                    ariaLabel="Upload preview"
+                  />
+                }
                 @case ('table') {
                   <div class="ov__table-mock">
                     <dm-table
@@ -391,6 +425,19 @@
                     </div>
                     <dm-slider [(value)]="ovSlider" ariaLabel="Volume" />
                   </div>
+                }
+                @case ('rating') {
+                  <div style="display: grid; gap: 0.35rem; justify-items: center">
+                    <dm-rating [value]="4" ariaLabel="Rating preview" />
+                    <dm-rating [value]="3.7" size="sm" readonly ariaLabel="Average 3.7" />
+                  </div>
+                }
+                @case ('stepper') {
+                  <dm-stepper [activeStep]="1" size="sm" style="width: 100%">
+                    <dm-step label="Account" completed />
+                    <dm-step label="Billing" />
+                    <dm-step label="Confirm" />
+                  </dm-stepper>
                 }
                 @case ('pagination') {
                   <dm-pagination
