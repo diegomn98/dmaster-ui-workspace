@@ -136,6 +136,15 @@
   overflow-x: auto;
 }
 
+// Dark: the elevated spotlight sat ABOVE the muted component fills and
+// camouflaged them (a flat cell over the spotlight read at ~1.02:1). The dark
+// stage drops BELOW every component surface instead — subtle glow over the
+// page base — so muted/elevated fills always stand out on it.
+[data-dm-theme='dark'] .page__playground-preview {
+  background:
+    radial-gradient(90% 80% at 50% -8%, var(--dm-bg-subtle), transparent 72%), var(--dm-bg);
+}
+
 .page__list {
   display: grid;
   gap: var(--dm-space-2);
