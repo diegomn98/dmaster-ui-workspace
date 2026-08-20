@@ -4,13 +4,17 @@
 
 [![npm version](https://img.shields.io/npm/v/@dmaster/ui?color=006FEE&style=flat-square)](https://www.npmjs.com/package/@dmaster/ui)
 [![npm downloads](https://img.shields.io/npm/dm/@dmaster/ui?color=338EF7&style=flat-square)](https://www.npmjs.com/package/@dmaster/ui)
+[![CI](https://img.shields.io/github/actions/workflow/status/diegomn98/dmaster-ui-workspace/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/diegomn98/dmaster-ui-workspace/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/@dmaster/ui?color=7EE7FC&style=flat-square)](https://github.com/diegomn98/dmaster-ui/blob/main/LICENSE)
 [![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
+[![WCAG 2.1 AA](https://img.shields.io/badge/a11y-WCAG_2.1_AA-0F6E56?style=flat-square)](https://dmasterui.com)
 [![docs](https://img.shields.io/badge/docs-dmasterui.com-7c3aed?style=flat-square)](https://dmasterui.com)
 
-**35 components · 3 languages (EN/ES/FR) in the docs · 0 runtime deps beyond Angular CDK · 500+ tests**
+**41 components · 3 languages (EN/ES/FR) in the docs · 0 runtime deps beyond Angular CDK · 600+ tests**
 
 **[→ Browse every component live at dmasterui.com/components](https://dmasterui.com/components)** — each tile is the real, interactive component, not a screenshot.
+
+**[▶ Try it now on StackBlitz](https://stackblitz.com/github/diegomn98/dmaster-ui-workspace/tree/main/examples/starter)** — a minimal zoneless Angular 20 app already wired up with the library; no install needed. (Source: [`examples/starter`](https://github.com/diegomn98/dmaster-ui-workspace/tree/main/examples/starter).)
 
 ---
 
@@ -23,7 +27,7 @@
 - **Accessible by default** — ARIA attributes on host elements, `:focus-visible` focus rings, touch targets ≥ 44px, `prefers-reduced-motion` support
 - **CDK-powered overlays** — tooltip, popover, menu, dialog, drawer, toast and command palette built on `@angular/cdk`, no third-party overlay dependencies
 - **Three density levels** — `compact`, `comfortable`, `spacious` via `data-dm-density`
-- **Pay only for what you import** — fully tree-shakeable: a button costs ~3.6 kB gzip, a card ~1.3 kB, the entire 35-component library ~70 kB (see [Bundle size](#bundle-size))
+- **Pay only for what you import** — fully tree-shakeable: a button costs ~3.6 kB gzip, a card ~1.3 kB, the entire 41-component library ~78 kB (see [Bundle size](#bundle-size))
 
 ---
 
@@ -92,7 +96,7 @@ export class MyComponent {}
 
 ## Components
 
-35 components across 8 categories. Every row links to its live docs page (playground, API table, a11y notes).
+41 components across 8 categories. Every row links to its live docs page (playground, API table, a11y notes).
 
 ### Primitives
 
@@ -140,6 +144,9 @@ export class MyComponent {}
 | [Date Picker](https://dmasterui.com/components/date-picker)           | `dm-date-picker`              | Day→month→year calendar, `Intl`-only (no date library), reactive locale (`DM_DATE_LOCALE`) |
 | [Color Picker](https://dmasterui.com/components/color-picker)         | `dm-color-picker`             | Saturation/hue/alpha area, editable hex, swatches                                          |
 | [Slider](https://dmasterui.com/components/slider)                     | `dm-slider`                   | Pointer drag + full keyboard map, value bubble, marks                                      |
+| [Rating](https://dmasterui.com/components/rating)                     | `dm-rating`                   | Star rating, half stars, readonly fractional average, custom glyph, `role="slider"`, CVA   |
+| [Number Input](https://dmasterui.com/components/number-input)         | `dm-number-input`             | Spinbutton with ± controls, keyboard map, clamp/precision, `Intl` formatting, CVA          |
+| [File Upload](https://dmasterui.com/components/file-upload)           | `dm-file-upload`              | Drag-and-drop dropzone, thumbnails, per-file progress, accept/size/count validation        |
 | [Form Field](https://dmasterui.com/components/form-field)             | `dm-form-field` + `dmInput`   | Label, hint, error, wraps any native input/textarea/select                                 |
 | [Error](https://dmasterui.com/components/error-message)               | `dm-error`                    | Validation line, `role="alert"`, no built-in icon (project your own)                       |
 
@@ -150,12 +157,15 @@ export class MyComponent {}
 | [Breadcrumbs](https://dmasterui.com/components/breadcrumbs) | `dm-breadcrumbs` + `dm-breadcrumb-item` | Router-agnostic, collapsible                           |
 | [Tabs](https://dmasterui.com/components/tabs)               | `dm-tabs` + `dm-tab` + `dm-tab-panel`   | 5 variants, sliding indicator, full-width, scroll-fade |
 | [Pagination](https://dmasterui.com/components/pagination)   | `dm-pagination`                         | Windowed pager, two-way page binding                   |
+| [Stepper](https://dmasterui.com/components/stepper)         | `dm-stepper` + `dm-step`                | Horizontal/vertical wizard, linear mode, step states   |
 
 ### Data Display
 
-| Component                                       | Selector   | Highlights                                       |
-| ----------------------------------------------- | ---------- | ------------------------------------------------ |
-| [Table](https://dmasterui.com/components/table) | `dm-table` | Search → sort → paginate pipeline, row selection |
+| Component                                             | Selector                           | Highlights                                                       |
+| ----------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------- |
+| [Table](https://dmasterui.com/components/table)       | `dm-table`                         | Search → sort → paginate pipeline, row selection, virtual scroll |
+| [Tree](https://dmasterui.com/components/tree)         | `dm-tree`                          | WAI-ARIA tree view, roving focus, single/multiple selection      |
+| [Timeline](https://dmasterui.com/components/timeline) | `dm-timeline` + `dm-timeline-item` | Vertical/horizontal events, states, custom markers, alternate    |
 
 ### Overlays (require CDK)
 
@@ -201,6 +211,20 @@ The library is server-safe: no component or service touches `window`, `localStor
 
 ---
 
+## Accessibility
+
+Accessibility isn't a checkbox here — it's a gate. Every prerendered docs page (which exercises every component and variant) is scanned with [**axe-core**](https://github.com/dequelabs/axe-core) for **WCAG 2.1 Level A + AA** compliance, in **both light and dark themes**, plus every overlay opened — and the suite must be **green on every pull request**.
+
+Concretely, components ship with: semantic roles and ARIA wired on the host, full keyboard support (roving focus, typeahead, focus traps in overlays), visible `:focus-visible` rings, ≥44px touch targets, `prefers-reduced-motion` honored, and a color system where every text/fill pair — including the vivid `flat` / `light` / `faded` variants — clears the 4.5:1 contrast ratio in both themes. Icon-only `dm-button`s take an `ariaLabel`; form controls forward validity through `aria-describedby` to `dm-error`.
+
+Run it yourself against the prerendered build:
+
+```bash
+npm run build:app && npm run test:a11y
+```
+
+---
+
 ## Bundle size
 
 Fully tree-shakeable — your app only pays for the components it imports. Measured with the same pipeline the Angular CLI applies to published libraries (linker + minify + gzip, `@angular/*` and `rxjs` external):
@@ -212,7 +236,7 @@ Fully tree-shakeable — your app only pays for the components it imports. Measu
 | `DmButtonComponent`       | ~3.6 kB  |
 | `DmSelectComponent`       | ~5.4 kB  |
 | `DmTableComponent`        | ~10.4 kB |
-| **Entire library** (35)   | ~70 kB   |
+| **Entire library** (41)   | ~78 kB   |
 | Global CSS (tokens+reset) | ~4 kB    |
 
 Reproduce the full per-component table from the repo with `npm run size`.

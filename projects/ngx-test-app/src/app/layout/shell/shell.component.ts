@@ -135,6 +135,9 @@ export class ShellComponent implements OnInit {
           { label: t.shell.nav.datePicker, path: '/components/date-picker' },
           { label: t.shell.nav.colorPicker, path: '/components/color-picker' },
           { label: t.shell.nav.slider, path: '/components/slider' },
+          { label: t.shell.nav.rating, path: '/components/rating' },
+          { label: t.shell.nav.fileUpload, path: '/components/file-upload' },
+          { label: t.shell.nav.numberInput, path: '/components/number-input' },
           { label: t.shell.nav.formField, path: '/components/form-field' },
           { label: t.shell.nav.errorMessage, path: '/components/error-message' },
         ],
@@ -145,11 +148,16 @@ export class ShellComponent implements OnInit {
           { label: t.shell.nav.breadcrumbs, path: '/components/breadcrumbs' },
           { label: t.shell.nav.tabs, path: '/components/tabs' },
           { label: t.shell.nav.pagination, path: '/components/pagination' },
+          { label: t.shell.nav.stepper, path: '/components/stepper' },
         ],
       },
       {
         label: t.shell.nav.dataDisplay,
-        items: [{ label: t.shell.nav.table, path: '/components/table' }],
+        items: [
+          { label: t.shell.nav.table, path: '/components/table' },
+          { label: t.shell.nav.tree, path: '/components/tree' },
+          { label: t.shell.nav.timeline, path: '/components/timeline' },
+        ],
       },
       {
         label: t.shell.nav.overlays,

@@ -1,0 +1,94 @@
+<header class="topbar">
+  <div class="brand">
+    <span class="brand__mark">dm.</span>
+    <span class="brand__name">Team</span>
+    <dm-badge color="primary" variant="flat" size="sm">@dmaster/ui</dm-badge>
+  </div>
+
+  <button
+    type="button"
+    class="theme-toggle"
+    [attr.aria-label]="
+      theme.resolvedTheme() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+    "
+    (click)="theme.toggle()"
+  >
+    <dm-icon [name]="theme.resolvedTheme() === 'dark' ? 'sun' : 'moon'" size="1.15rem" />
+  </button>
+</header>
+
+<main class="page">
+  <!-- ---- Invite form ---------------------------------------------------- -->
+  <dm-card class="invite">
+    <div class="invite__head">
+      <h1 class="invite__title">Invite a teammate</h1>
+      <p class="invite__subtitle">They’ll get access as soon as they accept.</p>
+    </div>
+
+    <form class="invite__form" [formGroup]="form" (ngSubmit)="submit()">
+      <dm-form-field label="Full name" [required]="true">
+        <input
+          dmInput
+          type="text"
+          formControlName="name"
+          autocomplete="name"
+          placeholder="Ada Lovelace"
+        />
+        @if (form.controls.name.touched && form.controls.name.hasError('required')) {
+          <dm-error>Please enter a name.</dm-error>
+        }
+      </dm-form-field>
+
+      <dm-form-field label="Email" [required]="true">
+        <input
+          dmInput
+          type="email"
+          formControlName="email"
+          autocomplete="email"
+          placeholder="ada@example.com"
+        />
+        @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+          <dm-error>Email is required.</dm-error>
+        } @else if (form.controls.email.touched && form.controls.email.hasError('pattern')) {
+          <dm-error>Enter a valid email address.</dm-error>
+        }
+      </dm-form-field>
+
+      <div class="invite__field">
+        <dm-select label="Role" placeholder="Pick a role" [items]="roles" formControlName="role" />
+        @if (form.controls.role.touched && form.controls.role.hasError('required')) {
+          <dm-error>Choose a role.</dm-error>
+        }
+      </div>
+
+      <dm-button
+        type="submit"
+        color="primary"
+        style="width: 100%"
+        [state]="state()"
+        loadingLabel="Sending invite…"
+        successLabel="Invite sent"
+      >
+        Send invite
+      </dm-button>
+    </form>
+  </dm-card>
+
+  <!-- ---- Team list ------------------------------------------------------ -->
+  <section class="team" aria-label="Team members">
+    <h2 class="team__title">{{ team().length }} member{{ team().length === 1 ? '' : 's' }}</h2>
+
+    <ul class="team__list">
+      @for (member of team(); track member.email) {
+        <li class="member">
+          <dm-avatar [src]="member.src" [alt]="member.name" size="md" />
+          <div class="member__id">
+            <span class="member__name">{{ member.name }}</span>
+            <span class="member__email">{{ member.email }}</span>
+          </div>
+          <dm-badge color="default" variant="bordered" size="sm">{{ member.role }}</dm-badge>
+        </li>
+      }
+    </ul>
+  </section>
+</main>

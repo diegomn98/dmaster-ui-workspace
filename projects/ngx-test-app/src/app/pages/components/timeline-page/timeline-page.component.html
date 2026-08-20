@@ -1,0 +1,384 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.dataDisplay }}</p>
+  <h1 class="page__title">Timeline</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmTimelineComponent, DmTimelineItemComponent, DmTimelineMarkerDirective &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="usage-title">
+  <h2 class="page__section-title" id="usage-title">{{ i18n.t().common.usageTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.usageDesc }}</p>
+  <app-code-snippet [code]="basicCode" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 40rem">
+      <dm-timeline
+        [orientation]="pgOrientation()"
+        [align]="pgAlign()"
+        [size]="pgSize()"
+        [color]="pgColor()"
+        [ariaLabel]="page().labels['orderAria']"
+      >
+        <dm-timeline-item
+          [title]="page().labels['placed']"
+          [time]="day('2026-03-03')"
+          datetime="2026-03-03"
+          state="completed"
+        >
+          {{ page().labels['placedBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['shipped']"
+          [time]="day('2026-03-04')"
+          datetime="2026-03-04"
+          state="completed"
+        >
+          {{ page().labels['shippedBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['outForDelivery']"
+          [time]="day('2026-03-05')"
+          datetime="2026-03-05"
+          state="active"
+        >
+          {{ page().labels['outForDeliveryBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item [title]="page().labels['delivered']" variant="outlined" />
+      </dm-timeline>
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
+    <div style="width: 100%; max-width: 28rem">
+      <dm-timeline [ariaLabel]="page().labels['orderAria']">
+        <dm-timeline-item
+          [title]="page().labels['placed']"
+          [time]="day('2026-03-03')"
+          datetime="2026-03-03"
+          state="completed"
+        >
+          {{ page().labels['placedBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['shipped']"
+          [time]="day('2026-03-04')"
+          datetime="2026-03-04"
+          state="completed"
+        >
+          {{ page().labels['shippedBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['outForDelivery']"
+          [time]="day('2026-03-05')"
+          datetime="2026-03-05"
+          state="active"
+        >
+          {{ page().labels['outForDeliveryBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item [title]="page().labels['delivered']" variant="outlined" />
+      </dm-timeline>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode">
+    <div style="width: 100%; max-width: 28rem">
+      <dm-timeline [ariaLabel]="page().labels['pipelineAria']">
+        <dm-timeline-item [title]="page().labels['checkout']" time="10:02" state="completed">
+          <code style="font-size: 0.8125rem">main @ 3c24fc0</code>
+        </dm-timeline-item>
+        <dm-timeline-item [title]="page().labels['build']" time="10:03" state="completed">
+          {{ page().labels['buildBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item [title]="page().labels['lint']" time="10:04" state="error">
+          {{ page().labels['lintBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item [title]="page().labels['tests']" time="10:04" state="active">
+          {{ page().labels['testsBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item [title]="page().labels['deploy']">
+          {{ page().labels['deployBody'] }}
+        </dm-timeline-item>
+      </dm-timeline>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['outlined']" [code]="outlinedCode">
+    <div style="width: 100%; max-width: 28rem">
+      <dm-timeline [ariaLabel]="page().labels['incidentAria']" color="default">
+        <dm-timeline-item
+          [title]="page().labels['incidentOpened']"
+          time="08:12"
+          variant="outlined"
+          color="danger"
+          state="completed"
+        >
+          {{ page().labels['incidentOpenedBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['investigating']"
+          time="08:20"
+          variant="outlined"
+          color="warning"
+          state="completed"
+        >
+          {{ page().labels['investigatingBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['fixDeployed']"
+          time="09:05"
+          variant="outlined"
+          color="primary"
+          state="completed"
+        >
+          {{ page().labels['fixDeployedBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['resolved']"
+          time="09:40"
+          variant="outlined"
+          color="success"
+          state="active"
+        >
+          {{ page().labels['resolvedBody'] }}
+        </dm-timeline-item>
+      </dm-timeline>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['customMarkers']" [code]="markersCode" [ts]="markersTs">
+    <div style="width: 100%; max-width: 28rem">
+      <dm-timeline [ariaLabel]="page().labels['feedAria']" size="lg">
+        <dm-timeline-item
+          [title]="page().labels['anaCommented']"
+          [time]="page().labels['timeAgo2h']"
+        >
+          <dm-avatar dmTimelineMarker initials="AG" size="sm" />
+          {{ page().labels['anaBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['deploySucceeded']"
+          [time]="page().labels['timeAgo4h']"
+        >
+          <span
+            dmTimelineMarker
+            style="
+              display: inline-grid;
+              place-items: center;
+              width: 1.75rem;
+              height: 1.75rem;
+              border-radius: 999px;
+              background: var(--dm-success-subtle);
+              color: var(--dm-success);
+            "
+          >
+            <dm-icon name="zap" size="1rem" />
+          </span>
+          {{ page().labels['deploySucceededBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['lucasPushed']"
+          [time]="page().labels['timeYesterday']"
+        >
+          <dm-avatar dmTimelineMarker initials="LM" size="sm" />
+          <code style="font-size: 0.8125rem">feat(timeline): custom markers</code>
+        </dm-timeline-item>
+        <dm-timeline-item [title]="page().labels['starred']" [time]="page().labels['timeAgo3d']">
+          <span
+            dmTimelineMarker
+            style="
+              display: inline-grid;
+              place-items: center;
+              width: 1.75rem;
+              height: 1.75rem;
+              border-radius: 999px;
+              background: var(--dm-warning-subtle);
+              color: var(--dm-warning);
+            "
+          >
+            <dm-icon name="star" size="1rem" />
+          </span>
+          {{ page().labels['starredBody'] }}
+        </dm-timeline-item>
+      </dm-timeline>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['alternate']" [code]="alternateCode">
+    <div style="width: 100%; max-width: 40rem">
+      <dm-timeline align="alternate" [ariaLabel]="page().labels['milestonesAria']">
+        <dm-timeline-item
+          [title]="page().labels['v1']"
+          [time]="page().labels['v1Time']"
+          datetime="2025-01"
+          state="completed"
+        >
+          {{ page().labels['v1Body'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['v15']"
+          [time]="page().labels['v15Time']"
+          datetime="2025-06"
+          state="completed"
+        >
+          {{ page().labels['v15Body'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['v2']"
+          [time]="page().labels['v2Time']"
+          datetime="2026-03"
+          state="active"
+        >
+          {{ page().labels['v2Body'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['v3']"
+          time="2027"
+          datetime="2027"
+          variant="outlined"
+        >
+          {{ page().labels['v3Body'] }}
+        </dm-timeline-item>
+      </dm-timeline>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['horizontal']" [code]="horizontalCode">
+    <div style="width: 100%; max-width: 44rem">
+      <dm-timeline
+        orientation="horizontal"
+        color="success"
+        [ariaLabel]="page().labels['roadmapAria']"
+        style="--dm-timeline-col: 11rem"
+      >
+        <dm-timeline-item
+          [title]="page().labels['plan']"
+          [time]="page().labels['q1']"
+          state="completed"
+        >
+          {{ page().labels['planBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['buildPhase']"
+          [time]="page().labels['q2']"
+          state="completed"
+        >
+          {{ page().labels['buildPhaseBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['beta']"
+          [time]="page().labels['q3']"
+          state="active"
+        >
+          {{ page().labels['betaBody'] }}
+        </dm-timeline-item>
+        <dm-timeline-item
+          [title]="page().labels['ga']"
+          [time]="page().labels['q4']"
+          variant="outlined"
+        >
+          {{ page().labels['gaBody'] }}
+        </dm-timeline-item>
+      </dm-timeline>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 30rem">
+      <div style="display: grid; gap: 1.25rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: start;
+            flex-wrap: wrap;
+          "
+        >
+          <div>
+            <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700">
+              {{ page().labels['orderTitle'] }}
+            </h3>
+            <p style="margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+              {{ page().labels['orderSubtitle'] }}
+            </p>
+          </div>
+          <div style="display: grid; justify-items: end; gap: 0.375rem">
+            <dm-badge [color]="orderStatus().color" variant="flat">
+              {{ page().labels[orderStatus().key] }}
+            </dm-badge>
+            <span style="font-size: 0.75rem; color: var(--dm-fg-muted)">{{ orderEta() }}</span>
+          </div>
+        </div>
+
+        <dm-timeline [ariaLabel]="page().labels['orderAria']" color="success">
+          @for (step of orderSteps; track step.titleKey; let i = $index) {
+            <dm-timeline-item
+              [title]="page().labels[step.titleKey]"
+              [time]="i <= orderActive() ? stamp(step.datetime) : ''"
+              [datetime]="step.datetime"
+              [state]="stepState(i)"
+              [variant]="i > orderActive() ? 'outlined' : 'solid'"
+            >
+              @if (i <= orderActive()) {
+                {{ page().labels[step.bodyKey] }}
+              } @else {
+                <span style="color: var(--dm-fg-subtle)">{{ page().labels['pending'] }}</span>
+              }
+            </dm-timeline-item>
+          }
+        </dm-timeline>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.5rem; flex-wrap: wrap">
+          <dm-button variant="light" (clicked)="resetOrder()">
+            {{ page().labels['reset'] }}
+          </dm-button>
+          <dm-button variant="ghost">
+            {{ page().labels['track'] }}
+          </dm-button>
+          <dm-button color="primary" [disabled]="isDelivered()" (clicked)="advanceOrder()">
+            {{ page().labels['advance'] }}
+          </dm-button>
+        </div>
+      </div>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

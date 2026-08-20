@@ -7,6 +7,76 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-08-20
+
+### Added
+
+- **Six new components** — the last pieces for a 1.0 catalogue (41 in total):
+  - **`dm-stepper`** + **`dm-step`** — horizontal/vertical multi-step wizard with
+    `[(activeStep)]`, `linear` mode (can't skip past an incomplete step),
+    per-step `completed` / `error` / `optional` / `disabled` states, keyboard
+    focus between steps, `next()` / `previous()`, and `aria-current="step"`.
+  - **`dm-rating`** — star rating as a `ControlValueAccessor` (`role="slider"`):
+    `[(value)]`, `max`, `allowHalf` (hover + keyboard half-stars), a `readonly`
+    display mode that renders fractional averages (`3.7`), sizes, colors and a
+    custom `character` glyph. Clicking the current value clears to `0`.
+  - **`dm-tree`** — data-driven hierarchical tree implementing the full
+    WAI-ARIA Tree View pattern: `role="tree"` / `treeitem` / `group`,
+    `aria-level` / `setsize` / `posinset`, roving tabindex, and the complete
+    keyboard model (arrows, Home/End, Enter/Space, `*`). Single or multiple
+    selection via `[(selectedIds)]`, `[(expandedIds)]`, `expandAll()` /
+    `collapseAll()`, optional guide lines.
+  - **`dm-file-upload`** — drag-and-drop dropzone over a hidden native
+    `<input type="file">`: `[(files)]`, `multiple`, `accept`, `maxSize`,
+    `maxFiles`, image thumbnails, per-file `progress`, `(fileRejected)` with a
+    typed reason, `role="alert"` rejections, labelled remove buttons, and a
+    pure `formatFileSize()` helper. SSR-safe object URLs.
+  - **`dm-timeline`** + **`dm-timeline-item`** — vertical/horizontal event
+    timeline: `<time datetime>` stamps, per-item `color` / `variant`
+    (`solid` | `outlined`) / `state` (`active` pulse, `completed`, `error`),
+    `align="alternate"` zig-zag, and a `dmTimelineMarker` directive to project
+    a custom marker (avatar, icon). `role="list"` / `listitem` semantics.
+  - **`dm-number-input`** — numeric spinbutton that reads as a sibling of the
+    field family: `role="spinbutton"` with ± controls, `min` / `max` / `step` /
+    `precision`, the full keyboard map (arrows, Shift×10, PageUp/Down,
+    Home/End), press-and-hold, `Intl` formatting on blur (`formatOptions`),
+    `hideControls`, and `ControlValueAccessor`.
+- **`dm-button` — `ariaLabel` input.** Sets the accessible name on the inner
+  `<button>` (not the host wrapper), so **icon-only buttons** announce their
+  action to screen readers: `<dm-button ariaLabel="Delete"><dm-icon name="trash" /></dm-button>`.
+- **Accessible text tokens for tinted variants** — a `--dm-{color}-text` token
+  per semantic color (`primary`, `secondary`, `success`, `warning`, `danger`),
+  in both themes. It is the color's base hue darkened (light) / lightened (dark)
+  just enough to meet WCAG AA as small text on that color's `-subtle` fill. The
+  `flat` / `light` / `faded` / `bordered` variants of `dm-badge`, `dm-button`
+  and `dm-alert` now use it, so a flat chip's label is readable while the fill
+  stays vivid.
+
+### Fixed (accessibility — WCAG 2.1 AA)
+
+The whole library is now verified against **axe-core (WCAG 2.1 A + AA)** in
+light **and** dark on every documented example — the following were fixed:
+
+- **Contrast.** `--dm-fg-subtle` (labels/placeholders) was below AA on both
+  themes and is now compliant. Tinted-variant text (badge/button/alert `flat`
+  etc.), `dm-avatar` initials, `dm-table`'s selection toolbar, `dm-select`'s
+  selected option, `dm-tabs`' active tab, and `dm-error` text all met their
+  fill at less than 4.5:1 and now use the AA `-text` shade. Solid `danger`
+  (light and dark) and dark `primary` / `secondary` were nudged a touch deeper
+  so their **white label** clears 4.5:1 — the hues are unchanged to the eye.
+- **`dm-breadcrumbs`.** The `<ol>` now exposes proper `list` / `listitem`
+  semantics through the custom-element wrapper (was flagged `list`/`listitem`).
+- **`dm-kbd`.** Symbol keys use `role="img"` so their `aria-label` is valid
+  (`aria-label` is prohibited on a bare `<kbd>`).
+- **`dm-checkbox`.** The indeterminate state now uses the native `indeterminate`
+  property instead of `aria-checked="mixed"` on a native checkbox
+  (`aria-conditional-attr`).
+- **`dm-avatar`.** A fallback with no `alt` and no `initials` is now decorative
+  (no `role="img"`) instead of a nameless image (`role-img-alt`).
+- **`dm-date-picker`.** Dropped `aria-required` / `aria-invalid` from the
+  trigger `<button>` (unsupported on the button role — `aria-allowed-attr`);
+  invalidity is still conveyed via the `aria-describedby` error text.
+
 ## [0.5.0] - 2026-08-19
 
 ### Added
@@ -167,6 +237,7 @@ Initial public surface.
 - Per-component injectable defaults (`provideXxxDefaults()`), global `provideDmasterUI()`.
 - Flat, pill-radius design language: flat fills, pill radii, elastic press, color × variant tokens.
 
+[0.6.0]: https://github.com/diegomn98/dmaster-ui-workspace/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/diegomn98/dmaster-ui-workspace/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/diegomn98/dmaster-ui-workspace/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/diegomn98/dmaster-ui-workspace/compare/v0.3.0...v0.4.1

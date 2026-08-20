@@ -1,0 +1,401 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.dataDisplay }}</p>
+  <h1 class="page__title">Tree</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmTreeComponent, DmTreeNode &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="usage-title">
+  <h2 class="page__section-title" id="usage-title">{{ i18n.t().common.usageTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.usageDesc }}</p>
+  <app-code-snippet [code]="basicCode" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <div style="width: 100%; max-width: 22rem">
+      <dm-tree
+        [nodes]="files"
+        [selectionMode]="pgSelectionMode()"
+        [showGuides]="pgShowGuides()"
+        [expandOnSelect]="pgExpandOnSelect()"
+        [(selectedIds)]="pgSelected"
+        [(expandedIds)]="pgExpanded"
+        [ariaLabel]="page().labels['filesAria']"
+      />
+    </div>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <!-- File explorer (single selection) -->
+  <app-demo-block [heading]="page().labels['fileExplorer']" [code]="explorerCode">
+    <div style="width: 100%; max-width: 22rem">
+      <dm-tree
+        [nodes]="files"
+        [(selectedIds)]="explorerSelected"
+        [(expandedIds)]="explorerExpanded"
+        [ariaLabel]="page().labels['filesAria']"
+      />
+      <p class="table-readout">
+        @if (explorerSelected().length > 0) {
+          {{ page().labels['selectedPrefix'] }}: <code>{{ explorerSelected()[0] }}</code>
+        } @else {
+          {{ page().labels['nothingSelected'] }}
+        }
+      </p>
+    </div>
+  </app-demo-block>
+
+  <!-- Multiple selection -->
+  <app-demo-block [heading]="page().labels['multiple']" [code]="multipleCode">
+    <div style="width: 100%; max-width: 22rem">
+      <dm-tree
+        [nodes]="files"
+        selectionMode="multiple"
+        [(selectedIds)]="multiSelected"
+        [(expandedIds)]="multiExpanded"
+        [ariaLabel]="page().labels['filesAria']"
+      />
+      <p class="table-readout">
+        @if (multiSelectedLabels()) {
+          {{ page().labels['selectedPrefix'] }}: {{ multiSelectedLabels() }}
+        } @else {
+          {{ page().labels['nothingSelected'] }}
+        }
+      </p>
+    </div>
+  </app-demo-block>
+
+  <!-- Controlled expansion -->
+  <app-demo-block [heading]="page().labels['controlled']" [code]="controlledCode">
+    <div class="demo-stack" style="max-width: 22rem">
+      <div class="demo-row" style="justify-content: flex-start">
+        <dm-button size="sm" variant="bordered" (clicked)="expandAll()">
+          {{ page().labels['expandAll'] }}
+        </dm-button>
+        <dm-button size="sm" variant="bordered" (clicked)="collapseAll()">
+          {{ page().labels['collapseAll'] }}
+        </dm-button>
+        <span class="demo-output"
+          >{{ ctrlExpanded().length }} {{ page().labels['expandedUnit'] }}</span
+        >
+      </div>
+      <dm-tree
+        #ctrlTree
+        [nodes]="files"
+        [(selectedIds)]="ctrlSelected"
+        [(expandedIds)]="ctrlExpanded"
+        [ariaLabel]="page().labels['filesAria']"
+        style="width: 100%"
+      />
+    </div>
+  </app-demo-block>
+
+  <!-- Guides on / off -->
+  <app-demo-block [heading]="page().labels['guides']" [code]="guidesCode">
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+        gap: 1.5rem;
+        width: 100%;
+      "
+    >
+      <div>
+        <p style="margin: 0 0 0.5rem; font-size: 0.8125rem; color: var(--dm-fg-muted)">
+          {{ page().labels['withoutGuides'] }}
+        </p>
+        <dm-tree
+          [nodes]="files"
+          selectionMode="none"
+          [(expandedIds)]="guidesExpanded"
+          [ariaLabel]="page().labels['withoutGuides']"
+        />
+      </div>
+      <div>
+        <p style="margin: 0 0 0.5rem; font-size: 0.8125rem; color: var(--dm-fg-muted)">
+          {{ page().labels['withGuides'] }}
+        </p>
+        <dm-tree
+          [nodes]="files"
+          selectionMode="none"
+          showGuides
+          [(expandedIds)]="guidesExpanded"
+          [ariaLabel]="page().labels['withGuides']"
+        />
+      </div>
+    </div>
+  </app-demo-block>
+
+  <!-- Disabled nodes -->
+  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
+    <div style="width: 100%; max-width: 22rem">
+      <dm-tree
+        [nodes]="settings"
+        [(selectedIds)]="disabledSelected"
+        [(expandedIds)]="disabledExpanded"
+        [ariaLabel]="page().labels['settingsAria']"
+      />
+      <p class="table-readout">{{ page().labels['disabledNote'] }}</p>
+    </div>
+  </app-demo-block>
+
+  <!-- Keyboard -->
+  <app-demo-block [heading]="page().labels['keyboard']" [code]="keyboardCode">
+    <div
+      style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        gap: 1.5rem;
+        align-items: start;
+        width: 100%;
+      "
+    >
+      <div>
+        <p style="margin: 0 0 0.5rem; font-size: 0.8125rem; color: var(--dm-fg-muted)">
+          {{ page().labels['keyboardHint'] }}
+        </p>
+        <dm-tree
+          [nodes]="files"
+          [(selectedIds)]="keyboardSelected"
+          [(expandedIds)]="keyboardExpanded"
+          [ariaLabel]="page().labels['filesAria']"
+        />
+      </div>
+      <dl
+        style="
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 0.625rem 1rem;
+          align-items: center;
+          margin: 0;
+          font-size: 0.875rem;
+        "
+      >
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="up"></dm-kbd>
+          <dm-kbd size="sm" keys="down"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbUpDown'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="right"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbRight'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="left"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbLeft'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="home"></dm-kbd>
+          <dm-kbd size="sm" keys="end"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbHomeEnd'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm" keys="enter"></dm-kbd>
+          <dm-kbd size="sm" keys="space"></dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbEnterSpace'] }}</dd>
+
+        <dt style="display: flex; gap: 0.25rem">
+          <dm-kbd size="sm">*</dm-kbd>
+        </dt>
+        <dd style="margin: 0; color: var(--dm-fg-muted)">{{ page().labels['kbStar'] }}</dd>
+      </dl>
+    </div>
+  </app-demo-block>
+
+  <!-- Composition: access control panel -->
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card padding="none" style="width: 100%; overflow: hidden">
+      <!-- Header -->
+      <div
+        style="
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 1rem 1.25rem;
+          border-bottom: 1px solid var(--dm-border);
+        "
+      >
+        <div style="flex: 1; min-width: 12rem">
+          <strong style="font-size: 1.0625rem">{{ page().labels['compositionTitle'] }}</strong>
+          <p style="margin: 0.15rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem">
+            {{ page().labels['compositionSubtitle'] }}
+          </p>
+        </div>
+        <dm-badge color="primary" variant="flat" size="sm">
+          {{ orgPeopleCount() }} {{ page().labels['peopleUnit'] }}
+        </dm-badge>
+      </div>
+
+      <!-- Body: tree + detail pane -->
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0"
+      >
+        <div style="padding: 1rem 1.25rem; border-bottom: 1px solid var(--dm-border)">
+          <p
+            style="
+              margin: 0 0 0.5rem;
+              font-size: 0.75rem;
+              font-weight: 600;
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+              color: var(--dm-fg-muted);
+            "
+          >
+            {{ page().labels['orgLabel'] }}
+          </p>
+          <dm-tree
+            [nodes]="org"
+            selectionMode="multiple"
+            showGuides
+            [(selectedIds)]="orgSelected"
+            [(expandedIds)]="orgExpanded"
+            [ariaLabel]="page().labels['orgLabel']"
+          />
+        </div>
+
+        <aside
+          style="
+            display: grid;
+            align-content: start;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background: var(--dm-bg-subtle);
+            border-bottom: 1px solid var(--dm-border);
+          "
+        >
+          @if (orgSelectedNodes().length > 0) {
+            <div style="display: flex; align-items: center; justify-content: space-between">
+              <span style="font-size: 0.875rem; font-weight: 600">
+                {{ orgSelectedNodes().length }} {{ page().labels['selectedSuffix'] }}
+              </span>
+              <dm-button size="sm" variant="light" (clicked)="orgSelected.set([])">
+                {{ page().labels['clear'] }}
+              </dm-button>
+            </div>
+
+            <div style="display: grid; gap: 0.5rem">
+              @for (node of orgSelectedNodes(); track node.id) {
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 0.625rem;
+                    padding: 0.5rem 0.625rem;
+                    background: var(--dm-bg-elevated);
+                    border: 1px solid var(--dm-border);
+                    border-radius: var(--dm-radius-md);
+                  "
+                >
+                  <dm-avatar [initials]="initials(node.label)" [alt]="node.label" size="sm" />
+                  <div style="flex: 1; min-width: 0; line-height: 1.3">
+                    <div
+                      style="
+                        font-size: 0.875rem;
+                        font-weight: 600;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                      "
+                    >
+                      {{ node.label }}
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--dm-fg-muted)">
+                      @if (meta(node).kind === 'person') {
+                        {{ meta(node).role }} · {{ meta(node).email }}
+                      } @else {
+                        {{ peopleIn(node) }} {{ page().labels['peopleUnit'] }}
+                      }
+                    </div>
+                  </div>
+                  <dm-badge [color]="kindColor(meta(node).kind)" variant="flat" size="sm">
+                    {{ kindLabel(meta(node).kind) }}
+                  </dm-badge>
+                </div>
+              }
+            </div>
+
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding-top: 0.5rem;
+                border-top: 1px solid var(--dm-border);
+              "
+            >
+              <div style="flex: 1; min-width: 0">
+                <div style="font-size: 0.875rem; font-weight: 600">
+                  {{ page().labels['grantAccess'] }}
+                </div>
+                <div style="font-size: 0.75rem; color: var(--dm-fg-muted)">
+                  {{ page().labels['grantDesc'] }}
+                </div>
+              </div>
+              <dm-switch [(checked)]="grantAccess" [ariaLabel]="page().labels['grantAccess']" />
+            </div>
+
+            <div style="display: flex; justify-content: flex-end">
+              <dm-button
+                color="primary"
+                size="sm"
+                [state]="saveState()"
+                [loadingLabel]="page().labels['saving']"
+                [successLabel]="page().labels['saved']"
+                (clicked)="save()"
+              >
+                {{ page().labels['save'] }}
+              </dm-button>
+            </div>
+          } @else {
+            <p style="margin: 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+              {{ page().labels['emptyDetail'] }}
+            </p>
+          }
+        </aside>
+      </div>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

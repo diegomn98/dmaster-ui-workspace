@@ -1,0 +1,134 @@
+/* Every value here is a @dmaster/ui token, so the whole app follows the
+   active theme (toggle it from the top bar) with no extra work. */
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  border-bottom: 1px solid var(--dm-border);
+  background: var(--dm-bg-elevated);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.brand__mark {
+  font-weight: 800;
+  font-size: 1.25rem;
+  color: var(--dm-primary);
+}
+
+.brand__name {
+  font-weight: 600;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg);
+  color: var(--dm-fg);
+  cursor: pointer;
+  transition:
+    background var(--dm-duration-base) var(--dm-ease-out),
+    border-color var(--dm-duration-base) var(--dm-ease-out);
+}
+
+.theme-toggle:hover {
+  background: var(--dm-bg-muted);
+  border-color: var(--dm-border-strong);
+}
+
+.page {
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.invite__head {
+  margin-bottom: 1.25rem;
+}
+
+.invite__title {
+  margin: 0;
+  font-size: 1.375rem;
+  font-weight: 700;
+}
+
+.invite__subtitle {
+  margin: 0.25rem 0 0;
+  color: var(--dm-fg-muted);
+  font-size: 0.9375rem;
+}
+
+.invite__form {
+  display: grid;
+  gap: 1rem;
+}
+
+.invite__field {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.team__title {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--dm-fg-muted);
+}
+
+.team__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+}
+
+.member__id {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+}
+
+.member__name {
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.member__email {
+  color: var(--dm-fg-muted);
+  font-size: 0.8125rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

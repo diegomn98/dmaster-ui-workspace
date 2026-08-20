@@ -33,3 +33,98 @@ jobs:
 
       # Validate the publishable package layout (exports, files, types)
       - run: npx publint dist/dmaster-ui
+
+  # Consumer-perspective check: pack the built library and build a real, isolated
+  # Angular app against the tarball (examples/starter). Catches packaging /
+  # exports / peer-dep / type-resolution problems that never surface inside the
+  # monorepo (whose tsconfig points @dmaster/ui at source). Runs in parallel.
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+
+      # Builds the library, packs it, installs it into examples/starter and
+      # builds that app. Fails if the published package wouldn't work.
+      - run: npm run verify:package
+
+  # Accessibility gate: axe-core (WCAG 2.1 A + AA) over every prerendered route
+  # in BOTH themes, plus the opened overlays. Proves the "accessible by default"
+  # claim on each PR instead of asserting it. Runs in parallel.
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+
+      # The suite runs against the prerendered production build (what ships).
+      - run: npm run build:app
+
+      - run: npx playwright install --with-deps chromium
+
+      - run: npm run test:a11y
+
+  # Visual-regression gate: screenshot every prerendered route in light + dark
+  # and pixel-diff against committed baselines. Runs INSIDE the official
+  # Playwright container so rendering (fonts, AA) is deterministic and matches
+  # the baselines — never the host's rendering. Baselines are generated the same
+  # way: `docker run ... npm run test:visual:update` (see README).
+  visual:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build:app
+
+      # First run bootstraps: with no baselines yet, generate them in this
+      # container (deterministic rendering) and commit them back once — so the
+      # gate goes live without a manual step. Every run afterwards diffs against
+      # those committed baselines. To refresh after an intentional UI change, run
+      # the "Update visual baselines" workflow (or delete the *-linux.png files).
+      - name: Visual regression
+        run: |
+          if ls e2e/*-snapshots/*-linux.png >/dev/null 2>&1; then
+            npm run test:visual
+          else
+            echo "::notice::No baselines found — generating and committing them (one-time bootstrap)."
+            npm run test:visual:update
+            git config --global --add safe.directory "$GITHUB_WORKSPACE"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add e2e
+            if ! git diff --staged --quiet; then
+              git commit -m "test(visual): bootstrap baselines [skip ci]"
+              git push origin "HEAD:${GITHUB_REF_NAME}"
+            fi
+          fi
+
+      # Surface the diff images when a snapshot changes, so review is one click.
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-diffs
+          path: test-results/
+          retention-days: 7

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Live documentation
+    url: https://dmasterui.com
+    about: Playgrounds, API tables and accessibility notes for every component.
+  - name: Question or discussion
+    url: https://github.com/diegomn98/dmaster-ui-workspace/discussions
+    about: Ask a usage question or share an idea before opening an issue.
+  - name: Security vulnerability
+    url: https://github.com/diegomn98/dmaster-ui-workspace/security/advisories/new
+    about: Report a security issue privately (please do not open a public issue).

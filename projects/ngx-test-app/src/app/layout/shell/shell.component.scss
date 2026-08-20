@@ -308,7 +308,9 @@ $sidebar-width: 16rem;
   &--active,
   &--active:hover {
     background: var(--dm-primary-subtle);
-    color: var(--dm-primary);
+
+    // -hover is the darker (light theme) / lighter (dark) shade → AA on the tint.
+    color: var(--dm-primary-text);
     font-weight: var(--dm-font-medium);
   }
 }

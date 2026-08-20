@@ -1,0 +1,43 @@
+name: Update visual baselines
+
+# Manual, one-click baseline generation. Runs INSIDE the same Playwright
+# container the `visual` CI job uses, so the screenshots it commits render
+# identically to what CI will compare against — no host/OS mismatch. Trigger it
+# from the Actions tab ("Run workflow") after an intentional UI change; it
+# regenerates every route's light + dark baseline and commits them back.
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.62.1-noble
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build:app
+
+      # --update-snapshots writes/refreshes the baselines and always passes.
+      - run: npm run test:visual:update
+
+      - name: Commit refreshed baselines
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add e2e
+          if git diff --staged --quiet; then
+            echo "No baseline changes."
+          else
+            git commit -m "test(visual): regenerate baselines"
+            git push
+          fi
