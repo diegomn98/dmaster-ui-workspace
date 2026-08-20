@@ -16,6 +16,7 @@ import {
   DmBreadcrumbItemComponent,
   DmBreadcrumbsComponent,
   DmButtonComponent,
+  DmButtonGroupComponent,
   DmCardComponent,
   DmCheckboxComponent,
   DmColorPickerComponent,
@@ -40,6 +41,10 @@ import {
   DmStepperComponent,
   DmStepComponent,
   DmTreeComponent,
+  DmEmptyStateComponent,
+  DmToggleGroupComponent,
+  DmToggleComponent,
+  DmOtpComponent,
   DmFileUploadComponent,
   DmNumberInputComponent,
   DmTimelineComponent,
@@ -92,6 +97,7 @@ interface OverviewStat {
     DmAvatarComponent,
     DmCardComponent,
     DmButtonComponent,
+    DmButtonGroupComponent,
     DmSwitchComponent,
     DmCheckboxComponent,
     DmFormFieldComponent,
@@ -119,6 +125,10 @@ interface OverviewStat {
     DmStepperComponent,
     DmStepComponent,
     DmTreeComponent,
+    DmEmptyStateComponent,
+    DmToggleGroupComponent,
+    DmToggleComponent,
+    DmOtpComponent,
     DmFileUploadComponent,
     DmNumberInputComponent,
     DmTimelineComponent,
@@ -233,4 +243,6 @@ export class OverviewPageComponent {
   protected readonly ovSearch = signal<string>('components');
   protected readonly ovDate = signal<Date | null>(new Date());
   protected readonly ovColor = signal<string>('#338ef7');
+  protected readonly ovToggleView = signal<string>('grid');
+  protected readonly ovOtp = signal<string>('12');
 }

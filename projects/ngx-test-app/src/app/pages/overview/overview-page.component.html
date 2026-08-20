@@ -376,6 +376,31 @@
                     ariaLabel="Files preview"
                   />
                 }
+                @case ('empty-state') {
+                  <dm-empty-state
+                    size="sm"
+                    title="No results"
+                    description="Try a different search."
+                    style="width: 100%"
+                  />
+                }
+                @case ('toggle-group') {
+                  <dm-toggle-group [(value)]="ovToggleView" ariaLabel="Layout preview">
+                    <dm-toggle value="list">List</dm-toggle>
+                    <dm-toggle value="grid">Grid</dm-toggle>
+                    <dm-toggle value="table">Table</dm-toggle>
+                  </dm-toggle-group>
+                }
+                @case ('button-group') {
+                  <dm-button-group variant="flat" size="sm" ariaLabel="Editing preview">
+                    <dm-button>Copy</dm-button>
+                    <dm-button>Cut</dm-button>
+                    <dm-button>Paste</dm-button>
+                  </dm-button-group>
+                }
+                @case ('otp') {
+                  <dm-otp [(value)]="ovOtp" [length]="4" ariaLabel="Code preview" />
+                }
                 @case ('file-upload') {
                   <dm-file-upload
                     style="width: 100%"

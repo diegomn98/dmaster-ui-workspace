@@ -312,6 +312,36 @@ export const routes: Routes = [
         title: 'Timeline · @dmaster/ui',
       },
       {
+        path: 'components/empty-state',
+        loadComponent: () =>
+          import('./pages/components/empty-state-page/empty-state-page.component').then(
+            (m) => m.EmptyStatePageComponent,
+          ),
+        title: 'Empty state · @dmaster/ui',
+      },
+      {
+        path: 'components/toggle-group',
+        loadComponent: () =>
+          import('./pages/components/toggle-group-page/toggle-group-page.component').then(
+            (m) => m.ToggleGroupPageComponent,
+          ),
+        title: 'Toggle group · @dmaster/ui',
+      },
+      {
+        path: 'components/button-group',
+        loadComponent: () =>
+          import('./pages/components/button-group-page/button-group-page.component').then(
+            (m) => m.ButtonGroupPageComponent,
+          ),
+        title: 'Button group · @dmaster/ui',
+      },
+      {
+        path: 'components/otp',
+        loadComponent: () =>
+          import('./pages/components/otp-page/otp-page.component').then((m) => m.OtpPageComponent),
+        title: 'OTP input · @dmaster/ui',
+      },
+      {
         path: 'components/breadcrumbs',
         loadComponent: () =>
           import('./pages/components/breadcrumbs-page/breadcrumbs-page.component').then(

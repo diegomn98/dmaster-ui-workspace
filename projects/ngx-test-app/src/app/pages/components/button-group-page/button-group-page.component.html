@@ -1,0 +1,182 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.buttons }}</p>
+  <h1 class="page__title">Button group</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmButtonGroupComponent, DmButtonComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-button-group
+      [color]="pgColor()"
+      [variant]="pgVariant()"
+      [size]="pgSize()"
+      [orientation]="pgOrientation()"
+      [fullWidth]="pgFullWidth()"
+      [disabled]="pgDisabled()"
+      ariaLabel="Actions"
+      [style.width]="pgFullWidth() ? '100%' : null"
+    >
+      <dm-button>Copy</dm-button>
+      <dm-button>Cut</dm-button>
+      <dm-button>Paste</dm-button>
+    </dm-button-group>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['attached']" [code]="attachedCode">
+    <dm-button-group variant="flat" ariaLabel="Editing">
+      <dm-button>Copy</dm-button>
+      <dm-button>Cut</dm-button>
+      <dm-button>Paste</dm-button>
+    </dm-button-group>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['alignment']" [code]="alignmentCode">
+    <dm-button-group variant="bordered" [ariaLabel]="page().labels['alignLabel']">
+      <dm-button [ariaLabel]="page().labels['left']">
+        <dm-icon>format_align_left</dm-icon>
+      </dm-button>
+      <dm-button [ariaLabel]="page().labels['center']">
+        <dm-icon>format_align_center</dm-icon>
+      </dm-button>
+      <dm-button [ariaLabel]="page().labels['right']">
+        <dm-icon>format_align_right</dm-icon>
+      </dm-button>
+      <dm-button [ariaLabel]="page().labels['justify']">
+        <dm-icon>format_align_justify</dm-icon>
+      </dm-button>
+    </dm-button-group>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['pagination']" [code]="solidCode">
+    <dm-button-group color="primary" [ariaLabel]="page().labels['pagination']">
+      <dm-button [ariaLabel]="page().labels['prev']">
+        <dm-icon>chevron_left</dm-icon>
+      </dm-button>
+      <dm-button>{{ page().labels['page'] }} 3</dm-button>
+      <dm-button [ariaLabel]="page().labels['next']">
+        <dm-icon>chevron_right</dm-icon>
+      </dm-button>
+    </dm-button-group>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['override']" [code]="overrideCode">
+    <dm-button-group variant="flat" [ariaLabel]="page().labels['fileActions']">
+      <dm-button>{{ page().labels['rename'] }}</dm-button>
+      <dm-button>{{ page().labels['duplicate'] }}</dm-button>
+      <dm-button color="danger">{{ page().labels['delete'] }}</dm-button>
+    </dm-button-group>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode">
+    <dm-button-group orientation="vertical" variant="bordered" ariaLabel="Zoom">
+      <dm-button [ariaLabel]="page().labels['zoomIn']">
+        <dm-icon>add</dm-icon>
+      </dm-button>
+      <dm-button [ariaLabel]="page().labels['reset']">100%</dm-button>
+      <dm-button [ariaLabel]="page().labels['zoomOut']">
+        <dm-icon>remove</dm-icon>
+      </dm-button>
+    </dm-button-group>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode">
+    <dm-button-group
+      fullWidth
+      variant="flat"
+      [ariaLabel]="page().labels['pagination']"
+      style="width: 100%"
+    >
+      <dm-button>{{ page().labels['prev'] }}</dm-button>
+      <dm-button>{{ page().labels['next'] }}</dm-button>
+    </dm-button-group>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['split']" [code]="splitCode">
+    <dm-button-group color="primary" [ariaLabel]="page().labels['moreOptions']">
+      <dm-button (clicked)="save()">{{ page().labels['save'] }}</dm-button>
+      <dm-button [ariaLabel]="page().labels['moreOptions']" [dmMenuTrigger]="saveMenu">
+        <dm-icon>expand_more</dm-icon>
+      </dm-button>
+    </dm-button-group>
+    <dm-menu #saveMenu [ariaLabel]="page().labels['moreOptions']">
+      <dm-menu-item (selected)="menuAction('saveClose')">{{
+        page().labels['saveClose']
+      }}</dm-menu-item>
+      <dm-menu-item (selected)="menuAction('saveCopy')">{{
+        page().labels['saveCopy']
+      }}</dm-menu-item>
+      <dm-menu-item (selected)="menuAction('saveTemplate')">
+        {{ page().labels['saveTemplate'] }}
+      </dm-menu-item>
+    </dm-menu>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 30rem">
+      <strong>{{ page().labels['editorTitle'] }}</strong>
+      <p style="color: var(--dm-fg-muted); margin: 0.25rem 0 0.875rem">
+        {{ page().labels['editorHint'] }}
+      </p>
+
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap">
+        <dm-button-group variant="flat" size="sm" [ariaLabel]="page().labels['formatLabel']">
+          <dm-button [ariaLabel]="page().labels['bold']"><strong>B</strong></dm-button>
+          <dm-button [ariaLabel]="page().labels['italic']"><em>I</em></dm-button>
+          <dm-button [ariaLabel]="page().labels['underline']">
+            <span style="text-decoration: underline">U</span>
+          </dm-button>
+        </dm-button-group>
+
+        <dm-button-group variant="flat" size="sm" [ariaLabel]="page().labels['alignLabel']">
+          <dm-button [ariaLabel]="page().labels['left']">
+            <dm-icon>format_align_left</dm-icon>
+          </dm-button>
+          <dm-button [ariaLabel]="page().labels['center']">
+            <dm-icon>format_align_center</dm-icon>
+          </dm-button>
+          <dm-button [ariaLabel]="page().labels['right']">
+            <dm-icon>format_align_right</dm-icon>
+          </dm-button>
+        </dm-button-group>
+      </div>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

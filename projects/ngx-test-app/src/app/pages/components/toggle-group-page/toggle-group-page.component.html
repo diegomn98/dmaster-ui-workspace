@@ -1,0 +1,179 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">Toggle group</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmToggleGroupComponent, DmToggleComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-toggle-group
+      [color]="pgColor()"
+      [size]="pgSize()"
+      [orientation]="pgOrientation()"
+      [fullWidth]="pgFullWidth()"
+      [disabled]="pgDisabled()"
+      [(value)]="pgValue"
+      ariaLabel="Layout"
+    >
+      <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+      <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+      <dm-toggle value="table">{{ page().labels['table'] }}</dm-toggle>
+    </dm-toggle-group>
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['single']" [code]="singleCode">
+    <div class="demo-stack">
+      <dm-toggle-group [(value)]="view" ariaLabel="Layout">
+        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+        <dm-toggle value="table">{{ page().labels['table'] }}</dm-toggle>
+      </dm-toggle-group>
+      <span class="demo-output">{{ page().labels['selected'] }}: {{ view() }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['multiple']" [code]="multipleCode">
+    <div class="demo-stack">
+      <dm-toggle-group multiple [(values)]="format" color="primary" ariaLabel="Text format">
+        <dm-toggle value="bold" [ariaLabel]="page().labels['bold']"><strong>B</strong></dm-toggle>
+        <dm-toggle value="italic" [ariaLabel]="page().labels['italic']"><em>I</em></dm-toggle>
+        <dm-toggle value="underline" [ariaLabel]="page().labels['underline']">
+          <span style="text-decoration: underline">U</span>
+        </dm-toggle>
+      </dm-toggle-group>
+      <span class="demo-output"
+        >{{ page().labels['selected'] }}: {{ format().join(', ') || page().labels['none'] }}</span
+      >
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+    <div class="demo-stack">
+      <dm-toggle-group color="primary" [(value)]="colorView" ariaLabel="Primary">
+        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+      </dm-toggle-group>
+      <dm-toggle-group color="success" [(value)]="colorView" ariaLabel="Success">
+        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+      </dm-toggle-group>
+      <dm-toggle-group color="danger" [(value)]="colorView" ariaLabel="Danger">
+        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+      </dm-toggle-group>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['sizes']" [code]="sizesCode">
+    <div class="demo-stack" style="align-items: center">
+      <dm-toggle-group size="sm" [(value)]="sizeView" ariaLabel="Small">
+        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+      </dm-toggle-group>
+      <dm-toggle-group size="md" [(value)]="sizeView" ariaLabel="Medium">
+        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+      </dm-toggle-group>
+      <dm-toggle-group size="lg" [(value)]="sizeView" ariaLabel="Large">
+        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+      </dm-toggle-group>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode">
+    <dm-toggle-group fullWidth [(value)]="fullView" ariaLabel="Range" style="width: 100%">
+      <dm-toggle value="day">{{ page().labels['day'] }}</dm-toggle>
+      <dm-toggle value="week">{{ page().labels['week'] }}</dm-toggle>
+      <dm-toggle value="month">{{ page().labels['month'] }}</dm-toggle>
+    </dm-toggle-group>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 30rem">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          flex-wrap: wrap;
+        "
+      >
+        <strong>{{ page().labels['dashboardTitle'] }}</strong>
+        <dm-toggle-group size="sm" [(value)]="dashRange" [ariaLabel]="page().labels['rangeLabel']">
+          <dm-toggle value="day">{{ page().labels['day'] }}</dm-toggle>
+          <dm-toggle value="week">{{ page().labels['week'] }}</dm-toggle>
+          <dm-toggle value="month">{{ page().labels['month'] }}</dm-toggle>
+        </dm-toggle-group>
+      </div>
+
+      <p style="color: var(--dm-fg-muted); margin: 0.75rem 0">
+        {{ page().labels['chartHint'] }} ({{ rangeCaption() }})
+      </p>
+
+      <dm-toggle-group size="sm" color="primary" [(value)]="dashAlign" ariaLabel="Text align">
+        <dm-toggle value="left" [ariaLabel]="page().labels['alignLeft']">
+          <dm-icon>format_align_left</dm-icon>
+        </dm-toggle>
+        <dm-toggle value="center" [ariaLabel]="page().labels['alignCenter']">
+          <dm-icon>format_align_center</dm-icon>
+        </dm-toggle>
+        <dm-toggle value="right" [ariaLabel]="page().labels['alignRight']">
+          <dm-icon>format_align_right</dm-icon>
+        </dm-toggle>
+      </dm-toggle-group>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="forms-title">
+  <h2 class="page__section-title" id="forms-title">{{ i18n.t().common.demos.forms }}</h2>
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formCode">
+    <div class="demo-stack">
+      <dm-toggle-group [formControl]="formView" ariaLabel="Layout">
+        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+      </dm-toggle-group>
+      <span class="demo-output">FormControl: {{ formView.value }}</span>
+    </div>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

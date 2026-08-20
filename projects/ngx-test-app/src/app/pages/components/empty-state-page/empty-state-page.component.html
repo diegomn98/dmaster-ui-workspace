@@ -1,0 +1,159 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.dataDisplay }}</p>
+  <h1 class="page__title">Empty state</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmEmptyStateComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-empty-state
+      [title]="pgTitle()"
+      [description]="pgDescription()"
+      [size]="pgSize()"
+      [hideIcon]="pgHideIcon()"
+    />
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+    <dm-empty-state
+      [title]="page().labels['inboxEmpty']"
+      [description]="page().labels['inboxEmptyDesc']"
+      style="width: 100%"
+    />
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['withActions']" [code]="actionsCode">
+    <dm-empty-state
+      [title]="page().labels['noProjects']"
+      [description]="page().labels['noProjectsDesc']"
+      style="width: 100%"
+    >
+      <dm-button color="primary">{{ page().labels['newProject'] }}</dm-button>
+      <dm-button variant="bordered">{{ page().labels['importProject'] }}</dm-button>
+    </dm-empty-state>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['customIcon']" [code]="customIconCode">
+    <dm-empty-state
+      [title]="page().labels['noResults']"
+      [description]="page().labels['noResultsDesc']"
+      style="width: 100%"
+    >
+      <dm-icon dmEmptyStateIcon>search_off</dm-icon>
+      <dm-button variant="flat">{{ page().labels['clearFilters'] }}</dm-button>
+    </dm-empty-state>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div
+      style="
+        display: grid;
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        align-items: start;
+      "
+    >
+      <dm-empty-state size="sm" [title]="page().labels['noNotifications']" />
+      <dm-empty-state size="md" [title]="page().labels['noNotifications']" />
+      <dm-empty-state size="lg" [title]="page().labels['noNotifications']" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['noIcon']" [code]="noIconCode">
+    <dm-empty-state
+      hideIcon
+      [title]="page().labels['noResults']"
+      [description]="page().labels['noResultsDesc']"
+      style="width: 100%"
+    />
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['inContext']" [code]="inContextCode">
+    <dm-card style="width: 100%; max-width: 24rem">
+      <strong>{{ page().labels['documentsTitle'] }}</strong>
+      <dm-divider style="margin: 0.75rem 0" />
+      <dm-empty-state
+        size="sm"
+        [title]="page().labels['noFiles']"
+        [description]="page().labels['noFilesDesc']"
+      />
+    </dm-card>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 26rem">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem">
+        <strong>{{ page().labels['teamTitle'] }}</strong>
+        <dm-button size="sm" variant="flat">{{ page().labels['invite'] }}</dm-button>
+      </div>
+
+      <dm-search-field
+        [(value)]="memberQuery"
+        [placeholder]="page().labels['searchMembers']"
+        [ariaLabel]="page().labels['teamTitle']"
+        style="display: block; margin-top: 0.75rem"
+      />
+
+      <dm-divider style="margin: 0.75rem 0" />
+
+      @for (member of filteredMembers(); track member.name) {
+        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0">
+          <dm-avatar [initials]="member.initials" size="sm" />
+          <span style="flex: 1; min-width: 0">{{ member.name }}</span>
+          <dm-badge variant="flat" [color]="member.color">
+            {{ page().labels[member.roleKey] }}
+          </dm-badge>
+        </div>
+      } @empty {
+        <dm-empty-state
+          size="sm"
+          [title]="page().labels['noMatches']"
+          [description]="page().labels['noMatchesDesc']"
+        >
+          <dm-icon dmEmptyStateIcon>person_search</dm-icon>
+          <dm-button size="sm" variant="flat" (click)="clearMemberQuery()">
+            {{ page().labels['clearSearch'] }}
+          </dm-button>
+        </dm-empty-state>
+      }
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

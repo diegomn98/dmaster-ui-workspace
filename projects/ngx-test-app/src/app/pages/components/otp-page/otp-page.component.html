@@ -1,0 +1,157 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.forms }}</p>
+  <h1 class="page__title">OTP input</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet language="ts" code="import &#123; DmOtpComponent &#125; from '@dmaster/ui';" />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-otp
+      [length]="pgLength()"
+      [mode]="pgMode()"
+      [variant]="pgVariant()"
+      [groupSize]="pgGroupSize()"
+      [mask]="pgMask()"
+      [size]="pgSize()"
+      [color]="pgColor()"
+      [disabled]="pgDisabled()"
+      [(value)]="pgValue"
+      ariaLabel="Verification code"
+    />
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['numeric']" [code]="numericCode">
+    <div class="demo-stack">
+      <dm-otp
+        [(value)]="numericValue"
+        [length]="6"
+        [ariaLabel]="page().labels['code']"
+        (completed)="onCompleted($event)"
+      />
+      <span class="demo-output">value: {{ numericValue() || '—' }}</span>
+      @if (completeMsg()) {
+        <span class="demo-output" aria-live="polite">{{ completeMsg() }}</span>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['alphanumeric']" [code]="alnumCode">
+    <div class="demo-stack">
+      <dm-otp [(value)]="alnumValue" mode="alphanumeric" [length]="5" ariaLabel="Coupon code" />
+      <span class="demo-output">value: {{ alnumValue() || '—' }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['masked']" [code]="maskedCode">
+    <div class="demo-stack">
+      <dm-otp [(value)]="maskedValue" mask [length]="4" [ariaLabel]="page().labels['pin']" />
+      <span class="demo-output">value: {{ maskedValue() || '—' }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['fourDigit']" [code]="fourCode">
+    <dm-otp [(value)]="fourValue" [length]="4" size="lg" ariaLabel="One-time code" />
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
+    <div class="demo-stack" style="align-items: flex-start">
+      <dm-otp variant="bordered" [length]="4" [(value)]="borderedValue" ariaLabel="Bordered" />
+      <dm-otp variant="faded" [length]="4" [(value)]="fadedValue" ariaLabel="Faded" />
+      <dm-otp
+        variant="underlined"
+        [length]="4"
+        [(value)]="underlinedValue"
+        ariaLabel="Underlined"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['separated']" [code]="separatedCode">
+    <dm-otp
+      [(value)]="sepValue"
+      [length]="6"
+      [groupSize]="3"
+      variant="bordered"
+      [ariaLabel]="page().labels['code']"
+    />
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div class="demo-stack" style="align-items: flex-start">
+      <dm-otp size="sm" [length]="4" [(value)]="smValue" ariaLabel="Small" />
+      <dm-otp size="md" [length]="4" [(value)]="mdValue" ariaLabel="Medium" />
+      <dm-otp size="lg" [length]="4" [(value)]="lgValue" ariaLabel="Large" />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 24rem">
+      <form (ngSubmit)="submitVerify()" novalidate style="display: grid; gap: 1rem">
+        <div>
+          <strong style="display: block">{{ page().labels['verifyTitle'] }}</strong>
+          <span style="color: var(--dm-fg-muted); font-size: 0.875rem">
+            {{ page().labels['verifyHint'] }}
+          </span>
+        </div>
+
+        <dm-otp
+          [formControl]="codeControl"
+          [length]="6"
+          [groupSize]="3"
+          variant="bordered"
+          [ariaLabel]="page().labels['code']"
+          (completed)="submitVerify()"
+        />
+        @if (codeControl.touched && codeControl.invalid) {
+          <dm-error>{{ page().labels['invalid'] }}</dm-error>
+        }
+
+        <dm-button
+          type="submit"
+          color="primary"
+          style="width: 100%"
+          [state]="verifyState()"
+          [loadingLabel]="page().labels['verifying']"
+          [successLabel]="page().labels['verified']"
+        >
+          {{ page().labels['verify'] }}
+        </dm-button>
+      </form>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>
