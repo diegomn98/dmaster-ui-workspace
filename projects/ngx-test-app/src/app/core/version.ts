@@ -6,4 +6,4 @@
  * translated content, so it never belonged in the i18n dictionaries; that's
  * exactly how the badge went stale for two releases in a row).
  */
-export const LIB_VERSION = '0.5.0';
+export const LIB_VERSION = '0.6.0';
