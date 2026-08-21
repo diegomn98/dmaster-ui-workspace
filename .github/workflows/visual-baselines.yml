@@ -14,8 +14,16 @@ name: Update visual baselines
 #     back into e2e/ and commits them.
 #
 # Trigger from the Actions tab ("Run workflow") after an intentional UI change.
+# NOTE: use the "Run workflow" dropdown (creates a NEW run from the selected
+# branch) — "Re-run jobs" on an old run replays the old commit with the old
+# workflow definition and will never pick up fixes. It also auto-runs when this
+# file itself changes, so workflow fixes take effect without a manual dispatch.
 on:
   workflow_dispatch:
+  push:
+    branches: [main, development]
+    paths:
+      - '.github/workflows/visual-baselines.yml'
 
 jobs:
   generate:
