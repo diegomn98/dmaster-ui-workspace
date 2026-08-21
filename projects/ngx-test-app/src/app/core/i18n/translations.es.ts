@@ -2183,7 +2183,8 @@ export const ES: DashboardTranslations = {
         title: 'Titular en negrita. Que sea corto («Sin resultados»).',
         description: 'Texto de apoyo bajo el título. También se puede proyectar contenido libre.',
         size: 'Escala del icono, el espaciado y la tipografía.',
-        hideIcon: 'Elimina por completo el área del icono (tanto el glifo integrado como el proyectado).',
+        hideIcon:
+          'Elimina por completo el área del icono (tanto el glifo integrado como el proyectado).',
       },
       labels: {
         withActions: 'Con acciones',
@@ -2210,7 +2211,8 @@ export const ES: DashboardTranslations = {
         role2: 'Ingeniería',
         role3: 'Producto',
         noMatches: 'No se encontraron miembros',
-        noMatchesDesc: 'Nadie coincide con tu búsqueda. Revisa la ortografía o invítalos al equipo.',
+        noMatchesDesc:
+          'Nadie coincide con tu búsqueda. Revisa la ortografía o invítalos al equipo.',
         clearSearch: 'Limpiar búsqueda',
       },
     },
@@ -2226,10 +2228,13 @@ export const ES: DashboardTranslations = {
         'El foco muestra el anillo compartido; la etiqueta seleccionada siempre cumple contraste AA sobre su relleno (blanco en colores sólidos, primer plano en la ficha neutra).',
       ],
       api: {
-        multiple: 'Modo multiselección: toggles aria-pressed independientes en vez de una única elección.',
+        multiple:
+          'Modo multiselección: toggles aria-pressed independientes en vez de una única elección.',
         value: 'Valor seleccionado en modo único. Two-way [(value)]. Se ignora si es múltiple.',
-        values: 'Valores seleccionados (array) en modo múltiple. Two-way [(values)]. Se ignora si es único.',
-        color: 'Color del/los segmento(s) seleccionado(s). default conserva la ficha neutra elevada.',
+        values:
+          'Valores seleccionados (array) en modo múltiple. Two-way [(values)]. Se ignora si es único.',
+        color:
+          'Color del/los segmento(s) seleccionado(s). default conserva la ficha neutra elevada.',
         size: 'Altura del control y escala tipográfica (sm / md / lg).',
         orientation: 'Dirección de disposición de los segmentos.',
         fullWidth: 'Estira el grupo para llenar su contenedor; los segmentos reparten el ancho.',
@@ -2237,7 +2242,8 @@ export const ES: DashboardTranslations = {
         groupAriaLabel: 'Etiqueta accesible del grupo cuando no hay título visible.',
         toggleValue: 'Valor que porta un dm-toggle; el grupo compara por igualdad estricta.',
         toggleDisabled: 'Deshabilita solo este segmento.',
-        toggleAriaLabel: 'Etiqueta accesible de un dm-toggle — obligatoria para segmentos solo-icono.',
+        toggleAriaLabel:
+          'Etiqueta accesible de un dm-toggle — obligatoria para segmentos solo-icono.',
       },
       labels: {
         single: 'Único (control segmentado)',
@@ -2279,13 +2285,15 @@ export const ES: DashboardTranslations = {
       ],
       api: {
         color: 'Cascada a todos los botones; cada botón puede sobreescribir con su propio color.',
-        variant: 'Cascada a todos los botones; cada botón puede sobreescribir con su propia variante.',
+        variant:
+          'Cascada a todos los botones; cada botón puede sobreescribir con su propia variante.',
         size: 'Cascada a todos los botones; cada botón puede sobreescribir con su propio tamaño.',
         radius: 'Redondeo de las esquinas exteriores; cascada como el resto.',
         disabled: 'Deshabilita todos los botones del grupo.',
         orientation: 'Dirección de disposición de los botones agrupados.',
         fullWidth: 'Estira el grupo para llenar su contenedor; los botones reparten el ancho.',
-        groupAriaLabel: 'Etiqueta accesible que describe el conjunto de acciones (p. ej. «Alineación de texto»).',
+        groupAriaLabel:
+          'Etiqueta accesible que describe el conjunto de acciones (p. ej. «Alineación de texto»).',
       },
       labels: {
         override: 'Sobreescritura por botón',
@@ -2339,11 +2347,13 @@ export const ES: DashboardTranslations = {
         length: 'Número de celdas.',
         value: 'El código. Two-way [(value)].',
         mode: 'Caracteres aceptados y teclado móvil: numeric, alphanumeric o text.',
-        variant: 'Superficie de las celdas: flat (atenuada), bordered (elevada + borde), faded, underlined.',
+        variant:
+          'Superficie de las celdas: flat (atenuada), bordered (elevada + borde), faded, underlined.',
         groupSize: 'Inserta un separador cada N celdas (0 = ninguno): 123 – 456.',
         mask: 'Muestra las celdas llenas como puntos enmascarados (como una contraseña).',
         size: 'Tamaño de celda (sm / md / lg).',
-        color: 'Color del anillo de foco; default enfoca primary como el resto de la familia de campos.',
+        color:
+          'Color del anillo de foco; default enfoca primary como el resto de la familia de campos.',
         disabled: 'Deshabilita todas las celdas (combinado con el disabled del formulario).',
         autoFocus: 'Enfoca la primera celda al iniciar.',
         ariaLabel: 'Etiqueta accesible del grupo y prefijo por celda.',

@@ -2214,9 +2214,11 @@ export const EN: DashboardTranslations = {
         'Focus shows the shared focus ring; the selected label always meets AA contrast on its fill (white on solid colors, foreground on the neutral chip).',
       ],
       api: {
-        multiple: 'Multi-select mode: independent aria-pressed toggles instead of one exclusive choice.',
+        multiple:
+          'Multi-select mode: independent aria-pressed toggles instead of one exclusive choice.',
         value: 'Selected value in single mode. Two-way [(value)]. Ignored when multiple.',
-        values: 'Selected values (array) in multiple mode. Two-way [(values)]. Ignored when single.',
+        values:
+          'Selected values (array) in multiple mode. Two-way [(values)]. Ignored when single.',
         color: 'Color of the selected segment(s). default keeps the neutral raised chip.',
         size: 'Control height and type scale (sm / md / lg).',
         orientation: 'Layout direction of the segments.',

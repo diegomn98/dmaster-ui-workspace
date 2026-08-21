@@ -2219,7 +2219,8 @@ export const FR: DashboardTranslations = {
         role2: 'Ingénierie',
         role3: 'Produit',
         noMatches: 'Aucun membre trouvé',
-        noMatchesDesc: 'Personne ne correspond à votre recherche. Vérifiez l’orthographe ou invitez-les dans l’équipe.',
+        noMatchesDesc:
+          'Personne ne correspond à votre recherche. Vérifiez l’orthographe ou invitez-les dans l’équipe.',
         clearSearch: 'Effacer la recherche',
       },
     },
@@ -2235,18 +2236,22 @@ export const FR: DashboardTranslations = {
         'Le focus affiche l’anneau partagé ; l’étiquette sélectionnée respecte toujours le contraste AA sur son fond (blanc sur les couleurs pleines, avant-plan sur la puce neutre).',
       ],
       api: {
-        multiple: 'Mode multi-sélection : bascules aria-pressed indépendantes au lieu d’un choix exclusif.',
+        multiple:
+          'Mode multi-sélection : bascules aria-pressed indépendantes au lieu d’un choix exclusif.',
         value: 'Valeur sélectionnée en mode unique. Two-way [(value)]. Ignorée en multiple.',
-        values: 'Valeurs sélectionnées (tableau) en mode multiple. Two-way [(values)]. Ignorée en unique.',
+        values:
+          'Valeurs sélectionnées (tableau) en mode multiple. Two-way [(values)]. Ignorée en unique.',
         color: 'Couleur du/des segment(s) sélectionné(s). default garde la puce neutre surélevée.',
         size: 'Hauteur du contrôle et échelle typographique (sm / md / lg).',
         orientation: 'Direction de disposition des segments.',
-        fullWidth: 'Étire le groupe pour remplir son conteneur ; les segments partagent la largeur.',
+        fullWidth:
+          'Étire le groupe pour remplir son conteneur ; les segments partagent la largeur.',
         disabled: 'Désactive tous les segments (combiné avec l’état disabled du formulaire).',
         groupAriaLabel: 'Libellé accessible du groupe en l’absence de titre visible.',
         toggleValue: 'Valeur portée par un dm-toggle ; le groupe compare par égalité stricte.',
         toggleDisabled: 'Désactive uniquement ce segment.',
-        toggleAriaLabel: 'Libellé accessible d’un dm-toggle — requis pour les segments à icône seule.',
+        toggleAriaLabel:
+          'Libellé accessible d’un dm-toggle — requis pour les segments à icône seule.',
       },
       labels: {
         single: 'Unique (contrôle segmenté)',
@@ -2294,7 +2299,8 @@ export const FR: DashboardTranslations = {
         disabled: 'Désactive tous les boutons du groupe.',
         orientation: 'Direction de disposition des boutons groupés.',
         fullWidth: 'Étire le groupe pour remplir son conteneur ; les boutons partagent la largeur.',
-        groupAriaLabel: 'Libellé accessible décrivant l’ensemble d’actions (p. ex. « Alignement du texte »).',
+        groupAriaLabel:
+          'Libellé accessible décrivant l’ensemble d’actions (p. ex. « Alignement du texte »).',
       },
       labels: {
         override: 'Redéfinition par bouton',
@@ -2348,15 +2354,18 @@ export const FR: DashboardTranslations = {
         length: 'Nombre de cellules.',
         value: 'Le code. Two-way [(value)].',
         mode: 'Caractères acceptés et clavier mobile : numeric, alphanumeric ou text.',
-        variant: 'Surface des cellules : flat (atténuée), bordered (surélevée + bordure), faded, underlined.',
+        variant:
+          'Surface des cellules : flat (atténuée), bordered (surélevée + bordure), faded, underlined.',
         groupSize: 'Insère un séparateur toutes les N cellules (0 = aucun) : 123 – 456.',
         mask: 'Affiche les cellules remplies en points masqués (comme un mot de passe).',
         size: 'Taille de cellule (sm / md / lg).',
-        color: 'Couleur de l’anneau de focus ; default se focalise en primary comme le reste de la famille de champs.',
+        color:
+          'Couleur de l’anneau de focus ; default se focalise en primary comme le reste de la famille de champs.',
         disabled: 'Désactive toutes les cellules (combiné avec l’état disabled du formulaire).',
         autoFocus: 'Focalise la première cellule à l’initialisation.',
         ariaLabel: 'Libellé accessible du groupe et préfixe par cellule.',
-        completed: 'Se déclenche une fois, avec le code complet, quand la dernière cellule vide est remplie.',
+        completed:
+          'Se déclenche une fois, avec le code complet, quand la dernière cellule vide est remplie.',
       },
       labels: {
         numeric: 'Numérique (par défaut)',
