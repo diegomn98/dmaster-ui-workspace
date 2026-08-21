@@ -120,7 +120,10 @@ export class ShellComponent implements OnInit {
       },
       {
         label: t.shell.nav.buttons,
-        items: [{ label: t.shell.nav.button, path: '/components/button' }],
+        items: [
+          { label: t.shell.nav.button, path: '/components/button' },
+          { label: t.shell.nav.buttonGroup, path: '/components/button-group' },
+        ],
       },
       {
         label: t.shell.nav.forms,
@@ -138,6 +141,8 @@ export class ShellComponent implements OnInit {
           { label: t.shell.nav.rating, path: '/components/rating' },
           { label: t.shell.nav.fileUpload, path: '/components/file-upload' },
           { label: t.shell.nav.numberInput, path: '/components/number-input' },
+          { label: t.shell.nav.otp, path: '/components/otp' },
+          { label: t.shell.nav.toggleGroup, path: '/components/toggle-group' },
           { label: t.shell.nav.formField, path: '/components/form-field' },
           { label: t.shell.nav.errorMessage, path: '/components/error-message' },
         ],
@@ -157,6 +162,7 @@ export class ShellComponent implements OnInit {
           { label: t.shell.nav.table, path: '/components/table' },
           { label: t.shell.nav.tree, path: '/components/tree' },
           { label: t.shell.nav.timeline, path: '/components/timeline' },
+          { label: t.shell.nav.emptyState, path: '/components/empty-state' },
         ],
       },
       {

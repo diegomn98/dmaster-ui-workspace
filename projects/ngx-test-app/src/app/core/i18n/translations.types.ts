@@ -88,6 +88,10 @@ export interface DashboardTranslations {
       stepper: string;
       fileUpload: string;
       numberInput: string;
+      emptyState: string;
+      toggleGroup: string;
+      buttonGroup: string;
+      otp: string;
     };
   };
   common: {
@@ -317,5 +321,9 @@ export interface DashboardTranslations {
     stepper: SimplePageTranslations;
     fileUpload: SimplePageTranslations;
     numberInput: SimplePageTranslations;
+    emptyState: SimplePageTranslations;
+    toggleGroup: SimplePageTranslations;
+    buttonGroup: SimplePageTranslations;
+    otp: SimplePageTranslations;
   };
 }

@@ -1,24 +1,39 @@
 name: Update visual baselines
 
-# Manual, one-click baseline generation. Runs INSIDE the same Playwright
-# container the `visual` CI job uses, so the screenshots it commits render
-# identically to what CI will compare against — no host/OS mismatch. Trigger it
-# from the Actions tab ("Run workflow") after an intentional UI change; it
-# regenerates every route's light + dark baseline and commits them back.
+# Manual, one-click baseline generation. Split into two jobs on purpose:
+#
+#  1. `generate` runs INSIDE the Playwright container (same image the `visual`
+#     CI job uses) so the screenshots render identically to what CI compares
+#     against — no host/OS mismatch. It only produces the *-linux.png files and
+#     uploads them as an artifact; it never touches git (committing from inside
+#     the container is fragile: the container runs as root, checkout leaves the
+#     repo owned by another user, and push credentials don't persist).
+#
+#  2. `commit` runs on a normal runner where actions/checkout wires up the push
+#     credentials automatically. It downloads the artifact, drops the baselines
+#     back into e2e/ and commits them.
+#
+# Trigger from the Actions tab ("Run workflow") after an intentional UI change.
+# NOTE: use the "Run workflow" dropdown (creates a NEW run from the selected
+# branch) — "Re-run jobs" on an old run replays the old commit with the old
+# workflow definition and will never pick up fixes. It also auto-runs when this
+# file itself changes, so workflow fixes take effect without a manual dispatch.
 on:
   workflow_dispatch:
+  push:
+    branches: [main, development]
+    paths:
+      - '.github/workflows/visual-baselines.yml'
 
 jobs:
-  update:
+  generate:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.62.1-noble
-    permissions:
-      contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '24'
           cache: npm
@@ -30,8 +45,34 @@ jobs:
       # --update-snapshots writes/refreshes the baselines and always passes.
       - run: npm run test:visual:update
 
+      # Pack every generated linux baseline preserving its e2e/ path, so the
+      # commit job can drop them straight back into the tree.
+      - name: Package baselines
+        run: |
+          find e2e -name '*-linux.png' -print0 | tar --null -czf baselines.tar.gz --files-from -
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: visual-baselines
+          path: baselines.tar.gz
+          retention-days: 1
+
+  commit:
+    needs: generate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/download-artifact@v5
+        with:
+          name: visual-baselines
+
       - name: Commit refreshed baselines
         run: |
+          tar -xzf baselines.tar.gz
+          rm -f baselines.tar.gz
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add e2e

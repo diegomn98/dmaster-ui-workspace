@@ -10,9 +10,9 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '24'
           cache: npm
@@ -41,9 +41,9 @@ jobs:
   integration:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '24'
           cache: npm
@@ -60,9 +60,9 @@ jobs:
   a11y:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '24'
           cache: npm
@@ -88,9 +88,9 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '24'
           cache: npm
@@ -105,6 +105,8 @@ jobs:
       # those committed baselines. To refresh after an intentional UI change, run
       # the "Update visual baselines" workflow (or delete the *-linux.png files).
       - name: Visual regression
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if ls e2e/*-snapshots/*-linux.png >/dev/null 2>&1; then
             npm run test:visual
@@ -114,6 +116,7 @@ jobs:
             git config --global --add safe.directory "$GITHUB_WORKSPACE"
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
+            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}"
             git add e2e
             if ! git diff --staged --quiet; then
               git commit -m "test(visual): bootstrap baselines [skip ci]"
@@ -123,7 +126,7 @@ jobs:
 
       # Surface the diff images when a snapshot changes, so review is one click.
       - if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: visual-diffs
           path: test-results/
