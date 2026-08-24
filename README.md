@@ -9,6 +9,17 @@ Angular 20 workspace for **[@dmaster/ui](https://www.npmjs.com/package/@dmaster/
 
 **Contributing:** see [CONTRIBUTING.md](CONTRIBUTING.md) · [Code of Conduct](CODE_OF_CONDUCT.md) · [Security policy](SECURITY.md).
 
+## Quality gates
+
+Every pull request has to clear four parallel CI jobs before it can merge — the bar is verified on CI, not asserted in a badge:
+
+- **Build · test · lint · publint** — the library builds via ng-packagr, Vitest runs the unit suite, ESLint + Stylelint enforce the conventions, and [publint](https://publint.dev) validates the packaged output.
+- **Consumer integration** — the built library is packed with `npm pack` and installed into an isolated Angular app (`examples/starter`) that builds against the **tarball**, catching packaging / exports / peer-dep / type-resolution breakage the monorepo (which resolves `@dmaster/ui` to source) never sees.
+- **Accessibility** — [axe-core](https://github.com/dequelabs/axe-core) (WCAG 2.1 A + AA) scans every prerendered route in **light and dark**, plus every opened overlay. Zero violations required.
+- **Visual regression** — every route is screenshotted in both themes and pixel-diffed against committed baselines, inside a **pinned Playwright container** so rendering is deterministic.
+
+The docs site is fully statically prerendered on every build (a permanent SSR-safety smoke test), and releases publish to npm with **signed provenance** (Sigstore). Full detail in [Testing](#testing).
+
 | Project        | Path                                                 | What it is                                                                                                                                                                  |
 | -------------- | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `@dmaster/ui`  | [`projects/ngx-dmaster-ui`](projects/ngx-dmaster-ui) | The component library (published to npm from `dist/dmaster-ui`). See its [README](projects/ngx-dmaster-ui/README.md) and [CHANGELOG](projects/ngx-dmaster-ui/CHANGELOG.md). |
@@ -65,9 +76,9 @@ Then commit the updated `*-linux.png` files under `e2e/`. Only the container's L
 
 ## Releasing
 
-1. Bump `version` in `projects/ngx-dmaster-ui/package.json` and update the [CHANGELOG](projects/ngx-dmaster-ui/CHANGELOG.md).
-2. Tag `vX.Y.Z` and push the tag.
-3. The [Release workflow](.github/workflows/release.yml) verifies the tag matches the package version, runs the full check suite, validates the package with publint, publishes to npm and creates the GitHub Release.
+1. Bump `version` in `projects/ngx-dmaster-ui/package.json` and update the [CHANGELOG](projects/ngx-dmaster-ui/CHANGELOG.md). The docs-site version badge derives from this `package.json` at build time — there is nothing else to bump by hand.
+2. Tag `vX.Y.Z` and push the tag. The library `package.json` `repository.url` must point at **this workspace repo** — npm's `--provenance` check rejects a mismatch against the build's attestation.
+3. The [Release workflow](.github/workflows/release.yml) verifies the tag matches the package version, runs the full check suite, validates the package with publint, publishes to npm with **signed provenance**, and creates the GitHub Release.
 
 ## License
 
