@@ -1,9 +1,11 @@
+import { version } from '../../../../ngx-dmaster-ui/package.json';
+
 /**
  * Published version of `@dmaster/ui`, shown in the home hero badge.
  *
- * Single source of truth — bump this ONE constant on every release instead
- * of a literal string duplicated per language (a version number isn't
- * translated content, so it never belonged in the i18n dictionaries; that's
- * exactly how the badge went stale for two releases in a row).
+ * Derived at build time from the library's own `package.json` — the single
+ * source of truth for the shipped version. There is nothing to bump by hand
+ * here, so the badge can never drift from the actually-published version
+ * (which is exactly how it went stale for several releases in a row).
  */
-export const LIB_VERSION = '0.6.0';
+export const LIB_VERSION: string = version;
