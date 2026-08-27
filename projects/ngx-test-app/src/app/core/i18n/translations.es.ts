@@ -487,6 +487,7 @@ export const ES: DashboardTranslations = {
       catalogue: 'Catálogo completo',
       current: 'Rampa de superficies · OTP',
       theming: 'Temas con nombre y tokens',
+      copy: 'Copiar al portapapeles',
     },
     focusItems: {
       freezeTitle: 'Congelación de la API',
@@ -554,6 +555,17 @@ export const ES: DashboardTranslations = {
     articleNewer: 'Más reciente',
     articleOlder: 'Anterior',
     articles: {
+      v09: {
+        title: 'Un botón y una directiva de copiar al portapapeles',
+        lead: '0.9 añade dos formas pequeñas y enfocadas de copiar texto: el componente <code>dm-copy-button</code> y la directiva <code>dmCopyToClipboard</code>. El botón envuelve <code>dm-button</code> y cambia su icono de copiar a un check como confirmación; la directiva añade el mismo comportamiento a cualquier botón que ya tengas. Ambos son SSR-safe y no traen copy propio.',
+        bullets: [
+          'dm-copy-button — un botón de icono que copia su value y cambia a un check un momento; envuelve dm-button, así que se presiona, enfoca y tematiza como cualquier botón',
+          'directiva dmCopyToClipboard — ponla en cualquier botón que ya tengas; exportAs da una señal isCopied() para tu propio feedback',
+          'clipboard SSR-safe — async Clipboard API a través del Document inyectado con fallback a execCommand; outputs (copied) / (copyError), sin copy propio',
+          'Dogfoodeado en la doc — el comando de instalación del Overview (ng add @dmaster/ui) ahora se copia con él',
+          '45 componentes en 8 categorías — verificado por axe (WCAG 2.1 AA) en claro y oscuro',
+        ],
+      },
       v08: {
         title: 'Theming de verdad: temas con nombre, ~300 tokens de diseño y un solo combobox',
         lead: 'La mayor release de theming hasta ahora — registra temas personalizados con nombre y cámbialos en runtime, re-estiliza cualquier componente con ~300 tokens CSS públicos, y sobrescribe un color de marca para re-derivar toda su familia vía OKLCH. Además, dm-paginated-select se fusionó en dm-select como modo async. Todo el render por defecto sigue pixel-idéntico.',

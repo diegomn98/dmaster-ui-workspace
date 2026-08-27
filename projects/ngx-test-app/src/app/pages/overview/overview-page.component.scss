@@ -188,6 +188,24 @@
   color: var(--dm-fg);
 }
 
+// Overview tile preview for dm-copy-button: a compact install chip + copy.
+.ov__ex-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.35rem 0.35rem 0.8rem;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-elevated);
+}
+
+.ov__ex-copy-cmd {
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-sm);
+  color: var(--dm-fg);
+  white-space: nowrap;
+}
+
 // ============================================================================
 // Sections — one block per category
 // ============================================================================

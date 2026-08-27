@@ -487,6 +487,7 @@ export const FR: DashboardTranslations = {
       catalogue: 'Catalogue complet',
       current: 'Rampe de surfaces · OTP',
       theming: 'Thèmes nommés et tokens',
+      copy: 'Copier dans le presse-papiers',
     },
     focusItems: {
       freezeTitle: 'Gel de la surface d’API',
@@ -554,6 +555,17 @@ export const FR: DashboardTranslations = {
     articleNewer: 'Plus récent',
     articleOlder: 'Précédent',
     articles: {
+      v09: {
+        title: 'Un bouton et une directive de copie dans le presse-papiers',
+        lead: '0.9 ajoute deux façons petites et ciblées de copier du texte : le composant <code>dm-copy-button</code> et la directive <code>dmCopyToClipboard</code>. Le bouton enveloppe <code>dm-button</code> et change son icône de copie en une coche pour confirmer ; la directive ajoute le même comportement à n’importe quel bouton que vous avez déjà. Les deux sont SSR-safe et n’embarquent aucun texte.',
+        bullets: [
+          'dm-copy-button — un bouton-icône qui copie sa value et passe à une coche un instant ; enveloppe dm-button, donc il se presse, se focalise et se thème comme tout bouton',
+          'directive dmCopyToClipboard — posez-la sur n’importe quel bouton que vous avez déjà ; exportAs donne un signal isCopied() pour votre propre retour',
+          'presse-papiers SSR-safe — Clipboard API asynchrone via le Document injecté avec un repli execCommand ; sorties (copied) / (copyError), aucun texte embarqué',
+          'Dogfoodé dans la doc — la commande d’installation de l’Overview (ng add @dmaster/ui) est désormais copiée avec',
+          '45 composants dans 8 catégories — toujours vérifié par axe (WCAG 2.1 AA) en clair et sombre',
+        ],
+      },
       v08: {
         title: 'Le vrai theming : thèmes nommés, ~300 tokens de design et un seul combobox',
         lead: 'La plus grosse release de theming à ce jour — enregistrez des thèmes personnalisés nommés et changez-les au runtime, restylez n’importe quel composant via ~300 tokens CSS publics, et surchargez une couleur de marque pour re-dériver toute sa famille via OKLCH. En parallèle, dm-paginated-select a fusionné dans dm-select en mode async. Chaque rendu par défaut reste pixel-identique.',

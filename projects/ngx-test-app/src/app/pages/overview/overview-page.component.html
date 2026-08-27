@@ -370,13 +370,15 @@
                   </dm-button-group>
                 }
                 @case ('copy-button') {
-                  <dm-copy-button
-                    value="ng add @dmaster/ui"
-                    variant="flat"
-                    copyLabel="Copy"
-                    copiedLabel="Copied!"
-                    ariaLabel="Copy install command"
-                  />
+                  <div class="ov__ex-copy">
+                    <code class="ov__ex-copy-cmd">ng add &#64;dmaster/ui</code>
+                    <dm-copy-button
+                      value="ng add @dmaster/ui"
+                      size="sm"
+                      ariaLabel="Copy install command"
+                      copiedAriaLabel="Copied"
+                    />
+                  </div>
                 }
                 @case ('otp') {
                   <dm-otp [(value)]="ovOtp" [length]="4" ariaLabel="Code preview" />

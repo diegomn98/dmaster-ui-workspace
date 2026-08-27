@@ -486,6 +486,7 @@ export const EN: DashboardTranslations = {
       catalogue: 'Full catalogue',
       current: 'Surface ramp · OTP',
       theming: 'Named themes & tokens',
+      copy: 'Copy to clipboard',
     },
     focusItems: {
       freezeTitle: 'API surface freeze',
@@ -552,6 +553,17 @@ export const EN: DashboardTranslations = {
     articleNewer: 'Newer',
     articleOlder: 'Older',
     articles: {
+      v09: {
+        title: 'A copy-to-clipboard button and directive',
+        lead: '0.9 adds two small, focused ways to copy text: the <code>dm-copy-button</code> component and the <code>dmCopyToClipboard</code> directive. The button wraps <code>dm-button</code> and flips its icon from copy to a check as confirmation; the directive drops the same behaviour onto any button you already have. Both are SSR-safe and ship no built-in copy.',
+        bullets: [
+          'dm-copy-button — an icon button that copies its value and flips to a check for a moment; wraps dm-button, so it presses, focuses and themes like every other button',
+          'dmCopyToClipboard directive — put it on any button you already have; exportAs gives an isCopied() signal to drive your own feedback',
+          'SSR-safe clipboard — async Clipboard API through the injected Document with an execCommand fallback; (copied) / (copyError) outputs, no built-in copy',
+          'Dogfooded in the docs — the Overview install command (ng add @dmaster/ui) is now copied with it',
+          '45 components across 8 categories — still verified by axe (WCAG 2.1 AA) in light and dark',
+        ],
+      },
       v08: {
         title: 'Real theming: named themes, ~300 design tokens, and one combobox',
         lead: 'The biggest theming release yet — register named custom themes and switch them at runtime, restyle any component through ~300 public CSS tokens, and override one brand color to re-derive a whole family via OKLCH. Meanwhile dm-paginated-select folded into dm-select as an async mode. Every default render stays pixel-identical.',
