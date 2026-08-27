@@ -246,7 +246,7 @@ export const EN: DashboardTranslations = {
       'Override <code>--dm-primary</code> in your <code>:root</code> and every button, focus ring and checked control re-skins in one line.',
     namedThemesTitle: 'Custom named themes',
     namedThemesBody:
-      'For a full alternate palette you can switch at runtime, register a <strong>named theme</strong> with <code>provideDmasterUI({ themes })</code>, author its tokens under a <code>[data-dm-theme=\'…\']</code> block, and apply it by name with <code>ThemeService.setTheme()</code> — light/dark stay built in.',
+      "For a full alternate palette you can switch at runtime, register a <strong>named theme</strong> with <code>provideDmasterUI({ themes })</code>, author its tokens under a <code>[data-dm-theme='…']</code> block, and apply it by name with <code>ThemeService.setTheme()</code> — light/dark stay built in.",
     animationBody:
       'Motion is centralized in a small set of duration and easing tokens — so the whole library moves at the same tempo.',
     animationItems: [
@@ -286,7 +286,7 @@ export const EN: DashboardTranslations = {
       '<strong>Named themes with runtime switching</strong> — register alternate palettes via <code>provideDmasterUI()</code> and switch with signals at runtime.',
     ],
     semanticBody:
-      'The foundation layer is a set of ~30 semantic tokens that describe surfaces, text, borders, and shadows. They are defined once in <code>:root</code> (light theme) and redefined under <code>[data-dm-theme=\'dark\']</code>. Every component in the library reads from these tokens — never from hardcoded colors.',
+      "The foundation layer is a set of ~30 semantic tokens that describe surfaces, text, borders, and shadows. They are defined once in <code>:root</code> (light theme) and redefined under <code>[data-dm-theme='dark']</code>. Every component in the library reads from these tokens — never from hardcoded colors.",
     surfaceTokens:
       '<strong>Surfaces</strong> — four elevation levels for layered layouts: <code>--dm-bg</code> (page base), <code>--dm-bg-subtle</code> (sunken areas, code blocks), <code>--dm-bg-muted</code> (input fills, hover backgrounds), and <code>--dm-bg-elevated</code> (cards, popovers, raised panels).',
     textTokens:
@@ -311,19 +311,19 @@ export const EN: DashboardTranslations = {
     lightDarkBody:
       '<code>ThemeService</code> manages the active theme as a reactive Angular signal. The theme value is stamped as a <code>data-dm-theme</code> attribute on <code>&lt;html&gt;</code>, so every CSS token flips instantly. The choice is persisted in <code>localStorage</code> and an anti-FOUC inline script in <code>index.html</code> reads it before the first paint, eliminating the flash of wrong theme on reload.',
     lightDarkItems: [
-      '<code>theme()</code> — returns the raw theme value the user selected (<code>\'auto\'</code>, <code>\'light\'</code>, <code>\'dark\'</code>, or a named theme).',
-      '<code>resolvedTheme()</code> — returns what is actually stamped on <code>&lt;html&gt;</code>. When <code>theme()</code> is <code>\'auto\'</code>, this resolves to <code>\'light\'</code> or <code>\'dark\'</code> based on <code>prefers-color-scheme</code>.',
-      '<code>scheme()</code> — the base scheme (<code>\'light\'</code> or <code>\'dark\'</code>) of the active theme. For named themes, this comes from the <code>scheme</code> field in the theme definition.',
+      "<code>theme()</code> — returns the raw theme value the user selected (<code>'auto'</code>, <code>'light'</code>, <code>'dark'</code>, or a named theme).",
+      "<code>resolvedTheme()</code> — returns what is actually stamped on <code>&lt;html&gt;</code>. When <code>theme()</code> is <code>'auto'</code>, this resolves to <code>'light'</code> or <code>'dark'</code> based on <code>prefers-color-scheme</code>.",
+      "<code>scheme()</code> — the base scheme (<code>'light'</code> or <code>'dark'</code>) of the active theme. For named themes, this comes from the <code>scheme</code> field in the theme definition.",
       '<code>toggle()</code> — flip between light and dark. Reads <code>scheme()</code> internally, so it works correctly for named themes too.',
-      '<code>setTheme(name)</code> — apply any theme by name: <code>\'light\'</code>, <code>\'dark\'</code>, <code>\'auto\'</code>, or a custom name registered via <code>provideDmasterUI()</code>.',
+      "<code>setTheme(name)</code> — apply any theme by name: <code>'light'</code>, <code>'dark'</code>, <code>'auto'</code>, or a custom name registered via <code>provideDmasterUI()</code>.",
       '<code>themes()</code> — returns all registered themes (built-in + custom), ideal for building a theme picker UI.',
     ],
     namedBody:
       'For fully branded alternate palettes, <strong>named themes</strong> let you register any number of custom themes and switch between them at runtime. Each named theme declares a base <code>scheme</code> (light or dark) so that <code>toggle()</code> and <code>scheme()</code> still work correctly.',
     namedSteps: [
-      '<strong>1. Register the theme</strong> — pass a <code>themes</code> record to <code>provideDmasterUI()</code>. Each entry needs a <code>scheme</code> (<code>\'light\'</code> or <code>\'dark\'</code>) and a human-readable <code>label</code>.',
-      '<strong>2. Author the CSS tokens</strong> — write a <code>[data-dm-theme=\'your-name\']</code> rule block in your global stylesheet. Only override the tokens that differ from the base scheme; everything else inherits.',
-      '<strong>3. Apply by name</strong> — call <code>ThemeService.setTheme(\'your-name\')</code>. The attribute flips on <code>&lt;html&gt;</code> and CSS takes over. Use <code>ThemeService.themes()</code> to populate a picker.',
+      "<strong>1. Register the theme</strong> — pass a <code>themes</code> record to <code>provideDmasterUI()</code>. Each entry needs a <code>scheme</code> (<code>'light'</code> or <code>'dark'</code>) and a human-readable <code>label</code>.",
+      "<strong>2. Author the CSS tokens</strong> — write a <code>[data-dm-theme='your-name']</code> rule block in your global stylesheet. Only override the tokens that differ from the base scheme; everything else inherits.",
+      "<strong>3. Apply by name</strong> — call <code>ThemeService.setTheme('your-name')</code>. The attribute flips on <code>&lt;html&gt;</code> and CSS takes over. Use <code>ThemeService.themes()</code> to populate a picker.",
     ],
     densityBody:
       'Density controls vertical padding, gap, and height of interactive components. Three scales are available — set once via <code>provideDmasterUI({ density })</code> or change at runtime with <code>DensityService</code>. The active density is stamped as <code>data-dm-density</code> on <code>&lt;html&gt;</code> and drives <code>--dm-control-height-*</code> tokens.',
@@ -343,21 +343,21 @@ export const EN: DashboardTranslations = {
       '<code>--dm-ease-in-out</code> — symmetric curve for looping animations and toggle states.',
     ],
     motionNote:
-      'Under <code>prefers-reduced-motion: reduce</code>, all three duration tokens collapse to <code>0ms</code> automatically — zero opt-in required. Animations that don\'t use these tokens are disabled via the <code>reduced-motion</code> Sass mixin. The <code>ReducedMotionService</code> exposes a <code>reducedMotion()</code> signal for runtime checks.',
+      "Under <code>prefers-reduced-motion: reduce</code>, all three duration tokens collapse to <code>0ms</code> automatically — zero opt-in required. Animations that don't use these tokens are disabled via the <code>reduced-motion</code> Sass mixin. The <code>ReducedMotionService</code> exposes a <code>reducedMotion()</code> signal for runtime checks.",
     componentTokensBody:
       'Beyond the global semantic tokens, every component exposes its own set of <code>--dm-&lt;component&gt;-*</code> tokens for fine-grained control. These are consumed inside the component with a verbatim fallback, so they render the default look out of the box and your override wins at any scope.',
     componentTokensItems: [
       'Tokens follow the naming convention <code>--dm-&lt;component&gt;-&lt;part&gt;-&lt;property&gt;[-&lt;state&gt;]</code> (e.g. <code>--dm-button-radius</code>, <code>--dm-switch-track-bg-checked</code>).',
-      'Each component\'s documentation page includes a <strong>Design tokens</strong> table listing all its tokens with their defaults and descriptions.',
-      'Override at any scope: globally in <code>:root</code>, per-theme in <code>[data-dm-theme=\'...\']</code>, or per-instance on the host element. The CSS cascade controls the reach.',
+      "Each component's documentation page includes a <strong>Design tokens</strong> table listing all its tokens with their defaults and descriptions.",
+      "Override at any scope: globally in <code>:root</code>, per-theme in <code>[data-dm-theme='...']</code>, or per-instance on the host element. The CSS cascade controls the reach.",
     ],
     componentTokensNote:
       'These tokens are part of the public API. Renaming or removing them is a breaking change. The component SCSS never hardcodes a value without a token fallback — that is what makes theming possible without forking.',
     overlayBody:
       'Overlays (dialog, drawer, toast, tooltip, popover, select panel, menu) are portaled to the document root by the Angular CDK. This means they are <strong>outside</strong> any scoped subtree override. Global token overrides and named themes work (they are set on <code>&lt;html&gt;</code>), but a subtree-scoped override will not reach the overlay panel.',
     overlayNote:
-      'To scope a theme inside an overlay, pass the CSS class via <code>panelClass</code> on <code>DmDialogConfig</code> or <code>DmDrawerConfig</code>. The class is merged with the library\'s structural classes and lands directly on the CDK overlay pane — so your selector reaches the panel content.',
-    whatsNextTitle: 'What\'s next',
+      "To scope a theme inside an overlay, pass the CSS class via <code>panelClass</code> on <code>DmDialogConfig</code> or <code>DmDrawerConfig</code>. The class is merged with the library's structural classes and lands directly on the CDK overlay pane — so your selector reaches the panel content.",
+    whatsNextTitle: "What's next",
     whatsNextBody:
       'Dive deeper into per-component tokens — every component has its own set of overridable CSS properties for precise control over radius, height, spacing, and more.',
     whatsNextCta: 'Explore component tokens',
@@ -518,7 +518,8 @@ export const EN: DashboardTranslations = {
       splitterTitle: 'Splitter',
       splitterDesc: 'Resizable panes with keyboard + pointer control.',
       themeBuilderTitle: 'Theme Builder',
-      themeBuilderDesc: 'Visual editor that exports a ready-to-paste CSS block for custom named themes.',
+      themeBuilderDesc:
+        'Visual editor that exports a ready-to-paste CSS block for custom named themes.',
     },
     catForms: 'Forms',
     catOverlay: 'Overlay',
@@ -554,7 +555,7 @@ export const EN: DashboardTranslations = {
         title: 'Real theming: named themes, ~300 design tokens, and one combobox',
         lead: 'The biggest theming release yet — register named custom themes and switch them at runtime, restyle any component through ~300 public CSS tokens, and override one brand color to re-derive a whole family via OKLCH. Meanwhile dm-paginated-select folded into dm-select as an async mode. Every default render stays pixel-identical.',
         bullets: [
-          'Named themes — register palettes with provideDmasterUI({ themes }), author their tokens under [data-dm-theme=\'name\'], and switch live with ThemeService.setTheme()',
+          "Named themes — register palettes with provideDmasterUI({ themes }), author their tokens under [data-dm-theme='name'], and switch live with ThemeService.setTheme()",
           '~300 per-component design tokens — every component exposes public --dm-<component>-* custom properties, overridable at any scope; the default render is pixel-identical',
           'Derived color tokens — override --dm-primary and its hover/text/subtle shades re-derive via OKLCH at a calibrated lightness, holding WCAG AA for arbitrary brand colors',
           'BREAKING: dm-paginated-select merged into dm-select — one combobox with an async loadFn mode (rxResource: accumulated pages, infinite scroll or load-more, debounced server search, now also with multiple)',

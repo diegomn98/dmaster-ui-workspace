@@ -954,7 +954,7 @@
 }
 
 .tok-string {
-  color: #059669;
+  color: #047857; // emerald-700 — AA (>=4.5:1) on the light code surface (--dm-bg-subtle)
 }
 
 .tok-keyword {
@@ -963,7 +963,7 @@
 }
 
 .tok-tag {
-  color: #0284c7;
+  color: #0369a1; // sky-700 — AA (>=4.5:1) on the light code surface (--dm-bg-subtle)
 }
 
 .tok-attr {

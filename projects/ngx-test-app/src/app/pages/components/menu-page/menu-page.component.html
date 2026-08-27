@@ -78,7 +78,11 @@
     </dm-menu>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['persistent']" [code]="persistentCode" [ts]="persistentTs">
+  <app-demo-block
+    [heading]="page().labels['persistent']"
+    [code]="persistentCode"
+    [ts]="persistentTs"
+  >
     <dm-button [dmMenuTrigger]="persistentMenu" variant="flat">Format</dm-button>
     <dm-menu #persistentMenu ariaLabel="Format" [closeOnSelect]="false">
       <dm-menu-item (selected)="act('Bold')">Bold</dm-menu-item>

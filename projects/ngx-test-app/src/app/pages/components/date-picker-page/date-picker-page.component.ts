@@ -297,9 +297,9 @@ export class DatePickerPageComponent {
     'export class DatePickerSizesComponent {}',
   ].join('\n');
 
-  protected readonly formsCode = [
-    '<dm-date-picker label="Date" [formControl]="control" />',
-  ].join('\n');
+  protected readonly formsCode = ['<dm-date-picker label="Date" [formControl]="control" />'].join(
+    '\n',
+  );
 
   protected readonly formsTs = [
     "import { Component } from '@angular/core';",

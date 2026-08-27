@@ -128,7 +128,9 @@
 <section class="page__section" aria-labelledby="whats-next">
   <h2 class="page__section-title" id="whats-next">{{ page().whatsNextTitle }}</h2>
   <p class="page__section-desc">{{ page().whatsNextBody }}</p>
-  <div style="display: flex; flex-wrap: wrap; gap: var(--dm-space-3); margin-top: var(--dm-space-3)">
+  <div
+    style="display: flex; flex-wrap: wrap; gap: var(--dm-space-3); margin-top: var(--dm-space-3)"
+  >
     <a routerLink="/component-tokens">
       <dm-button color="primary" variant="shadow" size="lg">
         {{ page().whatsNextCta }}

@@ -61,7 +61,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['swatchesHeading']" [code]="swatchesCode" [ts]="swatchesTs">
+  <app-demo-block
+    [heading]="page().labels['swatchesHeading']"
+    [code]="swatchesCode"
+    [ts]="swatchesTs"
+  >
     <div style="width: 100%; max-width: 18rem">
       <dm-color-picker
         [label]="page().labels['pickLabel']"

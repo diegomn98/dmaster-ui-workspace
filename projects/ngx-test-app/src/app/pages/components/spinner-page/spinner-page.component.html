@@ -50,7 +50,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.withLabel" [code]="withLabelCode" [ts]="withLabelTs">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.withLabel"
+    [code]="withLabelCode"
+    [ts]="withLabelTs"
+  >
     <div style="display: flex; align-items: center; gap: 0.625rem">
       <dm-spinner label="Loading results" />
       <span>Loading results…</span>

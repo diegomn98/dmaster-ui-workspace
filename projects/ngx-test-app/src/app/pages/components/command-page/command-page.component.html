@@ -49,7 +49,12 @@
     <dm-command [items]="items" [(open)]="shortcutsOpen" (selected)="onSelect($event)" />
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['empty']" [code]="emptyCode" [ts]="emptyTs" language="html">
+  <app-demo-block
+    [heading]="page().labels['empty']"
+    [code]="emptyCode"
+    [ts]="emptyTs"
+    language="html"
+  >
     <dm-button variant="flat" (clicked)="emptyOpen.set(true)">{{
       page().labels['open']
     }}</dm-button>

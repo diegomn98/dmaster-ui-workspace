@@ -61,7 +61,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['persistent']" [code]="persistentCode" [ts]="persistentTs">
+  <app-demo-block
+    [heading]="page().labels['persistent']"
+    [code]="persistentCode"
+    [ts]="persistentTs"
+  >
     <dm-button color="secondary" (clicked)="openPersistent()">
       {{ page().labels['openPersistent'] }}
     </dm-button>

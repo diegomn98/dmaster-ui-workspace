@@ -46,7 +46,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['fallbackHeading']" [code]="fallbackCode" [ts]="fallbackTs">
+  <app-demo-block
+    [heading]="page().labels['fallbackHeading']"
+    [code]="fallbackCode"
+    [ts]="fallbackTs"
+  >
     <div class="demo-row" style="align-items: center">
       <dm-avatar [src]="demoSrc" alt="Diego Maestro" initials="DM" />
       <dm-avatar initials="DM" alt="Diego Maestro" />

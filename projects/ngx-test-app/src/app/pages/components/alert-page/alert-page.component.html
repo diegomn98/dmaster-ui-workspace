@@ -60,7 +60,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode" [ts]="variantsTs">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.variants"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
     <div class="demo-stack">
       <dm-alert variant="flat" color="primary" [title]="'Flat'" description="Soft tinted fill." />
       <dm-alert
@@ -79,7 +83,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['description']" [code]="descriptionCode" [ts]="descriptionTs">
+  <app-demo-block
+    [heading]="page().labels['description']"
+    [code]="descriptionCode"
+    [ts]="descriptionTs"
+  >
     <div class="demo-stack">
       <dm-alert
         color="warning"
@@ -96,7 +104,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['dismissible']" [code]="dismissibleCode" [ts]="dismissibleTs">
+  <app-demo-block
+    [heading]="page().labels['dismissible']"
+    [code]="dismissibleCode"
+    [ts]="dismissibleTs"
+  >
     @if (!demoDismissed()) {
       <dm-alert
         color="success"

@@ -45,7 +45,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.withLabel" [code]="withLabelCode" [ts]="withLabelTs">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.withLabel"
+    [code]="withLabelCode"
+    [ts]="withLabelTs"
+  >
     <div style="display: grid; gap: var(--dm-space-5); width: 100%; max-width: 26rem">
       <dm-divider labelPlacement="start">Start</dm-divider>
       <dm-divider>Center</dm-divider>

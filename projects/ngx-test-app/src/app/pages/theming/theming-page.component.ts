@@ -126,7 +126,7 @@ export class ThemingPageComponent {
   ].join('\n');
 
   protected readonly namedThemeCssCode = [
-    "/* 2. Author the CSS tokens (styles.scss) */",
+    '/* 2. Author the CSS tokens (styles.scss) */',
     "[data-dm-theme='midnight'] {",
     '  --dm-bg: #0b1020;',
     '  --dm-bg-subtle: #111630;',

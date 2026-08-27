@@ -259,7 +259,7 @@ export class AutocompletePageComponent {
     "  lastSelected = signal<string>('—');",
     '',
     '  onSelected(option: DmAutocompleteOption): void {',
-    "    this.lastSelected.set(`${option.label} (${option.value})`);",
+    '    this.lastSelected.set(`${option.label} (${option.value})`);',
     '  }',
     '}',
   ].join('\n');

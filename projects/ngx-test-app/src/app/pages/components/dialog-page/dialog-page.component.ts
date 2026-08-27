@@ -410,10 +410,10 @@ export class DialogPageComponent {
     '<h2>{{ data.title }}</h2>',
     '<p>{{ data.body }}</p>',
     '<div class="confirm-dialog__actions">',
-    "  <dm-button color=\"default\" variant=\"light\" (clicked)=\"ref.close('cancel')\">",
+    '  <dm-button color="default" variant="light" (clicked)="ref.close(\'cancel\')">',
     '    {{ data.cancel }}',
     '  </dm-button>',
-    "  <dm-button color=\"danger\" (clicked)=\"ref.close('confirm')\">",
+    '  <dm-button color="danger" (clicked)="ref.close(\'confirm\')">',
     '    {{ data.confirm }}',
     '  </dm-button>',
     '</div>',
@@ -498,9 +498,9 @@ export class DialogPageComponent {
   ].join('\n');
 
   protected readonly sizesCode = [
-    "<dm-button variant=\"flat\" (clicked)=\"openBasic('sm')\">Small</dm-button>",
-    "<dm-button variant=\"flat\" (clicked)=\"openBasic('md')\">Medium</dm-button>",
-    "<dm-button variant=\"flat\" (clicked)=\"openBasic('lg')\">Large</dm-button>",
+    '<dm-button variant="flat" (clicked)="openBasic(\'sm\')">Small</dm-button>',
+    '<dm-button variant="flat" (clicked)="openBasic(\'md\')">Medium</dm-button>',
+    '<dm-button variant="flat" (clicked)="openBasic(\'lg\')">Large</dm-button>',
   ].join('\n');
 
   protected readonly sizesTs = [

@@ -70,7 +70,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['multipleHeading']" [code]="multipleCode" [ts]="multipleTs">
+  <app-demo-block
+    [heading]="page().labels['multipleHeading']"
+    [code]="multipleCode"
+    [ts]="multipleTs"
+  >
     <div style="width: 100%; max-width: 26rem; display: grid; gap: 0.75rem">
       <dm-file-upload
         multiple

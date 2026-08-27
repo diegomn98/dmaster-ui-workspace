@@ -30,7 +30,11 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.withLabel" [code]="withLabelCode" [ts]="withLabelTs">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.withLabel"
+    [code]="withLabelCode"
+    [ts]="withLabelTs"
+  >
     <div style="display: grid; gap: 0.875rem; justify-items: start">
       <dm-switch [checked]="true">{{ page().labels['notifications'] }}</dm-switch>
       <dm-switch ariaLabel="Dark mode" />

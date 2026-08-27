@@ -60,7 +60,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['noControls']" [code]="noControlsCode" [ts]="noControlsTs">
+  <app-demo-block
+    [heading]="page().labels['noControls']"
+    [code]="noControlsCode"
+    [ts]="noControlsTs"
+  >
     <dm-pagination [totalPages]="8" [showControls]="false" [(page)]="noControlsPage" />
   </app-demo-block>
 

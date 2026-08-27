@@ -81,7 +81,11 @@
   </app-demo-block>
 
   <!-- Pagination -->
-  <app-demo-block [heading]="page().labels['pagination']" [code]="paginationCode" [ts]="paginationTs">
+  <app-demo-block
+    [heading]="page().labels['pagination']"
+    [code]="paginationCode"
+    [ts]="paginationTs"
+  >
     <div style="width: 100%">
       <dm-table
         [columns]="columns"

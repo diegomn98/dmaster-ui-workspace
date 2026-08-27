@@ -246,7 +246,7 @@ export const ES: DashboardTranslations = {
       'Sobrescribe <code>--dm-primary</code> en tu <code>:root</code> y cada botón, focus ring y control checked se re-skin en una línea.',
     namedThemesTitle: 'Temas personalizados con nombre',
     namedThemesBody:
-      'Para una paleta alternativa completa que puedas conmutar en runtime, registra un <strong>tema con nombre</strong> con <code>provideDmasterUI({ themes })</code>, define sus tokens bajo un bloque <code>[data-dm-theme=\'…\']</code> y aplícalo por nombre con <code>ThemeService.setTheme()</code> — claro/oscuro siguen siendo built-in.',
+      "Para una paleta alternativa completa que puedas conmutar en runtime, registra un <strong>tema con nombre</strong> con <code>provideDmasterUI({ themes })</code>, define sus tokens bajo un bloque <code>[data-dm-theme='…']</code> y aplícalo por nombre con <code>ThemeService.setTheme()</code> — claro/oscuro siguen siendo built-in.",
     animationBody:
       'La motion está centralizada en un set pequeño de tokens de duración y easing — así toda la librería se mueve al mismo tempo.',
     animationItems: [
@@ -286,7 +286,7 @@ export const ES: DashboardTranslations = {
       '<strong>Temas con nombre y cambio en runtime</strong> — registra paletas alternativas con <code>provideDmasterUI()</code> y cambia con signals en runtime.',
     ],
     semanticBody:
-      'La capa base es un set de ~30 tokens semánticos que describen superficies, texto, bordes y sombras. Se definen una vez en <code>:root</code> (tema claro) y se redefinen bajo <code>[data-dm-theme=\'dark\']</code>. Todos los componentes de la librería leen estos tokens — nunca colores hardcodeados.',
+      "La capa base es un set de ~30 tokens semánticos que describen superficies, texto, bordes y sombras. Se definen una vez en <code>:root</code> (tema claro) y se redefinen bajo <code>[data-dm-theme='dark']</code>. Todos los componentes de la librería leen estos tokens — nunca colores hardcodeados.",
     surfaceTokens:
       '<strong>Superficies</strong> — cuatro niveles de elevación para layouts en capas: <code>--dm-bg</code> (base de página), <code>--dm-bg-subtle</code> (áreas hundidas, bloques de código), <code>--dm-bg-muted</code> (rellenos de input, fondos hover) y <code>--dm-bg-elevated</code> (cards, popovers, paneles elevados).',
     textTokens:
@@ -311,19 +311,19 @@ export const ES: DashboardTranslations = {
     lightDarkBody:
       '<code>ThemeService</code> gestiona el tema activo como un signal reactivo de Angular. El valor del tema se estampa como atributo <code>data-dm-theme</code> en <code>&lt;html&gt;</code>, así que cada token CSS cambia al instante. La elección se persiste en <code>localStorage</code> y un script inline anti-FOUC en <code>index.html</code> lo lee antes del primer paint, eliminando el flash de tema equivocado al recargar.',
     lightDarkItems: [
-      '<code>theme()</code> — devuelve el valor crudo que el usuario eligió (<code>\'auto\'</code>, <code>\'light\'</code>, <code>\'dark\'</code> o un tema con nombre).',
-      '<code>resolvedTheme()</code> — devuelve lo que realmente está estampado en <code>&lt;html&gt;</code>. Cuando <code>theme()</code> es <code>\'auto\'</code>, resuelve a <code>\'light\'</code> o <code>\'dark\'</code> según <code>prefers-color-scheme</code>.',
-      '<code>scheme()</code> — el esquema base (<code>\'light\'</code> o <code>\'dark\'</code>) del tema activo. Para temas con nombre, viene del campo <code>scheme</code> en la definición del tema.',
+      "<code>theme()</code> — devuelve el valor crudo que el usuario eligió (<code>'auto'</code>, <code>'light'</code>, <code>'dark'</code> o un tema con nombre).",
+      "<code>resolvedTheme()</code> — devuelve lo que realmente está estampado en <code>&lt;html&gt;</code>. Cuando <code>theme()</code> es <code>'auto'</code>, resuelve a <code>'light'</code> o <code>'dark'</code> según <code>prefers-color-scheme</code>.",
+      "<code>scheme()</code> — el esquema base (<code>'light'</code> o <code>'dark'</code>) del tema activo. Para temas con nombre, viene del campo <code>scheme</code> en la definición del tema.",
       '<code>toggle()</code> — alterna entre claro y oscuro. Lee <code>scheme()</code> internamente, así que funciona correctamente para temas con nombre.',
-      '<code>setTheme(name)</code> — aplica cualquier tema por nombre: <code>\'light\'</code>, <code>\'dark\'</code>, <code>\'auto\'</code> o un nombre custom registrado con <code>provideDmasterUI()</code>.',
+      "<code>setTheme(name)</code> — aplica cualquier tema por nombre: <code>'light'</code>, <code>'dark'</code>, <code>'auto'</code> o un nombre custom registrado con <code>provideDmasterUI()</code>.",
       '<code>themes()</code> — devuelve todos los temas registrados (built-in + custom), ideal para construir un picker de temas.',
     ],
     namedBody:
       'Para paletas alternativas con marca completa, los <strong>temas con nombre</strong> permiten registrar cualquier número de temas custom y conmutar entre ellos en runtime. Cada tema con nombre declara un <code>scheme</code> base (light o dark) para que <code>toggle()</code> y <code>scheme()</code> sigan funcionando correctamente.',
     namedSteps: [
-      '<strong>1. Registrar el tema</strong> — pasa un record <code>themes</code> a <code>provideDmasterUI()</code>. Cada entrada necesita un <code>scheme</code> (<code>\'light\'</code> o <code>\'dark\'</code>) y un <code>label</code> legible.',
-      '<strong>2. Escribir los tokens CSS</strong> — escribe un bloque <code>[data-dm-theme=\'tu-nombre\']</code> en tu hoja de estilos global. Solo sobrescribe los tokens que difieran del esquema base; el resto se hereda.',
-      '<strong>3. Aplicar por nombre</strong> — llama a <code>ThemeService.setTheme(\'tu-nombre\')</code>. El atributo cambia en <code>&lt;html&gt;</code> y CSS se encarga. Usa <code>ThemeService.themes()</code> para poblar un picker.',
+      "<strong>1. Registrar el tema</strong> — pasa un record <code>themes</code> a <code>provideDmasterUI()</code>. Cada entrada necesita un <code>scheme</code> (<code>'light'</code> o <code>'dark'</code>) y un <code>label</code> legible.",
+      "<strong>2. Escribir los tokens CSS</strong> — escribe un bloque <code>[data-dm-theme='tu-nombre']</code> en tu hoja de estilos global. Solo sobrescribe los tokens que difieran del esquema base; el resto se hereda.",
+      "<strong>3. Aplicar por nombre</strong> — llama a <code>ThemeService.setTheme('tu-nombre')</code>. El atributo cambia en <code>&lt;html&gt;</code> y CSS se encarga. Usa <code>ThemeService.themes()</code> para poblar un picker.",
     ],
     densityBody:
       'La densidad controla el padding vertical, gap y altura de los componentes interactivos. Hay tres escalas disponibles — configura una vez con <code>provideDmasterUI({ density })</code> o cambia en runtime con <code>DensityService</code>. La densidad activa se estampa como <code>data-dm-density</code> en <code>&lt;html&gt;</code> y controla los tokens <code>--dm-control-height-*</code>.',
@@ -349,7 +349,7 @@ export const ES: DashboardTranslations = {
     componentTokensItems: [
       'Los tokens siguen la convención <code>--dm-&lt;componente&gt;-&lt;parte&gt;-&lt;propiedad&gt;[-&lt;estado&gt;]</code> (p. ej. <code>--dm-button-radius</code>, <code>--dm-switch-track-bg-checked</code>).',
       'La página de documentación de cada componente incluye una tabla <strong>Design tokens</strong> listando todos sus tokens con sus defaults y descripciones.',
-      'Sobrescribe en cualquier scope: globalmente en <code>:root</code>, por tema en <code>[data-dm-theme=\'...\']</code>, o por instancia en el elemento host. La cascada CSS controla el alcance.',
+      "Sobrescribe en cualquier scope: globalmente en <code>:root</code>, por tema en <code>[data-dm-theme='...']</code>, o por instancia en el elemento host. La cascada CSS controla el alcance.",
     ],
     componentTokensNote:
       'Estos tokens son parte de la API pública. Renombrarlos o eliminarlos es un breaking change. El SCSS del componente nunca hardcodea un valor sin un token fallback — eso es lo que hace posible el theming sin forkear.',
@@ -520,7 +520,8 @@ export const ES: DashboardTranslations = {
       splitterTitle: 'Splitter',
       splitterDesc: 'Paneles redimensionables con control por teclado y puntero.',
       themeBuilderTitle: 'Theme Builder',
-      themeBuilderDesc: 'Editor visual que exporta un bloque CSS listo para pegar con temas personalizados.',
+      themeBuilderDesc:
+        'Editor visual que exporta un bloque CSS listo para pegar con temas personalizados.',
     },
     catForms: 'Formularios',
     catOverlay: 'Overlay',
@@ -556,7 +557,7 @@ export const ES: DashboardTranslations = {
         title: 'Theming de verdad: temas con nombre, ~300 tokens de diseño y un solo combobox',
         lead: 'La mayor release de theming hasta ahora — registra temas personalizados con nombre y cámbialos en runtime, re-estiliza cualquier componente con ~300 tokens CSS públicos, y sobrescribe un color de marca para re-derivar toda su familia vía OKLCH. Además, dm-paginated-select se fusionó en dm-select como modo async. Todo el render por defecto sigue pixel-idéntico.',
         bullets: [
-          'Temas con nombre — registra paletas con provideDmasterUI({ themes }), escribe sus tokens bajo [data-dm-theme=\'nombre\'] y cambia en vivo con ThemeService.setTheme()',
+          "Temas con nombre — registra paletas con provideDmasterUI({ themes }), escribe sus tokens bajo [data-dm-theme='nombre'] y cambia en vivo con ThemeService.setTheme()",
           '~300 tokens de diseño por componente — cada componente expone custom properties públicas --dm-<componente>-*, sobrescribibles en cualquier scope; el render por defecto es pixel-idéntico',
           'Tokens de color derivados — sobrescribe --dm-primary y sus tonos hover/text/subtle se re-derivan vía OKLCH a una luminosidad calibrada, manteniendo WCAG AA para colores de marca arbitrarios',
           'BREAKING: dm-paginated-select fusionado en dm-select — un solo combobox con modo async loadFn (rxResource: páginas acumuladas, scroll infinito o botón, búsqueda en servidor con debounce, ahora también con multiple)',

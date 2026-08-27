@@ -31,7 +31,9 @@
 
 <!-- Per-theme override -->
 <section class="page__section" aria-labelledby="per-theme-override">
-  <h2 class="page__section-title" id="per-theme-override">{{ page().sections.perThemeOverride }}</h2>
+  <h2 class="page__section-title" id="per-theme-override">
+    {{ page().sections.perThemeOverride }}
+  </h2>
   <p class="page__section-desc" [innerHTML]="page().perThemeBody"></p>
   <app-code-snippet [code]="perThemeOverrideCode" language="css" />
 </section>
@@ -56,7 +58,9 @@
         <div class="token-card">
           <div class="token-card__head">
             <span class="token-card__name">{{ group.component }}</span>
-            <span class="token-card__count" [attr.aria-label]="group.tokens.length + ' tokens'">{{ group.tokens.length }}</span>
+            <span class="token-card__count" [attr.aria-label]="group.tokens.length + ' tokens'">{{
+              group.tokens.length
+            }}</span>
           </div>
           <div class="token-card__body">
             <table class="token-table">
@@ -69,7 +73,9 @@
               <tbody>
                 @for (entry of group.tokens; track entry.token) {
                   <tr>
-                    <td class="token-table__name"><code>{{ entry.token }}</code></td>
+                    <td class="token-table__name">
+                      <code>{{ entry.token }}</code>
+                    </td>
                     <td class="token-table__default">{{ entry.fallback }}</td>
                   </tr>
                 }

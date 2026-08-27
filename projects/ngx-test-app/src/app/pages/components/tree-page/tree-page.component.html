@@ -79,7 +79,11 @@
   </app-demo-block>
 
   <!-- Controlled expansion -->
-  <app-demo-block [heading]="page().labels['controlled']" [code]="controlledCode" [ts]="controlledTs">
+  <app-demo-block
+    [heading]="page().labels['controlled']"
+    [code]="controlledCode"
+    [ts]="controlledTs"
+  >
     <div class="demo-stack" style="max-width: 22rem">
       <div class="demo-row" style="justify-content: flex-start">
         <dm-button size="sm" variant="bordered" (clicked)="expandAll()">

@@ -55,7 +55,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['dismissible']" [code]="dismissibleCode" [ts]="dismissibleTs">
+  <app-demo-block
+    [heading]="page().labels['dismissible']"
+    [code]="dismissibleCode"
+    [ts]="dismissibleTs"
+  >
     <div class="demo-row">
       <dm-button variant="flat" (clicked)="showDismissible()">
         {{ page().labels['withDismiss'] }}
@@ -66,7 +70,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['programmatic']" [code]="programmaticCode" [ts]="programmaticTs">
+  <app-demo-block
+    [heading]="page().labels['programmatic']"
+    [code]="programmaticCode"
+    [ts]="programmaticTs"
+  >
     <div class="demo-row">
       <dm-button variant="flat" [disabled]="uploading()" (clicked)="startUpload()">
         {{ page().labels['startUpload'] }}

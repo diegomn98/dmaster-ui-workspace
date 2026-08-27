@@ -96,16 +96,16 @@ export class ToastPageComponent {
 
   // Demo: variant helpers
   protected readonly helpersCode = [
-    "<dm-button variant=\"flat\" (clicked)=\"toast.show('Draft autosaved')\">",
+    '<dm-button variant="flat" (clicked)="toast.show(\'Draft autosaved\')">',
     '  neutral',
     '</dm-button>',
-    "<dm-button variant=\"flat\" color=\"success\" (clicked)=\"toast.success('Changes saved successfully')\">",
+    '<dm-button variant="flat" color="success" (clicked)="toast.success(\'Changes saved successfully\')">',
     '  success',
     '</dm-button>',
-    "<dm-button variant=\"flat\" color=\"warning\" (clicked)=\"toast.warning('Storage almost full')\">",
+    '<dm-button variant="flat" color="warning" (clicked)="toast.warning(\'Storage almost full\')">',
     '  warning',
     '</dm-button>',
-    "<dm-button variant=\"flat\" color=\"danger\" (clicked)=\"toast.danger('Something went wrong')\">",
+    '<dm-button variant="flat" color="danger" (clicked)="toast.danger(\'Something went wrong\')">',
     '  danger',
     '</dm-button>',
   ].join('\n');

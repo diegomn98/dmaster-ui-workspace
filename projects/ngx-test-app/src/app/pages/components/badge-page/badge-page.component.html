@@ -33,7 +33,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode" [ts]="variantsTs">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.variants"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
     <div class="demo-row">
       @for (v of variants; track v) {
         <dm-badge color="primary" [variant]="v">{{ v }}</dm-badge>
@@ -68,7 +72,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['withIconHeading']" [code]="withIconCode" [ts]="withIconTs">
+  <app-demo-block
+    [heading]="page().labels['withIconHeading']"
+    [code]="withIconCode"
+    [ts]="withIconTs"
+  >
     <div class="demo-row" style="align-items: center">
       <dm-badge color="success" variant="flat">
         <dm-icon name="check-circle" size="1em" />Verified

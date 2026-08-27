@@ -47,7 +47,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode" [ts]="variantsTs">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.variants"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
     <div class="demo-grid">
       @for (v of variants; track v) {
         <dm-select
@@ -94,7 +98,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['clearableHeading']" [code]="clearableCode" [ts]="clearableTs">
+  <app-demo-block
+    [heading]="page().labels['clearableHeading']"
+    [code]="clearableCode"
+    [ts]="clearableTs"
+  >
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-select
@@ -111,7 +119,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['multipleHeading']" [code]="multipleCode" [ts]="multipleTs">
+  <app-demo-block
+    [heading]="page().labels['multipleHeading']"
+    [code]="multipleCode"
+    [ts]="multipleTs"
+  >
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 20rem">
         <dm-select
@@ -129,7 +141,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['filterableHeading']" [code]="filterableCode" [ts]="filterableTs">
+  <app-demo-block
+    [heading]="page().labels['filterableHeading']"
+    [code]="filterableCode"
+    [ts]="filterableTs"
+  >
     <div style="width: 20rem">
       <dm-select
         [label]="page().labels['pet']"
@@ -154,7 +170,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['multiFilterHeading']" [code]="multiFilterCode" [ts]="multiFilterTs">
+  <app-demo-block
+    [heading]="page().labels['multiFilterHeading']"
+    [code]="multiFilterCode"
+    [ts]="multiFilterTs"
+  >
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 20rem">
         <dm-select

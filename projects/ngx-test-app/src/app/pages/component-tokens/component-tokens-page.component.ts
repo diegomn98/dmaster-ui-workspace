@@ -660,7 +660,7 @@ export class ComponentTokensPageComponent {
   ].join('\n');
 
   protected readonly perThemeOverrideCode = [
-    "/* Override tokens for a specific theme */",
+    '/* Override tokens for a specific theme */',
     "[data-dm-theme='midnight'] {",
     '  --dm-card-bg: #111630;',
     '  --dm-card-shadow: var(--dm-shadow-lg);',

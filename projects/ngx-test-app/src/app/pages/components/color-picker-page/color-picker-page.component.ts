@@ -210,8 +210,7 @@ export class ColorPickerPageComponent {
     '})',
     'export class SizesDemoComponent {}',
   ].join('\n');
-  protected readonly formsCode =
-    '<dm-color-picker label="Color" [formControl]="control" />';
+  protected readonly formsCode = '<dm-color-picker label="Color" [formControl]="control" />';
   protected readonly formsTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule } from '@angular/forms';",

@@ -64,7 +64,11 @@
     <dm-otp [(value)]="fourValue" [length]="4" size="lg" ariaLabel="One-time code" />
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode" [ts]="variantsTs">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.variants"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
     <div class="demo-stack" style="align-items: flex-start">
       <dm-otp variant="bordered" [length]="4" [(value)]="borderedValue" ariaLabel="Bordered" />
       <dm-otp variant="faded" [length]="4" [(value)]="fadedValue" ariaLabel="Faded" />
