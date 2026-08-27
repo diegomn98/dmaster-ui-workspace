@@ -161,6 +161,20 @@ export class RadioGroupPageComponent {
     '<span>Selected: {{ plan() }}</span>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-plan-select',",
+    '  imports: [DmRadioGroupComponent, DmRadioComponent],',
+    "  templateUrl: './plan-select.component.html',",
+    '})',
+    'export class PlanSelectComponent {',
+    "  protected readonly plan = signal<string>('pro');",
+    '}',
+  ].join('\n');
+
   protected readonly orientationCode = [
     '<!-- vertical (default) -->',
     '<dm-radio-group name="side" [(value)]="side">',
@@ -177,6 +191,20 @@ export class RadioGroupPageComponent {
     '</dm-radio-group>',
   ].join('\n');
 
+  protected readonly orientationTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-alignment',",
+    '  imports: [DmRadioGroupComponent, DmRadioComponent],',
+    "  templateUrl: './alignment.component.html',",
+    '})',
+    'export class AlignmentComponent {',
+    "  protected readonly side = signal<string>('center');",
+    '}',
+  ].join('\n');
+
   protected readonly colorsCode = [
     '<dm-radio-group name="c" color="default" [(value)]="v">…</dm-radio-group>',
     '<dm-radio-group name="c" color="primary" [(value)]="v">…</dm-radio-group>',
@@ -186,10 +214,38 @@ export class RadioGroupPageComponent {
     '<dm-radio-group name="c" color="danger" [(value)]="v">…</dm-radio-group>',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-radio-colors',",
+    '  imports: [DmRadioGroupComponent, DmRadioComponent],',
+    "  templateUrl: './radio-colors.component.html',",
+    '})',
+    'export class RadioColorsComponent {',
+    "  protected readonly v = signal<string>('a');",
+    '}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-radio-group name="s" size="sm" [(value)]="v">…</dm-radio-group>',
     '<dm-radio-group name="s" size="md" [(value)]="v">…</dm-radio-group>',
     '<dm-radio-group name="s" size="lg" [(value)]="v">…</dm-radio-group>',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-radio-sizes',",
+    '  imports: [DmRadioGroupComponent, DmRadioComponent],',
+    "  templateUrl: './radio-sizes.component.html',",
+    '})',
+    'export class RadioSizesComponent {',
+    "  protected readonly v = signal<string>('a');",
+    '}',
   ].join('\n');
 
   protected readonly disabledCode = [
@@ -206,6 +262,20 @@ export class RadioGroupPageComponent {
     '  <dm-radio value="priority">Priority</dm-radio>',
     '  <dm-radio value="overnight">Overnight</dm-radio>',
     '</dm-radio-group>',
+  ].join('\n');
+
+  protected readonly disabledTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-delivery-options',",
+    '  imports: [DmRadioGroupComponent, DmRadioComponent],',
+    "  templateUrl: './delivery-options.component.html',",
+    '})',
+    'export class DeliveryOptionsComponent {',
+    "  protected readonly delivery = signal<string>('standard');",
+    '}',
   ].join('\n');
 
   protected readonly formsCode = [

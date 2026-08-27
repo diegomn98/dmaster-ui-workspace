@@ -31,7 +31,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="page().labels['numeric']" [code]="numericCode">
+  <app-demo-block [heading]="page().labels['numeric']" [code]="numericCode" [ts]="numericTs">
     <div class="demo-stack">
       <dm-otp
         [(value)]="numericValue"
@@ -46,25 +46,29 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['alphanumeric']" [code]="alnumCode">
+  <app-demo-block [heading]="page().labels['alphanumeric']" [code]="alnumCode" [ts]="alnumTs">
     <div class="demo-stack">
       <dm-otp [(value)]="alnumValue" mode="alphanumeric" [length]="5" ariaLabel="Coupon code" />
       <span class="demo-output">value: {{ alnumValue() || '—' }}</span>
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['masked']" [code]="maskedCode">
+  <app-demo-block [heading]="page().labels['masked']" [code]="maskedCode" [ts]="maskedTs">
     <div class="demo-stack">
       <dm-otp [(value)]="maskedValue" mask [length]="4" [ariaLabel]="page().labels['pin']" />
       <span class="demo-output">value: {{ maskedValue() || '—' }}</span>
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['fourDigit']" [code]="fourCode">
+  <app-demo-block [heading]="page().labels['fourDigit']" [code]="fourCode" [ts]="fourTs">
     <dm-otp [(value)]="fourValue" [length]="4" size="lg" ariaLabel="One-time code" />
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.variants"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
     <div class="demo-stack" style="align-items: flex-start">
       <dm-otp variant="bordered" [length]="4" [(value)]="borderedValue" ariaLabel="Bordered" />
       <dm-otp variant="faded" [length]="4" [(value)]="fadedValue" ariaLabel="Faded" />
@@ -77,7 +81,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['separated']" [code]="separatedCode">
+  <app-demo-block [heading]="page().labels['separated']" [code]="separatedCode" [ts]="separatedTs">
     <dm-otp
       [(value)]="sepValue"
       [length]="6"
@@ -87,7 +91,7 @@
     />
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-stack" style="align-items: flex-start">
       <dm-otp size="sm" [length]="4" [(value)]="smValue" ariaLabel="Small" />
       <dm-otp size="md" [length]="4" [(value)]="mdValue" ariaLabel="Medium" />

@@ -19,7 +19,6 @@ import {
   DmTabComponent,
   DmTabPanelComponent,
   DmTabsComponent,
-  ThemeService,
 } from '@dmaster/ui';
 
 import { COMPONENT_REGISTRY } from '../../core/component-registry';
@@ -28,9 +27,9 @@ import { DashboardLocale } from '../../core/i18n/translations.types';
 import { PALETTE_PRESETS } from '../../core/palette/palette';
 import { PaletteService } from '../../core/palette/palette.service';
 import { LIB_VERSION } from '../../core/version';
-import { PalettePickerComponent } from '../../layout/palette-picker/palette-picker.component';
 import { CodeSnippetComponent } from '../../shared/code-snippet/code-snippet.component';
 import { RevealDirective } from '../../shared/reveal.directive';
+import { SiteTopbarComponent } from '../../shared/site-topbar/site-topbar.component';
 
 @Component({
   selector: 'app-home',
@@ -53,9 +52,9 @@ import { RevealDirective } from '../../shared/reveal.directive';
     DmTabComponent,
     DmTabPanelComponent,
     DmTabsComponent,
-    PalettePickerComponent,
     CodeSnippetComponent,
     RevealDirective,
+    SiteTopbarComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -64,7 +63,6 @@ import { RevealDirective } from '../../shared/reveal.directive';
 export class HomeComponent {
   protected readonly i18n = inject(LocaleService);
   protected readonly palette = inject(PaletteService);
-  protected readonly theme = inject(ThemeService);
 
   /** Same source of truth as the Overview page — never hand-typed/stale. */
   protected readonly componentsCount = COMPONENT_REGISTRY.length;

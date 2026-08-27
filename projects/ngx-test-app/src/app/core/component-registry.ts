@@ -61,7 +61,6 @@ export const COMPONENT_REGISTRY: ComponentRegistryEntry[] = [
   { id: 'radio-group', categoryKey: 'forms', navKey: 'radioGroup' },
   { id: 'select', categoryKey: 'forms', navKey: 'select' },
   { id: 'autocomplete', categoryKey: 'forms', navKey: 'autocomplete' },
-  { id: 'paginated-select', categoryKey: 'forms', navKey: 'paginatedSelect' },
   { id: 'search-field', categoryKey: 'forms', navKey: 'searchField' },
   { id: 'date-picker', categoryKey: 'forms', navKey: 'datePicker' },
   { id: 'color-picker', categoryKey: 'forms', navKey: 'colorPicker' },

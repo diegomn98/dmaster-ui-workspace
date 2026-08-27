@@ -8,11 +8,13 @@ import {
   DmSelectColor,
   DmSelectComponent,
   DmSelectItem,
+  DmSelectLoadFn,
   DmSelectOptionOrGroup,
   DmSelectRadius,
   DmSelectVariant,
   DmSize,
 } from '@dmaster/ui';
+import { delay, of } from 'rxjs';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -88,6 +90,19 @@ const TEAMS: DmSelectItem<string>[] = [
 const VARIANTS: DmSelectVariant[] = ['flat', 'bordered', 'faded', 'underlined'];
 const COLORS: DmSelectColor[] = ['default', 'primary', 'secondary', 'success', 'warning', 'danger'];
 
+/** Simulated remote dataset for the async demos — 87 users matched by query. */
+const ALL_USERS: DmSelectItem<string>[] = Array.from({ length: 87 }, (_, i) => {
+  const first = ['Ada', 'Alan', 'Grace', 'Linus', 'Barbara', 'Donald', 'Rich', 'Ken', 'Bjarne'][
+    i % 9
+  ];
+  const last = ['Lovelace', 'Turing', 'Hopper', 'Torvalds', 'Liskov', 'Knuth', 'Stevens'][i % 7];
+  return {
+    value: `u-${i + 1}`,
+    label: `${first} ${last} #${i + 1}`,
+    description: `user-${(i + 1).toString().padStart(3, '0')}@example.com`,
+  };
+});
+
 @Component({
   selector: 'app-select-page',
   imports: [
@@ -133,6 +148,28 @@ export class SelectPageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly multipleTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-multi-select',",
+    '  imports: [DmSelectComponent],',
+    "  templateUrl: './multi-select.component.html',",
+    '})',
+    'export class MultiSelectComponent {',
+    '  protected readonly pets: DmSelectItem<string>[] = [',
+    "    { value: 'cat', label: 'Cat' },",
+    "    { value: 'dog', label: 'Dog', description: \"Man's best friend\" },",
+    "    { value: 'rabbit', label: 'Rabbit' },",
+    "    { value: 'fish', label: 'Fish', disabled: true },",
+    "    { value: 'hamster', label: 'Hamster' },",
+    "    { value: 'parrot', label: 'Parrot' },",
+    '  ];',
+    "  protected readonly selected = signal<string[]>(['dog', 'rabbit']);",
+    '}',
+  ].join('\n');
+
   protected readonly filterableCode = [
     '<dm-select',
     '  label="Pet"',
@@ -145,13 +182,68 @@ export class SelectPageComponent {
     '/>',
   ].join('\n');
 
-  protected readonly groupedCode = [
-    'groups = [',
-    "  { label: 'Mammals', items: [{ value: 'cat', label: 'Cat' }, …] },",
-    "  { label: 'Others', items: [{ value: 'fish', label: 'Fish' }, …] },",
-    '];',
+  protected readonly filterableTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
     '',
-    '<dm-select label="Pet" [items]="groups" [(value)]="pet" />',
+    '@Component({',
+    "  selector: 'app-filterable-select',",
+    '  imports: [DmSelectComponent],',
+    "  templateUrl: './filterable-select.component.html',",
+    '})',
+    'export class FilterableSelectComponent {',
+    '  protected readonly pets: DmSelectItem<string>[] = [',
+    "    { value: 'cat', label: 'Cat' },",
+    "    { value: 'dog', label: 'Dog', description: \"Man's best friend\" },",
+    "    { value: 'rabbit', label: 'Rabbit' },",
+    "    { value: 'fish', label: 'Fish', disabled: true },",
+    "    { value: 'hamster', label: 'Hamster' },",
+    "    { value: 'parrot', label: 'Parrot' },",
+    '  ];',
+    '  protected readonly pet = signal<string | null>(null);',
+    '}',
+  ].join('\n');
+
+  protected readonly groupedCode = [
+    '<dm-select',
+    '  label="Pet"',
+    '  placeholder="Pick a pet"',
+    '  [items]="groups"',
+    '  [(value)]="pet"',
+    '/>',
+  ].join('\n');
+
+  protected readonly groupedTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSelectComponent, DmSelectOptionOrGroup } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-grouped-select',",
+    '  imports: [DmSelectComponent],',
+    "  templateUrl: './grouped-select.component.html',",
+    '})',
+    'export class GroupedSelectComponent {',
+    '  protected readonly groups: DmSelectOptionOrGroup<string>[] = [',
+    '    {',
+    "      label: 'Mammals',",
+    '      items: [',
+    "        { value: 'cat', label: 'Cat' },",
+    "        { value: 'dog', label: 'Dog' },",
+    "        { value: 'rabbit', label: 'Rabbit' },",
+    "        { value: 'hamster', label: 'Hamster' },",
+    '      ],',
+    '    },',
+    '    {',
+    "      label: 'Others',",
+    '      items: [',
+    "        { value: 'fish', label: 'Fish' },",
+    "        { value: 'parrot', label: 'Parrot' },",
+    "        { value: 'turtle', label: 'Turtle' },",
+    '      ],',
+    '    },',
+    '  ];',
+    '  protected readonly pet = signal<string | null>(null);',
+    '}',
   ].join('\n');
 
   protected readonly multiFilterCode = [
@@ -164,6 +256,39 @@ export class SelectPageComponent {
     '  [items]="groups"',
     '  [(values)]="selected"',
     '/>',
+  ].join('\n');
+
+  protected readonly multiFilterTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSelectComponent, DmSelectOptionOrGroup } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-multi-filter-select',",
+    '  imports: [DmSelectComponent],',
+    "  templateUrl: './multi-filter-select.component.html',",
+    '})',
+    'export class MultiFilterSelectComponent {',
+    '  protected readonly groups: DmSelectOptionOrGroup<string>[] = [',
+    '    {',
+    "      label: 'Mammals',",
+    '      items: [',
+    "        { value: 'cat', label: 'Cat' },",
+    "        { value: 'dog', label: 'Dog' },",
+    "        { value: 'rabbit', label: 'Rabbit' },",
+    "        { value: 'hamster', label: 'Hamster' },",
+    '      ],',
+    '    },',
+    '    {',
+    "      label: 'Others',",
+    '      items: [',
+    "        { value: 'fish', label: 'Fish' },",
+    "        { value: 'parrot', label: 'Parrot' },",
+    "        { value: 'turtle', label: 'Turtle' },",
+    '      ],',
+    '    },',
+    '  ];',
+    '  protected readonly selected = signal<string[]>([]);',
+    '}',
   ].join('\n');
 
   // ---- Playground ----------------------------------------------------------
@@ -242,6 +367,76 @@ export class SelectPageComponent {
     return `<dm-select\n  ${attrs.join('\n  ')}\n/>`;
   });
 
+  // ---- Async (server-driven) demos -----------------------------------------
+  protected readonly asyncValue = signal<string | null>(null);
+  protected readonly asyncButtonValue = signal<string | null>(null);
+
+  /** Shared loadFn for the async demos: filters + slices the mock dataset. */
+  protected readonly loadFn: DmSelectLoadFn<string> = ({ page, pageSize, query }) => {
+    const q = query.trim().toLowerCase();
+    const matched = q
+      ? ALL_USERS.filter(
+          (u) => u.label.toLowerCase().includes(q) || u.description?.toLowerCase().includes(q),
+        )
+      : ALL_USERS;
+    const start = page * pageSize;
+    return of({ items: matched.slice(start, start + pageSize), total: matched.length }).pipe(
+      delay(400),
+    );
+  };
+
+  protected readonly asyncCode = [
+    '<dm-select',
+    '  label="Assignee"',
+    '  placeholder="Pick a user"',
+    '  filterable',
+    '  clearable',
+    '  [loadFn]="loadUsers"',
+    '  [(value)]="userId"',
+    '/>',
+  ].join('\n');
+
+  protected readonly asyncButtonCode = [
+    '<dm-select',
+    '  loadMoreMode="button"',
+    '  loadMoreLabel="Load more"',
+    '  [loadFn]="loadUsers"',
+    '  [(value)]="userId"',
+    '/>',
+  ].join('\n');
+
+  /** Full TS for the async demos — the loadFn is HttpClient-native. */
+  protected readonly asyncTs = [
+    "import { Component, inject, signal } from '@angular/core';",
+    "import { HttpClient } from '@angular/common/http';",
+    "import { map } from 'rxjs';",
+    "import { DmSelectComponent, DmSelectLoadFn } from '@dmaster/ui';",
+    '',
+    'interface User { id: string; name: string; email: string; }',
+    '',
+    '@Component({',
+    "  selector: 'app-assignee',",
+    '  imports: [DmSelectComponent],',
+    "  templateUrl: './assignee.component.html',",
+    '})',
+    'export class AssigneeComponent {',
+    '  private readonly http = inject(HttpClient);',
+    '  protected readonly userId = signal<string | null>(null);',
+    '',
+    '  // Works directly with HttpClient — rxResource cancels stale requests',
+    '  // and the component pages, searches and caches labels on its own.',
+    '  protected readonly loadUsers: DmSelectLoadFn<string> = ({ page, pageSize, query }) =>',
+    "    this.http.get<{ data: User[]; total: number }>('/api/users', {",
+    '      params: { page, pageSize, query },',
+    '    }).pipe(',
+    '      map((res) => ({',
+    '        items: res.data.map((u) => ({ value: u.id, label: u.name, description: u.email })),',
+    '        total: res.total,',
+    '      })),',
+    '    );',
+    '}',
+  ].join('\n');
+
   // ---- Demos ---------------------------------------------------------------
   protected readonly clearableValue = signal<string | null>('dog');
 
@@ -255,22 +450,119 @@ export class SelectPageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly clearableTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-clearable-select',",
+    '  imports: [DmSelectComponent],',
+    "  templateUrl: './clearable-select.component.html',",
+    '})',
+    'export class ClearableSelectComponent {',
+    '  protected readonly pets: DmSelectItem<string>[] = [',
+    "    { value: 'cat', label: 'Cat' },",
+    "    { value: 'dog', label: 'Dog', description: \"Man's best friend\" },",
+    "    { value: 'rabbit', label: 'Rabbit' },",
+    "    { value: 'fish', label: 'Fish', disabled: true },",
+    "    { value: 'hamster', label: 'Hamster' },",
+    "    { value: 'parrot', label: 'Parrot' },",
+    '  ];',
+    "  protected readonly selected = signal<string | null>('dog');",
+    '}',
+  ].join('\n');
+
   protected readonly basicCode = [
     '<dm-select label="Pet" placeholder="Pick a pet" [items]="pets" [(value)]="pet" />',
+  ].join('\n');
+
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pet-select',",
+    '  imports: [DmSelectComponent],',
+    "  templateUrl: './pet-select.component.html',",
+    '})',
+    'export class PetSelectComponent {',
+    '  protected readonly pets: DmSelectItem<string>[] = [',
+    "    { value: 'cat', label: 'Cat' },",
+    "    { value: 'dog', label: 'Dog', description: \"Man's best friend\" },",
+    "    { value: 'rabbit', label: 'Rabbit' },",
+    "    { value: 'fish', label: 'Fish', disabled: true },",
+    "    { value: 'hamster', label: 'Hamster' },",
+    "    { value: 'parrot', label: 'Parrot' },",
+    '  ];',
+    '  protected readonly pet = signal<string | null>(null);',
+    '}',
   ].join('\n');
 
   protected readonly variantsCode = VARIANTS.map(
     (v) => `<dm-select variant="${v}" label="${v}" placeholder="Pick one" [items]="pets" />`,
   ).join('\n');
 
+  protected readonly variantsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-select-variants',",
+    '  imports: [DmSelectComponent],',
+    "  templateUrl: './select-variants.component.html',",
+    '})',
+    'export class SelectVariantsComponent {',
+    '  protected readonly pets: DmSelectItem<string>[] = [',
+    "    { value: 'cat', label: 'Cat' },",
+    "    { value: 'dog', label: 'Dog', description: \"Man's best friend\" },",
+    "    { value: 'rabbit', label: 'Rabbit' },",
+    "    { value: 'fish', label: 'Fish', disabled: true },",
+    "    { value: 'hamster', label: 'Hamster' },",
+    "    { value: 'parrot', label: 'Parrot' },",
+    '  ];',
+    '}',
+  ].join('\n');
+
   protected readonly colorsCode = COLORS.map(
     (c) => `<dm-select color="${c}" label="${c}" placeholder="Pick one" [items]="pets" />`,
   ).join('\n');
 
   protected readonly formsCode = [
-    'control = new FormControl<string | null>(null);',
+    '<dm-select',
+    '  ariaLabel="Pet"',
+    '  placeholder="Pick a pet"',
+    '  [items]="pets"',
+    '  [formControl]="control"',
+    '/>',
+    "<p>Value: {{ value() ?? '—' }}</p>",
+  ].join('\n');
+
+  protected readonly formsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
     '',
-    '<dm-select label="Pet" placeholder="Pick a pet" [items]="pets" [formControl]="control" />',
+    '@Component({',
+    "  selector: 'app-pet-form',",
+    '  imports: [DmSelectComponent, ReactiveFormsModule],',
+    "  templateUrl: './pet-form.component.html',",
+    '})',
+    'export class PetFormComponent {',
+    '  protected readonly pets: DmSelectItem<string>[] = [',
+    "    { value: 'cat', label: 'Cat' },",
+    "    { value: 'dog', label: 'Dog', description: \"Man's best friend\" },",
+    "    { value: 'rabbit', label: 'Rabbit' },",
+    "    { value: 'fish', label: 'Fish', disabled: true },",
+    "    { value: 'hamster', label: 'Hamster' },",
+    "    { value: 'parrot', label: 'Parrot' },",
+    '  ];',
+    "  protected readonly control = new FormControl<string | null>('dog');",
+    "  protected readonly value = signal<string | null>('dog');",
+    '',
+    '  constructor() {',
+    '    this.control.valueChanges.subscribe((v) => this.value.set(v));',
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [
@@ -490,6 +782,49 @@ export class SelectPageComponent {
         type: 'string',
         default: "'Clear'",
         description: api['clearAriaLabel'],
+      },
+      {
+        name: 'filterClearAriaLabel',
+        type: 'string',
+        default: "'Clear'",
+        description: api['filterClearAriaLabel'],
+      },
+      {
+        name: 'loadFn',
+        type: 'DmSelectLoadFn<T> | null',
+        default: 'null',
+        description: api['loadFn'],
+      },
+      { name: 'pageSize', type: 'number', default: '20', description: api['pageSize'] },
+      {
+        name: 'searchDebounceMs',
+        type: 'number',
+        default: '250',
+        description: api['searchDebounceMs'],
+      },
+      {
+        name: 'loadMoreMode',
+        type: "'infinite' | 'button'",
+        default: "'infinite'",
+        description: api['loadMoreMode'],
+      },
+      {
+        name: 'loadMoreLabel',
+        type: 'string',
+        default: "'Load more'",
+        description: api['loadMoreLabel'],
+      },
+      {
+        name: 'loadingLabel',
+        type: 'string',
+        default: "'Loading…'",
+        description: api['loadingLabel'],
+      },
+      {
+        name: 'selectedItems',
+        type: 'DmSelectItem<T>[]',
+        default: '[]',
+        description: api['selectedItems'],
       },
     ];
   });

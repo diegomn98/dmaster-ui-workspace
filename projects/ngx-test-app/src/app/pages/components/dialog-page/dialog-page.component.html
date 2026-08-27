@@ -31,11 +31,11 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" language="ts">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <dm-button (clicked)="openBasic()">{{ page().labels['open'] }}</dm-button>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['confirmDialog']" [code]="confirmCode" language="ts">
+  <app-demo-block [heading]="page().labels['confirmDialog']" [code]="confirmCode" [ts]="confirmTs">
     <div class="demo-row">
       <dm-button color="danger" variant="flat" (clicked)="openConfirm()">
         {{ page().labels['demoTitle'] }}
@@ -44,7 +44,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['formDialog']" [code]="formCode" language="ts">
+  <app-demo-block [heading]="page().labels['formDialog']" [code]="formCode" [ts]="formTs">
     <div class="demo-row">
       <dm-button color="primary" variant="flat" (clicked)="openForm()">
         {{ page().labels['formTitle'] }}
@@ -53,7 +53,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" language="ts">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row">
       <dm-button variant="flat" (clicked)="openBasic('sm')">{{ page().labels['sm'] }}</dm-button>
       <dm-button variant="flat" (clicked)="openBasic('md')">{{ page().labels['md'] }}</dm-button>
@@ -61,7 +61,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['persistent']" [code]="persistentCode" language="ts">
+  <app-demo-block
+    [heading]="page().labels['persistent']"
+    [code]="persistentCode"
+    [ts]="persistentTs"
+  >
     <dm-button color="secondary" (clicked)="openPersistent()">
       {{ page().labels['openPersistent'] }}
     </dm-button>

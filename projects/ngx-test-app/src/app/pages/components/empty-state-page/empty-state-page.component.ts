@@ -96,12 +96,36 @@ export class EmptyStatePageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-inbox-empty',",
+    '  imports: [DmEmptyStateComponent],',
+    "  templateUrl: './inbox-empty.component.html',",
+    '})',
+    'export class InboxEmptyComponent {}',
+  ].join('\n');
+
   protected readonly actionsCode = [
     '<!-- Everything projected into the default slot lands in the centered actions row -->',
     '<dm-empty-state title="No projects yet" description="Create your first project to get started.">',
     '  <dm-button color="primary">New project</dm-button>',
     '  <dm-button variant="bordered">Import</dm-button>',
     '</dm-empty-state>',
+  ].join('\n');
+
+  protected readonly actionsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmEmptyStateComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-no-projects',",
+    '  imports: [DmEmptyStateComponent, DmButtonComponent],',
+    "  templateUrl: './no-projects.component.html',",
+    '})',
+    'export class NoProjectsComponent {}',
   ].join('\n');
 
   protected readonly customIconCode = [
@@ -112,10 +136,34 @@ export class EmptyStatePageComponent {
     '</dm-empty-state>',
   ].join('\n');
 
+  protected readonly customIconTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmEmptyStateComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-no-results',",
+    '  imports: [DmEmptyStateComponent, DmIconComponent, DmButtonComponent],',
+    "  templateUrl: './no-results.component.html',",
+    '})',
+    'export class NoResultsComponent {}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-empty-state size="sm" title="No notifications" />',
     '<dm-empty-state size="md" title="No notifications" />',
     '<dm-empty-state size="lg" title="No notifications" />',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-empty-state-sizes',",
+    '  imports: [DmEmptyStateComponent],',
+    "  templateUrl: './empty-state-sizes.component.html',",
+    '})',
+    'export class EmptyStateSizesComponent {}',
   ].join('\n');
 
   protected readonly noIconCode = [
@@ -125,6 +173,18 @@ export class EmptyStatePageComponent {
     '  title="No results"',
     '  description="Try a different search term or clear the filters."',
     '/>',
+  ].join('\n');
+
+  protected readonly noIconTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-no-results-text',",
+    '  imports: [DmEmptyStateComponent],',
+    "  templateUrl: './no-results-text.component.html',",
+    '})',
+    'export class NoResultsTextComponent {}',
   ].join('\n');
 
   protected readonly inContextCode = [
@@ -138,6 +198,18 @@ export class EmptyStatePageComponent {
     '    description="Drag files anywhere in this panel to upload them."',
     '  />',
     '</dm-card>',
+  ].join('\n');
+
+  protected readonly inContextTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmCardComponent, DmDividerComponent, DmEmptyStateComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-documents-panel',",
+    '  imports: [DmCardComponent, DmDividerComponent, DmEmptyStateComponent],',
+    "  templateUrl: './documents-panel.component.html',",
+    '})',
+    'export class DocumentsPanelComponent {}',
   ].join('\n');
 
   protected readonly defaultsCode = [

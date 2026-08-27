@@ -13,15 +13,13 @@ import {
   DmCommandItem,
   DmIconComponent,
   DmKbdComponent,
-  DmSelectComponent,
-  DmSelectItem,
   ThemeService,
 } from '@dmaster/ui';
 import { filter } from 'rxjs';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { TocService } from '../../core/toc/toc.service';
-import { DashboardLocale } from '../../core/i18n/translations.types';
+import { LangSwitchComponent } from '../../shared/lang-switch/lang-switch.component';
 import { PalettePickerComponent } from '../palette-picker/palette-picker.component';
 import { TocComponent } from '../toc/toc.component';
 
@@ -41,12 +39,12 @@ interface NavSection {
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    DmSelectComponent,
     DmCommandComponent,
     DmIconComponent,
     DmKbdComponent,
     PalettePickerComponent,
     TocComponent,
+    LangSwitchComponent,
   ],
   templateUrl: './shell.component.html',
   styleUrl: './shell.component.scss',
@@ -75,12 +73,6 @@ export class ShellComponent implements OnInit {
     });
   }
 
-  protected readonly locales: DmSelectItem<DashboardLocale>[] = [
-    { value: 'en', label: 'English' },
-    { value: 'es', label: 'Español' },
-    { value: 'fr', label: 'Français' },
-  ];
-
   protected readonly sections = computed<NavSection[]>(() => {
     const t = this.i18n.t();
     return [
@@ -89,6 +81,8 @@ export class ShellComponent implements OnInit {
         items: [
           { label: t.shell.nav.home, path: '/' },
           { label: t.shell.nav.gettingStarted, path: '/getting-started' },
+          { label: t.shell.nav.theming, path: '/theming' },
+          { label: t.shell.nav.componentTokens, path: '/component-tokens' },
           { label: t.shell.nav.overview, path: '/components' },
         ],
       },
@@ -133,7 +127,6 @@ export class ShellComponent implements OnInit {
           { label: t.shell.nav.radioGroup, path: '/components/radio-group' },
           { label: t.shell.nav.select, path: '/components/select' },
           { label: t.shell.nav.autocomplete, path: '/components/autocomplete' },
-          { label: t.shell.nav.paginatedSelect, path: '/components/paginated-select' },
           { label: t.shell.nav.searchField, path: '/components/search-field' },
           { label: t.shell.nav.datePicker, path: '/components/date-picker' },
           { label: t.shell.nav.colorPicker, path: '/components/color-picker' },
@@ -204,11 +197,5 @@ export class ShellComponent implements OnInit {
 
   protected closeSidebar(): void {
     this.sidebarOpen.set(false);
-  }
-
-  protected onLocaleChange(locale: DashboardLocale | null): void {
-    if (locale) {
-      this.i18n.setLocale(locale);
-    }
   }
 }

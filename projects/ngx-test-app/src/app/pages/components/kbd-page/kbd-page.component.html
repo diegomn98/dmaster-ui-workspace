@@ -20,7 +20,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="page().labels['single']" [code]="singleCode">
+  <app-demo-block [heading]="page().labels['single']" [code]="singleCode" [ts]="singleTs">
     <div class="demo-row">
       <dm-kbd keys="command"></dm-kbd>
       <dm-kbd keys="shift"></dm-kbd>
@@ -35,7 +35,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['combos']" [code]="combosCode">
+  <app-demo-block [heading]="page().labels['combos']" [code]="combosCode" [ts]="combosTs">
     <div class="demo-row">
       <dm-kbd keys="command">K</dm-kbd>
       <dm-kbd [keys]="comboPalette">P</dm-kbd>
@@ -44,7 +44,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['letters']" [code]="lettersCode">
+  <app-demo-block [heading]="page().labels['letters']" [code]="lettersCode" [ts]="lettersTs">
     <div class="demo-row">
       <dm-kbd>Ctrl</dm-kbd>
       <dm-kbd>Enter</dm-kbd>
@@ -53,14 +53,14 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row">
       <dm-kbd keys="command" size="sm">K</dm-kbd>
       <dm-kbd keys="command" size="md">K</dm-kbd>
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['inline']" [code]="inlineCode">
+  <app-demo-block [heading]="page().labels['inline']" [code]="inlineCode" [ts]="inlineTs">
     <div style="display: grid; gap: 1rem; max-width: 26rem">
       <p style="margin: 0; line-height: 1.7">
         Press <dm-kbd keys="command" size="sm">K</dm-kbd> to open the palette, or

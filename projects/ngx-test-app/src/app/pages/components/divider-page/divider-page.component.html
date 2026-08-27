@@ -37,7 +37,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div style="display: grid; gap: var(--dm-space-3); width: 100%; max-width: 26rem">
       <p class="card-demo__body">Flat fills, generous radii, soft shadows.</p>
       <dm-divider />
@@ -45,7 +45,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.withLabel" [code]="withLabelCode">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.withLabel"
+    [code]="withLabelCode"
+    [ts]="withLabelTs"
+  >
     <div style="display: grid; gap: var(--dm-space-5); width: 100%; max-width: 26rem">
       <dm-divider labelPlacement="start">Start</dm-divider>
       <dm-divider>Center</dm-divider>
@@ -53,7 +57,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode">
+  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode" [ts]="verticalTs">
     <div style="display: flex; align-items: center; gap: var(--dm-space-4); height: 1.5rem">
       <span class="card-demo__body">Blog</span>
       <dm-divider orientation="vertical" />

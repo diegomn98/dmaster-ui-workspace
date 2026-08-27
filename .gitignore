@@ -31,6 +31,8 @@ yarn-error.log
 # Miscellaneous
 /.angular/cache
 .sass-cache/
+# Claude Design canvas scratch (design-tool working files, not source)
+.design/
 /connect.lock
 /coverage
 /libpeerconnection.log

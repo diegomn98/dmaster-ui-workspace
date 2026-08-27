@@ -81,11 +81,35 @@ export class TooltipPageComponent {
     '<a href="/docs" dmTooltip="Opens the docs in a new tab">Documentation</a>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmTooltipDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-tooltip-basics',",
+    '  imports: [DmButtonComponent, DmTooltipDirective],',
+    "  templateUrl: './tooltip-basics.component.html',",
+    '})',
+    'export class TooltipBasicsComponent {}',
+  ].join('\n');
+
   protected readonly positionsCode = [
     '<button dmTooltip="Top">top</button>',
     '<button dmTooltip="Bottom" dmTooltipPosition="bottom">bottom</button>',
     '<button dmTooltip="Left" dmTooltipPosition="left">left</button>',
     '<button dmTooltip="Right" dmTooltipPosition="right">right</button>',
+  ].join('\n');
+
+  protected readonly positionsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmTooltipDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-tooltip-positions',",
+    '  imports: [DmButtonComponent, DmTooltipDirective],',
+    "  templateUrl: './tooltip-positions.component.html',",
+    '})',
+    'export class TooltipPositionsComponent {}',
   ].join('\n');
 
   protected readonly iconButtonsCode = [
@@ -107,6 +131,18 @@ export class TooltipPageComponent {
     '<dm-button color="danger" variant="flat" dmTooltip="Delete permanently">',
     '  <dm-icon name="trash" label="Delete permanently" />',
     '</dm-button>',
+  ].join('\n');
+
+  protected readonly iconButtonsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmIconComponent, DmTooltipDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-tooltip-icon-buttons',",
+    '  imports: [DmButtonComponent, DmIconComponent, DmTooltipDirective],',
+    "  templateUrl: './tooltip-icon-buttons.component.html',",
+    '})',
+    'export class TooltipIconButtonsComponent {}',
   ].join('\n');
 
   protected readonly conditionalCode = [
@@ -173,6 +209,18 @@ export class TooltipPageComponent {
     '<dm-avatar initials="DM" size="sm" tabindex="0" dmTooltip="Diego Maestro — owner" />',
     '<dm-avatar initials="AL" size="sm" tabindex="0" dmTooltip="Ana López — reviewer" />',
     '<dm-avatar initials="+3" size="sm" tabindex="0" dmTooltip="Marc, Sofía and Iris" />',
+  ].join('\n');
+
+  protected readonly onContentTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAvatarComponent, DmBadgeComponent, DmTooltipDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-tooltip-on-content',",
+    '  imports: [DmAvatarComponent, DmBadgeComponent, DmTooltipDirective],',
+    "  templateUrl: './tooltip-on-content.component.html',",
+    '})',
+    'export class TooltipOnContentComponent {}',
   ].join('\n');
 
   protected readonly compositionCode = [

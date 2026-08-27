@@ -175,6 +175,18 @@ export class TabsPageComponent {
     '<dm-tabs variant="segment" radius="full" [fullWidth]="false">…</dm-tabs>',
   ].join('\n');
 
+  protected readonly variantsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-tabs-variants',",
+    '  imports: [DmTabsComponent, DmTabComponent, DmTabPanelComponent],',
+    "  templateUrl: './tabs-variants.component.html',",
+    '})',
+    'export class TabsVariantsComponent {}',
+  ].join('\n');
+
   protected readonly segmentCode = [
     '<dm-tabs variant="segment" radius="full" [fullWidth]="false" [(selectedValue)]="view">',
     '  <dm-tab value="list">List</dm-tab>',
@@ -184,6 +196,20 @@ export class TabsPageComponent {
     '  <dm-tab-panel value="grid">Grid view content…</dm-tab-panel>',
     '  <dm-tab-panel value="map">Map view content…</dm-tab-panel>',
     '</dm-tabs>',
+  ].join('\n');
+
+  protected readonly segmentTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-segment-tabs',",
+    '  imports: [DmTabsComponent, DmTabComponent, DmTabPanelComponent],',
+    "  templateUrl: './segment-tabs.component.html',",
+    '})',
+    'export class SegmentTabsComponent {',
+    "  protected readonly view = signal('list');",
+    '}',
   ].join('\n');
 
   protected readonly segmentIconCode = [
@@ -222,12 +248,38 @@ export class TabsPageComponent {
     '</dm-tabs>',
   ].join('\n');
 
+  protected readonly segmentIconTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-segment-icon-tabs',",
+    '  imports: [DmTabsComponent, DmTabComponent, DmTabPanelComponent],',
+    "  templateUrl: './segment-icon-tabs.component.html',",
+    '})',
+    'export class SegmentIconTabsComponent {',
+    "  protected readonly view = signal('list');",
+    '}',
+  ].join('\n');
+
   protected readonly colorsCode = [
     '<dm-tabs color="primary">…</dm-tabs>',
     '<dm-tabs color="secondary">…</dm-tabs>',
     '<dm-tabs color="success">…</dm-tabs>',
     '<dm-tabs color="warning">…</dm-tabs>',
     '<dm-tabs color="danger">…</dm-tabs>',
+  ].join('\n');
+
+  protected readonly colorsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-tabs-colors',",
+    '  imports: [DmTabsComponent, DmTabComponent, DmTabPanelComponent],',
+    "  templateUrl: './tabs-colors.component.html',",
+    '})',
+    'export class TabsColorsComponent {}',
   ].join('\n');
 
   protected readonly verticalCode = [
@@ -239,6 +291,20 @@ export class TabsPageComponent {
     '  <dm-tab-panel value="billing">Billing details…</dm-tab-panel>',
     '  <dm-tab-panel value="security">Security options…</dm-tab-panel>',
     '</dm-tabs>',
+  ].join('\n');
+
+  protected readonly verticalTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-vertical-tabs',",
+    '  imports: [DmTabsComponent, DmTabComponent, DmTabPanelComponent],',
+    "  templateUrl: './vertical-tabs.component.html',",
+    '})',
+    'export class VerticalTabsComponent {',
+    "  protected readonly section = signal('account');",
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [
@@ -275,12 +341,40 @@ export class TabsPageComponent {
     '</dm-tabs>',
   ].join('\n');
 
+  protected readonly fullWidthTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-full-width-tabs',",
+    '  imports: [DmTabsComponent, DmTabComponent, DmTabPanelComponent],',
+    "  templateUrl: './full-width-tabs.component.html',",
+    '})',
+    'export class FullWidthTabsComponent {',
+    "  protected readonly tab = signal('overview');",
+    '}',
+  ].join('\n');
+
   protected readonly disabledCode = [
     '<dm-tabs [(selectedValue)]="tab">',
     '  <dm-tab value="active">Active</dm-tab>',
     '  <dm-tab value="soon" [disabled]="true">Coming soon</dm-tab>',
     '  <dm-tab value="reports">Reports</dm-tab>',
     '</dm-tabs>',
+  ].join('\n');
+
+  protected readonly disabledTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-disabled-tabs',",
+    '  imports: [DmTabsComponent, DmTabComponent, DmTabPanelComponent],',
+    "  templateUrl: './disabled-tabs.component.html',",
+    '})',
+    'export class DisabledTabsComponent {',
+    "  protected readonly tab = signal('active');",
+    '}',
   ].join('\n');
 
   // TS snippet for the basic example — shown in the demo-block "TS" tab.

@@ -187,9 +187,21 @@ export class DatePickerPageComponent {
     '<dm-date-picker label="Start date" [(value)]="date" [clearable]="true" />',
   ].join('\n');
 
-  protected readonly rangeCode = [
-    'range = signal<DmDateRange | null>(null);',
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmDatePickerComponent } from '@dmaster/ui';",
     '',
+    '@Component({',
+    "  selector: 'app-date-picker-basic',",
+    '  imports: [DmDatePickerComponent],',
+    "  templateUrl: './date-picker-basic.component.html',",
+    '})',
+    'export class DatePickerBasicComponent {',
+    '  protected readonly date = signal<Date | null>(null);',
+    '}',
+  ].join('\n');
+
+  protected readonly rangeCode = [
     '<dm-date-picker',
     '  range',
     '  label="Trip dates"',
@@ -198,20 +210,50 @@ export class DatePickerPageComponent {
     '/>',
   ].join('\n');
 
-  protected readonly localizedCode = [
-    "locale = signal('es'); // marked by default",
+  protected readonly rangeTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmDatePickerComponent, DmDateRange } from '@dmaster/ui';",
     '',
+    '@Component({',
+    "  selector: 'app-date-picker-range',",
+    '  imports: [DmDatePickerComponent],',
+    "  templateUrl: './date-picker-range.component.html',",
+    '})',
+    'export class DatePickerRangeComponent {',
+    '  protected readonly range = signal<DmDateRange | null>(null);',
+    '}',
+  ].join('\n');
+
+  protected readonly localizedCode = [
     '<!-- Names, digits AND the week convention follow the locale: -->',
     '<!-- es/fr start on Monday, en-US on Sunday, ar-EG on Saturday. -->',
     '<dm-select [items]="localeOptions" [(value)]="locale" />',
     '<dm-date-picker label="Fecha" [locale]="locale()" [(value)]="date" />',
   ].join('\n');
 
-  protected readonly constraintsCode = [
-    'min = new Date();               // no past dates',
-    'max = /* +2 months */;',
-    'noWeekends = (d: Date) => d.getDay() === 0 || d.getDay() === 6;',
+  protected readonly localizedTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmDatePickerComponent, DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
     '',
+    '@Component({',
+    "  selector: 'app-date-picker-localized',",
+    '  imports: [DmDatePickerComponent, DmSelectComponent],',
+    "  templateUrl: './date-picker-localized.component.html',",
+    '})',
+    'export class DatePickerLocalizedComponent {',
+    '  protected readonly localeOptions: DmSelectItem<string>[] = [',
+    "    { value: 'es', label: 'Español — es (lunes)' },",
+    "    { value: 'en-US', label: 'English (US) — en-US (Sunday)' },",
+    "    { value: 'fr', label: 'Français — fr (lundi)' },",
+    "    { value: 'de', label: 'Deutsch — de (Montag)' },",
+    "    { value: 'ar-EG', label: 'العربية — ar-EG (السبت)' },",
+    '  ];',
+    "  protected readonly locale = signal('es');",
+    '  protected readonly date = signal<Date | null>(null);',
+    '}',
+  ].join('\n');
+
+  protected readonly constraintsCode = [
     '<dm-date-picker',
     '  label="Appointment"',
     '  [(value)]="date"',
@@ -221,14 +263,57 @@ export class DatePickerPageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly constraintsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmDatePickerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-date-picker-constraints',",
+    '  imports: [DmDatePickerComponent],',
+    "  templateUrl: './date-picker-constraints.component.html',",
+    '})',
+    'export class DatePickerConstraintsComponent {',
+    '  private readonly now = new Date();',
+    '  protected readonly min = new Date(this.now.getFullYear(), this.now.getMonth(), 1);',
+    '  protected readonly max = new Date(this.now.getFullYear(), this.now.getMonth() + 2, 0);',
+    '  protected readonly noWeekends = (d: Date): boolean => d.getDay() === 0 || d.getDay() === 6;',
+    '  protected readonly date = signal<Date | null>(null);',
+    '}',
+  ].join('\n');
+
   protected readonly sizesCode = ['sm', 'md', 'lg']
     .map((s) => `<dm-date-picker size="${s}" label="${s}" />`)
     .join('\n');
 
-  protected readonly formsCode = [
-    'control = new FormControl<Date | null>(null);',
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmDatePickerComponent } from '@dmaster/ui';",
     '',
-    '<dm-date-picker label="Date" [formControl]="control" />',
+    '@Component({',
+    "  selector: 'app-date-picker-sizes',",
+    '  imports: [DmDatePickerComponent],',
+    "  templateUrl: './date-picker-sizes.component.html',",
+    '})',
+    'export class DatePickerSizesComponent {}',
+  ].join('\n');
+
+  protected readonly formsCode = ['<dm-date-picker label="Date" [formControl]="control" />'].join(
+    '\n',
+  );
+
+  protected readonly formsTs = [
+    "import { Component } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
+    "import { DmDatePickerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-date-picker-forms',",
+    '  imports: [DmDatePickerComponent, ReactiveFormsModule],',
+    "  templateUrl: './date-picker-forms.component.html',",
+    '})',
+    'export class DatePickerFormsComponent {',
+    '  protected readonly control = new FormControl<Date | null>(null);',
+    '}',
   ].join('\n');
 
   // Validation with the standalone <dm-error>.
@@ -237,23 +322,48 @@ export class DatePickerPageComponent {
   });
 
   protected readonly validationCode = [
-    'date = new FormControl<Date | null>(null, [Validators.required]);',
-    '',
     '<dm-date-picker label="Start date" [formControl]="date" [required]="true" />',
-    '@if (date.touched && date.hasError("required")) {',
+    "@if (date.touched && date.hasError('required')) {",
     '  <dm-error>Please choose a date</dm-error>',
     '}',
   ].join('\n');
 
+  protected readonly validationTs = [
+    "import { Component } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
+    "import { DmDatePickerComponent, DmErrorComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-date-picker-validation',",
+    '  imports: [DmDatePickerComponent, DmErrorComponent, ReactiveFormsModule],',
+    "  templateUrl: './date-picker-validation.component.html',",
+    '})',
+    'export class DatePickerValidationComponent {',
+    '  protected readonly date = new FormControl<Date | null>(null, {',
+    '    validators: [Validators.required],',
+    '  });',
+    '}',
+  ].join('\n');
+
   protected readonly globalLocaleCode = [
+    '<dm-date-picker label="Pick a date" [(value)]="date" />',
+  ].join('\n');
+
+  protected readonly globalLocaleTs = [
+    "import { ApplicationConfig, inject } from '@angular/core';",
     "import { provideDateLocale } from '@dmaster/ui';",
+    "import { LocaleService } from './core/i18n/locale.service';",
     '',
-    '// Static — every dm-date-picker uses this locale:',
-    "provideDateLocale('es')",
+    'export const appConfig: ApplicationConfig = {',
+    '  providers: [',
+    '    // Static — every dm-date-picker uses this locale:',
+    "    provideDateLocale('es'),",
     '',
-    '// Reactive — pass a Signal<string> and they switch language live',
-    '// (this is how the pickers on this page follow the header selector):',
-    'provideDateLocale(inject(LocaleService).locale)',
+    '    // Reactive — pass a Signal<string> and they switch language live',
+    '    // (this is how the pickers on this page follow the header selector):',
+    '    provideDateLocale(inject(LocaleService).locale),',
+    '  ],',
+    '};',
   ].join('\n');
 
   protected readonly defaultsCode = [

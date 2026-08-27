@@ -1,0 +1,440 @@
+@use 'mixins';
+
+:host {
+  display: block;
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+
+.ba__wrap {
+  width: 100%;
+  max-width: 46rem;
+  margin-inline: auto;
+  padding: var(--dm-space-8) var(--dm-space-4) var(--dm-space-16);
+
+  // Acento único por categoría — mismos tokens que la portada del índice.
+  --dm-cov: var(--dm-fg-subtle);
+  --dm-cov-text: var(--dm-fg-muted);
+  --dm-cov-tint: var(--dm-default-subtle);
+
+  &[data-category='a11y'] {
+    --dm-cov: var(--dm-success);
+    --dm-cov-text: var(--dm-success-text);
+    --dm-cov-tint: var(--dm-success-subtle);
+  }
+
+  &[data-category='performance'] {
+    --dm-cov: var(--dm-warning);
+    --dm-cov-text: var(--dm-warning-text);
+    --dm-cov-tint: var(--dm-warning-subtle);
+  }
+
+  &[data-category='testing'] {
+    --dm-cov: var(--dm-primary);
+    --dm-cov-text: var(--dm-primary-text);
+    --dm-cov-tint: var(--dm-primary-subtle);
+  }
+
+  &[data-category='architecture'] {
+    --dm-cov: var(--dm-secondary);
+    --dm-cov-text: var(--dm-secondary-text);
+    --dm-cov-tint: var(--dm-secondary-subtle);
+  }
+
+  &[data-category='release'] {
+    --dm-cov: var(--dm-fg-subtle);
+    --dm-cov-text: var(--dm-fg-muted);
+    --dm-cov-tint: var(--dm-default-subtle);
+  }
+
+  @include mixins.respond-to(md) {
+    padding-inline: var(--dm-space-8);
+  }
+}
+
+.ba__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg-muted);
+  text-decoration: none;
+  border-radius: var(--dm-radius-full);
+  padding: var(--dm-space-1) var(--dm-space-2);
+
+  @include mixins.transition(color, background-color, transform);
+
+  &:hover {
+    color: var(--dm-fg);
+    background: var(--dm-default-subtle);
+  }
+
+  &:hover dm-icon {
+    transform: translateX(-2px);
+  }
+
+  dm-icon {
+    @include mixins.transition(transform);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+// =============================================================================
+// PORTADA HERO — continuidad visual con las tarjetas del índice
+// =============================================================================
+.ba__cover {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  height: clamp(9rem, 20vw, 12rem);
+  margin-top: var(--dm-space-6);
+  padding-inline: clamp(var(--dm-space-6), 5vw, var(--dm-space-10));
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-xl);
+  background:
+    radial-gradient(
+      ellipse 90% 150% at 8% 0%,
+      color-mix(in srgb, var(--dm-cov) 24%, transparent),
+      transparent 64%
+    ),
+    var(--dm-cov-tint);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--dm-cov) 26%, transparent) 1px,
+      transparent 1px
+    );
+    background-size: 18px 18px;
+    mask-image: radial-gradient(ellipse 60% 100% at 92% 22%, #000 16%, transparent 70%);
+  }
+}
+
+.ba__cover-version {
+  position: relative;
+  z-index: 1;
+  font-family: var(--dm-font-mono);
+  font-size: clamp(2.5rem, 7vw, 3.75rem);
+  font-weight: var(--dm-font-semibold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  color: var(--dm-cov-text);
+}
+
+.ba__cover-glyph {
+  position: absolute;
+  right: -0.5rem;
+  bottom: -2.75rem;
+  font-family: var(--dm-font-mono);
+  font-weight: var(--dm-font-semibold);
+  font-size: clamp(9rem, 26vw, 13rem);
+  line-height: 1;
+  color: color-mix(in srgb, var(--dm-cov) 20%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+// =============================================================================
+// CABECERA
+// =============================================================================
+.ba__head {
+  margin-top: var(--dm-space-6);
+}
+
+.ba__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--dm-space-3);
+}
+
+.ba__cat {
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  padding: var(--dm-space-1) var(--dm-space-3);
+  border-radius: var(--dm-radius-full);
+  color: var(--dm-cov-text);
+  background: var(--dm-cov-tint);
+}
+
+.ba__date {
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-xs);
+  color: var(--dm-fg-subtle);
+}
+
+.ba__title {
+  margin: var(--dm-space-4) 0 0;
+  font-size: clamp(2rem, 4.5vw, 2.875rem);
+  line-height: 1.1;
+  font-weight: var(--dm-font-bold);
+  letter-spacing: -0.034em;
+  text-wrap: balance;
+}
+
+.ba__lead {
+  margin: var(--dm-space-4) 0 0;
+  font-size: var(--dm-text-lg);
+  line-height: var(--dm-leading-relaxed);
+  color: var(--dm-fg-muted);
+  text-wrap: pretty;
+}
+
+.ba__rule {
+  margin: var(--dm-space-8) 0 0;
+  border: 0;
+  border-top: 1px solid var(--dm-border);
+}
+
+// =============================================================================
+// QUÉ SALIÓ — release notes editoriales, acento por categoría
+// =============================================================================
+.ba__shipped {
+  margin-top: var(--dm-space-8);
+}
+
+.ba__shipped-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--dm-space-3);
+}
+
+.ba__shipped-title {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-3);
+  margin: 0;
+  font-size: var(--dm-text-lg);
+  font-weight: var(--dm-font-bold);
+  letter-spacing: -0.015em;
+}
+
+.ba__glyph {
+  font-family: var(--dm-font-mono);
+  color: var(--dm-cov-text);
+}
+
+.ba__count {
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--dm-cov-text);
+  background: var(--dm-cov-tint);
+  padding: var(--dm-space-1) var(--dm-space-3);
+  border-radius: var(--dm-radius-full);
+}
+
+.ba__list {
+  margin: var(--dm-space-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ba__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--dm-space-3);
+  padding: var(--dm-space-4) 0;
+  border-top: 1px solid var(--dm-border);
+  font-size: var(--dm-text-base);
+  line-height: var(--dm-leading-relaxed);
+}
+
+.ba__check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: 0.0625rem;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-cov-tint);
+  color: var(--dm-cov-text);
+}
+
+.ba__item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+// =============================================================================
+// CTAs
+// =============================================================================
+.ba__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--dm-space-3);
+  margin-top: var(--dm-space-8);
+}
+
+.ba__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  height: 2.75rem;
+  padding: 0 var(--dm-space-5);
+  border-radius: var(--dm-radius-full);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  text-decoration: none;
+
+  @include mixins.transition(transform, box-shadow, background-color, border-color, color);
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.ba__cta--primary {
+  background: var(--dm-fg);
+  color: var(--dm-bg);
+  border: 1px solid var(--dm-fg);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--dm-shadow-md);
+  }
+}
+
+.ba__cta--ghost {
+  background: transparent;
+  color: var(--dm-fg);
+  border: 1px solid var(--dm-border);
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    border-color: var(--dm-border-strong);
+  }
+}
+
+@include mixins.reduced-motion {
+  .ba__cta--primary:hover {
+    transform: none;
+  }
+}
+
+// =============================================================================
+// PAGER
+// =============================================================================
+.ba__pager {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--dm-space-4);
+  margin-top: var(--dm-space-12);
+
+  @include mixins.respond-to(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ba__pager-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--dm-space-2);
+  padding: var(--dm-space-4) var(--dm-space-5);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-elevated);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: var(--dm-shadow-sm);
+
+  @include mixins.transition(transform, box-shadow, border-color);
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--dm-border-strong);
+    box-shadow: var(--dm-shadow-md);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+
+  &--end {
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+@include mixins.reduced-motion {
+  .ba__pager-card:hover {
+    transform: none;
+  }
+}
+
+.ba__pager-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--dm-fg-subtle);
+}
+
+.ba__pager-title {
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.ba__pager-card:hover .ba__pager-title {
+  color: var(--dm-primary-hover);
+}
+
+.ba__pager-spacer {
+  display: none;
+
+  @include mixins.respond-to(sm) {
+    display: block;
+  }
+}
+
+// =============================================================================
+// ENTRADA — escalonada al cargar; los tokens --dm-duration-* se anulan solos
+// bajo prefers-reduced-motion, así que no hace falta guard extra.
+// =============================================================================
+@keyframes ba-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ba__cover,
+.ba__head,
+.ba__shipped,
+.ba__links {
+  animation: ba-rise calc(var(--dm-duration-slow) + 150ms) var(--dm-ease-out) both;
+}
+
+.ba__head {
+  animation-delay: 60ms;
+}
+
+.ba__shipped {
+  animation-delay: 120ms;
+}
+
+.ba__links {
+  animation-delay: 160ms;
+}

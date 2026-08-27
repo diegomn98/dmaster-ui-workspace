@@ -1,0 +1,95 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.intro }}</p>
+  <h1 class="page__title">{{ i18n.t().shell.nav.componentTokens }}</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <p class="page__section-desc" style="margin-top: var(--dm-space-2); color: var(--dm-fg-muted)">
+    <strong style="color: var(--dm-fg)">{{ totalTokens }}</strong> {{ page().totalTokensLabel }}
+  </p>
+</header>
+
+<!-- How it works -->
+<section class="page__section" aria-labelledby="how-it-works">
+  <h2 class="page__section-title" id="how-it-works">{{ page().sections.howItWorks }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().howItWorksBody"></p>
+  <app-code-snippet [code]="patternCode" language="scss" />
+  <p class="page__section-desc" [innerHTML]="page().howItWorksPattern"></p>
+</section>
+
+<!-- Global override -->
+<section class="page__section" aria-labelledby="global-override">
+  <h2 class="page__section-title" id="global-override">{{ page().sections.globalOverride }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().globalBody"></p>
+  <app-code-snippet [code]="globalOverrideCode" language="css" />
+</section>
+
+<!-- Scoped override -->
+<section class="page__section" aria-labelledby="scoped-override">
+  <h2 class="page__section-title" id="scoped-override">{{ page().sections.scopedOverride }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().scopedBody"></p>
+  <app-code-snippet [code]="scopedOverrideCode" language="css" />
+</section>
+
+<!-- Per-theme override -->
+<section class="page__section" aria-labelledby="per-theme-override">
+  <h2 class="page__section-title" id="per-theme-override">
+    {{ page().sections.perThemeOverride }}
+  </h2>
+  <p class="page__section-desc" [innerHTML]="page().perThemeBody"></p>
+  <app-code-snippet [code]="perThemeOverrideCode" language="css" />
+</section>
+
+<!-- Overlay scoping -->
+<section class="page__section" aria-labelledby="overlay-scoping">
+  <h2 class="page__section-title" id="overlay-scoping">{{ page().sections.overlayScoping }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().overlayBody"></p>
+  <app-code-snippet [code]="overlayCode" language="css" />
+</section>
+
+<!-- Token reference -->
+<section class="page__section" aria-labelledby="reference">
+  <h2 class="page__section-title" id="reference">{{ page().sections.reference }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().referenceBody"></p>
+
+  @for (category of categories; track category.labelKey) {
+    <h3 class="token-cat-title" [id]="category.labelKey">{{ categoryLabel(category.labelKey) }}</h3>
+
+    <div class="token-cards">
+      @for (group of category.groups; track group.component) {
+        <div class="token-card">
+          <div class="token-card__head">
+            <span class="token-card__name">{{ group.component }}</span>
+            <span class="token-card__count" [attr.aria-label]="group.tokens.length + ' tokens'">{{
+              group.tokens.length
+            }}</span>
+          </div>
+          <div class="token-card__body">
+            <table class="token-table">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (entry of group.tokens; track entry.token) {
+                  <tr>
+                    <td class="token-table__name">
+                      <code>{{ entry.token }}</code>
+                    </td>
+                    <td class="token-table__default">{{ entry.fallback }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</section>
+
+<footer class="page__section" style="text-align: center; padding-block: var(--dm-space-8)">
+  <a routerLink="/theming">
+    <dm-button color="default" variant="flat" size="md">{{ page().backToTheming }}</dm-button>
+  </a>
+</footer>

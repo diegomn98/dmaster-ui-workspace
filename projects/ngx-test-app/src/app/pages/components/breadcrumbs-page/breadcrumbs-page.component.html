@@ -27,7 +27,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <dm-breadcrumbs ariaLabel="Breadcrumb">
       <dm-breadcrumb-item href="/">Home</dm-breadcrumb-item>
       <dm-breadcrumb-item href="/library">Library</dm-breadcrumb-item>
@@ -35,7 +35,7 @@
     </dm-breadcrumbs>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['separator']" [code]="separatorCode">
+  <app-demo-block [heading]="page().labels['separator']" [code]="separatorCode" [ts]="separatorTs">
     <dm-breadcrumbs separator="/" ariaLabel="Breadcrumb slash">
       <dm-breadcrumb-item href="/">Home</dm-breadcrumb-item>
       <dm-breadcrumb-item href="/docs">Docs</dm-breadcrumb-item>
@@ -43,7 +43,7 @@
     </dm-breadcrumbs>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-stack">
       <dm-breadcrumbs size="sm" ariaLabel="Breadcrumb small">
         <dm-breadcrumb-item href="/">Home</dm-breadcrumb-item>
@@ -63,7 +63,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
+  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode" [ts]="disabledTs">
     <dm-breadcrumbs ariaLabel="Breadcrumb disabled">
       <dm-breadcrumb-item href="/">Home</dm-breadcrumb-item>
       <dm-breadcrumb-item href="/admin" [disabled]="true">Admin</dm-breadcrumb-item>
@@ -71,7 +71,7 @@
     </dm-breadcrumbs>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['collapse']" [code]="collapseCode">
+  <app-demo-block [heading]="page().labels['collapse']" [code]="collapseCode" [ts]="collapseTs">
     <dm-breadcrumbs
       [maxItems]="4"
       [itemsBeforeCollapse]="1"

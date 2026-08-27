@@ -111,6 +111,27 @@ export class MenuPageComponent {
     '</dm-menu>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    'import {',
+    '  DmButtonComponent,',
+    '  DmMenuComponent,',
+    '  DmMenuItemComponent,',
+    '  DmMenuTriggerDirective,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-basic-menu',",
+    '  imports: [DmButtonComponent, DmMenuComponent, DmMenuItemComponent, DmMenuTriggerDirective],',
+    "  templateUrl: './basic-menu.component.html',",
+    '})',
+    'export class BasicMenuComponent {',
+    '  protected edit(): void {}',
+    '  protected duplicate(): void {}',
+    '  protected archive(): void {}',
+    '}',
+  ].join('\n');
+
   protected readonly iconsCode = [
     '<dm-menu #menu ariaLabel="Edit">',
     '  <dm-menu-item shortcut="⌘C" (selected)="copy()">',
@@ -124,6 +145,21 @@ export class MenuPageComponent {
     '</dm-menu>',
   ].join('\n');
 
+  protected readonly iconsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmMenuComponent, DmMenuItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-menu',",
+    '  imports: [DmMenuComponent, DmMenuItemComponent],',
+    "  templateUrl: './icon-menu.component.html',",
+    '})',
+    'export class IconMenuComponent {',
+    '  protected copy(): void {}',
+    '  protected paste(): void {}',
+    '}',
+  ].join('\n');
+
   protected readonly sectionsCode = [
     '<dm-menu #menu>',
     '  <dm-menu-section heading="Account">',
@@ -133,6 +169,27 @@ export class MenuPageComponent {
     '  <dm-menu-divider />',
     '  <dm-menu-item (selected)="signOut()">Sign out</dm-menu-item>',
     '</dm-menu>',
+  ].join('\n');
+
+  protected readonly sectionsTs = [
+    "import { Component } from '@angular/core';",
+    'import {',
+    '  DmMenuComponent,',
+    '  DmMenuDividerComponent,',
+    '  DmMenuItemComponent,',
+    '  DmMenuSectionComponent,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-sections-menu',",
+    '  imports: [DmMenuComponent, DmMenuSectionComponent, DmMenuItemComponent, DmMenuDividerComponent],',
+    "  templateUrl: './sections-menu.component.html',",
+    '})',
+    'export class SectionsMenuComponent {',
+    '  protected profile(): void {}',
+    '  protected settings(): void {}',
+    '  protected signOut(): void {}',
+    '}',
   ].join('\n');
 
   protected readonly dangerCode = [
@@ -145,12 +202,47 @@ export class MenuPageComponent {
     '</dm-menu>',
   ].join('\n');
 
+  protected readonly dangerTs = [
+    "import { Component } from '@angular/core';",
+    'import {',
+    '  DmMenuComponent,',
+    '  DmMenuDividerComponent,',
+    '  DmMenuItemComponent,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-danger-menu',",
+    '  imports: [DmMenuComponent, DmMenuItemComponent, DmMenuDividerComponent],',
+    "  templateUrl: './danger-menu.component.html',",
+    '})',
+    'export class DangerMenuComponent {',
+    '  protected rename(): void {}',
+    '  protected remove(): void {}',
+    '}',
+  ].join('\n');
+
   protected readonly persistentCode = [
     '<dm-menu #menu [closeOnSelect]="false">',
     '  <dm-menu-item (selected)="toggleBold()">Bold</dm-menu-item>',
     '  <dm-menu-item (selected)="toggleItalic()">Italic</dm-menu-item>',
     '  <dm-menu-item (selected)="toggleUnderline()">Underline</dm-menu-item>',
     '</dm-menu>',
+  ].join('\n');
+
+  protected readonly persistentTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmMenuComponent, DmMenuItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-persistent-menu',",
+    '  imports: [DmMenuComponent, DmMenuItemComponent],',
+    "  templateUrl: './persistent-menu.component.html',",
+    '})',
+    'export class PersistentMenuComponent {',
+    '  protected toggleBold(): void {}',
+    '  protected toggleItalic(): void {}',
+    '  protected toggleUnderline(): void {}',
+    '}',
   ].join('\n');
 
   /** Demo user for the app-header composition (self-contained avatar, no network). */

@@ -97,10 +97,37 @@ export class SwitchPageComponent {
     '<dm-switch [(checked)]="darkMode" ariaLabel="Dark mode" />',
   ].join('\n');
 
+  protected readonly withLabelTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSwitchComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-switch-labels',",
+    '  imports: [DmSwitchComponent],',
+    "  templateUrl: './switch-labels.component.html',",
+    '})',
+    'export class SwitchLabelsComponent {',
+    '  protected readonly notifications = signal(true);',
+    '  protected readonly darkMode = signal(false);',
+    '}',
+  ].join('\n');
+
   // ---- Sizes ---------------------------------------------------------------
   protected readonly sizesCode = [
     '<dm-switch size="sm" [checked]="true">Small</dm-switch>',
     '<dm-switch size="md" [checked]="true">Medium</dm-switch>',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSwitchComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-switch-sizes',",
+    '  imports: [DmSwitchComponent],',
+    "  templateUrl: './switch-sizes.component.html',",
+    '})',
+    'export class SwitchSizesComponent {}',
   ].join('\n');
 
   // ---- Colors (token override) --------------------------------------------
@@ -125,6 +152,18 @@ export class SwitchPageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSwitchComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-switch-colors',",
+    '  imports: [DmSwitchComponent],',
+    "  templateUrl: './switch-colors.component.html',",
+    '})',
+    'export class SwitchColorsComponent {}',
+  ].join('\n');
+
   // ---- States --------------------------------------------------------------
   protected readonly statesCode = [
     '<dm-switch [checked]="true">Interactive</dm-switch>',
@@ -132,20 +171,51 @@ export class SwitchPageComponent {
     '<dm-switch [disabled]="true" [checked]="true">Disabled on</dm-switch>',
   ].join('\n');
 
+  protected readonly statesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSwitchComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-switch-states',",
+    '  imports: [DmSwitchComponent],',
+    "  templateUrl: './switch-states.component.html',",
+    '})',
+    'export class SwitchStatesComponent {}',
+  ].join('\n');
+
   // ---- Reactive forms ------------------------------------------------------
   protected readonly formControl = new FormControl(true, { nonNullable: true });
   protected readonly formValue = signal(true);
 
   protected readonly formsCode = [
-    'control = new FormControl(true, { nonNullable: true });',
-    '',
     '<dm-switch [formControl]="control">Email notifications</dm-switch>',
+    '<span>Value: {{ value() }}</span>',
     '',
     '<!-- writeValue flows back into the switch -->',
     '<dm-button size="sm" variant="bordered"',
     '           (clicked)="control.setValue(!control.value)">',
     '  Toggle from code',
     '</dm-button>',
+  ].join('\n');
+
+  protected readonly formsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
+    "import { DmButtonComponent, DmSwitchComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-switch-forms',",
+    '  imports: [DmSwitchComponent, DmButtonComponent, ReactiveFormsModule],',
+    "  templateUrl: './switch-forms.component.html',",
+    '})',
+    'export class SwitchFormsComponent {',
+    '  protected readonly control = new FormControl(true, { nonNullable: true });',
+    '  protected readonly value = signal(true);',
+    '',
+    '  constructor() {',
+    '    this.control.valueChanges.subscribe((value) => this.value.set(value));',
+    '  }',
+    '}',
   ].join('\n');
 
   // ---- Validation (requiredTrue + dm-error) --------------------------------

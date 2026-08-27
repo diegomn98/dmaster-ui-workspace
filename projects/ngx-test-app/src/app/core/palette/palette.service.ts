@@ -6,10 +6,12 @@ import { PALETTE_PRESETS } from './palette';
 const DEFAULT_KEY = 'default';
 
 /**
- * Manages the current preset palette. Writes the four `--dm-primary-*` tokens
- * to <html>'s inline style so every component re-skins live. The `default`
- * preset removes the inline overrides — the library's own light/dark values
- * from _themes.scss take over.
+ * Manages the current preset palette. Writes ONLY `--dm-primary` (and
+ * `--dm-primary-fg` for solid-fill labels) to <html>'s inline style — the
+ * library's derived-token cascade re-derives `-hover`, `-text` and `-subtle`
+ * live, which is the customization story this picker exists to demo. The
+ * `default` preset removes the inline overrides — the library's own
+ * light/dark values from _themes.scss take over.
  *
  * Deliberately NOT persisted: the app always starts on the default theme
  * (brand identity — logo, favicon, hero — is derived from --dm-primary, so a
@@ -37,16 +39,12 @@ export class PaletteService {
     const root = this.document.documentElement.style;
     if (key === DEFAULT_KEY) {
       root.removeProperty('--dm-primary');
-      root.removeProperty('--dm-primary-hover');
       root.removeProperty('--dm-primary-fg');
-      root.removeProperty('--dm-primary-subtle');
       return;
     }
     const preset = PALETTE_PRESETS.find((p) => p.key === key);
     if (!preset) return;
     root.setProperty('--dm-primary', preset.primary);
-    root.setProperty('--dm-primary-hover', preset.primaryHover);
     root.setProperty('--dm-primary-fg', preset.primaryFg);
-    root.setProperty('--dm-primary-subtle', preset.primarySubtle);
   }
 }

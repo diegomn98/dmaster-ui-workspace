@@ -55,7 +55,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="page().labels['singleHeading']" [code]="basicCode">
+  <app-demo-block [heading]="page().labels['singleHeading']" [code]="basicCode" [ts]="basicTs">
     <div style="width: 100%; max-width: 26rem; display: grid; gap: 0.75rem">
       <dm-file-upload
         [label]="page().labels['dropLabelSingle']"
@@ -70,7 +70,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['multipleHeading']" [code]="multipleCode">
+  <app-demo-block
+    [heading]="page().labels['multipleHeading']"
+    [code]="multipleCode"
+    [ts]="multipleTs"
+  >
     <div style="width: 100%; max-width: 26rem; display: grid; gap: 0.75rem">
       <dm-file-upload
         multiple
@@ -87,7 +91,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['imagesHeading']" [code]="imagesCode">
+  <app-demo-block [heading]="page().labels['imagesHeading']" [code]="imagesCode" [ts]="imagesTs">
     <div style="width: 100%; max-width: 26rem">
       <dm-file-upload
         multiple
@@ -101,7 +105,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['limitHeading']" [code]="limitCode">
+  <app-demo-block [heading]="page().labels['limitHeading']" [code]="limitCode" [ts]="limitTs">
     <div style="width: 100%; max-width: 26rem; display: grid; gap: 0.75rem">
       <dm-file-upload
         multiple
@@ -172,7 +176,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="disabledCode">
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="disabledCode" [ts]="disabledTs">
     <div class="demo-grid demo-grid--2col" style="width: 100%">
       <dm-file-upload
         disabled

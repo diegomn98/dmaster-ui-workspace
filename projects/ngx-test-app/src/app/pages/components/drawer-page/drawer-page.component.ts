@@ -431,27 +431,85 @@ export class DrawerPageComponent {
   ].join('\n');
 
   protected readonly placementsCode = [
-    "this.drawer.open(SettingsDrawerComponent, { placement: 'left' });",
-    "this.drawer.open(SettingsDrawerComponent, { placement: 'right' });",
-    "this.drawer.open(SettingsDrawerComponent, { placement: 'top' });",
-    "this.drawer.open(SettingsDrawerComponent, { placement: 'bottom' });",
+    '<dm-button variant="flat" (clicked)="open({ placement: \'left\' })">Left</dm-button>',
+    '<dm-button variant="flat" (clicked)="open({ placement: \'right\' })">Right</dm-button>',
+    '<dm-button variant="flat" (clicked)="open({ placement: \'top\' })">Top</dm-button>',
+    '<dm-button variant="flat" (clicked)="open({ placement: \'bottom\' })">Bottom</dm-button>',
+  ].join('\n');
+
+  protected readonly placementsTs = [
+    "import { Component, inject } from '@angular/core';",
+    "import { DmButtonComponent, DmDrawerService, DmDrawerPlacement } from '@dmaster/ui';",
+    '',
+    "import { SettingsDrawerComponent } from './settings-drawer.component';",
+    '',
+    '@Component({',
+    "  selector: 'app-drawer-positions-demo',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './drawer-positions-demo.component.html',",
+    '})',
+    'export class DrawerPositionsDemoComponent {',
+    '  private readonly drawer = inject(DmDrawerService);',
+    '',
+    '  open(overrides: { placement?: DmDrawerPlacement } = {}): void {',
+    '    this.drawer.open(SettingsDrawerComponent, {',
+    "      placement: overrides.placement ?? 'right',",
+    '    });',
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly sizesCode = [
-    "this.drawer.open(SettingsDrawerComponent, { size: 'sm' });",
-    "this.drawer.open(SettingsDrawerComponent, { size: 'md' });",
-    "this.drawer.open(SettingsDrawerComponent, { size: 'lg' });",
-    "this.drawer.open(SettingsDrawerComponent, { size: 'full' });",
+    '<dm-button variant="flat" (clicked)="open({ size: \'sm\' })">Small</dm-button>',
+    '<dm-button variant="flat" (clicked)="open({ size: \'md\' })">Medium</dm-button>',
+    '<dm-button variant="flat" (clicked)="open({ size: \'lg\' })">Large</dm-button>',
+    '<dm-button variant="flat" (clicked)="open({ size: \'full\' })">Full</dm-button>',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component, inject } from '@angular/core';",
+    "import { DmButtonComponent, DmDrawerService, DmDrawerSize } from '@dmaster/ui';",
+    '',
+    "import { SettingsDrawerComponent } from './settings-drawer.component';",
+    '',
+    '@Component({',
+    "  selector: 'app-drawer-sizes-demo',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './drawer-sizes-demo.component.html',",
+    '})',
+    'export class DrawerSizesDemoComponent {',
+    '  private readonly drawer = inject(DmDrawerService);',
+    '',
+    '  open(overrides: { size?: DmDrawerSize } = {}): void {',
+    '    this.drawer.open(SettingsDrawerComponent, {',
+    "      size: overrides.size ?? 'md',",
+    '    });',
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly persistentCode = [
-    '// disableClose: closes only through a control inside the drawer.',
-    'this.drawer.open(SettingsDrawerComponent, { disableClose: true });',
+    '<dm-button color="secondary" (clicked)="openPersistent()">Open persistent</dm-button>',
+  ].join('\n');
+
+  protected readonly persistentTs = [
+    "import { Component, inject } from '@angular/core';",
+    "import { DmButtonComponent, DmDrawerService } from '@dmaster/ui';",
     '',
-    '// inside the drawer component:',
-    'private readonly ref = inject(DialogRef);',
-    'close(): void {',
-    '  this.ref.close();',
+    "import { SettingsDrawerComponent } from './settings-drawer.component';",
+    '',
+    '@Component({',
+    "  selector: 'app-drawer-persistent-demo',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './drawer-persistent-demo.component.html',",
+    '})',
+    'export class DrawerPersistentDemoComponent {',
+    '  private readonly drawer = inject(DmDrawerService);',
+    '',
+    '  // disableClose: closes only through a control inside the drawer.',
+    '  openPersistent(): void {',
+    '    this.drawer.open(SettingsDrawerComponent, { disableClose: true });',
+    '  }',
     '}',
   ].join('\n');
 

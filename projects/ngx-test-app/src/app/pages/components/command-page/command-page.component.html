@@ -35,21 +35,26 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" language="ts">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <dm-button variant="flat" (clicked)="basicOpen.set(true)">{{
       page().labels['open']
     }}</dm-button>
     <dm-command [items]="basicItems" [(open)]="basicOpen" (selected)="onSelect($event)" />
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['shortcuts']" [code]="shortcutsCode" language="ts">
+  <app-demo-block [heading]="page().labels['shortcuts']" [code]="shortcutsCode" [ts]="shortcutsTs">
     <dm-button variant="flat" (clicked)="shortcutsOpen.set(true)">
       {{ page().labels['open'] }}
     </dm-button>
     <dm-command [items]="items" [(open)]="shortcutsOpen" (selected)="onSelect($event)" />
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['empty']" [code]="emptyCode" language="html">
+  <app-demo-block
+    [heading]="page().labels['empty']"
+    [code]="emptyCode"
+    [ts]="emptyTs"
+    language="html"
+  >
     <dm-button variant="flat" (clicked)="emptyOpen.set(true)">{{
       page().labels['open']
     }}</dm-button>

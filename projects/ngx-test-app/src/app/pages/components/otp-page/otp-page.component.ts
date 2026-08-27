@@ -152,8 +152,41 @@ export class OtpPageComponent {
     '<span>value: {{ code() }}</span>',
   ].join('\n');
 
+  protected readonly numericTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmOtpComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-numeric-otp',",
+    '  imports: [DmOtpComponent],',
+    "  templateUrl: './numeric-otp.component.html',",
+    '})',
+    'export class NumericOtpComponent {',
+    "  protected readonly code = signal<string>('');",
+    '',
+    '  protected verify(code: string): void {',
+    '    // fired once every cell is filled',
+    '    console.log(code);',
+    '  }',
+    '}',
+  ].join('\n');
+
   protected readonly alnumCode = [
     '<dm-otp [(value)]="code" mode="alphanumeric" [length]="5" ariaLabel="Coupon code" />',
+  ].join('\n');
+
+  protected readonly alnumTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmOtpComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-coupon-otp',",
+    '  imports: [DmOtpComponent],',
+    "  templateUrl: './coupon-otp.component.html',",
+    '})',
+    'export class CouponOtpComponent {',
+    "  protected readonly code = signal<string>('');",
+    '}',
   ].join('\n');
 
   protected readonly maskedCode = [
@@ -161,8 +194,36 @@ export class OtpPageComponent {
     '<dm-otp [(value)]="pin" mask [length]="4" ariaLabel="PIN" />',
   ].join('\n');
 
+  protected readonly maskedTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmOtpComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pin-otp',",
+    '  imports: [DmOtpComponent],',
+    "  templateUrl: './pin-otp.component.html',",
+    '})',
+    'export class PinOtpComponent {',
+    "  protected readonly pin = signal<string>('');",
+    '}',
+  ].join('\n');
+
   protected readonly fourCode = [
     '<dm-otp [(value)]="code" [length]="4" size="lg" ariaLabel="One-time code" />',
+  ].join('\n');
+
+  protected readonly fourTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmOtpComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-otp-four',",
+    '  imports: [DmOtpComponent],',
+    "  templateUrl: './otp-four.component.html',",
+    '})',
+    'export class OtpFourComponent {',
+    "  protected readonly code = signal<string>('');",
+    '}',
   ].join('\n');
 
   protected readonly variantsCode = [
@@ -172,16 +233,62 @@ export class OtpPageComponent {
     '<dm-otp variant="underlined" [(value)]="c" ariaLabel="Underlined" />',
   ].join('\n');
 
+  protected readonly variantsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmOtpComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-otp-variants',",
+    '  imports: [DmOtpComponent],',
+    "  templateUrl: './otp-variants.component.html',",
+    '})',
+    'export class OtpVariantsComponent {',
+    "  protected readonly a = signal<string>('');",
+    "  protected readonly b = signal<string>('');",
+    "  protected readonly c = signal<string>('');",
+    '}',
+  ].join('\n');
+
   protected readonly separatedCode = [
     '<!-- groupSize inserts a dash after every N cells: 123 – 456 -->',
     '<dm-otp [(value)]="code" [length]="6" [groupSize]="3" variant="bordered"',
     '        ariaLabel="Verification code" />',
   ].join('\n');
 
+  protected readonly separatedTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmOtpComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-otp-separated',",
+    '  imports: [DmOtpComponent],',
+    "  templateUrl: './otp-separated.component.html',",
+    '})',
+    'export class OtpSeparatedComponent {',
+    "  protected readonly code = signal<string>('');",
+    '}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-otp size="sm" [length]="4" [(value)]="a" ariaLabel="Small" />',
     '<dm-otp size="md" [length]="4" [(value)]="b" ariaLabel="Medium" />',
     '<dm-otp size="lg" [length]="4" [(value)]="c" ariaLabel="Large" />',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmOtpComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-otp-sizes',",
+    '  imports: [DmOtpComponent],',
+    "  templateUrl: './otp-sizes.component.html',",
+    '})',
+    'export class OtpSizesComponent {',
+    "  protected readonly a = signal<string>('');",
+    "  protected readonly b = signal<string>('');",
+    "  protected readonly c = signal<string>('');",
+    '}',
   ].join('\n');
 
   // Composition — email verification card, OTP as a Reactive FormControl

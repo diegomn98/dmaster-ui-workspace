@@ -7,6 +7,13 @@
       "runtimeArgs": ["ng", "serve", "ngx-test-app", "--port", "4201"],
       "port": 4201,
       "autoPort": false
+    },
+    {
+      "name": "design-canvas",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "http-server", ".design/roadmap", "-p", "4310", "-c-1", "--silent"],
+      "port": 4310,
+      "autoPort": false
     }
   ]
 }

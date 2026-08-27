@@ -28,7 +28,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <dm-empty-state
       [title]="page().labels['inboxEmpty']"
       [description]="page().labels['inboxEmptyDesc']"
@@ -36,7 +36,7 @@
     />
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['withActions']" [code]="actionsCode">
+  <app-demo-block [heading]="page().labels['withActions']" [code]="actionsCode" [ts]="actionsTs">
     <dm-empty-state
       [title]="page().labels['noProjects']"
       [description]="page().labels['noProjectsDesc']"
@@ -47,7 +47,11 @@
     </dm-empty-state>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['customIcon']" [code]="customIconCode">
+  <app-demo-block
+    [heading]="page().labels['customIcon']"
+    [code]="customIconCode"
+    [ts]="customIconTs"
+  >
     <dm-empty-state
       [title]="page().labels['noResults']"
       [description]="page().labels['noResultsDesc']"
@@ -58,7 +62,7 @@
     </dm-empty-state>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div
       style="
         display: grid;
@@ -73,7 +77,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['noIcon']" [code]="noIconCode">
+  <app-demo-block [heading]="page().labels['noIcon']" [code]="noIconCode" [ts]="noIconTs">
     <dm-empty-state
       hideIcon
       [title]="page().labels['noResults']"
@@ -82,7 +86,7 @@
     />
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['inContext']" [code]="inContextCode">
+  <app-demo-block [heading]="page().labels['inContext']" [code]="inContextCode" [ts]="inContextTs">
     <dm-card style="width: 100%; max-width: 24rem">
       <strong>{{ page().labels['documentsTitle'] }}</strong>
       <dm-divider style="margin: 0.75rem 0" />

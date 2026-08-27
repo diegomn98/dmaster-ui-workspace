@@ -12,6 +12,29 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
     title: '@dmaster/ui · Modern Angular components',
   },
+  // El roadmap también vive fuera del shell: página full-bleed con top bar propio.
+  {
+    path: 'roadmap',
+    loadComponent: () =>
+      import('./pages/roadmap/roadmap-page.component').then((m) => m.RoadmapPageComponent),
+    title: 'Roadmap · @dmaster/ui',
+  },
+  // El blog, igual: full-bleed fuera del shell (layout bento).
+  {
+    path: 'blog',
+    loadComponent: () =>
+      import('./pages/blog/blog-page.component').then((m) => m.BlogPageComponent),
+    title: 'Blog · @dmaster/ui',
+  },
+  // Detalle de release del build log (slugs prerenderizados desde RELEASES).
+  {
+    path: 'blog/:slug',
+    loadComponent: () =>
+      import('./pages/blog/article/blog-article-page.component').then(
+        (m) => m.BlogArticlePageComponent,
+      ),
+    title: 'Release · @dmaster/ui',
+  },
   {
     path: '',
     component: ShellComponent,
@@ -23,6 +46,20 @@ export const routes: Routes = [
             (m) => m.GettingStartedComponent,
           ),
         title: 'Getting Started · @dmaster/ui',
+      },
+      {
+        path: 'theming',
+        loadComponent: () =>
+          import('./pages/theming/theming-page.component').then((m) => m.ThemingPageComponent),
+        title: 'Theming · @dmaster/ui',
+      },
+      {
+        path: 'component-tokens',
+        loadComponent: () =>
+          import('./pages/component-tokens/component-tokens-page.component').then(
+            (m) => m.ComponentTokensPageComponent,
+          ),
+        title: 'Component Tokens · @dmaster/ui',
       },
       {
         path: 'components',
@@ -118,14 +155,6 @@ export const routes: Routes = [
             (m) => m.AutocompletePageComponent,
           ),
         title: 'Autocomplete · @dmaster/ui',
-      },
-      {
-        path: 'components/paginated-select',
-        loadComponent: () =>
-          import('./pages/components/paginated-select-page/paginated-select-page.component').then(
-            (m) => m.PaginatedSelectPageComponent,
-          ),
-        title: 'Paginated Select · @dmaster/ui',
       },
       {
         path: 'components/form-field',

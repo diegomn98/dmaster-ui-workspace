@@ -36,7 +36,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="page().labels['attached']" [code]="attachedCode">
+  <app-demo-block [heading]="page().labels['attached']" [code]="attachedCode" [ts]="attachedTs">
     <dm-button-group variant="flat" ariaLabel="Editing">
       <dm-button>Copy</dm-button>
       <dm-button>Cut</dm-button>
@@ -44,7 +44,7 @@
     </dm-button-group>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['alignment']" [code]="alignmentCode">
+  <app-demo-block [heading]="page().labels['alignment']" [code]="alignmentCode" [ts]="alignmentTs">
     <dm-button-group variant="bordered" [ariaLabel]="page().labels['alignLabel']">
       <dm-button [ariaLabel]="page().labels['left']">
         <dm-icon>format_align_left</dm-icon>
@@ -61,7 +61,7 @@
     </dm-button-group>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['pagination']" [code]="solidCode">
+  <app-demo-block [heading]="page().labels['pagination']" [code]="solidCode" [ts]="solidTs">
     <dm-button-group color="primary" [ariaLabel]="page().labels['pagination']">
       <dm-button [ariaLabel]="page().labels['prev']">
         <dm-icon>chevron_left</dm-icon>
@@ -73,7 +73,7 @@
     </dm-button-group>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['override']" [code]="overrideCode">
+  <app-demo-block [heading]="page().labels['override']" [code]="overrideCode" [ts]="overrideTs">
     <dm-button-group variant="flat" [ariaLabel]="page().labels['fileActions']">
       <dm-button>{{ page().labels['rename'] }}</dm-button>
       <dm-button>{{ page().labels['duplicate'] }}</dm-button>
@@ -81,7 +81,7 @@
     </dm-button-group>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode">
+  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode" [ts]="verticalTs">
     <dm-button-group orientation="vertical" variant="bordered" ariaLabel="Zoom">
       <dm-button [ariaLabel]="page().labels['zoomIn']">
         <dm-icon>add</dm-icon>
@@ -93,7 +93,7 @@
     </dm-button-group>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode">
+  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode" [ts]="fullWidthTs">
     <dm-button-group
       fullWidth
       variant="flat"
@@ -105,7 +105,7 @@
     </dm-button-group>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['split']" [code]="splitCode">
+  <app-demo-block [heading]="page().labels['split']" [code]="splitCode" [ts]="splitTs">
     <dm-button-group color="primary" [ariaLabel]="page().labels['moreOptions']">
       <dm-button (clicked)="save()">{{ page().labels['save'] }}</dm-button>
       <dm-button [ariaLabel]="page().labels['moreOptions']" [dmMenuTrigger]="saveMenu">

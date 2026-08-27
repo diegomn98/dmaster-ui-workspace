@@ -108,12 +108,36 @@ export class KbdPageComponent {
     '<dm-kbd keys="right"></dm-kbd>',
   ].join('\n');
 
+  protected readonly singleTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmKbdComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-kbd-single-keys',",
+    '  imports: [DmKbdComponent],',
+    "  templateUrl: './kbd-single-keys.component.html',",
+    '})',
+    'export class KbdSingleKeysComponent {}',
+  ].join('\n');
+
   protected readonly combosCode = [
     '<!-- One modifier + a letter, or a stack of named keys. -->',
     '<dm-kbd keys="command">K</dm-kbd>',
     "<dm-kbd [keys]=\"['shift', 'command']\">P</dm-kbd>",
     '<dm-kbd keys="ctrl">C</dm-kbd>',
     "<dm-kbd [keys]=\"['command', 'enter']\"></dm-kbd>",
+  ].join('\n');
+
+  protected readonly combosTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmKbdComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-kbd-combos',",
+    '  imports: [DmKbdComponent],',
+    "  templateUrl: './kbd-combos.component.html',",
+    '})',
+    'export class KbdCombosComponent {}',
   ].join('\n');
 
   protected readonly lettersCode = [
@@ -124,9 +148,33 @@ export class KbdPageComponent {
     '<dm-kbd>A</dm-kbd>',
   ].join('\n');
 
+  protected readonly lettersTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmKbdComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-kbd-letters',",
+    '  imports: [DmKbdComponent],',
+    "  templateUrl: './kbd-letters.component.html',",
+    '})',
+    'export class KbdLettersComponent {}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-kbd keys="command" size="sm">K</dm-kbd>',
     '<dm-kbd keys="command" size="md">K</dm-kbd>',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmKbdComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-kbd-sizes',",
+    '  imports: [DmKbdComponent],',
+    "  templateUrl: './kbd-sizes.component.html',",
+    '})',
+    'export class KbdSizesComponent {}',
   ].join('\n');
 
   protected readonly inlineCode = [
@@ -141,6 +189,18 @@ export class KbdPageComponent {
     '  <span>Copy</span>',
     '  <dm-kbd keys="command" size="sm">C</dm-kbd>',
     '</div>',
+  ].join('\n');
+
+  protected readonly inlineTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmKbdComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-kbd-inline',",
+    '  imports: [DmKbdComponent],',
+    "  templateUrl: './kbd-inline.component.html',",
+    '})',
+    'export class KbdInlineComponent {}',
   ].join('\n');
 
   protected readonly compositionCode = [

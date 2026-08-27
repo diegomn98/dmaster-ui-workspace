@@ -190,22 +190,65 @@ export class CommandPageComponent {
   });
 
   protected readonly basicCode = [
-    'readonly commands: DmCommandItem[] = [',
-    "  { id: 'dashboard', label: 'Go to Dashboard', group: 'Navigation' },",
-    "  { id: 'projects', label: 'Go to Projects', group: 'Navigation' },",
-    "  { id: 'invite', label: 'Invite teammate', group: 'Actions' },",
-    '];',
+    '<dm-button variant="flat" (clicked)="open.set(true)">Open</dm-button>',
     '',
     '<dm-command [items]="commands" [(open)]="open" (selected)="run($event)" />',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmButtonComponent, DmCommandComponent, DmCommandItem } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-basic-command-demo',",
+    '  imports: [DmButtonComponent, DmCommandComponent],',
+    "  templateUrl: './basic-command-demo.component.html',",
+    '})',
+    'export class BasicCommandDemoComponent {',
+    '  readonly open = signal(false);',
+    "  readonly lastAction = signal('—');",
+    '',
+    '  readonly commands: DmCommandItem[] = [',
+    "    { id: 'dashboard', label: 'Go to Dashboard', group: 'Navigation' },",
+    "    { id: 'projects', label: 'Go to Projects', group: 'Navigation' },",
+    "    { id: 'invite', label: 'Invite teammate', group: 'Actions' },",
+    "    { id: 'new-doc', label: 'New document', group: 'Actions' },",
+    '  ];',
+    '',
+    '  run(item: DmCommandItem): void {',
+    '    this.lastAction.set(item.label);',
+    '  }',
+    '}',
+  ].join('\n');
+
   protected readonly shortcutsCode = [
-    'readonly commands: DmCommandItem[] = [',
-    "  { id: 'save', label: 'Save', group: 'File', shortcut: '⌘S' },",
-    "  { id: 'find', label: 'Find in Files', group: 'Edit', shortcut: '⌘⇧F', keywords: ['search'] },",
-    '];',
+    '<dm-button variant="flat" (clicked)="open.set(true)">Open</dm-button>',
     '',
     '<dm-command [items]="commands" [(open)]="open" (selected)="run($event)" />',
+  ].join('\n');
+
+  protected readonly shortcutsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmButtonComponent, DmCommandComponent, DmCommandItem } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-shortcuts-command-demo',",
+    '  imports: [DmButtonComponent, DmCommandComponent],',
+    "  templateUrl: './shortcuts-command-demo.component.html',",
+    '})',
+    'export class ShortcutsCommandDemoComponent {',
+    '  readonly open = signal(false);',
+    "  readonly lastAction = signal('—');",
+    '',
+    '  readonly commands: DmCommandItem[] = [',
+    "    { id: 'save', label: 'Save', group: 'File', shortcut: '⌘S' },",
+    "    { id: 'find', label: 'Find in Files', group: 'Edit', shortcut: '⌘⇧F', keywords: ['search'] },",
+    '  ];',
+    '',
+    '  run(item: DmCommandItem): void {',
+    '    this.lastAction.set(item.label);',
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly emptyCode = [
@@ -215,6 +258,36 @@ export class CommandPageComponent {
     '  emptyLabel="Nothing matches — try another term"',
     '  (selected)="run($event)"',
     '/>',
+  ].join('\n');
+
+  protected readonly emptyTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmCommandComponent, DmCommandItem } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-empty-command-demo',",
+    '  imports: [DmCommandComponent],',
+    "  templateUrl: './empty-command-demo.component.html',",
+    '})',
+    'export class EmptyCommandDemoComponent {',
+    '  readonly open = signal(false);',
+    "  readonly lastAction = signal('—');",
+    '',
+    '  readonly commands: DmCommandItem[] = [',
+    "    { id: 'new-file', label: 'New File', group: 'File', shortcut: '⌘N', keywords: ['create', 'add'] },",
+    "    { id: 'open-file', label: 'Open File…', group: 'File', shortcut: '⌘O' },",
+    "    { id: 'save', label: 'Save', group: 'File', shortcut: '⌘S' },",
+    "    { id: 'copy', label: 'Copy', group: 'Edit', shortcut: '⌘C' },",
+    "    { id: 'paste', label: 'Paste', group: 'Edit', shortcut: '⌘V' },",
+    "    { id: 'find', label: 'Find in Files', group: 'Edit', shortcut: '⌘⇧F', keywords: ['search'] },",
+    "    { id: 'toggle-theme', label: 'Toggle Theme', group: 'General' },",
+    "    { id: 'settings', label: 'Open Settings', group: 'General', shortcut: '⌘,' },",
+    '  ];',
+    '',
+    '  run(item: DmCommandItem): void {',
+    '    this.lastAction.set(item.label);',
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

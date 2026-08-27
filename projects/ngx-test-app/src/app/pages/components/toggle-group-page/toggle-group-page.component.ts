@@ -129,8 +129,20 @@ export class ToggleGroupPageComponent {
     '  <dm-toggle value="grid">Grid</dm-toggle>',
     '  <dm-toggle value="table">Table</dm-toggle>',
     '</dm-toggle-group>',
+  ].join('\n');
+
+  protected readonly singleTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
     '',
-    'protected readonly view = signal("list");',
+    '@Component({',
+    "  selector: 'app-view-toggle',",
+    '  imports: [DmToggleGroupComponent, DmToggleComponent],',
+    "  templateUrl: './view-toggle.component.html',",
+    '})',
+    'export class ViewToggleComponent {',
+    "  protected readonly view = signal('list');",
+    '}',
   ].join('\n');
 
   protected readonly multipleCode = [
@@ -140,8 +152,20 @@ export class ToggleGroupPageComponent {
     '  <dm-toggle value="italic" ariaLabel="Italic"><em>I</em></dm-toggle>',
     '  <dm-toggle value="underline" ariaLabel="Underline"><u>U</u></dm-toggle>',
     '</dm-toggle-group>',
+  ].join('\n');
+
+  protected readonly multipleTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
     '',
-    'protected readonly format = signal(["bold"]);',
+    '@Component({',
+    "  selector: 'app-format-toggle',",
+    '  imports: [DmToggleGroupComponent, DmToggleComponent],',
+    "  templateUrl: './format-toggle.component.html',",
+    '})',
+    'export class FormatToggleComponent {',
+    "  protected readonly format = signal(['bold']);",
+    '}',
   ].join('\n');
 
   protected readonly colorsCode = [
@@ -150,10 +174,38 @@ export class ToggleGroupPageComponent {
     '<dm-toggle-group color="danger" [(value)]="view">…</dm-toggle-group>',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-colors-demo',",
+    '  imports: [DmToggleGroupComponent, DmToggleComponent],',
+    "  templateUrl: './colors-demo.component.html',",
+    '})',
+    'export class ColorsDemoComponent {',
+    "  protected readonly view = signal('grid');",
+    '}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-toggle-group size="sm" [(value)]="view">…</dm-toggle-group>',
     '<dm-toggle-group size="md" [(value)]="view">…</dm-toggle-group>',
     '<dm-toggle-group size="lg" [(value)]="view">…</dm-toggle-group>',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-sizes-demo',",
+    '  imports: [DmToggleGroupComponent, DmToggleComponent],',
+    "  templateUrl: './sizes-demo.component.html',",
+    '})',
+    'export class SizesDemoComponent {',
+    "  protected readonly view = signal('grid');",
+    '}',
   ].join('\n');
 
   protected readonly fullWidthCode = [
@@ -163,6 +215,20 @@ export class ToggleGroupPageComponent {
     '  <dm-toggle value="week">Week</dm-toggle>',
     '  <dm-toggle value="month">Month</dm-toggle>',
     '</dm-toggle-group>',
+  ].join('\n');
+
+  protected readonly fullWidthTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-range-toggle',",
+    '  imports: [DmToggleGroupComponent, DmToggleComponent],',
+    "  templateUrl: './range-toggle.component.html',",
+    '})',
+    'export class RangeToggleComponent {',
+    "  protected readonly range = signal('day');",
+    '}',
   ].join('\n');
 
   // Composition — dashboard header whose range switcher (single) and a
@@ -225,8 +291,21 @@ export class ToggleGroupPageComponent {
     '  <dm-toggle value="list">List</dm-toggle>',
     '  <dm-toggle value="grid">Grid</dm-toggle>',
     '</dm-toggle-group>',
+  ].join('\n');
+
+  protected readonly formTs = [
+    "import { Component } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
     '',
-    'protected readonly view = new FormControl("grid");',
+    '@Component({',
+    "  selector: 'app-form-toggle',",
+    '  imports: [ReactiveFormsModule, DmToggleGroupComponent, DmToggleComponent],',
+    "  templateUrl: './form-toggle.component.html',",
+    '})',
+    'export class FormToggleComponent {',
+    "  protected readonly view = new FormControl('grid');",
+    '}',
   ].join('\n');
 
   protected readonly formView = new FormControl<string>('grid');

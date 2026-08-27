@@ -93,6 +93,18 @@ export class FormFieldPageComponent {
     '</dm-form-field>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-basic-field',",
+    '  imports: [DmFormFieldComponent, DmInputDirective],',
+    "  templateUrl: './basic-field.component.html',",
+    '})',
+    'export class BasicFieldComponent {}',
+  ].join('\n');
+
   // --- Input types ---------------------------------------------------------
 
   /**
@@ -148,6 +160,33 @@ export class FormFieldPageComponent {
     '</dm-form-field>',
   ].join('\n');
 
+  protected readonly typesTs = [
+    "import { Component, signal } from '@angular/core';",
+    'import {',
+    '  DmFormFieldComponent, DmInputDirective,',
+    '  DmIconComponent, DmSelectComponent, DmSelectItem,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-field-types',",
+    '  imports: [',
+    '    DmFormFieldComponent, DmInputDirective,',
+    '    DmIconComponent, DmSelectComponent,',
+    '  ],',
+    "  templateUrl: './field-types.component.html',",
+    '})',
+    'export class FieldTypesComponent {',
+    '  protected readonly visible = signal(false);',
+    '',
+    '  protected readonly countryOptions: DmSelectItem<string>[] = [',
+    "    { value: 'es', label: 'Spain' },",
+    "    { value: 'fr', label: 'France' },",
+    "    { value: 'de', label: 'Germany' },",
+    '  ];',
+    "  protected readonly country = signal<string | null>('es');",
+    '}',
+  ].join('\n');
+
   // --- States (disabled / readonly) ---------------------------------------
 
   protected readonly statesCode = [
@@ -160,6 +199,18 @@ export class FormFieldPageComponent {
     '<dm-form-field label="Read-only" hint="Assigned automatically.">',
     '  <input dmInput type="text" value="ACC-2041-XK" readonly />',
     '</dm-form-field>',
+  ].join('\n');
+
+  protected readonly statesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-field-states',",
+    '  imports: [DmFormFieldComponent, DmInputDirective],',
+    "  templateUrl: './field-states.component.html',",
+    '})',
+    'export class FieldStatesComponent {}',
   ].join('\n');
 
   // --- Error as an input (live: the error appears on blur) -----------------
@@ -181,6 +232,33 @@ export class FormFieldPageComponent {
     '<dm-form-field label="Email" [error]="emailError()">',
     '  <input dmInput type="email" (input)="…" (blur)="touched.set(true)" />',
     '</dm-form-field>',
+  ].join('\n');
+
+  protected readonly errorTs = [
+    "import { Component, computed, signal } from '@angular/core';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';",
+    '',
+    'const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;',
+    '',
+    '@Component({',
+    "  selector: 'app-field-error',",
+    '  imports: [DmFormFieldComponent, DmInputDirective],',
+    "  templateUrl: './field-error.component.html',",
+    '})',
+    'export class FieldErrorComponent {',
+    "  protected readonly email = signal('');",
+    '  protected readonly touched = signal(false);',
+    '',
+    '  protected readonly emailError = computed(() =>',
+    '    this.touched() && !EMAIL_PATTERN.test(this.email())',
+    "      ? 'Enter a valid email address.'",
+    "      : '',",
+    '  );',
+    '',
+    '  protected onInput(event: Event): void {',
+    '    this.email.set((event.target as HTMLInputElement).value);',
+    '  }',
+    '}',
   ].join('\n');
 
   // --- Reactive Forms + projected <dm-error> -------------------------------

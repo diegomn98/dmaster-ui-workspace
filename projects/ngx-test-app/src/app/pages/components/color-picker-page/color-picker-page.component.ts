@@ -152,20 +152,78 @@ export class ColorPickerPageComponent {
 
   protected readonly basicCode =
     '<dm-color-picker label="Brand color" [(value)]="color" [clearable]="true" />';
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmColorPickerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-basic-demo',",
+    '  imports: [DmColorPickerComponent],',
+    "  templateUrl: './basic-demo.component.html',",
+    '})',
+    'export class BasicDemoComponent {',
+    "  protected readonly color = signal<string | null>('#7828c8');",
+    '}',
+  ].join('\n');
   protected readonly alphaCode =
     '<dm-color-picker label="Overlay" [(value)]="color" [showAlpha]="true" />';
-  protected readonly swatchesCode = [
-    "swatches = ['#338ef7', '#7828c8', '#17c964', '#f5a524', '#f31260'];",
+  protected readonly alphaTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmColorPickerComponent } from '@dmaster/ui';",
     '',
-    '<dm-color-picker label="Accent" [(value)]="color" [swatches]="swatches" />',
+    '@Component({',
+    "  selector: 'app-alpha-demo',",
+    '  imports: [DmColorPickerComponent],',
+    "  templateUrl: './alpha-demo.component.html',",
+    '})',
+    'export class AlphaDemoComponent {',
+    "  protected readonly color = signal<string | null>('#338ef7cc');",
+    '}',
+  ].join('\n');
+  protected readonly swatchesCode =
+    '<dm-color-picker label="Accent" [(value)]="color" [swatches]="swatches" />';
+  protected readonly swatchesTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmColorPickerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-swatches-demo',",
+    '  imports: [DmColorPickerComponent],',
+    "  templateUrl: './swatches-demo.component.html',",
+    '})',
+    'export class SwatchesDemoComponent {',
+    "  protected readonly swatches = ['#338ef7', '#7828c8', '#17c964', '#f5a524', '#f31260'];",
+    "  protected readonly color = signal<string | null>('#17c964');",
+    '}',
   ].join('\n');
   protected readonly sizesCode = ['sm', 'md', 'lg']
     .map((s) => `<dm-color-picker size="${s}" label="${s}" />`)
     .join('\n');
-  protected readonly formsCode = [
-    'control = new FormControl<string | null>("#f31260");',
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmColorPickerComponent } from '@dmaster/ui';",
     '',
-    '<dm-color-picker label="Color" [formControl]="control" />',
+    '@Component({',
+    "  selector: 'app-sizes-demo',",
+    '  imports: [DmColorPickerComponent],',
+    "  templateUrl: './sizes-demo.component.html',",
+    '})',
+    'export class SizesDemoComponent {}',
+  ].join('\n');
+  protected readonly formsCode = '<dm-color-picker label="Color" [formControl]="control" />';
+  protected readonly formsTs = [
+    "import { Component } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
+    "import { DmColorPickerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-forms-demo',",
+    '  imports: [DmColorPickerComponent, ReactiveFormsModule],',
+    "  templateUrl: './forms-demo.component.html',",
+    '})',
+    'export class FormsDemoComponent {',
+    "  protected readonly control = new FormControl<string | null>('#f31260');",
+    '}',
   ].join('\n');
   protected readonly defaultsCode = [
     "import { provideColorPickerDefaults } from '@dmaster/ui';",

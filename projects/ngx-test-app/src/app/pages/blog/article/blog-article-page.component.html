@@ -1,0 +1,98 @@
+<app-site-topbar active="blog" />
+
+<article class="ba__wrap" [attr.data-category]="entry().category">
+  <!-- volver -->
+  <a routerLink="/blog" class="ba__back">
+    <dm-icon name="arrow-left" size="0.875rem" />
+    {{ i18n.t().blog.articleBack }}
+  </a>
+
+  <!-- portada: misma identidad que el índice (color de categoría + versión
+       gigante + glifo watermark), como hero del artículo -->
+  <div class="ba__cover">
+    <span class="ba__cover-version">{{ entry().version }}</span>
+    <span class="ba__cover-glyph" aria-hidden="true">{{ glyph() }}</span>
+  </div>
+
+  <!-- cabecera del artículo -->
+  <header class="ba__head">
+    <div class="ba__meta">
+      <span class="ba__cat" [attr.data-category]="entry().category">
+        {{ categoryLabel(entry().category) }}
+      </span>
+      <span class="ba__date">{{ entry().date }} · {{ entry().minutes }} min</span>
+    </div>
+    <h1 class="ba__title">{{ article().title }}</h1>
+    <p class="ba__lead">{{ article().lead }}</p>
+  </header>
+
+  <hr class="ba__rule" />
+
+  <!-- qué salió -->
+  <section class="ba__shipped" aria-labelledby="ba-shipped-title">
+    <div class="ba__shipped-head">
+      <h2 class="ba__shipped-title" id="ba-shipped-title">
+        <span class="ba__glyph" aria-hidden="true">{{ glyph() }}</span>
+        {{ i18n.t().blog.articleWhatShipped }}
+      </h2>
+      <span class="ba__count">{{ article().bullets.length }}</span>
+    </div>
+    <ul class="ba__list">
+      @for (bullet of article().bullets; track $index) {
+        <li class="ba__item">
+          <span class="ba__check" aria-hidden="true">
+            <dm-icon name="check" size="0.8125rem" />
+          </span>
+          <span class="ba__item-text">{{ bullet }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+
+  <!-- enlaces a GitHub (anclas reales estiladas como botones) -->
+  <div class="ba__links">
+    <a
+      class="ba__cta ba__cta--primary"
+      [href]="releaseUrl()"
+      target="_blank"
+      rel="noreferrer noopener"
+    >
+      <dm-icon name="github" size="0.9375rem" />
+      {{ i18n.t().blog.articleViewRelease }}
+    </a>
+    <a
+      class="ba__cta ba__cta--ghost"
+      [href]="changelogUrl"
+      target="_blank"
+      rel="noreferrer noopener"
+    >
+      {{ i18n.t().blog.articleViewChangelog }}
+    </a>
+  </div>
+
+  <!-- prev / next -->
+  <nav class="ba__pager" [attr.aria-label]="i18n.t().blog.articleBack">
+    @if (older(); as o) {
+      <a class="ba__pager-card" [routerLink]="['/blog', o.slug]">
+        <span class="ba__pager-label">
+          <dm-icon name="arrow-left" size="0.75rem" />
+          {{ i18n.t().blog.articleOlder }}
+        </span>
+        <span class="ba__pager-title">{{ articleTitle(o.key) }}</span>
+        <dm-badge color="default" variant="flat" size="sm">{{ o.version }}</dm-badge>
+      </a>
+    } @else {
+      <span class="ba__pager-spacer"></span>
+    }
+    @if (newer(); as n) {
+      <a class="ba__pager-card ba__pager-card--end" [routerLink]="['/blog', n.slug]">
+        <span class="ba__pager-label">
+          {{ i18n.t().blog.articleNewer }}
+          <dm-icon name="arrow-right" size="0.75rem" />
+        </span>
+        <span class="ba__pager-title">{{ articleTitle(n.key) }}</span>
+        <dm-badge color="primary" variant="flat" size="sm">{{ n.version }}</dm-badge>
+      </a>
+    }
+  </nav>
+</article>

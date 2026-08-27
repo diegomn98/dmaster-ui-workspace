@@ -29,15 +29,15 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <dm-slider [(value)]="volume" [showValueLabel]="true" ariaLabel="Volume" />
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['marks']" [code]="marksCode">
+  <app-demo-block [heading]="page().labels['marks']" [code]="marksCode" [ts]="marksTs">
     <dm-slider [(value)]="level" [step]="25" [marks]="demoMarks" ariaLabel="Level" />
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="colorsCode">
+  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="colorsCode" [ts]="colorsTs">
     <div class="demo-stack">
       <dm-slider color="primary" [(value)]="colorValue" ariaLabel="Primary" />
       <dm-slider color="secondary" [(value)]="colorValue" ariaLabel="Secondary" />
@@ -47,7 +47,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-stack">
       <dm-slider size="sm" [(value)]="sizeValue" ariaLabel="Small" />
       <dm-slider size="md" [(value)]="sizeValue" ariaLabel="Medium" />
@@ -55,14 +55,14 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode">
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode" [ts]="formsTs">
     <div class="demo-stack">
       <dm-slider [formControl]="price" [max]="1000" [step]="50" ariaLabel="Price" />
       <span class="demo-output">value: {{ price.value }}</span>
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['currency']" [code]="formatCode">
+  <app-demo-block [heading]="page().labels['currency']" [code]="formatCode" [ts]="formatTs">
     <dm-slider
       [(value)]="budget"
       [max]="2000"

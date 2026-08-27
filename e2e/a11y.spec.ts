@@ -66,7 +66,9 @@ test.describe('accessibility: opened overlays', () => {
 
   test('menu panel', async ({ page }) => {
     await page.goto('/components/menu', { waitUntil: 'networkidle' });
-    await page.locator('[aria-haspopup="menu"]').first().click();
+    // Scope to <main>: the docs header now hosts a hidden mobile language menu
+    // (also aria-haspopup="menu"), so target the demo trigger, not the chrome.
+    await page.locator('main [aria-haspopup="menu"]').first().click();
     await openAndScan(page, page.locator('[role="menu"]'));
   });
 

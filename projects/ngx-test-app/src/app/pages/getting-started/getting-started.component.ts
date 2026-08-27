@@ -101,6 +101,21 @@ export class GettingStartedComponent {
     '}',
   ].join('\n');
 
+  protected readonly namedThemesCode = [
+    '// 1. Register the theme + its base scheme',
+    "provideDmasterUI({ themes: { midnight: { scheme: 'dark', label: 'Midnight' } } }),",
+    '',
+    '/* 2. Author its tokens (styles.scss) */',
+    "[data-dm-theme='midnight'] {",
+    '  --dm-bg: #0b1020;',
+    '  --dm-primary: #7c9cff;',
+    '  /* …only the tokens you want to change */',
+    '}',
+    '',
+    '// 3. Apply it by name — light/dark still work',
+    "inject(ThemeService).setTheme('midnight');",
+  ].join('\n');
+
   protected readonly animationCode = [
     '/* Use the shared motion tokens for consistency */',
     '.my-panel {',

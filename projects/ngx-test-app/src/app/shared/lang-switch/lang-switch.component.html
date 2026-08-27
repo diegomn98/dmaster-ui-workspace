@@ -1,0 +1,45 @@
+<!-- Escritorio: el selector completo -->
+<dm-select
+  class="lang__select"
+  variant="bordered"
+  size="sm"
+  [items]="locales"
+  [value]="i18n.locale()"
+  (valueChange)="onChange($event)"
+  [ariaLabel]="i18n.t().shell.languageLabel"
+/>
+
+<!-- Móvil: icono globo + menú flotante -->
+<div class="lang__compact">
+  <button
+    type="button"
+    class="lang__btn"
+    (click)="toggle()"
+    aria-haspopup="menu"
+    [attr.aria-expanded]="open()"
+    [attr.aria-label]="i18n.t().shell.languageLabel"
+  >
+    <dm-icon name="globe" size="1.125rem" />
+  </button>
+
+  @if (open()) {
+    <div class="lang__scrim" aria-hidden="true" (click)="close()"></div>
+    <div class="lang__menu" role="menu" [attr.aria-label]="i18n.t().shell.languageLabel">
+      @for (loc of locales; track loc.value) {
+        <button
+          type="button"
+          role="menuitemradio"
+          class="lang__opt"
+          [class.lang__opt--active]="i18n.locale() === loc.value"
+          [attr.aria-checked]="i18n.locale() === loc.value"
+          (click)="pick(loc.value)"
+        >
+          {{ loc.label }}
+          @if (i18n.locale() === loc.value) {
+            <dm-icon name="check" size="0.875rem" />
+          }
+        </button>
+      }
+    </div>
+  }
+</div>

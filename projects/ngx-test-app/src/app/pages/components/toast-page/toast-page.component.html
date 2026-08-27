@@ -20,7 +20,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="page().labels['helpers']" [code]="helpersCode" language="ts">
+  <app-demo-block [heading]="page().labels['helpers']" [code]="helpersCode" [ts]="helpersTs">
     <div class="demo-row">
       <dm-button variant="flat" (clicked)="toast.show(page().labels['neutralMessage'])">
         neutral
@@ -45,7 +45,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['duration']" [code]="durationCode" language="ts">
+  <app-demo-block [heading]="page().labels['duration']" [code]="durationCode" [ts]="durationTs">
     <div class="demo-row">
       <dm-button variant="flat" (clicked)="showShort()">{{ page().labels['short'] }}</dm-button>
       <dm-button variant="flat" (clicked)="showDefault()">
@@ -55,7 +55,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['dismissible']" [code]="dismissibleCode" language="ts">
+  <app-demo-block
+    [heading]="page().labels['dismissible']"
+    [code]="dismissibleCode"
+    [ts]="dismissibleTs"
+  >
     <div class="demo-row">
       <dm-button variant="flat" (clicked)="showDismissible()">
         {{ page().labels['withDismiss'] }}
@@ -66,7 +70,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['programmatic']" [code]="programmaticCode" language="ts">
+  <app-demo-block
+    [heading]="page().labels['programmatic']"
+    [code]="programmaticCode"
+    [ts]="programmaticTs"
+  >
     <div class="demo-row">
       <dm-button variant="flat" [disabled]="uploading()" (clicked)="startUpload()">
         {{ page().labels['startUpload'] }}
@@ -85,7 +93,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['queue']" [code]="queueCode" language="ts">
+  <app-demo-block [heading]="page().labels['queue']" [code]="queueCode" [ts]="queueTs">
     <div class="demo-row">
       <dm-button variant="flat" (clicked)="fireMany()">{{ page().labels['fireMany'] }}</dm-button>
       <dm-button variant="light" (clicked)="dismissAll()">

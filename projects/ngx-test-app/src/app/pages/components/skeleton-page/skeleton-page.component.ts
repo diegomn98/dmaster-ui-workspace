@@ -130,11 +130,35 @@ export class SkeletonPageComponent {
     '</div>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-profile-card-skeleton',",
+    '  imports: [DmSkeletonComponent],',
+    "  templateUrl: './profile-card-skeleton.component.html',",
+    '})',
+    'export class ProfileCardSkeletonComponent {}',
+  ].join('\n');
+
   protected readonly variantsCode = [
     '<dm-skeleton />',
     '<dm-skeleton variant="rounded" rounded="lg" height="5rem" />',
     '<dm-skeleton variant="rectangular" height="5rem" />',
     '<dm-skeleton variant="circular" [width]="48" [height]="48" />',
+  ].join('\n');
+
+  protected readonly variantsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-skeleton-variants',",
+    '  imports: [DmSkeletonComponent],',
+    "  templateUrl: './skeleton-variants.component.html',",
+    '})',
+    'export class SkeletonVariantsComponent {}',
   ].join('\n');
 
   protected readonly animationsCode = [
@@ -148,6 +172,18 @@ export class SkeletonPageComponent {
     '<dm-skeleton animation="none" height="4.5rem" variant="rounded" rounded="lg" />',
   ].join('\n');
 
+  protected readonly animationsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-skeleton-animations',",
+    '  imports: [DmSkeletonComponent],',
+    "  templateUrl: './skeleton-animations.component.html',",
+    '})',
+    'export class SkeletonAnimationsComponent {}',
+  ].join('\n');
+
   protected readonly paragraphCode = [
     '<!-- Article / blog card loading state -->',
     '<div class="article-card">',
@@ -155,6 +191,18 @@ export class SkeletonPageComponent {
     '  <dm-skeleton width="75%" />',
     '  <dm-skeleton [count]="3" />',
     '</div>',
+  ].join('\n');
+
+  protected readonly paragraphTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-article-card-skeleton',",
+    '  imports: [DmSkeletonComponent],',
+    "  templateUrl: './article-card-skeleton.component.html',",
+    '})',
+    'export class ArticleCardSkeletonComponent {}',
   ].join('\n');
 
   protected readonly cardCode = [
@@ -168,6 +216,18 @@ export class SkeletonPageComponent {
     '}',
   ].join('\n');
 
+  protected readonly cardTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-metric-grid-skeleton',",
+    '  imports: [DmSkeletonComponent],',
+    "  templateUrl: './metric-grid-skeleton.component.html',",
+    '})',
+    'export class MetricGridSkeletonComponent {}',
+  ].join('\n');
+
   protected readonly fluidCode = [
     '<!-- List / feed loading state -->',
     '@for (item of items; track item) {',
@@ -178,6 +238,21 @@ export class SkeletonPageComponent {
     '      <dm-skeleton width="65%" />',
     '    </div>',
     '  </div>',
+    '}',
+  ].join('\n');
+
+  protected readonly fluidTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-list-skeleton',",
+    '  imports: [DmSkeletonComponent],',
+    "  templateUrl: './list-skeleton.component.html',",
+    '})',
+    'export class ListSkeletonComponent {',
+    '  // one placeholder row per pending item',
+    '  protected readonly items = [1, 2, 3, 4];',
     '}',
   ].join('\n');
 

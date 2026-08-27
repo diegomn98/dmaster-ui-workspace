@@ -37,11 +37,11 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <dm-alert [title]="'Heads up'" description="A new version is available." />
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode" [ts]="colorsTs">
     <div class="demo-stack">
       <dm-alert color="default" [title]="'Default'" description="Neutral information." />
       <dm-alert color="primary" [title]="'Primary'" description="A new version is available." />
@@ -60,7 +60,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.variants"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
     <div class="demo-stack">
       <dm-alert variant="flat" color="primary" [title]="'Flat'" description="Soft tinted fill." />
       <dm-alert
@@ -79,7 +83,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['description']" [code]="descriptionCode">
+  <app-demo-block
+    [heading]="page().labels['description']"
+    [code]="descriptionCode"
+    [ts]="descriptionTs"
+  >
     <div class="demo-stack">
       <dm-alert
         color="warning"
@@ -96,7 +104,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['dismissible']" [code]="dismissibleCode">
+  <app-demo-block
+    [heading]="page().labels['dismissible']"
+    [code]="dismissibleCode"
+    [ts]="dismissibleTs"
+  >
     @if (!demoDismissed()) {
       <dm-alert
         color="success"
@@ -112,7 +124,7 @@
     }
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['action']" [code]="actionCode">
+  <app-demo-block [heading]="page().labels['action']" [code]="actionCode" [ts]="actionTs">
     <dm-alert color="danger" variant="faded" [title]="'Message deleted'" [dismissible]="true">
       <dm-button dmAlertAction size="sm" variant="light" color="danger">
         {{ page().labels['undo'] }}

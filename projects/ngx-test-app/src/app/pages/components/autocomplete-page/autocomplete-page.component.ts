@@ -172,6 +172,34 @@ export class AutocompletePageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-basic-autocomplete',",
+    '  imports: [DmAutocompleteComponent],',
+    "  templateUrl: './basic-autocomplete.component.html',",
+    '})',
+    'export class BasicAutocompleteComponent {',
+    '  fruits: DmAutocompleteOption[] = [',
+    "    { value: 'apple', label: 'Apple' },",
+    "    { value: 'apricot', label: 'Apricot' },",
+    "    { value: 'banana', label: 'Banana' },",
+    "    { value: 'blackberry', label: 'Blackberry' },",
+    "    { value: 'blueberry', label: 'Blueberry' },",
+    "    { value: 'cherry', label: 'Cherry' },",
+    "    { value: 'grape', label: 'Grape' },",
+    "    { value: 'mango', label: 'Mango' },",
+    "    { value: 'orange', label: 'Orange' },",
+    "    { value: 'peach', label: 'Peach', description: 'In season now' },",
+    "    { value: 'pear', label: 'Pear' },",
+    "    { value: 'strawberry', label: 'Strawberry' },",
+    '  ];',
+    "  fruit = signal<string>('');",
+    '}',
+  ].join('\n');
+
   protected readonly openOnFocusCode = [
     '<dm-autocomplete',
     '  label="Fruit"',
@@ -180,6 +208,26 @@ export class AutocompletePageComponent {
     '  [options]="fruits"',
     '  [(value)]="fruit"',
     '/>',
+  ].join('\n');
+
+  protected readonly openOnFocusTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-open-on-focus',",
+    '  imports: [DmAutocompleteComponent],',
+    "  templateUrl: './open-on-focus.component.html',",
+    '})',
+    'export class OpenOnFocusComponent {',
+    '  fruits: DmAutocompleteOption[] = [',
+    "    { value: 'apple', label: 'Apple' },",
+    "    { value: 'apricot', label: 'Apricot' },",
+    "    { value: 'banana', label: 'Banana' },",
+    '    // …',
+    '  ];',
+    "  fruit = signal<string>('');",
+    '}',
   ].join('\n');
 
   protected readonly eventsCode = [
@@ -192,10 +240,63 @@ export class AutocompletePageComponent {
     '/>',
   ].join('\n');
 
-  protected readonly formsCode = [
-    'control = new FormControl("", { nonNullable: true });',
+  protected readonly eventsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui';",
     '',
-    '<dm-autocomplete label="Fruit" [options]="fruits" [formControl]="control" />',
+    '@Component({',
+    "  selector: 'app-autocomplete-events',",
+    '  imports: [DmAutocompleteComponent],',
+    "  templateUrl: './autocomplete-events.component.html',",
+    '})',
+    'export class AutocompleteEventsComponent {',
+    '  fruits: DmAutocompleteOption[] = [',
+    "    { value: 'apple', label: 'Apple' },",
+    "    { value: 'banana', label: 'Banana' },",
+    '    // …',
+    '  ];',
+    "  fruit = signal<string>('');",
+    "  lastSelected = signal<string>('—');",
+    '',
+    '  onSelected(option: DmAutocompleteOption): void {',
+    '    this.lastSelected.set(`${option.label} (${option.value})`);',
+    '  }',
+    '}',
+  ].join('\n');
+
+  protected readonly formsCode = [
+    '<dm-autocomplete',
+    '  label="Fruit"',
+    '  placeholder="Type to search…"',
+    '  [options]="fruits"',
+    '  [formControl]="control"',
+    '/>',
+    '<p>Value: {{ formValue() }}</p>',
+  ].join('\n');
+
+  protected readonly formsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
+    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-autocomplete-forms',",
+    '  imports: [DmAutocompleteComponent, ReactiveFormsModule],',
+    "  templateUrl: './autocomplete-forms.component.html',",
+    '})',
+    'export class AutocompleteFormsComponent {',
+    '  fruits: DmAutocompleteOption[] = [',
+    "    { value: 'apple', label: 'Apple' },",
+    "    { value: 'banana', label: 'Banana' },",
+    '    // …',
+    '  ];',
+    "  control = new FormControl<string>('', { nonNullable: true });",
+    "  formValue = signal<string>('');",
+    '',
+    '  constructor() {',
+    '    this.control.valueChanges.subscribe((v) => this.formValue.set(v));',
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

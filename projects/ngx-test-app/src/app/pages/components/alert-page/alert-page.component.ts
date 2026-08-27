@@ -99,6 +99,19 @@ export class AlertPageComponent {
     '<dm-alert title="Heads up" description="A new version is available." />',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmAlertComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-alert-basic',",
+    '  imports: [DmAlertComponent],',
+    "  templateUrl: './alert-basic.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class AlertBasicComponent {}',
+  ].join('\n');
+
   protected readonly colorsCode = [
     '<dm-alert color="default" title="Default" description="Neutral information." />',
     '<dm-alert color="primary" title="Primary" description="A new version is available." />',
@@ -108,11 +121,37 @@ export class AlertPageComponent {
     '<dm-alert color="danger" title="Danger" description="The payment could not be processed." />',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmAlertComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-alert-colors',",
+    '  imports: [DmAlertComponent],',
+    "  templateUrl: './alert-colors.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class AlertColorsComponent {}',
+  ].join('\n');
+
   protected readonly variantsCode = [
     '<dm-alert variant="flat" color="primary" title="Flat" description="Soft tinted fill." />',
     '<dm-alert variant="faded" color="primary" title="Faded" description="Tinted fill plus a colored border." />',
     '<dm-alert variant="solid" color="primary" title="Solid" description="Full color fill." />',
     '<dm-alert variant="bordered" color="primary" title="Bordered" description="Transparent with a colored border." />',
+  ].join('\n');
+
+  protected readonly variantsTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmAlertComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-alert-variants',",
+    '  imports: [DmAlertComponent],',
+    "  templateUrl: './alert-variants.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class AlertVariantsComponent {}',
   ].join('\n');
 
   protected readonly descriptionCode = [
@@ -129,6 +168,19 @@ export class AlertPageComponent {
     '</dm-alert>',
   ].join('\n');
 
+  protected readonly descriptionTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmAlertComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-alert-description',",
+    '  imports: [DmAlertComponent],',
+    "  templateUrl: './alert-description.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class AlertDescriptionComponent {}',
+  ].join('\n');
+
   protected readonly dismissibleCode = [
     '@if (alertVisible()) {',
     '  <dm-alert',
@@ -143,10 +195,39 @@ export class AlertPageComponent {
     '}',
   ].join('\n');
 
+  protected readonly dismissibleTs = [
+    "import { ChangeDetectionStrategy, Component, signal } from '@angular/core';",
+    "import { DmAlertComponent, DmButtonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-dismissible-alert',",
+    '  imports: [DmAlertComponent, DmButtonComponent],',
+    "  templateUrl: './dismissible-alert.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class DismissibleAlertComponent {',
+    '  // Re-create the alert on demand after it is dismissed.',
+    '  protected readonly alertVisible = signal(true);',
+    '}',
+  ].join('\n');
+
   protected readonly actionCode = [
     '<dm-alert color="danger" variant="faded" title="Message deleted" [dismissible]="true">',
     '  <dm-button dmAlertAction size="sm" variant="light" color="danger">Undo</dm-button>',
     '</dm-alert>',
+  ].join('\n');
+
+  protected readonly actionTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmAlertComponent, DmButtonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-alert-action',",
+    '  imports: [DmAlertComponent, DmButtonComponent],',
+    "  templateUrl: './alert-action.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class AlertActionComponent {}',
   ].join('\n');
 
   protected readonly defaultsCode = [

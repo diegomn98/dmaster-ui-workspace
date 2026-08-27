@@ -169,6 +169,20 @@ export class StepperPageComponent {
     '</dm-stepper>',
   ].join('\n');
 
+  protected readonly verticalTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmStepperComponent, DmStepComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-delivery-status',",
+    '  imports: [DmStepperComponent, DmStepComponent],',
+    "  templateUrl: './delivery-status.component.html',",
+    '})',
+    'export class DeliveryStatusComponent {',
+    '  protected readonly step = signal(1);',
+    '}',
+  ].join('\n');
+
   // ---- Linear (gated) with Next / Back --------------------------------------
 
   protected readonly linearActive = signal(0);
@@ -247,6 +261,20 @@ export class StepperPageComponent {
     '</dm-stepper>',
   ].join('\n');
 
+  protected readonly statesTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmStepperComponent, DmStepComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-step-states',",
+    '  imports: [DmStepperComponent, DmStepComponent],',
+    "  templateUrl: './step-states.component.html',",
+    '})',
+    'export class StepStatesComponent {',
+    '  protected readonly step = signal(2);',
+    '}',
+  ].join('\n');
+
   // ---- Colors -------------------------------------------------------------
 
   protected readonly colors: DmStepperColor[] = [
@@ -267,6 +295,22 @@ export class StepperPageComponent {
     '<dm-stepper color="danger" [activeStep]="1">…</dm-stepper>',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmStepperColor, DmStepperComponent, DmStepComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-stepper-colors',",
+    '  imports: [DmStepperComponent, DmStepComponent],',
+    "  templateUrl: './stepper-colors.component.html',",
+    '})',
+    'export class StepperColorsComponent {',
+    '  protected readonly colors: DmStepperColor[] = [',
+    "    'default', 'primary', 'secondary', 'success', 'warning', 'danger',",
+    '  ];',
+    '}',
+  ].join('\n');
+
   // ---- Sizes --------------------------------------------------------------
 
   protected readonly sizes: DmStepperSize[] = ['sm', 'md', 'lg'];
@@ -275,6 +319,20 @@ export class StepperPageComponent {
     '<dm-stepper size="sm" [activeStep]="1">…</dm-stepper>',
     '<dm-stepper size="md" [activeStep]="1">…</dm-stepper>',
     '<dm-stepper size="lg" [activeStep]="1">…</dm-stepper>',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmStepperSize, DmStepperComponent, DmStepComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-stepper-sizes',",
+    '  imports: [DmStepperComponent, DmStepComponent],',
+    "  templateUrl: './stepper-sizes.component.html',",
+    '})',
+    'export class StepperSizesComponent {',
+    "  protected readonly sizes: DmStepperSize[] = ['sm', 'md', 'lg'];",
+    '}',
   ].join('\n');
 
   // ---- Global defaults ----------------------------------------------------

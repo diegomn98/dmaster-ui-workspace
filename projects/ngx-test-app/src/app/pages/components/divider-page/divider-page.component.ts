@@ -97,10 +97,34 @@ export class DividerPageComponent {
     '<p>Semantic tokens for every color in both themes.</p>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmDividerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-divider-basic',",
+    '  imports: [DmDividerComponent],',
+    "  templateUrl: './divider-basic.component.html',",
+    '})',
+    'export class DividerBasicComponent {}',
+  ].join('\n');
+
   protected readonly withLabelCode = [
     '<dm-divider labelPlacement="start">Start</dm-divider>',
     '<dm-divider>Center</dm-divider>',
     '<dm-divider labelPlacement="end">End</dm-divider>',
+  ].join('\n');
+
+  protected readonly withLabelTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmDividerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-divider-labels',",
+    '  imports: [DmDividerComponent],',
+    "  templateUrl: './divider-labels.component.html',",
+    '})',
+    'export class DividerLabelsComponent {}',
   ].join('\n');
 
   protected readonly verticalCode = [
@@ -111,6 +135,18 @@ export class DividerPageComponent {
     '  <dm-divider orientation="vertical" />',
     '  <span>Changelog</span>',
     '</div>',
+  ].join('\n');
+
+  protected readonly verticalTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmDividerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-divider-vertical',",
+    '  imports: [DmDividerComponent],',
+    "  templateUrl: './divider-vertical.component.html',",
+    '})',
+    'export class DividerVerticalComponent {}',
   ].join('\n');
 
   protected readonly compositionCode = [
@@ -160,23 +196,7 @@ export class DividerPageComponent {
     '    DmFormFieldComponent,',
     '    DmInputDirective,',
     '  ],',
-    '  template: `',
-    '    <dm-card style="max-width: 22rem">',
-    '      <dm-button variant="bordered">Continue with Google</dm-button>',
-    '',
-    '      <!-- The label turns a plain rule into a labelled "OR" seam -->',
-    '      <dm-divider>OR</dm-divider>',
-    '',
-    '      <dm-form-field label="Email">',
-    '        <input dmInput type="email" placeholder="you@acme.com" />',
-    '      </dm-form-field>',
-    '      <dm-form-field label="Password">',
-    '        <input dmInput type="password" />',
-    '      </dm-form-field>',
-    '',
-    '      <dm-button color="primary">Sign in</dm-button>',
-    '    </dm-card>',
-    '  `,',
+    "  templateUrl: './sign-in.component.html',",
     '})',
     'export class SignInComponent {}',
   ].join('\n');

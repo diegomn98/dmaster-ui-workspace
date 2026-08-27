@@ -1,0 +1,248 @@
+@use 'mixins';
+
+$topbar-height: 4rem;
+
+.stb {
+  position: sticky;
+  top: 0;
+  z-index: var(--dm-z-sticky);
+  border-bottom: 1px solid var(--dm-border);
+  background: color-mix(in srgb, var(--dm-bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+
+  // El sticky ya es contenedor de posicionamiento: el menú absoluto se
+  // ancla a la barra (flota, NO empuja el contenido de la página).
+}
+
+.stb__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-4);
+  height: $topbar-height;
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: var(--dm-space-4);
+
+  @include mixins.respond-to(md) {
+    padding-inline: var(--dm-space-8);
+  }
+}
+
+// Grupo de cabeza (izquierda): hamburguesa + marca, igual que el shell de docs.
+.stb__lead {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+}
+
+.stb__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--dm-radius-sm);
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.stb__brand-mark {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+}
+
+// En móvil solo el monograma: la fila lleva idioma + GitHub + theme + menú
+// (siempre visibles) y el nombre no cabe en 360–390px.
+.stb__brand-name {
+  display: none;
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.01em;
+
+  @include mixins.respond-to(sm) {
+    display: inline;
+  }
+}
+
+// Nav inline y acciones completas: solo escritorio. En móvil viven en el
+// panel desplegable (la fila queda limpia: marca + theme + hamburguesa).
+.stb__nav {
+  display: none;
+
+  @include mixins.respond-to(sm) {
+    display: flex;
+    align-items: center;
+    gap: var(--dm-space-1);
+    margin-left: var(--dm-space-2);
+  }
+}
+
+.stb__link {
+  white-space: nowrap;
+  padding: var(--dm-space-2) var(--dm-space-3);
+  border-radius: var(--dm-radius-full);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg-muted);
+  text-decoration: none;
+
+  @include mixins.transition(background-color, color);
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+
+  &--active {
+    color: var(--dm-fg);
+    font-weight: var(--dm-font-semibold);
+  }
+}
+
+.stb__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-1);
+  margin-left: auto;
+
+  @include mixins.respond-to(sm) {
+    gap: var(--dm-space-2);
+  }
+}
+
+.stb__palette {
+  display: inline-flex;
+}
+
+.stb__icon {
+  // OBLIGATORIO junto a touch-target: su ::after es absoluto y sin un padre
+  // posicionado se ancla al header entero y roba los clicks de los vecinos.
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--dm-radius-full);
+  background: transparent;
+  color: var(--dm-fg-muted);
+  text-decoration: none;
+  cursor: pointer;
+
+  @include mixins.transition(background-color, color, transform);
+  @include mixins.touch-target;
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg);
+  }
+
+  &:active {
+    transform: scale(0.94);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+}
+
+.stb__burger {
+  @include mixins.respond-to(sm) {
+    display: none;
+  }
+}
+
+// =============================================================================
+// PANEL MÓVIL — overlay flotante bajo el header (no desplaza el contenido)
+// =============================================================================
+// Scrim: cubre el viewport bajo la barra para cerrar al tocar fuera y separar
+// visualmente el panel del contenido. Dentro del stacking context del header.
+.stb__scrim {
+  position: fixed;
+  inset: $topbar-height 0 0;
+  z-index: 0;
+  background: rgb(9 9 11 / 32%);
+  animation: stb-scrim-in var(--dm-duration-fast) var(--dm-ease-out);
+
+  @include mixins.respond-to(sm) {
+    display: none;
+  }
+}
+
+.stb__menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  border-bottom: 1px solid var(--dm-border);
+  background: var(--dm-bg);
+  padding: var(--dm-space-2) var(--dm-space-4) var(--dm-space-4);
+  box-shadow: var(--dm-shadow-lg);
+  transform-origin: top center;
+  animation: stb-menu-in var(--dm-duration-base) var(--dm-ease-out);
+
+  @include mixins.respond-to(sm) {
+    display: none;
+  }
+}
+
+@keyframes stb-scrim-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes stb-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+@include mixins.reduced-motion {
+  .stb__scrim,
+  .stb__menu {
+    animation: none;
+  }
+}
+
+.stb__menu-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.stb__menu-link {
+  padding: var(--dm-space-3) var(--dm-space-2);
+  border-radius: var(--dm-radius-md);
+  font-size: var(--dm-text-base);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg-muted);
+  text-decoration: none;
+
+  @include mixins.transition(background-color, color);
+
+  &:hover {
+    background: var(--dm-bg-muted);
+    color: var(--dm-fg);
+  }
+
+  &:focus-visible {
+    @include mixins.focus-ring;
+  }
+
+  &--active {
+    color: var(--dm-fg);
+    font-weight: var(--dm-font-semibold);
+  }
+}

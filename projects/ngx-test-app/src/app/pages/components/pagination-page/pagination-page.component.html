@@ -31,18 +31,18 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div class="demo-stack">
       <dm-pagination [totalPages]="10" [(page)]="basicPage" />
       <span class="demo-output">{{ page().labels['currentPage'] }} {{ basicPage() }}</span>
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['window']" [code]="windowCode">
+  <app-demo-block [heading]="page().labels['window']" [code]="windowCode" [ts]="windowTs">
     <dm-pagination [totalPages]="20" [siblingCount]="2" [boundaryCount]="2" [(page)]="windowPage" />
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-stack">
       <dm-pagination size="sm" [totalPages]="8" [(page)]="sizePage" />
       <dm-pagination size="md" [totalPages]="8" [(page)]="sizePage" />
@@ -50,7 +50,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode" [ts]="colorsTs">
     <div class="demo-stack">
       <dm-pagination color="primary" [totalPages]="6" [(page)]="colorPage" />
       <dm-pagination color="secondary" [totalPages]="6" [(page)]="colorPage" />
@@ -60,11 +60,15 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['noControls']" [code]="noControlsCode">
+  <app-demo-block
+    [heading]="page().labels['noControls']"
+    [code]="noControlsCode"
+    [ts]="noControlsTs"
+  >
     <dm-pagination [totalPages]="8" [showControls]="false" [(page)]="noControlsPage" />
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
+  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode" [ts]="disabledTs">
     <dm-pagination [totalPages]="8" [disabled]="true" [(page)]="disabledPage" />
   </app-demo-block>
 

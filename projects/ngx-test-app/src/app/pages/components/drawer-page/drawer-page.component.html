@@ -31,7 +31,11 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.positions" [code]="placementsCode">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.positions"
+    [code]="placementsCode"
+    [ts]="placementsTs"
+  >
     <div class="demo-row">
       <dm-button variant="flat" (clicked)="open({ placement: 'left' })">
         {{ page().labels['left'] }}
@@ -48,7 +52,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row">
       <dm-button variant="flat" (clicked)="open({ size: 'sm' })">
         {{ page().labels['sm'] }}
@@ -65,7 +69,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['persistent']" [code]="persistentCode">
+  <app-demo-block
+    [heading]="page().labels['persistent']"
+    [code]="persistentCode"
+    [ts]="persistentTs"
+  >
     <dm-button color="secondary" (clicked)="openPersistent()">
       {{ page().labels['openPersistent'] }}
     </dm-button>

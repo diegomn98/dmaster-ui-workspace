@@ -80,7 +80,6 @@ const ENTRIES = {
   'radio-group': ['DmRadioGroupComponent', 'DmRadioComponent'],
   select: ['DmSelectComponent'],
   autocomplete: ['DmAutocompleteComponent'],
-  'paginated-select': ['DmPaginatedSelectComponent'],
   'search-field': ['DmSearchFieldComponent'],
   'date-picker': ['DmDatePickerComponent'],
   'color-picker': ['DmColorPickerComponent'],

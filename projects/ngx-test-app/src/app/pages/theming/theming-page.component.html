@@ -1,0 +1,145 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.intro }}</p>
+  <h1 class="page__title">{{ i18n.t().shell.nav.theming }}</h1>
+  <p class="page__lead">{{ page().lead }}</p>
+</header>
+
+<!-- Overview -->
+<section class="page__section" aria-labelledby="overview">
+  <h2 class="page__section-title" id="overview">{{ page().sections.overview }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().overviewBody"></p>
+  <ul class="page__list">
+    @for (item of page().overviewHighlights; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+  <app-code-snippet [code]="overrideCode" language="css" />
+</section>
+
+<!-- Semantic tokens -->
+<section class="page__section" aria-labelledby="semantic-tokens">
+  <h2 class="page__section-title" id="semantic-tokens">{{ page().sections.semanticTokens }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().semanticBody"></p>
+
+  <p class="page__section-desc" [innerHTML]="page().surfaceTokens"></p>
+  <p class="page__section-desc" [innerHTML]="page().textTokens"></p>
+  <p class="page__section-desc" [innerHTML]="page().borderTokens"></p>
+  <p class="page__section-desc" [innerHTML]="page().shadowTokens"></p>
+
+  <app-code-snippet [code]="allTokensCode" language="css" />
+</section>
+
+<!-- Color system -->
+<section class="page__section" aria-labelledby="color-system">
+  <h2 class="page__section-title" id="color-system">{{ page().sections.colorSystem }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().colorSystemBody"></p>
+  <ul class="page__list">
+    @for (role of page().colorRoles; track $index) {
+      <li [innerHTML]="role"></li>
+    }
+  </ul>
+  <app-code-snippet [code]="colorRolesCode" language="css" />
+</section>
+
+<!-- Derived cascade -->
+<section class="page__section" aria-labelledby="derived-cascade">
+  <h2 class="page__section-title" id="derived-cascade">{{ page().sections.derivedCascade }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().derivedBody"></p>
+  <app-code-snippet [code]="cascadeCode" language="css" />
+  <app-code-snippet [code]="oklchCode" language="css" />
+  <p class="page__section-desc" [innerHTML]="page().derivedNote"></p>
+</section>
+
+<!-- Light & dark mode -->
+<section class="page__section" aria-labelledby="light-dark">
+  <h2 class="page__section-title" id="light-dark">{{ page().sections.lightDark }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().lightDarkBody"></p>
+  <ul class="page__list">
+    @for (item of page().lightDarkItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+  <app-code-snippet [code]="themeServiceCode" language="ts" />
+</section>
+
+<!-- Named themes -->
+<section class="page__section" aria-labelledby="named-themes">
+  <h2 class="page__section-title" id="named-themes">{{ page().sections.namedThemes }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().namedBody"></p>
+  <ul class="page__list">
+    @for (step of page().namedSteps; track $index) {
+      <li [innerHTML]="step"></li>
+    }
+  </ul>
+  <app-code-snippet [code]="namedThemeCode" language="ts" />
+  <app-code-snippet [code]="namedThemeCssCode" language="scss" />
+  <app-code-snippet [code]="namedThemeApplyCode" language="ts" />
+</section>
+
+<!-- Density -->
+<section class="page__section" aria-labelledby="density">
+  <h2 class="page__section-title" id="density">{{ page().sections.density }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().densityBody"></p>
+  <ul class="page__list">
+    @for (scale of page().densityScales; track $index) {
+      <li [innerHTML]="scale"></li>
+    }
+  </ul>
+  <app-code-snippet [code]="densityCode" language="ts" />
+</section>
+
+<!-- Motion & reduced motion -->
+<section class="page__section" aria-labelledby="motion">
+  <h2 class="page__section-title" id="motion">{{ page().sections.motion }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().motionBody"></p>
+  <ul class="page__list">
+    @for (token of page().motionTokens; track $index) {
+      <li [innerHTML]="token"></li>
+    }
+  </ul>
+  <app-code-snippet [code]="motionCode" language="scss" />
+  <p class="page__section-desc" [innerHTML]="page().motionNote"></p>
+  <app-code-snippet [code]="reducedMotionCode" language="ts" />
+</section>
+
+<!-- Per-component tokens -->
+<section class="page__section" aria-labelledby="component-tokens">
+  <h2 class="page__section-title" id="component-tokens">{{ page().sections.componentTokens }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().componentTokensBody"></p>
+  <ul class="page__list">
+    @for (item of page().componentTokensItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+  <app-code-snippet [code]="componentTokensCode" language="scss" />
+  <p class="page__section-desc" [innerHTML]="page().componentTokensNote"></p>
+</section>
+
+<!-- Overlay scoping -->
+<section class="page__section" aria-labelledby="overlay-scoping">
+  <h2 class="page__section-title" id="overlay-scoping">{{ page().sections.overlayScoping }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().overlayBody"></p>
+  <app-code-snippet [code]="overlayCode" language="ts" />
+  <app-code-snippet [code]="overlayStyleCode" language="scss" />
+  <p class="page__section-desc" [innerHTML]="page().overlayNote"></p>
+</section>
+
+<!-- What's next -->
+<section class="page__section" aria-labelledby="whats-next">
+  <h2 class="page__section-title" id="whats-next">{{ page().whatsNextTitle }}</h2>
+  <p class="page__section-desc">{{ page().whatsNextBody }}</p>
+  <div
+    style="display: flex; flex-wrap: wrap; gap: var(--dm-space-3); margin-top: var(--dm-space-3)"
+  >
+    <a routerLink="/component-tokens">
+      <dm-button color="primary" variant="shadow" size="lg">
+        {{ page().whatsNextCta }}
+      </dm-button>
+    </a>
+    <a routerLink="/components">
+      <dm-button color="default" variant="flat" size="lg">
+        {{ page().whatsNextCtaSecondary }}
+      </dm-button>
+    </a>
+  </div>
+</section>

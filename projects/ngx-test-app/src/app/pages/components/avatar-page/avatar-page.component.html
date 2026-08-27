@@ -29,7 +29,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row" style="align-items: center">
       <dm-avatar initials="DM" size="sm" />
       <dm-avatar initials="DM" size="md" />
@@ -38,7 +38,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['shapes']" [code]="shapesCode">
+  <app-demo-block [heading]="page().labels['shapes']" [code]="shapesCode" [ts]="shapesTs">
     <div class="demo-row" style="align-items: center">
       <dm-avatar [src]="team[0].src" [alt]="team[0].name" shape="circle" size="lg" />
       <dm-avatar [src]="team[0].src" [alt]="team[0].name" shape="square" size="lg" />
@@ -46,7 +46,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['fallbackHeading']" [code]="fallbackCode">
+  <app-demo-block
+    [heading]="page().labels['fallbackHeading']"
+    [code]="fallbackCode"
+    [ts]="fallbackTs"
+  >
     <div class="demo-row" style="align-items: center">
       <dm-avatar [src]="demoSrc" alt="Diego Maestro" initials="DM" />
       <dm-avatar initials="DM" alt="Diego Maestro" />
@@ -54,7 +58,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['group']" [code]="groupCode">
+  <app-demo-block [heading]="page().labels['group']" [code]="groupCode" [ts]="groupTs">
     <div style="display: flex; align-items: center; padding-left: 0.6rem">
       @for (u of team; track u.name) {
         <dm-avatar
@@ -87,7 +91,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['status']" [code]="statusCode">
+  <app-demo-block [heading]="page().labels['status']" [code]="statusCode" [ts]="statusTs">
     <div class="demo-row" style="align-items: center; gap: 1.25rem">
       <span style="position: relative; display: inline-flex">
         <dm-avatar [src]="team[0].src" [alt]="team[0].name + ' — online'" size="lg" />

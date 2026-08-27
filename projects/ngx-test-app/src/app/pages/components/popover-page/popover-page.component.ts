@@ -98,12 +98,36 @@ export class PopoverPageComponent {
     '</dm-popover>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-popover-basic',",
+    '  imports: [DmButtonComponent, DmPopoverComponent, DmPopoverTriggerDirective],',
+    "  templateUrl: './popover-basic.component.html',",
+    '})',
+    'export class PopoverBasicComponent {}',
+  ].join('\n');
+
   protected readonly placementsCode = [
     '<dm-button [dmPopoverTrigger]="pTop">top</dm-button>',
     '<dm-popover #pTop placement="top">Placed on top</dm-popover>',
     '',
     '<dm-button [dmPopoverTrigger]="pRight">right</dm-button>',
     '<dm-popover #pRight placement="right">Placed on the right</dm-popover>',
+  ].join('\n');
+
+  protected readonly placementsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-popover-placements',",
+    '  imports: [DmButtonComponent, DmPopoverComponent, DmPopoverTriggerDirective],',
+    "  templateUrl: './popover-placements.component.html',",
+    '})',
+    'export class PopoverPlacementsComponent {}',
   ].join('\n');
 
   protected readonly richCode = [
@@ -117,6 +141,30 @@ export class PopoverPageComponent {
     '</dm-popover>',
   ].join('\n');
 
+  protected readonly richTs = [
+    "import { Component } from '@angular/core';",
+    'import {',
+    '  DmButtonComponent,',
+    '  DmFormFieldComponent,',
+    '  DmInputDirective,',
+    '  DmPopoverComponent,',
+    '  DmPopoverTriggerDirective,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-popover-form',",
+    '  imports: [',
+    '    DmButtonComponent,',
+    '    DmFormFieldComponent,',
+    '    DmInputDirective,',
+    '    DmPopoverComponent,',
+    '    DmPopoverTriggerDirective,',
+    '  ],',
+    "  templateUrl: './popover-form.component.html',",
+    '})',
+    'export class PopoverFormComponent {}',
+  ].join('\n');
+
   protected readonly trapFocusCode = [
     '<dm-button [dmPopoverTrigger]="menu" variant="bordered">Actions</dm-button>',
     '',
@@ -125,6 +173,18 @@ export class PopoverPageComponent {
     '  <dm-button variant="light" size="sm">Duplicate</dm-button>',
     '  <dm-button variant="light" size="sm" color="danger">Delete</dm-button>',
     '</dm-popover>',
+  ].join('\n');
+
+  protected readonly trapFocusTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-popover-actions',",
+    '  imports: [DmButtonComponent, DmPopoverComponent, DmPopoverTriggerDirective],',
+    "  templateUrl: './popover-actions.component.html',",
+    '})',
+    'export class PopoverActionsComponent {}',
   ].join('\n');
 
   // Composition: user hover-card

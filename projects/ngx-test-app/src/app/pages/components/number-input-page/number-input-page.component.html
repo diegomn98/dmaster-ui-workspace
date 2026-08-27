@@ -44,7 +44,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4); align-items: flex-end">
       <div style="width: 14rem">
         <dm-number-input
@@ -61,7 +61,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['rangeHeading']" [code]="rangeCode">
+  <app-demo-block [heading]="page().labels['rangeHeading']" [code]="rangeCode" [ts]="rangeTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4); align-items: flex-end">
       <div style="width: 14rem">
         <dm-number-input
@@ -77,7 +77,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['decimalsHeading']" [code]="decimalsCode">
+  <app-demo-block
+    [heading]="page().labels['decimalsHeading']"
+    [code]="decimalsCode"
+    [ts]="decimalsTs"
+  >
     <div class="demo-grid demo-grid--2col" style="max-width: 32rem">
       <dm-number-input
         [label]="page().labels['hoursLabel']"
@@ -98,7 +102,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['formatHeading']" [code]="formatCode">
+  <app-demo-block [heading]="page().labels['formatHeading']" [code]="formatCode" [ts]="formatTs">
     <div style="display: grid; gap: var(--dm-space-4); width: 100%">
       <p class="page__section-desc" style="margin: 0" [innerHTML]="page().labels['formatNote']"></p>
       <div class="demo-grid demo-grid--2col" style="max-width: 32rem">
@@ -131,7 +135,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.variants"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
     <div class="demo-grid demo-grid--2col" style="max-width: 32rem">
       @for (v of variants; track v) {
         <dm-number-input [variant]="v" [label]="v" [value]="10" />
@@ -139,7 +147,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4); align-items: flex-end">
       @for (s of sizes; track s) {
         <div style="width: 9rem">
@@ -149,7 +157,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['keyboardHeading']" [code]="keyboardCode">
+  <app-demo-block
+    [heading]="page().labels['keyboardHeading']"
+    [code]="keyboardCode"
+    [ts]="keyboardTs"
+  >
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-6); align-items: flex-start">
       <div style="width: 12rem">
         <dm-number-input
@@ -208,7 +220,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode" [ts]="statesTs">
     <div class="demo-grid demo-grid--2col" style="max-width: 32rem">
       <dm-number-input [label]="page().labels['disabledLabel']" [value]="3" [disabled]="true" />
       <dm-number-input [label]="page().labels['readonlyLabel']" [value]="3" [readonly]="true" />

@@ -34,7 +34,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <dm-button [dmMenuTrigger]="basicMenu" variant="flat">Actions</dm-button>
     <dm-menu #basicMenu ariaLabel="Actions">
       <dm-menu-item (selected)="act('Edit')">Edit</dm-menu-item>
@@ -43,7 +43,7 @@
     </dm-menu>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['icons']" [code]="iconsCode">
+  <app-demo-block [heading]="page().labels['icons']" [code]="iconsCode" [ts]="iconsTs">
     <dm-button [dmMenuTrigger]="iconMenu" variant="flat">Edit</dm-button>
     <dm-menu #iconMenu ariaLabel="Edit">
       <dm-menu-item shortcut="⌘C" (selected)="act('Copy')">
@@ -57,7 +57,7 @@
     </dm-menu>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['sections']" [code]="sectionsCode">
+  <app-demo-block [heading]="page().labels['sections']" [code]="sectionsCode" [ts]="sectionsTs">
     <dm-button [dmMenuTrigger]="sectionMenu" variant="flat">Account</dm-button>
     <dm-menu #sectionMenu ariaLabel="Account">
       <dm-menu-section heading="Account">
@@ -69,7 +69,7 @@
     </dm-menu>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['danger']" [code]="dangerCode">
+  <app-demo-block [heading]="page().labels['danger']" [code]="dangerCode" [ts]="dangerTs">
     <dm-button [dmMenuTrigger]="dangerMenu" variant="flat">File</dm-button>
     <dm-menu #dangerMenu ariaLabel="File">
       <dm-menu-item (selected)="act('Rename')">Rename</dm-menu-item>
@@ -78,7 +78,11 @@
     </dm-menu>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['persistent']" [code]="persistentCode">
+  <app-demo-block
+    [heading]="page().labels['persistent']"
+    [code]="persistentCode"
+    [ts]="persistentTs"
+  >
     <dm-button [dmMenuTrigger]="persistentMenu" variant="flat">Format</dm-button>
     <dm-menu #persistentMenu ariaLabel="Format" [closeOnSelect]="false">
       <dm-menu-item (selected)="act('Bold')">Bold</dm-menu-item>

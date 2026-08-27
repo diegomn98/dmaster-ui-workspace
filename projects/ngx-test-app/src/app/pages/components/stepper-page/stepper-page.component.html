@@ -76,7 +76,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode">
+  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode" [ts]="verticalTs">
     <div style="width: 100%; max-width: 26rem">
       <dm-stepper
         orientation="vertical"
@@ -155,7 +155,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode" [ts]="statesTs">
     <div style="width: 100%; max-width: 40rem">
       <dm-stepper [(activeStep)]="statesActive" [ariaLabel]="page().labels['statesAria']">
         <dm-step [label]="page().labels['completedStep']" completed>
@@ -191,7 +191,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode" [ts]="colorsTs">
     <div style="width: 100%; max-width: 34rem; display: grid; gap: 1.25rem">
       @for (color of colors; track color) {
         <dm-stepper [color]="color" size="sm" [activeStep]="1" [ariaLabel]="color">
@@ -203,7 +203,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div style="width: 100%; max-width: 34rem; display: grid; gap: 1.5rem">
       @for (size of sizes; track size) {
         <dm-stepper [size]="size" [activeStep]="1" [ariaLabel]="size">

@@ -148,17 +148,67 @@ export class SearchFieldPageComponent {
     '<dm-search-field label="Search" placeholder="Search…" [(value)]="query" />',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-basic-search',",
+    '  imports: [DmSearchFieldComponent],',
+    "  templateUrl: './basic-search.component.html',",
+    '})',
+    'export class BasicSearchComponent {',
+    "  protected readonly query = signal('');",
+    '}',
+  ].join('\n');
+
   protected readonly variantsCode = VARIANTS.map(
     (v) => `<dm-search-field variant="${v}" [label]="'${v}'" placeholder="Search…" />`,
   ).join('\n');
+
+  protected readonly variantsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-search-variants',",
+    '  imports: [DmSearchFieldComponent],',
+    "  templateUrl: './search-variants.component.html',",
+    '})',
+    'export class SearchVariantsComponent {}',
+  ].join('\n');
 
   protected readonly colorsCode = COLORS.map(
     (c) => `<dm-search-field color="${c}" [label]="'${c}'" value="query" />`,
   ).join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-search-colors',",
+    '  imports: [DmSearchFieldComponent],',
+    "  templateUrl: './search-colors.component.html',",
+    '})',
+    'export class SearchColorsComponent {}',
+  ].join('\n');
+
   protected readonly sizesCode = ['sm', 'md', 'lg']
     .map((s) => `<dm-search-field size="${s}" placeholder="Search…" />`)
     .join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-search-sizes',",
+    '  imports: [DmSearchFieldComponent],',
+    "  templateUrl: './search-sizes.component.html',",
+    '})',
+    'export class SearchSizesComponent {}',
+  ].join('\n');
 
   protected readonly eventsCode = [
     '<dm-search-field',
@@ -170,10 +220,46 @@ export class SearchFieldPageComponent {
     '/>',
   ].join('\n');
 
-  protected readonly formsCode = [
-    'control = new FormControl("", { nonNullable: true });',
+  protected readonly eventsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui';",
     '',
+    '@Component({',
+    "  selector: 'app-search-events',",
+    '  imports: [DmSearchFieldComponent],',
+    "  templateUrl: './search-events.component.html',",
+    '})',
+    'export class SearchEventsComponent {',
+    "  protected readonly query = signal('');",
+    "  protected readonly lastEvent = signal('—');",
+    '',
+    '  protected onSubmit(value: string): void {',
+    '    this.lastEvent.set(`search: "${value}"`);',
+    '  }',
+    '',
+    '  protected onCleared(): void {',
+    "    this.lastEvent.set('cleared');",
+    '  }',
+    '}',
+  ].join('\n');
+
+  protected readonly formsCode = [
     '<dm-search-field label="Search" placeholder="Search…" [formControl]="control" />',
+  ].join('\n');
+
+  protected readonly formsTs = [
+    "import { Component } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-search-forms',",
+    '  imports: [DmSearchFieldComponent, ReactiveFormsModule],',
+    "  templateUrl: './search-forms.component.html',",
+    '})',
+    'export class SearchFormsComponent {',
+    "  protected readonly control = new FormControl('', { nonNullable: true });",
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

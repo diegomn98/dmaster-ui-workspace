@@ -17,6 +17,8 @@ export const FR: DashboardTranslations = {
       home: 'Accueil',
       overview: 'Aperçu',
       gettingStarted: 'Démarrer',
+      theming: 'Theming',
+      componentTokens: 'Tokens de composant',
       primitives: 'Primitives',
       layout: 'Layout',
       buttons: 'Boutons',
@@ -42,7 +44,6 @@ export const FR: DashboardTranslations = {
       colorPicker: 'Sélecteur de couleur',
       select: 'Select',
       autocomplete: 'Autocomplete',
-      paginatedSelect: 'Select paginé',
       radioGroup: 'Radio Group',
       tabs: 'Tabs',
       table: 'Table',
@@ -107,6 +108,8 @@ export const FR: DashboardTranslations = {
   home: {
     navDocs: 'Docs',
     navComponents: 'Composants',
+    navRoadmap: 'Feuille de route',
+    navBlog: 'Blog',
     footerRights: 'Licence MIT © 2026 Diego Maestro',
     heroChipAngular: 'Angular 20+',
     heroChipMit: 'Licence MIT',
@@ -241,6 +244,9 @@ export const FR: DashboardTranslations = {
     ],
     colorsNote:
       'Surchargez <code>--dm-primary</code> dans votre <code>:root</code> et chaque bouton, focus ring et contrôle checked se re-skin en une ligne.',
+    namedThemesTitle: 'Thèmes nommés personnalisés',
+    namedThemesBody:
+      "Pour une palette alternative complète commutable au runtime, enregistrez un <strong>thème nommé</strong> avec <code>provideDmasterUI({ themes })</code>, définissez ses tokens sous un bloc <code>[data-dm-theme='…']</code> et appliquez-le par son nom avec <code>ThemeService.setTheme()</code> — clair/sombre restent intégrés.",
     animationBody:
       'La motion est centralisée dans un petit set de tokens de durée et d’easing — pour que toute la librairie bouge au même tempo.',
     animationItems: [
@@ -256,6 +262,143 @@ export const FR: DashboardTranslations = {
     whatsNextBody:
       'Vous êtes prêt. Parcourez les composants pour voir des previews en direct, des playgrounds, des tables d’API et des snippets copiables pour chacun.',
     whatsNextCta: 'Voir tous les composants',
+  },
+  theming: {
+    lead: 'Guide complet pour personnaliser @dmaster/ui — des overrides de couleur rapides aux thèmes de marque complets, échelles de densité et contrôle du motion.',
+    sections: {
+      overview: "Vue d'ensemble",
+      semanticTokens: 'Tokens sémantiques',
+      colorSystem: 'Système de couleurs',
+      derivedCascade: 'Cascade dérivée',
+      lightDark: 'Mode clair et sombre',
+      namedThemes: 'Thèmes nommés',
+      density: 'Densité',
+      motion: 'Motion et reduced motion',
+      componentTokens: 'Tokens par composant',
+      overlayScoping: 'Scoping des overlays',
+    },
+    overviewBody:
+      "Toute la surface visuelle de @dmaster/ui est pilotée par des <strong>CSS custom properties</strong>. Il n'y a pas de Sass à compiler, pas de plugin de build à brancher, pas de pipeline de design tokens à maintenir. Surchargez un token en CSS pur et la cascade fait le reste — chaque composant qui lit ce token se met à jour instantanément, en clair comme en sombre.",
+    overviewHighlights: [
+      "<strong>CSS custom properties pures</strong> — pas de compilation Sass, pas d'outils de build requis. Fonctionne dans n'importe quel fichier CSS ou bloc <code>style</code> inline.",
+      '<strong>Un override de couleur re-dérive toute la famille</strong> — hover, texte sur solid et remplissage subtle sont calculés automatiquement via OKLCH relative color syntax.',
+      '<strong>~300 tokens par composant</strong> pour un contrôle granulaire — radius, hauteur, fond, espacement et plus pour chaque composant.',
+      '<strong>Thèmes nommés avec changement au runtime</strong> — enregistrez des palettes alternatives avec <code>provideDmasterUI()</code> et changez avec des signals au runtime.',
+    ],
+    semanticBody:
+      "La couche de fondation est un set d'environ 30 tokens sémantiques qui décrivent surfaces, texte, bordures et ombres. Ils sont définis une fois dans <code>:root</code> (thème clair) et redéfinis sous <code>[data-dm-theme='dark']</code>. Tous les composants de la librairie lisent ces tokens — jamais de couleurs en dur.",
+    surfaceTokens:
+      "<strong>Surfaces</strong> — quatre niveaux d'élévation pour les layouts en couches : <code>--dm-bg</code> (base de page), <code>--dm-bg-subtle</code> (zones en creux, blocs de code), <code>--dm-bg-muted</code> (remplissages d'input, fonds hover) et <code>--dm-bg-elevated</code> (cards, popovers, panneaux élevés).",
+    textTokens:
+      '<strong>Texte</strong> — trois niveaux de contraste : <code>--dm-fg</code> (texte principal), <code>--dm-fg-muted</code> (labels secondaires, descriptions) et <code>--dm-fg-subtle</code> (placeholders, états désactivés). Tous maintiennent des ratios de contraste WCAG AA sur leurs surfaces respectives.',
+    borderTokens:
+      "<strong>Bordures</strong> — <code>--dm-border</code> pour les séparateurs standard et contours d'input, et <code>--dm-border-strong</code> pour les diviseurs appuyés.",
+    shadowTokens:
+      '<strong>Ombres</strong> — <code>--dm-shadow-sm</code>, <code>--dm-shadow-md</code>, <code>--dm-shadow-lg</code> et <code>--dm-shadow-xl</code>. Chacune ajustée pour les deux thèmes — en sombre les ombres sont plus profondes et opaques pour rester visibles sur les surfaces sombres.',
+    colorSystemBody:
+      "La librairie fournit <strong>six couleurs sémantiques</strong>, chacune avec cinq variantes de rôle. Utilisez le token de base pour les remplissages et accents, et les variantes de rôle quand vous avez besoin d'un contraste ou traitement de surface spécifique.",
+    colorRoles: [
+      '<strong>Base</strong> (<code>--dm-primary</code>) — remplissages solides, bordures, icônes. La teinte de référence de la famille.',
+      '<strong>Hover</strong> (<code>--dm-primary-hover</code>) — état hover interactif. Légèrement plus foncé (thème clair) ou plus clair (thème sombre) que la base.',
+      '<strong>Foreground</strong> (<code>--dm-primary-fg</code>) — texte qui se pose sur un remplissage de couleur solide (p. ex. blanc sur bouton bleu). Garanti WCAG AA.',
+      '<strong>Subtle</strong> (<code>--dm-primary-subtle</code>) — fond teinté pour les variantes flat/light (badges, alertes, chips). Généré via <code>color-mix</code> avec la base à alpha contrôlé.',
+      '<strong>Text</strong> (<code>--dm-primary-text</code>) — texte sur un fond <code>-subtle</code>. Assombri en clair, éclairci en sombre pour maintenir le contraste AA.',
+    ],
+    derivedBody:
+      "C'est le différenciateur clé du système de theming. Les variantes <code>-hover</code> et <code>-text</code> ne sont pas des valeurs hex choisies à la main — elles sont <strong>dérivées au moment du rendu</strong> depuis la couleur de base via la <strong>syntaxe OKLCH relative color</strong>. La formule fixe la luminosité perceptuelle tout en préservant la teinte et en mettant la chroma à l'échelle pour rester en gamut. Comme la luminosité domine le contraste WCAG, les valeurs dérivées passent AA pour <em>n'importe quelle</em> couleur de marque que vous branchez — pas seulement les valeurs par défaut de la librairie.",
+    derivedNote:
+      "La cascade est calibrée à <=3/255 de drift par canal par rapport aux hex originaux ajustés à la main, avec des ratios de contraste WCAG préservés à +/-0.02. Surchargez <code>--dm-primary</code> avec n'importe quelle couleur et les variantes hover, text et subtle se re-dérivent automatiquement — pas de rebuild, pas de Sass, pas de tokens supplémentaires à maintenir.",
+    lightDarkBody:
+      '<code>ThemeService</code> gère le thème actif comme un signal réactif Angular. La valeur du thème est posée comme attribut <code>data-dm-theme</code> sur <code>&lt;html&gt;</code>, donc chaque token CSS bascule instantanément. Le choix est persisté dans <code>localStorage</code> et un script inline anti-FOUC dans <code>index.html</code> le lit avant le premier paint, éliminant le flash de mauvais thème au rechargement.',
+    lightDarkItems: [
+      "<code>theme()</code> — retourne la valeur brute que l'utilisateur a choisie (<code>'auto'</code>, <code>'light'</code>, <code>'dark'</code> ou un thème nommé).",
+      "<code>resolvedTheme()</code> — retourne ce qui est réellement posé sur <code>&lt;html&gt;</code>. Quand <code>theme()</code> est <code>'auto'</code>, cela résout en <code>'light'</code> ou <code>'dark'</code> selon <code>prefers-color-scheme</code>.",
+      "<code>scheme()</code> — le scheme de base (<code>'light'</code> ou <code>'dark'</code>) du thème actif. Pour les thèmes nommés, cela vient du champ <code>scheme</code> dans la définition du thème.",
+      '<code>toggle()</code> — bascule entre clair et sombre. Lit <code>scheme()</code> en interne, donc fonctionne correctement pour les thèmes nommés aussi.',
+      "<code>setTheme(name)</code> — applique n'importe quel thème par nom : <code>'light'</code>, <code>'dark'</code>, <code>'auto'</code> ou un nom custom enregistré avec <code>provideDmasterUI()</code>.",
+      '<code>themes()</code> — retourne tous les thèmes enregistrés (built-in + custom), idéal pour construire un picker de thèmes.',
+    ],
+    namedBody:
+      "Pour des palettes alternatives complètes avec marque, les <strong>thèmes nommés</strong> permettent d'enregistrer autant de thèmes custom que souhaité et de basculer entre eux au runtime. Chaque thème nommé déclare un <code>scheme</code> de base (light ou dark) pour que <code>toggle()</code> et <code>scheme()</code> continuent de fonctionner correctement.",
+    namedSteps: [
+      "<strong>1. Enregistrer le thème</strong> — passez un record <code>themes</code> à <code>provideDmasterUI()</code>. Chaque entrée a besoin d'un <code>scheme</code> (<code>'light'</code> ou <code>'dark'</code>) et d'un <code>label</code> lisible.",
+      "<strong>2. Rédiger les tokens CSS</strong> — écrivez un bloc <code>[data-dm-theme='votre-nom']</code> dans votre feuille de styles globale. Surchargez uniquement les tokens qui diffèrent du scheme de base ; le reste hérite.",
+      "<strong>3. Appliquer par nom</strong> — appelez <code>ThemeService.setTheme('votre-nom')</code>. L'attribut change sur <code>&lt;html&gt;</code> et le CSS prend le relais. Utilisez <code>ThemeService.themes()</code> pour alimenter un picker.",
+    ],
+    densityBody:
+      'La densité contrôle le padding vertical, le gap et la hauteur des composants interactifs. Trois échelles sont disponibles — configurez une fois avec <code>provideDmasterUI({ density })</code> ou changez au runtime avec <code>DensityService</code>. La densité active est posée comme <code>data-dm-density</code> sur <code>&lt;html&gt;</code> et pilote les tokens <code>--dm-control-height-*</code>.',
+    densityScales: [
+      '<strong>Compact</strong> — padding plus serré et hauteurs réduites. Idéal pour les vues denses en données comme les tableaux et dashboards.',
+      '<strong>Comfortable</strong> (par défaut) — espacement équilibré pour les apps à usage général.',
+      '<strong>Spacious</strong> — padding et hauteurs plus généreux. Meilleur pour les UIs grand public et les touch targets.',
+    ],
+    motionBody:
+      'Les transitions et animations lisent un petit set de tokens centralisés. Cela maintient toute la librairie au même tempo et rend trivial le fait de ralentir, accélérer ou désactiver le motion globalement.',
+    motionTokens: [
+      '<code>--dm-duration-fast</code> (120 ms) — micro-interactions : toggles de checkbox, focus rings, presses de bouton.',
+      '<code>--dm-duration-base</code> (180 ms) — transitions standard : révélé de panneaux, changements de couleur, états hover.',
+      "<code>--dm-duration-slow</code> (280 ms) — mouvements plus amples : slides de drawer, expansions d'accordion, transitions de page.",
+      "<code>--dm-ease-out</code> — décélération naturelle, utilisée pour la plupart des transitions d'entrée.",
+      "<code>--dm-ease-snappy</code> — courbe élastique pour l'effet de press du bouton (<code>scale(0.92-0.97)</code>).",
+      '<code>--dm-ease-in-out</code> — courbe symétrique pour les animations en boucle et les états toggle.',
+    ],
+    motionNote:
+      "Sous <code>prefers-reduced-motion: reduce</code>, les trois tokens de durée passent à <code>0ms</code> automatiquement — zéro opt-in requis. Les animations qui n'utilisent pas ces tokens sont désactivées via le mixin Sass <code>reduced-motion</code>. Le <code>ReducedMotionService</code> expose un signal <code>reducedMotion()</code> pour les checks au runtime.",
+    componentTokensBody:
+      "Au-delà des tokens sémantiques globaux, chaque composant expose son propre set de tokens <code>--dm-&lt;composant&gt;-*</code> pour un contrôle fin. Ils sont consommés dans le composant avec un fallback verbatim, donc ils rendent le look par défaut out of the box et votre override gagne à n'importe quel scope.",
+    componentTokensItems: [
+      'Les tokens suivent la convention <code>--dm-&lt;composant&gt;-&lt;partie&gt;-&lt;propriété&gt;[-&lt;état&gt;]</code> (p. ex. <code>--dm-button-radius</code>, <code>--dm-switch-track-bg-checked</code>).',
+      'La page de documentation de chaque composant inclut une table <strong>Design tokens</strong> listant tous ses tokens avec leurs valeurs par défaut et descriptions.',
+      "Surchargez à n'importe quel scope : globalement dans <code>:root</code>, par thème dans <code>[data-dm-theme='...']</code>, ou par instance sur l'élément host. La cascade CSS contrôle la portée.",
+    ],
+    componentTokensNote:
+      "Ces tokens font partie de l'API publique. Les renommer ou les supprimer est un breaking change. Le SCSS du composant ne met jamais de valeur en dur sans un token fallback — c'est ce qui rend le theming possible sans forker.",
+    overlayBody:
+      "Les overlays (dialog, drawer, toast, tooltip, popover, panel de select, menu) sont portalisés à la racine du document par l'Angular CDK. Cela signifie qu'ils sont <strong>en dehors</strong> de tout override avec scope de sous-arbre. Les overrides globaux de tokens et les thèmes nommés fonctionnent (ils sont posés sur <code>&lt;html&gt;</code>), mais un override de sous-arbre n'atteindra pas le panneau de l'overlay.",
+    overlayNote:
+      "Pour appliquer un thème avec scope à l'intérieur d'un overlay, passez la classe CSS via <code>panelClass</code> sur <code>DmDialogConfig</code> ou <code>DmDrawerConfig</code>. La classe est fusionnée avec les classes structurelles de la librairie et se pose directement sur le pane de l'overlay CDK — votre sélecteur atteint ainsi le contenu du panneau.",
+    whatsNextTitle: 'Étapes suivantes',
+    whatsNextBody:
+      "Plongez dans les tokens par composant — chaque composant possède son propre ensemble de propriétés CSS personnalisables pour un contrôle précis du radius, de la hauteur, de l'espacement et plus encore.",
+    whatsNextCta: 'Explorer les tokens de composant',
+    whatsNextCtaSecondary: 'Voir tous les composants',
+  },
+  componentTokens: {
+    lead: 'Chaque composant expose des custom properties <code>--dm-&lt;composant&gt;-*</code> pour un contrôle visuel granulaire. Surchargez-les globalement, par thème ou par instance — sans Sass, sans étape de build.',
+    totalTokensLabel: 'design tokens dans tous les composants',
+    sections: {
+      howItWorks: 'Comment ça marche',
+      globalOverride: 'Surcharge globale',
+      scopedOverride: 'Surcharge avec scope',
+      perThemeOverride: 'Surcharge par thème',
+      overlayScoping: 'Scoping des overlays',
+      reference: 'Référence des tokens',
+    },
+    howItWorksBody:
+      "Chaque composant consomme ses tokens avec un <strong>fallback verbatim</strong>. Le fallback est la valeur par défaut que le composant affiche. Quand vous définissez la custom property à n'importe quel niveau, la cascade CSS remplace le fallback.",
+    howItWorksPattern:
+      'La convention de nommage est <code>--dm-&lt;composant&gt;-&lt;partie&gt;-&lt;propriété&gt;[-&lt;état&gt;]</code>. Par exemple : <code>--dm-button-radius</code>, <code>--dm-switch-track-bg-checked</code>, <code>--dm-table-row-bg-hover</code>.',
+    globalBody:
+      'Définissez un token sur <code>:root</code> (ou sur un sélecteur de thème comme <code>[data-dm-theme="midnight"]</code>) et chaque instance de ce composant hérite de la surcharge.',
+    scopedBody:
+      "Définissez un token sur un sous-arbre et seuls les composants à l'intérieur de ce sous-arbre sont affectés. Le reste de la page garde la valeur par défaut.",
+    perThemeBody:
+      "Définissez des tokens dans un sélecteur <code>[data-dm-theme]</code> et ils ne s'activent que lorsque ce thème est actif. Combinez avec les thèmes nommés pour une surcharge de marque complète.",
+    overlayBody:
+      "Les overlays sont portalisés à la racine du document, donc les surcharges de sous-arbre ne les atteignent pas. Utilisez <code>panelClass</code> dans la configuration du service (<code>DmDialogConfig</code>, <code>DmDrawerConfig</code>) pour cibler les panneaux d'overlay.",
+    referenceBody:
+      'Tous les tokens publics par composant, groupés par catégorie. La colonne <strong>Default</strong> affiche la valeur de fallback du SCSS du composant.',
+    referenceCategories: {
+      primitives: 'Primitifs',
+      layout: 'Layout',
+      feedback: 'Feedback',
+      buttons: 'Boutons',
+      forms: 'Formulaires',
+      navigation: 'Navigation',
+      dataDisplay: 'Affichage de données',
+      overlays: 'Overlays',
+    },
+    backToTheming: 'Retour au Theming',
   },
   skeletonPage: {
     lead: "Placeholder de chargement qui imite la forme du contenu qu'il remplace. Zéro dépendance externe, accessible par défaut, avec des animations qui respectent <code>prefers-reduced-motion</code>.",
@@ -323,6 +466,188 @@ export const FR: DashboardTranslations = {
       clicked: 'Émis au clic, uniquement quand le bouton est interactif (ni disabled ni loading).',
     },
     asyncButtonLabel: 'Enregistrer',
+  },
+  roadmap: {
+    eyebrow: 'Feuille de route',
+    nowLabel: 'Maintenant',
+    board: {
+      backlog: 'Backlog',
+      inProgress: 'En cours',
+      done: 'Terminé',
+      backlogMeta: 'planifié — rien ici ne casse votre code',
+      inProgressMeta: 'route vers la 1.0',
+      doneMeta: 'publié et stable',
+      targetTitle: 'Une API stable',
+      targetSub: 'Trois choses nous en séparent.',
+    },
+    rail: {
+      foundations: 'Fondations',
+      forms: 'Formulaires et overlays',
+      catalogue: 'Catalogue complet',
+      current: 'Rampe de surfaces · OTP',
+      theming: 'Thèmes nommés et tokens',
+    },
+    focusItems: {
+      freezeTitle: 'Gel de la surface d’API',
+      freezeDesc:
+        'Passe de cohérence sur les {count} composants — noms des inputs/outputs, defaults injectables, parité entre composants frères.',
+      deprecationTitle: 'Politique de dépréciation',
+      deprecationDesc: 'Une règle écrite sur l’évolution de l’API après la 1.0.',
+      docsTitle: 'Docs et étude de cas',
+      docsDesc: 'Article d’ingénierie + modèles StackBlitz prêts à copier.',
+    },
+    statusInProgress: 'En cours',
+    statusQueued: 'En attente',
+    gatesTitle: 'Portes de qualité',
+    gates: {
+      a11y: 'axe WCAG 2.1 AA · clair + sombre',
+      visual: 'Régression visuelle · conteneur épinglé',
+      consumer: 'Build d’intégration en vrai consommateur',
+      provenance: 'Provenance npm signée',
+    },
+    next: {
+      signalFormsTitle: 'Signal Forms',
+      signalFormsDesc:
+        'Support de première classe ; les contrôles CVA sont compatibles par conception.',
+      tagsTitle: 'Champ d’étiquettes',
+      tagsDesc: 'Saisie de tokens avec édition clavier et répartition au collage.',
+      textareaTitle: 'Textarea auto-ajustable',
+      textareaDesc: 'Grandit avec le contenu, de la même famille que les champs.',
+      contextMenuTitle: 'Menu contextuel',
+      contextMenuDesc: 'Clic droit / appui long, WAI-ARIA complet, sur CDK.',
+      scrollAreaTitle: 'Scroll-area',
+      scrollAreaDesc: 'Barres de défilement personnalisées et thémables pour les panneaux denses.',
+      splitterTitle: 'Splitter',
+      splitterDesc: 'Panneaux redimensionnables au clavier et au pointeur.',
+      themeBuilderTitle: 'Theme Builder',
+      themeBuilderDesc:
+        'Éditeur visuel qui exporte un bloc CSS prêt à coller pour les thèmes personnalisés.',
+    },
+    catForms: 'Formulaires',
+    catOverlay: 'Overlay',
+    catLayout: 'Layout',
+    catDx: 'DX',
+    footerTitle: 'Suivez le travail au fil des versions',
+    footerChangelog: 'Lire le changelog',
+    footerReleases: 'Releases GitHub',
+  },
+  blog: {
+    title: 'Blog',
+    latestLabel: 'Dernière',
+    rssTitle: 'Une nouvelle entrée arrive avec chaque release.',
+    rssDesc: 'Pas de formulaires, pas de tracking — juste le dépôt et un flux RSS.',
+    browseCta: 'Releases sur GitHub',
+    rssCta: 'Flux RSS',
+    filterAll: 'Toutes',
+    categories: {
+      a11y: 'Accessibilité',
+      performance: 'Performance',
+      testing: 'Tests',
+      architecture: 'Architecture',
+      release: 'Release',
+    },
+    articleBack: 'Toutes les entrées',
+    articleWhatShipped: 'Ce qui est sorti',
+    articleViewRelease: 'Voir la release sur GitHub',
+    articleViewChangelog: 'Changelog complet',
+    articleNewer: 'Plus récent',
+    articleOlder: 'Précédent',
+    articles: {
+      v08: {
+        title: 'Le vrai theming : thèmes nommés, ~300 tokens de design et un seul combobox',
+        lead: 'La plus grosse release de theming à ce jour — enregistrez des thèmes personnalisés nommés et changez-les au runtime, restylez n’importe quel composant via ~300 tokens CSS publics, et surchargez une couleur de marque pour re-dériver toute sa famille via OKLCH. En parallèle, dm-paginated-select a fusionné dans dm-select en mode async. Chaque rendu par défaut reste pixel-identique.',
+        bullets: [
+          "Thèmes nommés — enregistrez des palettes avec provideDmasterUI({ themes }), écrivez leurs tokens sous [data-dm-theme='nom'] et changez en direct avec ThemeService.setTheme()",
+          '~300 tokens de design par composant — chaque composant expose des custom properties publiques --dm-<composant>-*, surchargeables à n’importe quelle portée ; le rendu par défaut est pixel-identique',
+          'Tokens de couleur dérivés — surchargez --dm-primary et ses teintes hover/text/subtle se re-dérivent via OKLCH à une luminosité calibrée, en conservant WCAG AA pour des couleurs de marque arbitraires',
+          'BREAKING : dm-paginated-select fusionné dans dm-select — un seul combobox avec un mode async loadFn (rxResource : pages accumulées, défilement infini ou bouton, recherche serveur avec debounce, désormais aussi avec multiple)',
+          'Theming à portée dans les overlays — panelClass sur dialog/drawer porte la classe de thème d’un sous-arbre dans les overlays portalés',
+          'dm-select durci — focus du filtre corrigé, Échap en deux temps, défilement infini résistant aux erreurs, et annonces lecteur d’écran pour les états de chargement/vide',
+        ],
+      },
+      v07: {
+        title: 'Quatre nouveaux composants et une rampe de surfaces au vrai contraste',
+        lead: 'Quatre ajouts complètent le catalogue — empty-state, toggle-group, button-group et un champ OTP — et la rampe de surfaces sombre a été ré-espacée pour que fonds plats, chips et panneaux élevés se distinguent vraiment. Audité contre WCAG AA dans les deux thèmes.',
+        bullets: [
+          'dm-empty-state — icône + titre + description + actions, slot d’icône personnalisé, trois tailles',
+          'dm-toggle-group — contrôle segmenté : simple ou multiple, sémantique radiogroup ou aria-pressed',
+          'dm-button-group — barre attachée avec coutures de 1px et cascade couleur/variante/taille de groupe',
+          'dm-otp — cellules de code à usage unique avec répartition au collage et quatre variantes',
+          'Rampe ré-espacée : les paliers sombres se lisent entre eux ; le « muted » clair est visible sur blanc',
+          'Teintes réajustées : chaque paire texte/fond dépasse 4.5:1 — vérifié par axe en CI',
+        ],
+      },
+      v06: {
+        title: 'Six composants et un audit WCAG AA complet, dans les deux thèmes',
+        lead: 'Le catalogue est passé à 41 avec stepper, rating, tree, file-upload, timeline et number-input — et toute la bibliothèque est passée par axe-core contre WCAG 2.1 A + AA, en clair et en sombre, chaque constat corrigé et la suite câblée en CI comme porte dure.',
+        bullets: [
+          'dm-stepper — assistant linéaire ou libre avec états par étape et aria-current="step"',
+          'dm-tree — le patron WAI-ARIA complet : focus itinérant, clavier complet, multi-sélection',
+          'dm-rating, dm-file-upload, dm-timeline et dm-number-input rejoignent leurs familles',
+          'Nouveaux tokens --dm-{color}-text : des teintes vives aux étiquettes lisibles AA',
+          'axe-core tourne sur chaque PR — toutes les routes, deux thèmes, zéro violation exigée',
+        ],
+      },
+      v05: {
+        title: 'Autocomplete, sélection multiple et des chiffres de bundle honnêtes',
+        lead: 'Un autocomplete en texte libre a rejoint la famille des champs, dm-select a appris la sélection multiple, le filtre inline et les groupes, dm-table a gagné le défilement virtuel — et le README documente désormais le coût tree-shaken réel de chaque composant, mesuré avec le pipeline du CLI.',
+        bullets: [
+          'dm-autocomplete — tapez librement, filtrez les suggestions en overlay, gardez votre texte ou choisissez',
+          'dm-select : multiple (chips), filtrable, groupes et tout-sélectionner — additif ; le simple intact',
+          'Mode plage de dm-date-picker avec bande de prévisualisation au survol',
+          'Défilement virtuel de dm-table : des milliers de lignes dans un viewport CDK ; tri, recherche, sélection intacts',
+          'npm run size — un pipeline linker + minify qui révèle le vrai coût par composant',
+          'Standard des docs relevé : ~6 démos réalistes par page + une recette Composition de niveau produit',
+        ],
+      },
+      v04: {
+        title: 'La famille des champs grandit : date picker, color picker, icônes',
+        lead: 'Deux champs de poids — un calendrier bâti sur Intl pur, sans bibliothèque de dates, et un sélecteur de couleurs complet — plus dm-error, dm-search-field, et un système d’icônes à trois modes avec un set organisé sur son propre point d’entrée.',
+        bullets: [
+          'dm-date-picker : calcul de calendrier sans fuseau, semaines CLDR, DM_DATE_LOCALE réactif',
+          'dm-color-picker : zones saturation/teinte/alpha, hex éditable et échantillons — un champ CVA',
+          'dm-error : l’équivalent de mat-error ; dm-form-field câble aria-invalid/aria-describedby tout seul',
+          'dm-search-field : loupe, bouton d’effacement, Échap efface, Entrée envoie',
+          'dm-icon : ligatures Material Symbols, SVG enregistrés ou <svg> projeté — un primitif, trois modes',
+          '@dmaster/ui/icons : un set organisé d’environ 53 icônes outline originales, tree-shakeable',
+        ],
+      },
+      v03: {
+        title: 'Onze composants en une release : overlays, feedback, ⌘K',
+        lead: 'La plus grosse fournée : menu, popover, drawer et une palette de commandes sur le CDK, une nouvelle catégorie feedback avec progress et alert, plus slider, breadcrumbs, pagination, kbd et divider. Les releases ont aussi commencé à partir avec une provenance signée.',
+        bullets: [
+          'dm-menu : le patron WAI-ARIA de menu avec FocusKeyManager, type-ahead, sections et raccourcis',
+          'dm-command : une palette ⌘K — actions groupées et filtrables, raccourci global, focus trap',
+          'dm-popover avec une flèche qui suit le flip réel ; DmDrawerService avec quatre positions',
+          'Nouvelle catégorie feedback : dm-progress et dm-alert',
+          'dm-slider, dm-breadcrumbs, dm-pagination, dm-kbd et dm-divider',
+          'Les publications npm portent une provenance signée (Sigstore via OIDC de GitHub Actions)',
+        ],
+      },
+      v02: {
+        title: 'L’empaquetage bien fait : ng add, exports et sûreté SSR',
+        lead: 'Aucun nouveau composant — une release entièrement dédiée à être un bon citoyen npm : un ng add fonctionnel, des sous-chemins exports stricts pour les styles, du CSS précompilé pour les projets sans Sass, et des services cœur vérifiés côté serveur.',
+        bullets: [
+          'ng add @dmaster/ui : installe le CDK, enregistre les styles d’overlay et câble la feuille globale',
+          'Les styles résolvent sous un outillage exports strict : @dmaster/ui/styles/* (Vite, Nx, pnpm)',
+          'styles/dmaster-ui.css précompilé pour les projets sans Sass',
+          'rxjs déclaré peer explicite ; LICENSE et CHANGELOG voyagent dans le paquet',
+          'ThemeService, DensityService et ReducedMotionService vérifiés SSR-safe',
+        ],
+      },
+      v01: {
+        title: 'La surface publique initiale : 18 composants et un système de thèmes',
+        lead: 'Là où tout a commencé : dix-huit composants standalone à base de signals dans sept catégories, un thème par tokens avec clair/sombre/auto et trois densités, des defaults injectables par composant — et le langage visuel plat aux rayons pilule qui définit encore la bibliothèque.',
+        bullets: [
+          'Primitifs, layout, boutons, formulaires, navigation, data display et overlays — dès le premier jour',
+          'Chaque contrôle de formulaire est un ControlValueAccessor : template-driven et Reactive Forms',
+          'dm-table avec pipeline rechercher → trier → paginer ; dm-tabs avec indicateur glissant',
+          'Tokens --dm-*, clair/sombre/auto via data-dm-theme, trois densités via data-dm-density',
+          'provideDmasterUI() plus provideXxxDefaults() par composant',
+          'Fonds plats, rayons pilule, pression élastique — le langage visuel, fixé dès le premier commit',
+        ],
+      },
+    },
   },
   pages: {
     overview: {
@@ -728,15 +1053,16 @@ export const FR: DashboardTranslations = {
       },
     },
     select: {
-      lead: 'Dropdown avec une API couleur × variante. Sélection simple ou multiple avec chips, filtre inline optionnel, groupes d’options et tout sélectionner / tout effacer. Support clavier complet (flèches, Home/End, Enter, Escape, typeahead), panneau CDK ancré au trigger avec la même largeur, et intégration Reactive Forms via <code>ControlValueAccessor</code>.',
+      lead: 'Dropdown avec une API couleur × variante. Sélection simple ou multiple avec chips, filtre inline optionnel, groupes d’options et tout sélectionner / tout effacer. Support clavier complet (flèches, Home/End, Enter, Escape, typeahead), panneau CDK ancré au trigger avec la même largeur, et intégration Reactive Forms via <code>ControlValueAccessor</code>. Fournissez un <code>loadFn</code> et il devient <strong>server-driven</strong> : les options chargent par pages (scroll infini ou bouton), le filtre devient une recherche serveur avec debounce et les requêtes en vol s’annulent automatiquement.',
       apiCaption: 'Inputs de dm-select',
       defaultsDesc:
         'Changez les defaults de tous les <code>dm-select</code> avec le token <code>SELECT_DEFAULTS</code> ou le helper <code>provideSelectDefaults</code> :',
       a11yItems: [
         'Déclencheur avec <code>role="combobox"</code>, <code>aria-haspopup="listbox"</code>, <code>aria-expanded</code>, <code>aria-controls</code>, <code>aria-activedescendant</code>.',
         'Panneau avec <code>role="listbox"</code> ; chaque option porte <code>aria-selected</code> et <code>aria-disabled</code>.',
-        'Clavier complet : Enter/Espace ouvrent (ou sélectionnent), Escape ferme, ArrowUp/Down déplacent, Home/End sautent, Tab sort normalement, les caractères imprimables déclenchent le typeahead.',
+        'Clavier complet : Enter/Espace ouvrent (ou sélectionnent), Escape ferme, ArrowUp/Down déplacent, Home/End sautent, Tab sort normalement, les caractères imprimables déclenchent le typeahead. Avec un filtre, le premier Escape efface le texte et le second ferme.',
         'Les items disabled sont ignorés par le clavier et ne peuvent pas être cliqués.',
+        'Mode async : la listbox pose <code>aria-busy</code> pendant le chargement et une live region polite annonce l’état.',
       ],
       api: {
         items: 'Options plates ou groupes { label, items } rendus dans le panneau.',
@@ -764,6 +1090,16 @@ export const FR: DashboardTranslations = {
           'Affiche un bouton × pour effacer la sélection. Clavier : Suppr / Retour arrière.',
         clearAriaLabel:
           'Libellé ARIA du bouton d’effacement (localiser dans les apps multilingues).',
+        loadFn:
+          'Active le mode server-driven : les pages chargent via cette fonction retournant un Observable et items est ignoré.',
+        pageSize: 'Async : éléments demandés par page.',
+        searchDebounceMs: 'Async : ms de silence avant que le texte du filtre recharge la page 0.',
+        loadMoreMode: 'Async : infinite (IntersectionObserver) ou bouton Charger plus explicite.',
+        loadMoreLabel: 'Async : libellé du bouton Charger plus.',
+        loadingLabel: 'Async : libellé de la ligne de chargement et de la live region polite.',
+        selectedItems:
+          'Async : items connus pour résoudre les libellés quand la valeur sélectionnée n’est pas dans les pages chargées.',
+        filterClearAriaLabel: 'Libellé ARIA du bouton × qui efface le filtre.',
       },
       labels: {
         pet: 'Animal',
@@ -796,6 +1132,15 @@ export const FR: DashboardTranslations = {
         sendInvite: 'Envoyer l’invitation',
         inviteSending: 'Envoi…',
         inviteSent: 'Invitation envoyée',
+        asyncHeading: 'Server-driven (async)',
+        asyncButtonHeading: 'Async · Bouton charger plus',
+        loadFnHeading: 'Le contrat de loadFn',
+        assigneeLabel: 'Assigné',
+        assigneePlaceholder: 'Choisissez un utilisateur',
+        searchUsers: 'Rechercher des utilisateurs…',
+        loadingUsers: 'Chargement…',
+        noUsersFound: 'Aucun utilisateur',
+        loadMore: 'Charger plus',
       },
     },
     autocomplete: {
@@ -854,60 +1199,6 @@ export const FR: DashboardTranslations = {
         continueLabel: 'Continuer',
         shipChecking: 'Vérification de l’adresse…',
         shipDone: 'Adresse enregistrée',
-      },
-    },
-    paginatedSelect: {
-      lead: 'Dropdown de sélection simple qui charge les options par pages — scroll infini ou bouton « Charger plus » — avec recherche optionnelle. Passez un <code>loadFn</code> et le composant gère tout : chargement initial, pagination, recherche avec debounce et état. Compatible avec REST, GraphQL, RxJS, TanStack ou toute source asynchrone.',
-      apiCaption: 'Inputs de dm-paginated-select',
-      defaultsDesc:
-        'Changez les defaults de tous les <code>dm-paginated-select</code> avec le token <code>PAGINATED_SELECT_DEFAULTS</code> ou le helper <code>providePaginatedSelectDefaults</code> :',
-      a11yItems: [
-        'Déclencheur avec <code>role="combobox"</code>, <code>aria-haspopup="listbox"</code>, <code>aria-expanded</code>, <code>aria-controls</code>, <code>aria-activedescendant</code>.',
-        'Panneau avec <code>role="listbox"</code> et <code>aria-busy</code> pendant le chargement ; chaque option porte <code>aria-selected</code> / <code>aria-disabled</code>.',
-        "L'input de recherche prend le focus à l'ouverture du panneau (si <code>searchable</code>) ; les flèches/Enter/Escape pilotent toujours le listbox depuis l'input.",
-        'Les items disabled sont ignorés par le clavier ; l\'état de chargement est annoncé via un <code>role="status"</code> live region masqué visuellement.',
-      ],
-      api: {
-        loadFn:
-          "Fonction de chargement requise : <code>(params) =&gt; Promise&lt;&#123; items, total &#125;&gt;</code>. Appelée à l'ouverture, au scroll/bouton et à chaque recherche. Reçoit <code>&#123; page, pageSize, query &#125;</code>.",
-        pageSize: 'Items par page passés au loadFn. Défaut 20.',
-        value: 'État two-way : [(value)] / (valueChange).',
-        selectedItem:
-          "L'item sélectionné quand il peut ne pas être dans la page actuelle (p. ex. sélectionné en page 1, maintenant en page 5). Utilisé pour rendre le label du déclencheur.",
-        searchable: "Active l'input de recherche dans le panneau.",
-        searchPlaceholder: "Placeholder de l'input de recherche.",
-        searchDebounceMs:
-          'Millisecondes de repos avant de recharger avec la nouvelle recherche. Défaut 250.',
-        loadMoreMode: '« infinite » (IntersectionObserver sur la dernière ligne) ou « button ».',
-        loadMoreLabel: 'Libellé du bouton « Charger plus » (uniquement en loadMoreMode="button").',
-        loadingLabel: 'Libellé annoncé par la ligne de chargement / live region.',
-        emptyLabel: "Message affiché quand il n'y a aucun résultat après le chargement.",
-        color: "Couleur sémantique du ring de focus et de l'item sélectionné.",
-        variant: 'Surface du déclencheur : flat, bordered, faded, underlined.',
-        size: 'Hauteur du déclencheur (32 / 40 / 48px).',
-        radius: 'Arrondi des coins.',
-        clearable:
-          'Affiche un bouton × pour effacer la sélection. Clavier : Suppr / Retour arrière.',
-        clearAriaLabel:
-          "Libellé ARIA du bouton d'effacement (localiser dans les apps multilingues).",
-      },
-      labels: {
-        assignee: 'Assigné',
-        pickOne: 'Choisissez un utilisateur',
-        searchPlaceholder: 'Rechercher des utilisateurs…',
-        loading: 'Chargement…',
-        loadMore: 'Charger plus',
-        emptyLabel: 'Aucun résultat',
-        loadFnDesc: 'Définissez un loadFn qui retourne les items et le total de chaque page :',
-        infiniteHeading: 'Scroll infini + recherche',
-        buttonHeading: 'Bouton « Charger plus »',
-        searchHeading: 'Avec recherche',
-        clearableHeading: 'Effaçable',
-        compositionTitle: 'Assigner un relecteur',
-        compositionDesc: 'Choisissez un collègue pour relire cette pull request.',
-        reviewer: 'Relecteur',
-        noReviewer: 'Aucun relecteur sélectionné pour l’instant',
-        assign: 'Assigner',
       },
     },
     tooltip: {

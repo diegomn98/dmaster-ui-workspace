@@ -1,0 +1,124 @@
+<app-site-topbar active="blog" />
+
+<!-- ================================================================ -->
+<!-- CABECERA                                                         -->
+<!-- ================================================================ -->
+<section class="bp__head bp__container" aria-labelledby="bp-title">
+  <h1 class="bp__title" id="bp-title">{{ i18n.t().blog.title }}</h1>
+</section>
+
+<!-- ================================================================ -->
+<!-- FILTROS POR CATEGORÍA                                            -->
+<!-- ================================================================ -->
+<div class="bp__filters bp__container" role="group" [attr.aria-label]="i18n.t().blog.title">
+  @for (f of filters(); track f.key) {
+    <button
+      type="button"
+      class="bp__filter"
+      [class.bp__filter--active]="activeCategory() === f.key"
+      [attr.aria-pressed]="activeCategory() === f.key"
+      (click)="setCategory(f.key)"
+    >
+      {{ f.label }}
+      <span class="bp__filter-count">{{ f.count }}</span>
+    </button>
+  }
+</div>
+
+<!-- ================================================================ -->
+<!-- DESTACADO (release actual) — solo con el filtro "Todas"          -->
+<!-- ================================================================ -->
+@if (featured(); as f) {
+  <section class="bp__container" appReveal>
+    <a class="bp__feat" [routerLink]="['/blog', f.entry.slug]">
+      <span class="bp__cover bp__cover--feat" [attr.data-category]="f.entry.category">
+        <span class="bp__cover-glyph" aria-hidden="true">{{ f.glyph }}</span>
+        <span class="bp__cover-version">{{ f.entry.version }}</span>
+      </span>
+      <span class="bp__feat-body">
+        <span class="bp__card-meta">
+          <span class="bp__latest">{{ i18n.t().blog.latestLabel }}</span>
+          <span class="bp__cat" [attr.data-category]="f.entry.category">
+            {{ categoryLabel(f.entry.category) }}
+          </span>
+          <span class="bp__card-date">{{ f.entry.date }} · {{ f.entry.minutes }} min</span>
+        </span>
+        <span class="bp__feat-title">{{ f.title }}</span>
+        <span class="bp__feat-excerpt">{{ f.lead }}</span>
+        <span class="bp__card-author">
+          <span class="bp__avatar" aria-hidden="true">DM</span>
+          Diego Maestro
+        </span>
+      </span>
+    </a>
+  </section>
+}
+
+<!-- ================================================================ -->
+<!-- GRID DE RELEASES                                                 -->
+<!-- ================================================================ -->
+<section class="bp__grid bp__container" [attr.aria-label]="i18n.t().blog.title" appReveal>
+  @for (tile of gridTiles(); track tile.entry.slug) {
+    <a class="bp__card" [routerLink]="['/blog', tile.entry.slug]">
+      <span class="bp__cover" [attr.data-category]="tile.entry.category">
+        <span class="bp__cover-glyph" aria-hidden="true">{{ tile.glyph }}</span>
+        <span class="bp__cover-version">{{ tile.entry.version }}</span>
+      </span>
+      <span class="bp__card-body">
+        <span class="bp__card-meta">
+          <span class="bp__cat" [attr.data-category]="tile.entry.category">
+            {{ categoryLabel(tile.entry.category) }}
+          </span>
+          <span class="bp__card-date">{{ tile.entry.date }} · {{ tile.entry.minutes }} min</span>
+        </span>
+        <span class="bp__card-title">{{ tile.title }}</span>
+        <span class="bp__card-excerpt">{{ tile.lead }}</span>
+        <span class="bp__card-author">
+          <span class="bp__avatar" aria-hidden="true">DM</span>
+          Diego Maestro
+        </span>
+      </span>
+    </a>
+  }
+</section>
+
+<!-- ================================================================ -->
+<!-- FOOTER — sigue las releases                                      -->
+<!-- ================================================================ -->
+<section class="bp__container" appReveal>
+  <div class="bp__footer">
+    <div class="bp__footer-copy">
+      <span class="bp__footer-title">{{ i18n.t().blog.rssTitle }}</span>
+      <span class="bp__footer-desc">{{ i18n.t().blog.rssDesc }}</span>
+    </div>
+    <div class="bp__footer-actions">
+      <a class="bp__footer-cta" [href]="releasesUrl" target="_blank" rel="noreferrer noopener">
+        <dm-icon name="github" size="0.875rem" />
+        {{ i18n.t().blog.browseCta }}
+      </a>
+      <a
+        class="bp__footer-rss"
+        [href]="rssUrl"
+        target="_blank"
+        rel="noreferrer noopener"
+        [attr.aria-label]="i18n.t().blog.rssCta"
+      >
+        <svg
+          class="bp__rss-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M4 11a9 9 0 0 1 9 9" />
+          <path d="M4 4a16 16 0 0 1 16 16" />
+          <circle cx="5" cy="19" r="1" fill="currentColor" stroke="none" />
+        </svg>
+        RSS
+      </a>
+    </div>
+  </div>
+</section>
