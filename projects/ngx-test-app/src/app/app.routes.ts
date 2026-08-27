@@ -365,6 +365,14 @@ export const routes: Routes = [
         title: 'Button group · @dmaster/ui',
       },
       {
+        path: 'components/copy-button',
+        loadComponent: () =>
+          import('./pages/components/copy-button-page/copy-button-page.component').then(
+            (m) => m.CopyButtonPageComponent,
+          ),
+        title: 'Copy button · @dmaster/ui',
+      },
+      {
         path: 'components/otp',
         loadComponent: () =>
           import('./pages/components/otp-page/otp-page.component').then((m) => m.OtpPageComponent),

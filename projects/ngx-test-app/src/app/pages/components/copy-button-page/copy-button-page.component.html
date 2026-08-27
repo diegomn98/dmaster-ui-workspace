@@ -1,0 +1,268 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.buttons }}</p>
+  <h1 class="page__title">{{ i18n.t().shell.nav.copyButton }}</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmCopyButtonComponent, DmCopyToClipboardDirective &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    <dm-copy-button
+      value="dm_a1B2c3D4e5"
+      [color]="pgColor()"
+      [variant]="pgVariant()"
+      [size]="pgSize()"
+      [copyLabel]="pgWithLabel() ? page().labels['copyText'] : ''"
+      [copiedLabel]="pgWithLabel() ? page().labels['copiedText'] : ''"
+      [ariaLabel]="page().labels['copyCommand']"
+      [copiedAriaLabel]="page().labels['copiedCommand']"
+    />
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
+    <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap">
+      <code>{{ page().labels['installValue'] }}</code>
+      <dm-copy-button
+        [value]="page().labels['installValue']"
+        [ariaLabel]="page().labels['copyCommand']"
+        [copiedAriaLabel]="page().labels['copiedCommand']"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.withLabel" [code]="labelCode">
+    <dm-copy-button
+      [value]="page().labels['shareValue']"
+      variant="bordered"
+      [copyLabel]="page().labels['copyText']"
+      [copiedLabel]="page().labels['copiedText']"
+      [copiedAriaLabel]="page().labels['copiedValue']"
+    />
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['variantsHeading']" [code]="variantsCode">
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center">
+      <dm-copy-button
+        value="primary"
+        color="primary"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+      <dm-copy-button
+        value="success"
+        color="success"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+      <dm-copy-button
+        value="warning"
+        color="warning"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+      <dm-copy-button
+        value="danger"
+        color="danger"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+    </div>
+    <div
+      style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; margin-top: 0.75rem"
+    >
+      <dm-copy-button
+        value="solid"
+        color="primary"
+        variant="solid"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+      <dm-copy-button
+        value="bordered"
+        variant="bordered"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+      <dm-copy-button
+        value="light"
+        variant="light"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+      <dm-copy-button
+        value="shadow"
+        color="primary"
+        variant="shadow"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+    <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap">
+      <dm-copy-button
+        value="Small"
+        size="sm"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+      <dm-copy-button
+        value="Medium"
+        size="md"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+      <dm-copy-button
+        value="Large"
+        size="lg"
+        [ariaLabel]="page().labels['copyValue']"
+        [copiedAriaLabel]="page().labels['copiedValue']"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['directiveHeading']"
+    [code]="directiveCode"
+    [ts]="directiveTs"
+  >
+    <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap">
+      <span style="color: var(--dm-fg-muted)">{{ page().labels['couponLabel'] }}</span>
+      <code>{{ page().labels['directiveValue'] }}</code>
+      <button
+        type="button"
+        [dmCopyToClipboard]="page().labels['directiveValue']"
+        #cp="dmCopyToClipboard"
+        (copied)="onCopied()"
+        style="
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 0.875rem;
+          border: 1px solid var(--dm-border);
+          border-radius: var(--dm-radius-md);
+          background: var(--dm-bg-muted);
+          color: var(--dm-fg);
+          font: inherit;
+          cursor: pointer;
+        "
+      >
+        <dm-icon aria-hidden="true">{{ cp.isCopied() ? 'check' : 'content_copy' }}</dm-icon>
+        {{ cp.isCopied() ? page().labels['copiedText'] : page().labels['copyText'] }}
+      </button>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 32rem">
+      <strong>{{ page().labels['cardTitle'] }}</strong>
+      <p style="color: var(--dm-fg-muted); margin: 0.25rem 0 1rem">
+        {{ page().labels['cardHint'] }}
+      </p>
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 0.75rem;
+          border: 1px solid var(--dm-border);
+          border-radius: var(--dm-radius-md);
+          background: var(--dm-bg-muted);
+        "
+      >
+        <code
+          style="
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.875rem;
+          "
+          >{{ page().labels['apiKey'] }}</code
+        >
+        <dm-copy-button
+          [value]="page().labels['apiKey']"
+          variant="light"
+          size="sm"
+          [ariaLabel]="page().labels['copyKey']"
+          [copiedAriaLabel]="page().labels['copiedKey']"
+          (copied)="onCopied()"
+        />
+      </div>
+
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-top: 0.75rem;
+          padding: 0.5rem 0.75rem;
+          border: 1px solid var(--dm-border);
+          border-radius: var(--dm-radius-md);
+          background: var(--dm-bg-muted);
+        "
+      >
+        <span style="color: var(--dm-fg-subtle)">$</span>
+        <code
+          style="
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.875rem;
+          "
+          >{{ page().labels['installValue'] }}</code
+        >
+        <dm-copy-button
+          [value]="page().labels['installValue']"
+          variant="light"
+          size="sm"
+          [ariaLabel]="page().labels['copyCommand']"
+          [copiedAriaLabel]="page().labels['copiedCommand']"
+          (copied)="onCopied()"
+        />
+      </div>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="a11y-grid">
+    @for (item of page().a11yItems; track $index) {
+      <li class="a11y-item">
+        <span class="a11y-item__body" [innerHTML]="item"></span>
+      </li>
+    }
+  </ul>
+</section>

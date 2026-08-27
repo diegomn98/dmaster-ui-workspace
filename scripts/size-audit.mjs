@@ -75,6 +75,7 @@ const ENTRIES = {
   alert: ['DmAlertComponent'],
   button: ['DmButtonComponent'],
   'button-group': ['DmButtonGroupComponent'],
+  'copy-button': ['DmCopyButtonComponent', 'DmCopyToClipboardDirective'],
   switch: ['DmSwitchComponent'],
   checkbox: ['DmCheckboxComponent'],
   'radio-group': ['DmRadioGroupComponent', 'DmRadioComponent'],
