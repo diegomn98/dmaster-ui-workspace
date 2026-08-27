@@ -2671,9 +2671,9 @@ export const ES: DashboardTranslations = {
       labels: {
         variantsHeading: 'Colores y variantes',
         directiveHeading: 'La directiva dmCopyToClipboard',
-        installValue: 'ng add @dmaster/ui',
-        copyCommand: 'Copiar comando de instalación',
-        copiedCommand: 'Comando de instalación copiado',
+        installValue: 'dm_a1B2c3D4e5',
+        copyCommand: 'Copiar API key',
+        copiedCommand: 'API key copiada',
         copyText: 'Copiar',
         copiedText: '¡Copiado!',
         copyValue: 'Copiar valor',

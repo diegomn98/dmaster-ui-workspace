@@ -94,7 +94,7 @@ export class CopyButtonPageComponent {
   protected readonly pgWithLabel = computed(() => this.playground()['withLabel'] === true);
 
   protected readonly playgroundCode = computed(() => {
-    const attrs: string[] = ['value="ng add @dmaster/ui"'];
+    const attrs: string[] = ['value="dm_a1B2c3D4e5"'];
     if (this.playground()['color'] !== 'default')
       attrs.push(`color="${this.playground()['color']}"`);
     if (this.playground()['variant'] !== 'flat')
@@ -103,7 +103,7 @@ export class CopyButtonPageComponent {
     if (this.pgWithLabel()) {
       attrs.push('copyLabel="Copy"', 'copiedLabel="Copied!"');
     } else {
-      attrs.push('ariaLabel="Copy install command"');
+      attrs.push('ariaLabel="Copy API key"');
     }
     return `<dm-copy-button ${attrs.join(' ')} />`;
   });
@@ -111,8 +111,8 @@ export class CopyButtonPageComponent {
   // Demo code — Basic (icon-only next to the value it copies).
   protected readonly basicCode = [
     '<div style="display: flex; align-items: center; gap: 0.75rem">',
-    '  <code>ng add @dmaster/ui</code>',
-    '  <dm-copy-button value="ng add @dmaster/ui" ariaLabel="Copy install command" />',
+    '  <code>dm_a1B2c3D4e5</code>',
+    '  <dm-copy-button value="dm_a1B2c3D4e5" ariaLabel="Copy API key" />',
     '</div>',
   ].join('\n');
 
