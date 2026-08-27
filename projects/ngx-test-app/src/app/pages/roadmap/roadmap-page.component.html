@@ -1,0 +1,156 @@
+<!-- ================================================================ -->
+<!-- TOP BAR — el roadmap vive fuera del shell, como la landing       -->
+<!-- ================================================================ -->
+<app-site-topbar active="roadmap" />
+
+<!-- ================================================================ -->
+<!-- CABECERA — solo el título, como el blog                          -->
+<!-- ================================================================ -->
+<section class="rmp__head rmp__container" aria-labelledby="rmp-title">
+  <h1 class="rmp__title" id="rmp-title">{{ i18n.t().roadmap.eyebrow }}</h1>
+</section>
+
+<!-- ================================================================ -->
+<!-- BOARD — kanban: Backlog → In progress → Done                     -->
+<!-- ================================================================ -->
+<section class="rmp__board rmp__container" appReveal>
+  <!-- COLUMNA 1 · Backlog (después de la 1.0) -->
+  <div class="rmp__col rmp__col--backlog" aria-labelledby="rmp-col-backlog">
+    <div class="rmp__col-head">
+      <span class="rmp__col-dot" aria-hidden="true"></span>
+      <h2 class="rmp__col-title" id="rmp-col-backlog">{{ i18n.t().roadmap.board.backlog }}</h2>
+      <span class="rmp__col-count">{{ nextItems().length }}</span>
+    </div>
+    <p class="rmp__col-sub">{{ i18n.t().roadmap.board.backlogMeta }}</p>
+
+    @for (item of nextItems(); track item.title) {
+      <div class="rmp__card" [attr.data-accent]="item.color">
+        <div class="rmp__card-meta">
+          <span class="rmp__card-title rmp__card-title--grow">{{ item.title }}</span>
+          <span
+            class="rmp__badge"
+            [class.rmp__badge--primary]="item.color === 'primary'"
+            [class.rmp__badge--secondary]="item.color === 'secondary'"
+            [class.rmp__badge--neutral]="item.color === 'default'"
+          >
+            {{ item.category }}
+          </span>
+        </div>
+        <p class="rmp__card-desc">{{ item.desc }}</p>
+      </div>
+    }
+  </div>
+
+  <!-- COLUMNA 2 · In progress (el camino a la 1.0) -->
+  <div class="rmp__col rmp__col--progress" aria-labelledby="rmp-col-progress">
+    <div class="rmp__col-head">
+      <span class="rmp__col-dot" aria-hidden="true"></span>
+      <h2 class="rmp__col-title" id="rmp-col-progress">{{ i18n.t().roadmap.board.inProgress }}</h2>
+      <span class="rmp__col-count">{{ focusItems().length }}</span>
+    </div>
+    <p class="rmp__col-sub">{{ i18n.t().roadmap.board.inProgressMeta }}</p>
+
+    <!-- Objetivo 1.0 -->
+    <div class="rmp__target">
+      <span class="rmp__target-num">1.0</span>
+      <span class="rmp__target-copy">
+        <span class="rmp__target-title">{{ i18n.t().roadmap.board.targetTitle }}</span>
+        <span class="rmp__target-sub">{{ i18n.t().roadmap.board.targetSub }}</span>
+      </span>
+    </div>
+
+    @for (item of focusItems(); track item.title) {
+      <div class="rmp__card">
+        <div class="rmp__card-meta">
+          <span class="rmp__card-title rmp__card-title--grow">{{ item.title }}</span>
+          @if (item.status === 'doing') {
+            <span class="rmp__badge rmp__badge--warning">
+              <span class="rmp__pulse" aria-hidden="true"></span>
+              {{ i18n.t().roadmap.statusInProgress }}
+            </span>
+          } @else {
+            <span class="rmp__badge rmp__badge--neutral">{{ i18n.t().roadmap.statusQueued }}</span>
+          }
+        </div>
+        <p class="rmp__card-desc">{{ item.desc }}</p>
+      </div>
+    }
+  </div>
+
+  <!-- COLUMNA 3 · Done (releases publicadas) -->
+  <div class="rmp__col rmp__col--done" aria-labelledby="rmp-col-done">
+    <div class="rmp__col-head">
+      <span class="rmp__col-dot" aria-hidden="true"></span>
+      <h2 class="rmp__col-title" id="rmp-col-done">{{ i18n.t().roadmap.board.done }}</h2>
+      <span class="rmp__col-count">{{ shipped().length }}</span>
+    </div>
+    <p class="rmp__col-sub">{{ i18n.t().roadmap.board.doneMeta }}</p>
+
+    @for (rel of shipped(); track rel.slug) {
+      <a class="rmp__card rmp__card--link" [routerLink]="['/blog', rel.slug]">
+        <span class="rmp__card-meta">
+          <span
+            class="rmp__ver"
+            [class.rmp__ver--now]="rel.isNow"
+            [class.rmp__ver--done]="!rel.isNow"
+          >
+            {{ rel.version }}
+          </span>
+          @if (rel.isNow) {
+            <span class="rmp__badge rmp__badge--primary">{{ i18n.t().roadmap.nowLabel }}</span>
+          }
+          <span class="rmp__date">{{ rel.date }}</span>
+        </span>
+        <span class="rmp__card-title">{{ rel.caption }}</span>
+      </a>
+    }
+
+    <!-- Quality gates: shipped & enforced -->
+    <section class="rmp__gates" aria-labelledby="rmp-gates-title">
+      <h3 class="rmp__gates-title" id="rmp-gates-title">
+        <span class="rmp__gates-check" aria-hidden="true">
+          <dm-icon name="check" size="0.8125rem" />
+        </span>
+        {{ i18n.t().roadmap.gatesTitle }}
+      </h3>
+      <ul class="rmp__gate-list">
+        @for (gate of gates(); track gate) {
+          <li class="rmp__gate">
+            <span class="rmp__gate-mark" aria-hidden="true">
+              <dm-icon name="check" size="0.625rem" />
+            </span>
+            {{ gate }}
+          </li>
+        }
+      </ul>
+    </section>
+  </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- FOOTER — enlaces al changelog y a las releases                   -->
+<!-- ================================================================ -->
+<section class="rmp__footer rmp__container" aria-labelledby="rmp-footer-title" appReveal>
+  <div class="rmp__footer-band">
+    <h2 class="rmp__footer-title" id="rmp-footer-title">{{ i18n.t().roadmap.footerTitle }}</h2>
+    <div class="rmp__footer-actions">
+      <a
+        class="rmp__cta rmp__cta--primary"
+        [href]="changelogUrl"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        {{ i18n.t().roadmap.footerChangelog }}
+      </a>
+      <a
+        class="rmp__cta rmp__cta--ghost"
+        [href]="releasesUrl"
+        target="_blank"
+        rel="noreferrer noopener"
+      >
+        <dm-icon name="github" size="0.9375rem" />
+        {{ i18n.t().roadmap.footerReleases }}
+      </a>
+    </div>
+  </div>
+</section>

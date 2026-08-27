@@ -22,6 +22,13 @@ export interface SimplePageTranslations {
  * Convención: las claves cuyo valor contiene marcado inline (`<code>…</code>`)
  * se enlazan con `[innerHTML]` (Angular las sanea); el resto, con interpolación.
  */
+/** Un artículo de release del blog: titular, entradilla y "qué salió". */
+export interface BlogArticleTranslations {
+  title: string;
+  lead: string;
+  bullets: string[];
+}
+
 export interface DashboardTranslations {
   shell: {
     navAria: string;
@@ -39,6 +46,8 @@ export interface DashboardTranslations {
       home: string;
       overview: string;
       gettingStarted: string;
+      theming: string;
+      componentTokens: string;
       primitives: string;
       layout: string;
       buttons: string;
@@ -64,7 +73,6 @@ export interface DashboardTranslations {
       colorPicker: string;
       select: string;
       autocomplete: string;
-      paginatedSelect: string;
       radioGroup: string;
       tabs: string;
       table: string;
@@ -129,6 +137,8 @@ export interface DashboardTranslations {
   home: {
     navDocs: string;
     navComponents: string;
+    navRoadmap: string;
+    navBlog: string;
     footerRights: string;
     heroChipAngular: string;
     heroChipMit: string;
@@ -222,6 +232,8 @@ export interface DashboardTranslations {
     colorsBody: string;
     colorsItems: string[];
     colorsNote: string;
+    namedThemesTitle: string;
+    namedThemesBody: string;
     animationBody: string;
     animationItems: string[];
     animationNote: string;
@@ -229,6 +241,80 @@ export interface DashboardTranslations {
     whatsNextTitle: string;
     whatsNextBody: string;
     whatsNextCta: string;
+  };
+  theming: {
+    lead: string;
+    sections: {
+      overview: string;
+      semanticTokens: string;
+      colorSystem: string;
+      derivedCascade: string;
+      lightDark: string;
+      namedThemes: string;
+      density: string;
+      motion: string;
+      componentTokens: string;
+      overlayScoping: string;
+    };
+    overviewBody: string;
+    overviewHighlights: string[];
+    semanticBody: string;
+    surfaceTokens: string;
+    textTokens: string;
+    borderTokens: string;
+    shadowTokens: string;
+    colorSystemBody: string;
+    colorRoles: string[];
+    derivedBody: string;
+    derivedNote: string;
+    lightDarkBody: string;
+    lightDarkItems: string[];
+    namedBody: string;
+    namedSteps: string[];
+    densityBody: string;
+    densityScales: string[];
+    motionBody: string;
+    motionTokens: string[];
+    motionNote: string;
+    componentTokensBody: string;
+    componentTokensItems: string[];
+    componentTokensNote: string;
+    overlayBody: string;
+    overlayNote: string;
+    whatsNextTitle: string;
+    whatsNextBody: string;
+    whatsNextCta: string;
+    whatsNextCtaSecondary: string;
+  };
+  componentTokens: {
+    lead: string;
+    totalTokensLabel: string;
+    sections: {
+      howItWorks: string;
+      globalOverride: string;
+      scopedOverride: string;
+      perThemeOverride: string;
+      overlayScoping: string;
+      reference: string;
+    };
+    howItWorksBody: string;
+    howItWorksPattern: string;
+    globalBody: string;
+    scopedBody: string;
+    perThemeBody: string;
+    overlayBody: string;
+    referenceBody: string;
+    referenceCategories: {
+      primitives: string;
+      layout: string;
+      feedback: string;
+      buttons: string;
+      forms: string;
+      navigation: string;
+      dataDisplay: string;
+      overlays: string;
+    };
+    backToTheming: string;
   };
   skeletonPage: {
     lead: string;
@@ -280,6 +366,104 @@ export interface DashboardTranslations {
     };
     asyncButtonLabel: string;
   };
+  // Página /roadmap — full-bleed, fuera del shell (como la landing).
+  roadmap: {
+    eyebrow: string;
+    nowLabel: string;
+    // Board de 3 columnas (Shipped / In progress / Next).
+    board: {
+      backlog: string;
+      inProgress: string;
+      done: string;
+      backlogMeta: string;
+      inProgressMeta: string;
+      doneMeta: string;
+      targetTitle: string;
+      targetSub: string;
+    };
+    rail: {
+      foundations: string;
+      forms: string;
+      catalogue: string;
+      current: string;
+      theming: string;
+    };
+    focusItems: {
+      freezeTitle: string;
+      freezeDesc: string;
+      deprecationTitle: string;
+      deprecationDesc: string;
+      docsTitle: string;
+      docsDesc: string;
+    };
+    statusInProgress: string;
+    statusQueued: string;
+    gatesTitle: string;
+    gates: {
+      a11y: string;
+      visual: string;
+      consumer: string;
+      provenance: string;
+    };
+    next: {
+      signalFormsTitle: string;
+      signalFormsDesc: string;
+      tagsTitle: string;
+      tagsDesc: string;
+      textareaTitle: string;
+      textareaDesc: string;
+      contextMenuTitle: string;
+      contextMenuDesc: string;
+      scrollAreaTitle: string;
+      scrollAreaDesc: string;
+      splitterTitle: string;
+      splitterDesc: string;
+      themeBuilderTitle: string;
+      themeBuilderDesc: string;
+    };
+    catForms: string;
+    catOverlay: string;
+    catLayout: string;
+    catDx: string;
+    footerTitle: string;
+    footerChangelog: string;
+    footerReleases: string;
+  };
+  // Página /blog — full-bleed, fuera del shell (como landing y roadmap).
+  // Los artículos son las release notes reales: uno por versión, con la
+  // metadata en core/blog/releases.ts (única fuente de verdad de slugs/fechas).
+  blog: {
+    title: string;
+    latestLabel: string;
+    filterAll: string;
+    rssTitle: string;
+    rssDesc: string;
+    browseCta: string;
+    rssCta: string;
+    categories: {
+      a11y: string;
+      performance: string;
+      testing: string;
+      architecture: string;
+      release: string;
+    };
+    articleBack: string;
+    articleWhatShipped: string;
+    articleViewRelease: string;
+    articleViewChangelog: string;
+    articleNewer: string;
+    articleOlder: string;
+    articles: {
+      v08: BlogArticleTranslations;
+      v07: BlogArticleTranslations;
+      v06: BlogArticleTranslations;
+      v05: BlogArticleTranslations;
+      v04: BlogArticleTranslations;
+      v03: BlogArticleTranslations;
+      v02: BlogArticleTranslations;
+      v01: BlogArticleTranslations;
+    };
+  };
   pages: {
     overview: SimplePageTranslations;
     spinner: SimplePageTranslations;
@@ -296,7 +480,6 @@ export interface DashboardTranslations {
     colorPicker: SimplePageTranslations;
     select: SimplePageTranslations;
     autocomplete: SimplePageTranslations;
-    paginatedSelect: SimplePageTranslations;
     radioGroup: SimplePageTranslations;
     tabs: SimplePageTranslations;
     table: SimplePageTranslations;

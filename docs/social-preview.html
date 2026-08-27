@@ -1,0 +1,477 @@
+<!doctype html>
+<!--
+  Fuente del social preview (og:image / GitHub social card).
+  Regenerar el PNG con:  node scripts/social-preview.mjs
+  (renderiza esta página a 1280×640 @2x con el Chromium de Playwright).
+  Tokens EXACTOS del tema oscuro de @dmaster/ui (_themes.scss) — si la paleta
+  cambia, actualizar aquí y regenerar.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&family=JetBrains+Mono:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #09090b;
+        --bg-subtle: #131316;
+        --bg-muted: #232328;
+        --bg-elevated: #2b2b32;
+        --fg: #fafafa;
+        --fg-muted: #a1a1aa;
+        --fg-subtle: #92929a;
+        --border: rgb(250 250 250 / 10%);
+        --primary: #1a72e0;
+        --primary-hover: #4a94f5;
+        --primary-subtle: rgb(26 114 224 / 19%);
+        --primary-text: #7ab5fa;
+        --secondary-subtle: rgb(131 72 245 / 24%);
+        --secondary-text: #b794ff;
+        --success: #17c964;
+        --success-subtle: rgb(23 201 100 / 20%);
+        --success-text: #45d483;
+        --grad: linear-gradient(135deg, var(--primary-hover), var(--primary));
+        --sh-panel:
+          0 0 0 1px rgb(255 255 255 / 7%), inset 0 1px 0 rgb(255 255 255 / 5%),
+          0 8px 24px rgb(0 0 0 / 55%), 0 16px 48px rgb(0 0 0 / 45%);
+      }
+      * {
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body {
+        width: 1280px;
+        height: 640px;
+        overflow: hidden;
+      }
+      .card {
+        position: relative;
+        width: 1280px;
+        height: 640px;
+        padding: 56px 72px;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        font-feature-settings:
+          'cv03' 1,
+          'cv04' 1;
+        display: flex;
+        gap: 48px;
+      }
+      /* atmósfera: dot-grid tras el escaparate + halo primary tenue a la izquierda */
+      .dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgb(250 250 250 / 8%) 1.5px, transparent 1.5px);
+        background-size: 26px 26px;
+        -webkit-mask-image: radial-gradient(ellipse 42% 75% at 76% 50%, #000 35%, transparent 78%);
+        mask-image: radial-gradient(ellipse 42% 75% at 76% 50%, #000 35%, transparent 78%);
+      }
+      .grain {
+        position: absolute;
+        inset: 0;
+        opacity: 0.025;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      .glow2 {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 40% 45% at 88% 92%, rgb(131 72 245 / 9%), transparent 70%);
+      }
+      .glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 45% 42% at 14% 30%,
+          rgb(26 114 224 / 13%),
+          transparent 70%
+        );
+      }
+      .left,
+      .right {
+        position: relative;
+        z-index: 1;
+      }
+      .grain {
+        z-index: 2; /* grano por encima de todo — textura de película */
+      }
+
+      /* ---- columna izquierda: marca + titular + chips ---- */
+      .left {
+        width: 640px;
+        display: flex;
+        flex-direction: column;
+        flex: none;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .tile {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: var(--grad);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 21px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        box-shadow:
+          0 0 0 1px rgb(255 255 255 / 6%),
+          0 8px 24px rgb(26 114 224 / 30%);
+      }
+      .wordmark {
+        font-size: 23px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      .wordmark span {
+        color: var(--fg-subtle);
+        font-weight: 500;
+      }
+      .headline {
+        margin-top: 58px;
+        font-size: 64px;
+        line-height: 1.04;
+        font-weight: 750;
+        letter-spacing: -0.045em;
+      }
+      .headline .grad {
+        background: var(--grad);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .lead {
+        margin-top: 22px;
+        font-size: 21px;
+        line-height: 1.5;
+        color: var(--fg-muted);
+        letter-spacing: -0.01em;
+        max-width: 540px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 11px;
+        margin-top: 34px;
+      }
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 9999px;
+        font-size: 15.5px;
+        font-weight: 600;
+        letter-spacing: -0.005em;
+        color: var(--fg-muted);
+        border: 1px solid var(--border);
+      }
+      .chip--mono {
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        font-size: 14.5px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: var(--primary-text);
+        background: var(--primary-subtle);
+        border-color: transparent;
+      }
+      .chip--primary {
+        color: var(--primary-text);
+        background: var(--primary-subtle);
+        border-color: transparent;
+      }
+      .chip--primary .pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 9999px;
+        background: var(--primary-hover);
+      }
+      .domain {
+        margin-top: auto;
+        font-size: 17px;
+        font-weight: 500;
+        color: var(--fg-subtle);
+      }
+
+      /* ---- columna derecha: escaparate de componentes reales ---- */
+      .right {
+        flex: 1;
+        position: relative;
+      }
+      .panel {
+        position: absolute;
+        border-radius: 18px;
+        background: var(--bg-subtle);
+        box-shadow: var(--sh-panel);
+        padding: 22px 24px;
+      }
+      /* Panel 1 — perfil + switches (el preview vivo de la home) */
+      .p1 {
+        top: 22px;
+        left: 0;
+        width: 330px;
+      }
+      .p1 .head {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+      }
+      .avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 9999px;
+        background: var(--grad);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .who .name {
+        font-size: 16.5px;
+        font-weight: 600;
+      }
+      .who .role {
+        font-size: 13px;
+        color: var(--fg-muted);
+        margin-top: 2px;
+      }
+      .online {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--success-text);
+        background: var(--success-subtle);
+        padding: 5px 11px;
+        border-radius: 9999px;
+      }
+      .online i {
+        width: 7px;
+        height: 7px;
+        border-radius: 9999px;
+        background: var(--success);
+      }
+      .rows {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 11px 0;
+        border-top: 1px solid var(--border);
+        font-size: 14.5px;
+        font-weight: 500;
+      }
+      .switch {
+        width: 42px;
+        height: 24px;
+        border-radius: 9999px;
+        background: var(--bg-muted);
+        position: relative;
+      }
+      .switch i {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 18px;
+        height: 18px;
+        border-radius: 9999px;
+        background: var(--fg-subtle);
+      }
+      .switch.on {
+        background: var(--primary);
+      }
+      .switch.on i {
+        left: auto;
+        right: 3px;
+        background: #fff;
+      }
+      /* Panel 2 — botones + badges */
+      .p2 {
+        top: 300px;
+        left: 46px;
+        width: 372px;
+      }
+      .btns {
+        display: flex;
+        gap: 12px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 44px;
+        padding: 0 24px;
+        border-radius: 9999px;
+        font-size: 15.5px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        white-space: nowrap;
+      }
+      .btn--solid {
+        background: var(--primary);
+        color: #fff;
+        box-shadow: 0 8px 20px rgb(26 114 224 / 35%);
+      }
+      .btn--bordered {
+        border: 1.5px solid var(--border);
+        color: var(--fg);
+      }
+      .badges {
+        display: flex;
+        gap: 9px;
+        margin-top: 16px;
+      }
+      .badge {
+        padding: 6px 13px;
+        border-radius: 9999px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .badge--primary {
+        color: var(--primary-text);
+        background: var(--primary-subtle);
+      }
+      .badge--secondary {
+        color: var(--secondary-text);
+        background: var(--secondary-subtle);
+      }
+      .badge--success {
+        color: var(--success-text);
+        background: var(--success-subtle);
+      }
+      /* Panel 3 — slider */
+      .p3 {
+        top: 462px;
+        left: 8px;
+        width: 330px;
+      }
+      .p3 .lbl {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13.5px;
+        font-weight: 500;
+        color: var(--fg-muted);
+      }
+      .p3 .lbl b {
+        color: var(--fg);
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+      .track {
+        position: relative;
+        margin-top: 14px;
+        height: 6px;
+        border-radius: 9999px;
+        background: var(--bg-muted);
+      }
+      .track .fill {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 68%;
+        border-radius: 9999px;
+        background: var(--primary);
+      }
+      .thumb {
+        position: absolute;
+        top: 50%;
+        left: 68%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border-radius: 9999px;
+        background: #fff;
+        box-shadow:
+          0 0 0 4px var(--primary-subtle),
+          0 2px 6px rgb(0 0 0 / 45%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="dots"></div>
+      <div class="glow"></div>
+      <div class="glow2"></div>
+      <div class="grain"></div>
+
+      <div class="left">
+        <div class="top">
+          <div class="tile">dm</div>
+          <div class="wordmark">dmaster<span>/ui</span></div>
+        </div>
+
+        <h1 class="headline">
+          The component library<br />
+          <span class="grad">Angular deserves.</span>
+        </h1>
+
+        <p class="lead">Signals-based, zoneless-ready Angular components — accessible by default.</p>
+
+        <div class="chips">
+          <span class="chip chip--mono">$ ng add @dmaster/ui</span>
+          <span class="chip">Zoneless</span>
+          <span class="chip">WCAG 2.1 AA</span>
+          <span class="chip">MIT</span>
+        </div>
+
+        <div class="domain">dmasterui.com</div>
+      </div>
+
+      <div class="right">
+        <div class="panel p1">
+          <div class="head">
+            <div class="avatar">DM</div>
+            <div class="who">
+              <div class="name">Diego Maestro</div>
+              <div class="role">Design engineer</div>
+            </div>
+            <span class="online"><i></i>Online</span>
+          </div>
+          <div class="rows">
+            <div class="row">Dark mode<span class="switch on"><i></i></span></div>
+            <div class="row">Auto-save<span class="switch on"><i></i></span></div>
+            <div class="row">Notifications<span class="switch"><i></i></span></div>
+          </div>
+        </div>
+
+        <div class="panel p2">
+          <div class="btns">
+            <span class="btn btn--solid">Get started</span>
+            <span class="btn btn--bordered">Documentation</span>
+          </div>
+          <div class="badges">
+            <span class="badge badge--primary">Signals</span>
+            <span class="badge badge--secondary">Themeable</span>
+            <span class="badge badge--success">Accessible</span>
+          </div>
+        </div>
+
+        <div class="panel p3">
+          <div class="lbl">Upload progress<b>68%</b></div>
+          <div class="track">
+            <span class="fill"></span>
+            <span class="thumb"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

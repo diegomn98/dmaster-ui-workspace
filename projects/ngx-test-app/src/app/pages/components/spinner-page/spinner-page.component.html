@@ -23,7 +23,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row" style="align-items: center">
       <dm-spinner size="sm" />
       <dm-spinner size="md" />
@@ -32,7 +32,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode" [ts]="colorsTs">
     <div class="demo-row" style="align-items: center">
       <dm-spinner />
       <span style="color: var(--dm-primary)"><dm-spinner /></span>
@@ -42,7 +42,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['stroke']" [code]="strokeCode">
+  <app-demo-block [heading]="page().labels['stroke']" [code]="strokeCode" [ts]="strokeTs">
     <div class="demo-row" style="align-items: center">
       <dm-spinner [strokeWidth]="1.5" size="lg" />
       <dm-spinner [strokeWidth]="2.5" size="lg" />
@@ -50,14 +50,14 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.withLabel" [code]="withLabelCode">
+  <app-demo-block [heading]="i18n.t().common.demos.withLabel" [code]="withLabelCode" [ts]="withLabelTs">
     <div style="display: flex; align-items: center; gap: 0.625rem">
       <dm-spinner label="Loading results" />
       <span>Loading results…</span>
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['inButton']" [code]="inButtonCode">
+  <app-demo-block [heading]="page().labels['inButton']" [code]="inButtonCode" [ts]="inButtonTs">
     <div class="demo-row" style="align-items: center">
       <dm-button state="loading" loadingLabel="Saving…">Save</dm-button>
       <span>Syncing your files <dm-spinner size="sm" />…</span>

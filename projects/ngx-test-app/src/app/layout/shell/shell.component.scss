@@ -60,16 +60,13 @@ $sidebar-width: 16rem;
   }
 }
 
-// El dm-select del selector de idioma tiene un ancho fijo que da cabida al
-// texto más largo ("Français"). Bajo `sm` no cabe en el header (desbordaba y
-// empujaba el toggle de tema fuera de pantalla): ahí vive en el pie del drawer.
-.shell__lang-select {
-  display: none;
+// Selector de idioma compartido (app-lang-switch): dm-select en escritorio,
+// icono globo + menú en móvil. El header del shell mide 3.5rem, así que el
+// scrim del menú compacto arranca ahí.
+.shell__lang {
+  display: inline-flex;
 
-  @include mixins.respond-to(sm) {
-    display: grid; // display natural del host de dm-select
-    width: 8.5rem;
-  }
+  --dm-lang-scrim-top: 3.5rem;
 }
 
 // GitHub pill: full-rounded, sutil bordered chip con icono +
@@ -247,23 +244,6 @@ $sidebar-width: 16rem;
 .shell__nav {
   display: grid;
   gap: var(--dm-space-6);
-}
-
-// Pie del drawer: selector de idioma en móvil (bajo `sm` no cabe en el header).
-.shell__sidebar-footer {
-  display: grid;
-  gap: var(--dm-space-1);
-  margin-top: var(--dm-space-6);
-  padding-top: var(--dm-space-4);
-  border-top: 1px solid var(--dm-border);
-
-  @include mixins.respond-to(sm) {
-    display: none;
-  }
-}
-
-.shell__sidebar-lang {
-  padding-inline: var(--dm-space-3);
 }
 
 .shell__nav-title {

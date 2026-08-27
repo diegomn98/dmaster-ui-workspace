@@ -40,7 +40,7 @@
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
   <!-- Full-featured: search + selection + pagination + toolbar action -->
-  <app-demo-block [heading]="page().labels['fullFeatured']" [code]="fullCode">
+  <app-demo-block [heading]="page().labels['fullFeatured']" [code]="fullCode" [ts]="fullTs">
     <div style="width: 100%">
       <dm-table
         [columns]="columns"
@@ -68,7 +68,7 @@
   </app-demo-block>
 
   <!-- Selection (single) -->
-  <app-demo-block [heading]="page().labels['selection']" [code]="selectionCode">
+  <app-demo-block [heading]="page().labels['selection']" [code]="selectionCode" [ts]="selectionTs">
     <div style="width: 100%">
       <dm-table
         [columns]="fewColumns"
@@ -81,7 +81,7 @@
   </app-demo-block>
 
   <!-- Pagination -->
-  <app-demo-block [heading]="page().labels['pagination']" [code]="paginationCode">
+  <app-demo-block [heading]="page().labels['pagination']" [code]="paginationCode" [ts]="paginationTs">
     <div style="width: 100%">
       <dm-table
         [columns]="columns"
@@ -95,7 +95,11 @@
   </app-demo-block>
 
   <!-- Virtual scroll -->
-  <app-demo-block [heading]="page().labels['virtualScroll']" [code]="virtualScrollCode">
+  <app-demo-block
+    [heading]="page().labels['virtualScroll']"
+    [code]="virtualScrollCode"
+    [ts]="virtualScrollTs"
+  >
     <div style="width: 100%">
       <dm-table
         virtualScroll
@@ -114,7 +118,7 @@
   </app-demo-block>
 
   <!-- Densities -->
-  <app-demo-block [heading]="page().labels['densities']" [code]="densitiesCode">
+  <app-demo-block [heading]="page().labels['densities']" [code]="densitiesCode" [ts]="densitiesTs">
     <div class="demo-stack" style="width: 100%">
       <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" density="compact" />
       <dm-table
@@ -128,7 +132,7 @@
   </app-demo-block>
 
   <!-- Variants -->
-  <app-demo-block [heading]="page().labels['variants']" [code]="variantsCode">
+  <app-demo-block [heading]="page().labels['variants']" [code]="variantsCode" [ts]="variantsTs">
     <div class="demo-stack" style="width: 100%">
       <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" variant="default" />
       <dm-table [columns]="fewColumns" [data]="fewMembers()" [rowKey]="byId" variant="striped" />
@@ -253,7 +257,7 @@
   </app-demo-block>
 
   <!-- Loading & empty states -->
-  <app-demo-block [heading]="page().labels['states']" [code]="statesCode">
+  <app-demo-block [heading]="page().labels['states']" [code]="statesCode" [ts]="statesTs">
     <div class="demo-stack" style="width: 100%">
       <dm-button size="sm" variant="bordered" (clicked)="toggleLoading()">
         {{ page().labels['toggleLoading'] }}

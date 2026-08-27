@@ -116,10 +116,36 @@ export class AvatarPageComponent {
     '<dm-avatar initials="DM" [size]="64" />',
   ].join('\n');
 
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAvatarComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-avatar-sizes',",
+    '  imports: [DmAvatarComponent],',
+    "  templateUrl: './avatar-sizes.component.html',",
+    '})',
+    'export class AvatarSizesComponent {}',
+  ].join('\n');
+
   protected readonly shapesCode = [
     '<dm-avatar [src]="photo" alt="Ada Lovelace" shape="circle" size="lg" />',
     '<dm-avatar [src]="photo" alt="Ada Lovelace" shape="square" size="lg" />',
     '<dm-avatar initials="AL" shape="square" />',
+  ].join('\n');
+
+  protected readonly shapesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAvatarComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-avatar-shapes',",
+    '  imports: [DmAvatarComponent],',
+    "  templateUrl: './avatar-shapes.component.html',",
+    '})',
+    'export class AvatarShapesComponent {',
+    "  protected readonly photo = '/u/ada.png';",
+    '}',
   ].join('\n');
 
   protected readonly fallbackCode = [
@@ -127,6 +153,20 @@ export class AvatarPageComponent {
     '<dm-avatar [src]="photoUrl" alt="Diego Maestro" initials="DM" />',
     '<dm-avatar initials="DM" alt="Diego Maestro" />',
     '<dm-avatar />',
+  ].join('\n');
+
+  protected readonly fallbackTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAvatarComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-avatar-fallback',",
+    '  imports: [DmAvatarComponent],',
+    "  templateUrl: './avatar-fallback.component.html',",
+    '})',
+    'export class AvatarFallbackComponent {',
+    "  protected readonly photoUrl = '/u/diego.png';",
+    '}',
   ].join('\n');
 
   protected readonly groupCode = [
@@ -143,12 +183,45 @@ export class AvatarPageComponent {
     '/*   box-shadow: 0 0 0 3px var(--dm-bg-elevated); border-radius: 50% } */',
   ].join('\n');
 
+  protected readonly groupTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAvatarComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-avatar-group',",
+    '  imports: [DmAvatarComponent],',
+    "  templateUrl: './avatar-group.component.html',",
+    '})',
+    'export class AvatarGroupComponent {',
+    '  protected readonly team = [',
+    "    { name: 'Ada Lovelace', src: '/u/ada.png' },",
+    "    { name: 'Grace Hopper', src: '/u/grace.png' },",
+    "    { name: 'Alan Turing', src: '/u/alan.png' },",
+    "    { name: 'Katherine Johnson', src: '/u/katherine.png' },",
+    '  ];',
+    '}',
+  ].join('\n');
+
   protected readonly statusCode = [
     '<!-- Wrap the avatar and pin a status dot to a corner. -->',
     '<span style="position: relative; display: inline-flex">',
     '  <dm-avatar [src]="photo" alt="Ada — online" size="lg" />',
     '  <span class="status-dot" style="background: var(--dm-success)"></span>',
     '</span>',
+  ].join('\n');
+
+  protected readonly statusTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAvatarComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-avatar-status',",
+    '  imports: [DmAvatarComponent],',
+    "  templateUrl: './avatar-status.component.html',",
+    '})',
+    'export class AvatarStatusComponent {',
+    "  protected readonly photo = '/u/ada.png';",
+    '}',
   ].join('\n');
 
   protected readonly compositionCode = [

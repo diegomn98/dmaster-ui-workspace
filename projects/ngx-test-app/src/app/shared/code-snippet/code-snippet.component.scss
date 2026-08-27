@@ -225,48 +225,8 @@ $bar-height: 2.75rem;
   }
 }
 
-// ── Naive syntax highlight ────────────────────────────────────────────────────
-
-.snippet__pre {
-  .tok-comment {
-    color: var(--dm-fg-subtle);
-    font-style: italic;
-  }
-
-  .tok-string {
-    color: #17a97a;
-
-    [data-dm-theme='dark'] & {
-      color: #4ade80;
-    }
-  }
-
-  .tok-tag {
-    color: #d6336c;
-
-    [data-dm-theme='dark'] & {
-      color: #ff77a5;
-    }
-  }
-
-  .tok-attr {
-    color: #8b5cf6;
-
-    [data-dm-theme='dark'] & {
-      color: #b794ff;
-    }
-  }
-
-  .tok-keyword {
-    color: #d6336c;
-    font-weight: var(--dm-font-medium);
-
-    [data-dm-theme='dark'] & {
-      color: #ff77a5;
-    }
-  }
-
-  .tok-punc {
-    color: var(--dm-fg-muted);
-  }
-}
+// Los colores de los tokens (.tok-*) viven en styles/_docs.scss como reglas
+// GLOBALES. Angular ViewEncapsulation no alcanza a los nodos inyectados por
+// [innerHTML] del highlighter — un selector scopeado aquí NUNCA matchea, y el
+// código sale en negro plano. Es el mismo motivo por el que los estilos de
+// .demo-* y de .dm-input viven fuera de sus componentes.

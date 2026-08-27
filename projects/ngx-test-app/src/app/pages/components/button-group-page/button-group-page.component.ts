@@ -145,6 +145,18 @@ export class ButtonGroupPageComponent {
     '</dm-button-group>',
   ].join('\n');
 
+  protected readonly attachedTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmButtonGroupComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-attached-demo',",
+    '  imports: [DmButtonGroupComponent, DmButtonComponent],',
+    "  templateUrl: './attached-demo.component.html',",
+    '})',
+    'export class AttachedDemoComponent {}',
+  ].join('\n');
+
   protected readonly alignmentCode = [
     '<!-- Icon-only buttons still need their own ariaLabel -->',
     '<dm-button-group variant="bordered" ariaLabel="Text alignment">',
@@ -152,6 +164,18 @@ export class ButtonGroupPageComponent {
     '  <dm-button ariaLabel="Center"><dm-icon>format_align_center</dm-icon></dm-button>',
     '  <dm-button ariaLabel="Right"><dm-icon>format_align_right</dm-icon></dm-button>',
     '</dm-button-group>',
+  ].join('\n');
+
+  protected readonly alignmentTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmButtonGroupComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-alignment-demo',",
+    '  imports: [DmButtonGroupComponent, DmButtonComponent, DmIconComponent],',
+    "  templateUrl: './alignment-demo.component.html',",
+    '})',
+    'export class AlignmentDemoComponent {}',
   ].join('\n');
 
   protected readonly solidCode = [
@@ -163,6 +187,18 @@ export class ButtonGroupPageComponent {
     '</dm-button-group>',
   ].join('\n');
 
+  protected readonly solidTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmButtonGroupComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pager-demo',",
+    '  imports: [DmButtonGroupComponent, DmButtonComponent, DmIconComponent],',
+    "  templateUrl: './pager-demo.component.html',",
+    '})',
+    'export class PagerDemoComponent {}',
+  ].join('\n');
+
   protected readonly overrideCode = [
     '<!-- The cascade is per-button overridable: the last one turns danger -->',
     '<dm-button-group variant="flat" ariaLabel="File actions">',
@@ -170,6 +206,18 @@ export class ButtonGroupPageComponent {
     '  <dm-button>Duplicate</dm-button>',
     '  <dm-button color="danger">Delete</dm-button>',
     '</dm-button-group>',
+  ].join('\n');
+
+  protected readonly overrideTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmButtonGroupComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-file-actions-demo',",
+    '  imports: [DmButtonGroupComponent, DmButtonComponent],',
+    "  templateUrl: './file-actions-demo.component.html',",
+    '})',
+    'export class FileActionsDemoComponent {}',
   ].join('\n');
 
   protected readonly verticalCode = [
@@ -180,11 +228,35 @@ export class ButtonGroupPageComponent {
     '</dm-button-group>',
   ].join('\n');
 
+  protected readonly verticalTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmButtonGroupComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-zoom-demo',",
+    '  imports: [DmButtonGroupComponent, DmButtonComponent, DmIconComponent],',
+    "  templateUrl: './zoom-demo.component.html',",
+    '})',
+    'export class ZoomDemoComponent {}',
+  ].join('\n');
+
   protected readonly fullWidthCode = [
     '<dm-button-group fullWidth variant="flat" ariaLabel="Pagination">',
     '  <dm-button>Previous</dm-button>',
     '  <dm-button>Next</dm-button>',
     '</dm-button-group>',
+  ].join('\n');
+
+  protected readonly fullWidthTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmButtonGroupComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-full-width-demo',",
+    '  imports: [DmButtonGroupComponent, DmButtonComponent],',
+    "  templateUrl: './full-width-demo.component.html',",
+    '})',
+    'export class FullWidthDemoComponent {}',
   ].join('\n');
 
   protected readonly splitCode = [
@@ -201,6 +273,51 @@ export class ButtonGroupPageComponent {
     '  <dm-menu-item (selected)="saveAsCopy()">Save as copy…</dm-menu-item>',
     '  <dm-menu-item (selected)="saveAsTemplate()">Save as template</dm-menu-item>',
     '</dm-menu>',
+  ].join('\n');
+
+  protected readonly splitTs = [
+    "import { Component, inject } from '@angular/core';",
+    'import {',
+    '  DmButtonComponent,',
+    '  DmButtonGroupComponent,',
+    '  DmIconComponent,',
+    '  DmMenuComponent,',
+    '  DmMenuItemComponent,',
+    '  DmMenuTriggerDirective,',
+    '  DmToastService,',
+    "} from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-save-split',",
+    '  imports: [',
+    '    DmButtonGroupComponent,',
+    '    DmButtonComponent,',
+    '    DmIconComponent,',
+    '    DmMenuComponent,',
+    '    DmMenuItemComponent,',
+    '    DmMenuTriggerDirective,',
+    '  ],',
+    "  templateUrl: './save-split.component.html',",
+    '})',
+    'export class SaveSplitComponent {',
+    '  private readonly toast = inject(DmToastService);',
+    '',
+    '  save(): void {',
+    "    this.toast.success('Saved');",
+    '  }',
+    '',
+    '  saveAndClose(): void {',
+    "    this.toast.show('Saved and closed');",
+    '  }',
+    '',
+    '  saveAsCopy(): void {',
+    "    this.toast.show('Saved as copy');",
+    '  }',
+    '',
+    '  saveAsTemplate(): void {',
+    "    this.toast.show('Saved as template');",
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly compositionCode = [

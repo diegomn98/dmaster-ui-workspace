@@ -34,7 +34,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <dm-button [dmPopoverTrigger]="basic" variant="bordered">Details</dm-button>
     <dm-popover #basic ariaLabel="Account details">
       <h3 style="margin: 0 0 0.25rem">Ada Lovelace</h3>
@@ -42,7 +42,11 @@
     </dm-popover>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.positions" [code]="placementsCode">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.positions"
+    [code]="placementsCode"
+    [ts]="placementsTs"
+  >
     <div class="demo-row">
       <dm-button [dmPopoverTrigger]="pTop" variant="ghost">top</dm-button>
       <dm-popover #pTop placement="top">Placed on top</dm-popover>
@@ -64,7 +68,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="richCode">
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="richCode" [ts]="richTs">
     <dm-button [dmPopoverTrigger]="form" variant="bordered">Subscribe</dm-button>
     <dm-popover #form ariaLabel="Subscribe to the newsletter">
       <div style="display: grid; gap: 0.75rem; width: 15rem">
@@ -76,7 +80,7 @@
     </dm-popover>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['trapFocus']" [code]="trapFocusCode">
+  <app-demo-block [heading]="page().labels['trapFocus']" [code]="trapFocusCode" [ts]="trapFocusTs">
     <dm-button [dmPopoverTrigger]="menu" variant="bordered">Actions</dm-button>
     <dm-popover #menu [trapFocus]="true" ariaLabel="Row actions">
       <div style="display: grid; gap: 0.375rem">

@@ -45,7 +45,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().buttonPage.demos.colors" [code]="colorsCode">
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.colors" [code]="colorsCode" [ts]="colorsTs">
     <div class="demo-row">
       @for (c of colors; track c) {
         <dm-button [color]="c">{{ c }}</dm-button>
@@ -53,7 +53,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().buttonPage.demos.variants" [code]="variantsCode">
+  <app-demo-block
+    [heading]="i18n.t().buttonPage.demos.variants"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
     <div class="demo-row">
       @for (v of variants; track v) {
         <dm-button [variant]="v">{{ v }}</dm-button>
@@ -61,7 +65,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().buttonPage.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row">
       <dm-button size="sm">Small</dm-button>
       <dm-button size="md">Medium</dm-button>
@@ -70,7 +74,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().buttonPage.demos.states" [code]="statesCode">
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.states" [code]="statesCode" [ts]="statesTs">
     <div class="demo-row">
       <dm-button>Idle</dm-button>
       <dm-button state="loading" loadingLabel="Saving…">Saving</dm-button>
@@ -80,7 +84,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().buttonPage.demos.async" [code]="asyncCode" language="ts">
+  <app-demo-block [heading]="i18n.t().buttonPage.demos.async" [code]="asyncCode" [ts]="asyncTs">
     <dm-button
       [state]="demoState()"
       loadingLabel="Saving…"
@@ -91,7 +95,11 @@
     </dm-button>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().buttonPage.demos.iconButtons" [code]="iconButtonsCode">
+  <app-demo-block
+    [heading]="i18n.t().buttonPage.demos.iconButtons"
+    [code]="iconButtonsCode"
+    [ts]="iconButtonsTs"
+  >
     <div class="demo-row" style="align-items: center">
       <dm-button variant="flat"> <dm-icon name="download" size="1.15em" /> Download </dm-button>
       <dm-button color="primary"> <dm-icon name="plus" size="1.15em" /> New file </dm-button>

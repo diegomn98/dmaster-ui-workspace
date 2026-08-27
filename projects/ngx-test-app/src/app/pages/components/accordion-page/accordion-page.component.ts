@@ -113,8 +113,9 @@ export class AccordionPageComponent {
     "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
     '',
     '@Component({',
+    "  selector: 'app-faq',",
     '  imports: [DmAccordionComponent, DmAccordionItemComponent],',
-    '  template: `...`, // paste the HTML above',
+    "  templateUrl: './faq.component.html',",
     '})',
     'export class FaqComponent {}',
   ].join('\n');
@@ -132,11 +133,12 @@ export class AccordionPageComponent {
     "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
     '',
     '@Component({',
+    "  selector: 'app-multi-accordion',",
     '  imports: [DmAccordionComponent, DmAccordionItemComponent],',
-    '  template: `...`,',
+    "  templateUrl: './multi-accordion.component.html',",
     '})',
     'export class MultiAccordionComponent {',
-    "  open = signal<string[]>(['a', 'c']);",
+    "  protected readonly open = signal<string[]>(['a', 'c']);",
     '}',
   ].join('\n');
 
@@ -147,6 +149,18 @@ export class AccordionPageComponent {
     '<dm-accordion variant="splitted" />',
   ].join('\n');
 
+  protected readonly variantsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-accordion-variants',",
+    '  imports: [DmAccordionComponent, DmAccordionItemComponent],',
+    "  templateUrl: './accordion-variants.component.html',",
+    '})',
+    'export class AccordionVariantsComponent {}',
+  ].join('\n');
+
   protected readonly disabledCode = [
     '<dm-accordion>',
     '  <dm-accordion-item value="a" title="Enabled">…</dm-accordion-item>',
@@ -154,6 +168,18 @@ export class AccordionPageComponent {
     '    You cannot open this item.',
     '  </dm-accordion-item>',
     '</dm-accordion>',
+  ].join('\n');
+
+  protected readonly disabledTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-accordion-disabled',",
+    '  imports: [DmAccordionComponent, DmAccordionItemComponent],',
+    "  templateUrl: './accordion-disabled.component.html',",
+    '})',
+    'export class AccordionDisabledComponent {}',
   ].join('\n');
 
   protected readonly iconCode = [
@@ -188,6 +214,18 @@ export class AccordionPageComponent {
     '    Choose your locale, currency and time zone.',
     '  </dm-accordion-item>',
     '</dm-accordion>',
+  ].join('\n');
+
+  protected readonly iconTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-accordion-icon',",
+    '  imports: [DmAccordionComponent, DmAccordionItemComponent],',
+    "  templateUrl: './accordion-icon.component.html',",
+    '})',
+    'export class AccordionIconComponent {}',
   ].join('\n');
 
   // ---- Composition: a real Help Center FAQ card --------------------------- //
@@ -261,7 +299,7 @@ export class AccordionPageComponent {
     '    DmAccordionItemComponent,',
     '    DmIconComponent,',
     '  ],',
-    '  template: `...`, // paste the HTML above',
+    "  templateUrl: './help-faq.component.html',",
     '})',
     'export class HelpFaqComponent {',
     '  // First question opens by default; single mode keeps one panel at a time.',

@@ -33,7 +33,7 @@
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
   <!-- Profile card -->
-  <app-demo-block [heading]="i18n.t().skeletonPage.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div class="demo-surface" style="max-width: 26rem">
       <div class="sk-card">
         <div class="sk-card__header">
@@ -50,7 +50,11 @@
   </app-demo-block>
 
   <!-- Variants -->
-  <app-demo-block [heading]="i18n.t().skeletonPage.demos.variants" [code]="variantsCode">
+  <app-demo-block
+    [heading]="i18n.t().skeletonPage.demos.variants"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
     <div class="demo-surface" style="max-width: 26rem">
       <div class="demo-stack">
         <dm-skeleton />
@@ -62,7 +66,11 @@
   </app-demo-block>
 
   <!-- Animations side-by-side -->
-  <app-demo-block [heading]="i18n.t().skeletonPage.demos.animations" [code]="animationsCode">
+  <app-demo-block
+    [heading]="i18n.t().skeletonPage.demos.animations"
+    [code]="animationsCode"
+    [ts]="animationsTs"
+  >
     <div class="demo-surface">
       <div class="sk-anim-cols">
         <div class="sk-anim-col">
@@ -88,7 +96,11 @@
   </app-demo-block>
 
   <!-- Article / blog card -->
-  <app-demo-block [heading]="i18n.t().skeletonPage.demos.paragraph" [code]="paragraphCode">
+  <app-demo-block
+    [heading]="i18n.t().skeletonPage.demos.paragraph"
+    [code]="paragraphCode"
+    [ts]="paragraphTs"
+  >
     <div class="demo-surface" style="max-width: 28rem">
       <div class="sk-article">
         <dm-skeleton variant="rounded" rounded="lg" height="9rem" animation="wave" />
@@ -99,7 +111,7 @@
   </app-demo-block>
 
   <!-- Dashboard metric grid -->
-  <app-demo-block [heading]="i18n.t().skeletonPage.demos.card" [code]="cardCode">
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.card" [code]="cardCode" [ts]="cardTs">
     <div class="demo-surface">
       <div class="sk-metrics">
         <div class="sk-metric">
@@ -127,7 +139,7 @@
   </app-demo-block>
 
   <!-- List view -->
-  <app-demo-block [heading]="i18n.t().skeletonPage.demos.fluid" [code]="fluidCode">
+  <app-demo-block [heading]="i18n.t().skeletonPage.demos.fluid" [code]="fluidCode" [ts]="fluidTs">
     <div class="demo-surface" style="max-width: 28rem">
       <div class="sk-list">
         <div class="sk-list-item">

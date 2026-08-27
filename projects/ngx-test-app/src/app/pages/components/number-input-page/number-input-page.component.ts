@@ -215,6 +215,25 @@ export class NumberInputPageComponent {
     '<span>value: {{ qty() }}</span>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-basic-demo',",
+    '  imports: [DmNumberInputComponent],',
+    "  templateUrl: './basic-demo.component.html',",
+    '})',
+    'export class BasicDemoComponent {',
+    '  readonly qty = signal<number | null>(2);',
+    "  readonly lastCommit = signal<string>('—');",
+    '',
+    '  onCommit(value: number | null): void {',
+    "    this.lastCommit.set(value === null ? 'null' : String(value));",
+    '  }',
+    '}',
+  ].join('\n');
+
   protected readonly rangeValue = signal<number | null>(25);
 
   protected readonly rangeCode = [
@@ -228,6 +247,20 @@ export class NumberInputPageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly rangeTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-range-demo',",
+    '  imports: [DmNumberInputComponent],',
+    "  templateUrl: './range-demo.component.html',",
+    '})',
+    'export class RangeDemoComponent {',
+    '  readonly discount = signal<number | null>(25);',
+    '}',
+  ].join('\n');
+
   protected readonly hoursValue = signal<number | null>(7.5);
   protected readonly weightValue = signal<number | null>(72.4);
 
@@ -237,6 +270,21 @@ export class NumberInputPageComponent {
     '',
     '<!-- or pin it explicitly: step 0.1, but the committed value keeps 2 decimals -->',
     '<dm-number-input label="Weight (kg)" [(value)]="weight" [min]="0" [step]="0.1" [precision]="2" />',
+  ].join('\n');
+
+  protected readonly decimalsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-decimals-demo',",
+    '  imports: [DmNumberInputComponent],',
+    "  templateUrl: './decimals-demo.component.html',",
+    '})',
+    'export class DecimalsDemoComponent {',
+    '  readonly hours = signal<number | null>(7.5);',
+    '  readonly weight = signal<number | null>(72.4);',
+    '}',
   ].join('\n');
 
   protected readonly priceValue = signal<number | null>(1299.5);
@@ -281,13 +329,53 @@ export class NumberInputPageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly formatTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-format-demo',",
+    '  imports: [DmNumberInputComponent],',
+    "  templateUrl: './format-demo.component.html',",
+    '})',
+    'export class FormatDemoComponent {',
+    '  readonly price = signal<number | null>(1299.5);',
+    '  readonly budget = signal<number | null>(2500);',
+    '  readonly distance = signal<number | null>(42.2);',
+    '}',
+  ].join('\n');
+
   protected readonly variantsCode = VARIANTS.map(
     (v) => `<dm-number-input variant="${v}" label="${v}" [value]="10" />`,
   ).join('\n');
 
+  protected readonly variantsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-variants-demo',",
+    '  imports: [DmNumberInputComponent],',
+    "  templateUrl: './variants-demo.component.html',",
+    '})',
+    'export class VariantsDemoComponent {}',
+  ].join('\n');
+
   protected readonly sizesCode = SIZES.map(
     (s) => `<dm-number-input size="${s}" ariaLabel="${s}" [value]="10" />`,
   ).join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-sizes-demo',",
+    '  imports: [DmNumberInputComponent],',
+    "  templateUrl: './sizes-demo.component.html',",
+    '})',
+    'export class SizesDemoComponent {}',
+  ].join('\n');
 
   protected readonly yearValue = signal<number | null>(2026);
 
@@ -302,11 +390,37 @@ export class NumberInputPageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly keyboardTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-keyboard-demo',",
+    '  imports: [DmNumberInputComponent],',
+    "  templateUrl: './keyboard-demo.component.html',",
+    '})',
+    'export class KeyboardDemoComponent {',
+    '  readonly year = signal<number | null>(2026);',
+    '}',
+  ].join('\n');
+
   protected readonly statesCode = [
     '<dm-number-input label="Disabled" [value]="3" [disabled]="true" />',
     '<dm-number-input label="Read-only" [value]="3" [readonly]="true" />',
     '<dm-number-input label="Required" [required]="true" placeholder="0" />',
     '<dm-number-input label="Seats" [value]="12" [max]="10" error="Only 10 seats are available." />',
+  ].join('\n');
+
+  protected readonly statesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-states-demo',",
+    '  imports: [DmNumberInputComponent],',
+    "  templateUrl: './states-demo.component.html',",
+    '})',
+    'export class StatesDemoComponent {}',
   ].join('\n');
 
   protected readonly defaultsCode = [

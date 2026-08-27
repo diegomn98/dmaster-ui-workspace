@@ -58,7 +58,7 @@
     </dm-tabs>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['variants']" [code]="variantsCode">
+  <app-demo-block [heading]="page().labels['variants']" [code]="variantsCode" [ts]="variantsTs">
     <div class="tabs-variants">
       <dm-tabs variant="solid" [(selectedValue)]="variantSel1">
         <dm-tab value="a">Solid</dm-tab>
@@ -88,7 +88,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['segment']" [code]="segmentCode">
+  <app-demo-block [heading]="page().labels['segment']" [code]="segmentCode" [ts]="segmentTs">
     <dm-tabs variant="segment" radius="full" [fullWidth]="false" [(selectedValue)]="segmentView">
       <dm-tab value="list">List</dm-tab>
       <dm-tab value="grid">Grid</dm-tab>
@@ -99,7 +99,7 @@
     </dm-tabs>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['segmentIcons']" [code]="segmentIconCode">
+  <app-demo-block [heading]="page().labels['segmentIcons']" [code]="segmentIconCode" [ts]="segmentIconTs">
     <dm-tabs
       variant="segment"
       radius="full"
@@ -124,7 +124,7 @@
     </dm-tabs>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode" [ts]="colorsTs">
     <div class="tabs-variants">
       <dm-tabs color="primary" [(selectedValue)]="colorPrimary">
         <dm-tab value="a">Primary</dm-tab>
@@ -154,7 +154,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode">
+  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode" [ts]="fullWidthTs">
     <div style="width: 100%; max-width: 32rem">
       <dm-tabs [fullWidth]="true" variant="light" color="primary" [(selectedValue)]="fullWidthSel">
         <dm-tab value="overview">Overview</dm-tab>
@@ -167,7 +167,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
+  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode" [ts]="disabledTs">
     <dm-tabs [(selectedValue)]="disabledSel">
       <dm-tab value="active">Active</dm-tab>
       <dm-tab value="soon" [disabled]="true">Coming soon</dm-tab>
@@ -178,7 +178,7 @@
     </dm-tabs>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode">
+  <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode" [ts]="verticalTs">
     <div style="width: 100%; max-width: 36rem">
       <dm-tabs placement="start" variant="light" color="primary" [(selectedValue)]="section">
         <dm-tab value="account">Account</dm-tab>

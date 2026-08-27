@@ -74,6 +74,18 @@ export class SpinnerPageComponent {
     '<dm-spinner [size]="40" />',
   ].join('\n');
 
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSpinnerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-spinner-sizes',",
+    '  imports: [DmSpinnerComponent],',
+    "  templateUrl: './spinner-sizes.component.html',",
+    '})',
+    'export class SpinnerSizesComponent {}',
+  ].join('\n');
+
   protected readonly colorsCode = [
     '<!-- The spinner draws with currentColor, so it takes the color -->',
     '<!-- of whatever wraps it. No color input needed. -->',
@@ -84,10 +96,34 @@ export class SpinnerPageComponent {
     '<span style="color: var(--dm-danger)"><dm-spinner /></span>',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSpinnerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-spinner-colors',",
+    '  imports: [DmSpinnerComponent],',
+    "  templateUrl: './spinner-colors.component.html',",
+    '})',
+    'export class SpinnerColorsComponent {}',
+  ].join('\n');
+
   protected readonly strokeCode = [
     '<dm-spinner [strokeWidth]="1.5" size="lg" />   <!-- hairline -->',
     '<dm-spinner [strokeWidth]="2.5" size="lg" />   <!-- default -->',
     '<dm-spinner [strokeWidth]="4" size="lg" />     <!-- bold -->',
+  ].join('\n');
+
+  protected readonly strokeTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSpinnerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-spinner-stroke',",
+    '  imports: [DmSpinnerComponent],',
+    "  templateUrl: './spinner-stroke.component.html',",
+    '})',
+    'export class SpinnerStrokeComponent {}',
   ].join('\n');
 
   protected readonly withLabelCode = [
@@ -99,12 +135,36 @@ export class SpinnerPageComponent {
     '</div>',
   ].join('\n');
 
+  protected readonly withLabelTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmSpinnerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-spinner-label',",
+    '  imports: [DmSpinnerComponent],',
+    "  templateUrl: './spinner-label.component.html',",
+    '})',
+    'export class SpinnerLabelComponent {}',
+  ].join('\n');
+
   protected readonly inButtonCode = [
     '<!-- dm-button drives one internally through its loading state -->',
     '<dm-button state="loading" loadingLabel="Saving…">Save</dm-button>',
     '',
     '<!-- Or inline in a sentence — it flows with the text baseline -->',
     '<p>Syncing your files <dm-spinner size="sm" />…</p>',
+  ].join('\n');
+
+  protected readonly inButtonTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmSpinnerComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-spinner-in-button',",
+    '  imports: [DmButtonComponent, DmSpinnerComponent],',
+    "  templateUrl: './spinner-in-button.component.html',",
+    '})',
+    'export class SpinnerInButtonComponent {}',
   ].join('\n');
 
   protected readonly compositionCode = [
@@ -126,16 +186,7 @@ export class SpinnerPageComponent {
     '@Component({',
     "  selector: 'app-workspace',",
     '  imports: [DmCardComponent, DmSpinnerComponent],',
-    '  template: `',
-    '    @if (loading()) {',
-    '      <dm-card>',
-    '        <dm-spinner size="lg" label="Loading workspace" />',
-    '        <p>Loading your workspace…</p>',
-    '      </dm-card>',
-    '    } @else {',
-    '      <!-- real content -->',
-    '    }',
-    '  `,',
+    "  templateUrl: './workspace.component.html',",
     '})',
     'export class WorkspaceComponent {',
     '  protected readonly loading = signal(true);',

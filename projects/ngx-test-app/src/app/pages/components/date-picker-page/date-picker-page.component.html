@@ -37,7 +37,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div style="width: 100%; max-width: 18rem">
       <dm-date-picker
         [label]="page().labels['pickLabel']"
@@ -48,7 +48,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['rangeHeading']" [code]="rangeCode">
+  <app-demo-block [heading]="page().labels['rangeHeading']" [code]="rangeCode" [ts]="rangeTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-date-picker
@@ -66,7 +66,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['localizedHeading']" [code]="localizedCode">
+  <app-demo-block
+    [heading]="page().labels['localizedHeading']"
+    [code]="localizedCode"
+    [ts]="localizedTs"
+  >
     <div class="demo-stack" style="max-width: 22rem; gap: var(--dm-space-3)">
       <dm-select
         style="width: 100%"
@@ -89,7 +93,7 @@
   <app-demo-block
     [heading]="page().labels['globalLocaleHeading']"
     [code]="globalLocaleCode"
-    language="ts"
+    [ts]="globalLocaleTs"
   >
     <div style="display: grid; gap: var(--dm-space-3); max-width: 18rem">
       <p style="margin: 0; font-size: var(--dm-text-sm); color: var(--dm-fg-muted)">
@@ -102,7 +106,7 @@
   <app-demo-block
     [heading]="page().labels['constraintsHeading']"
     [code]="constraintsCode"
-    language="ts"
+    [ts]="constraintsTs"
   >
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
@@ -121,7 +125,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row" style="flex-direction: column; align-items: stretch; max-width: 18rem">
       <dm-date-picker size="sm" [label]="page().labels['sizeSm']" />
       <dm-date-picker size="md" [label]="page().labels['sizeMd']" />
@@ -132,7 +136,7 @@
   <app-demo-block
     [heading]="page().labels['validationHeading']"
     [code]="validationCode"
-    language="ts"
+    [ts]="validationTs"
   >
     <div style="width: 100%; max-width: 18rem">
       <dm-date-picker
@@ -146,7 +150,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" language="ts">
+  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" [ts]="formsTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-date-picker [label]="page().labels['pickLabel']" [formControl]="formControl" />

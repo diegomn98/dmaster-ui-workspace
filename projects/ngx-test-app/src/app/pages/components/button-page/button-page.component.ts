@@ -164,15 +164,55 @@ export class ButtonPageComponent {
     (c) => `<dm-button color="${c}">${c}</dm-button>`,
   ).join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonColor, DmButtonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-button-colors',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './button-colors.component.html',",
+    '})',
+    'export class ButtonColorsComponent {',
+    "  readonly colors: DmButtonColor[] = ['default', 'primary', 'secondary', 'success', 'warning', 'danger'];",
+    '}',
+  ].join('\n');
+
   protected readonly variantsCode = VARIANTS.map(
     (v) => `<dm-button variant="${v}">${v}</dm-button>`,
   ).join('\n');
+
+  protected readonly variantsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmButtonVariant } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-button-variants',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './button-variants.component.html',",
+    '})',
+    'export class ButtonVariantsComponent {',
+    "  readonly variants: DmButtonVariant[] = ['solid', 'flat', 'faded', 'bordered', 'light', 'ghost', 'shadow'];",
+    '}',
+  ].join('\n');
 
   protected readonly sizesCode = [
     '<dm-button size="sm">Small</dm-button>',
     '<dm-button size="md">Medium</dm-button>',
     '<dm-button size="lg">Large</dm-button>',
     '<dm-button radius="full">Pill</dm-button>',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-button-sizes',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './button-sizes.component.html',",
+    '})',
+    'export class ButtonSizesComponent {}',
   ].join('\n');
 
   protected readonly statesCode = [
@@ -183,22 +223,44 @@ export class ButtonPageComponent {
     '<dm-button [disabled]="true">Disabled</dm-button>',
   ].join('\n');
 
+  protected readonly statesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-button-states',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './button-states.component.html',",
+    '})',
+    'export class ButtonStatesComponent {}',
+  ].join('\n');
+
   protected readonly asyncCode = [
-    '// component.ts',
-    "state = signal<DmButtonState>('idle');",
-    '',
-    'save(): void {',
-    "  this.state.set('loading');",
-    '  this.api.save().subscribe({',
-    "    next: () => this.state.set('success'),",
-    "    error: () => this.state.set('error'),",
-    '  });',
-    '}',
-    '',
-    '<!-- component.html -->',
     '<dm-button [state]="state()" loadingLabel="Saving…" (clicked)="save()">',
     '  Save changes',
     '</dm-button>',
+  ].join('\n');
+
+  protected readonly asyncTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmButtonComponent, DmButtonState } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-async-button',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './async-button.component.html',",
+    '})',
+    'export class AsyncButtonComponent {',
+    "  readonly state = signal<DmButtonState>('idle');",
+    '',
+    '  save(): void {',
+    "    this.state.set('loading');",
+    '    this.api.save().subscribe({',
+    "      next: () => this.state.set('success'),",
+    "      error: () => this.state.set('error'),",
+    '    });',
+    '  }',
+    '}',
   ].join('\n');
 
   protected readonly iconButtonsCode = [
@@ -216,6 +278,18 @@ export class ButtonPageComponent {
     '<dm-button color="danger" variant="flat">',
     '  <dm-icon name="trash" label="Delete" />',
     '</dm-button>',
+  ].join('\n');
+
+  protected readonly iconButtonsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmButtonComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-buttons',",
+    '  imports: [DmButtonComponent, DmIconComponent],',
+    "  templateUrl: './icon-buttons.component.html',",
+    '})',
+    'export class IconButtonsComponent {}',
   ].join('\n');
 
   protected readonly compositionCode = [

@@ -37,7 +37,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div style="width: 100%; max-width: 20rem">
       <dm-select
         [label]="page().labels['pet']"
@@ -47,7 +47,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
+  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode" [ts]="variantsTs">
     <div class="demo-grid">
       @for (v of variants; track v) {
         <dm-select
@@ -60,7 +60,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" language="ts">
+  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" [ts]="formsTs">
     <div class="demo-row">
       <div style="width: 18rem">
         <dm-select
@@ -94,7 +94,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['clearableHeading']" [code]="clearableCode">
+  <app-demo-block [heading]="page().labels['clearableHeading']" [code]="clearableCode" [ts]="clearableTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-select
@@ -111,7 +111,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['multipleHeading']" [code]="multipleCode">
+  <app-demo-block [heading]="page().labels['multipleHeading']" [code]="multipleCode" [ts]="multipleTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 20rem">
         <dm-select
@@ -129,7 +129,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['filterableHeading']" [code]="filterableCode">
+  <app-demo-block [heading]="page().labels['filterableHeading']" [code]="filterableCode" [ts]="filterableTs">
     <div style="width: 20rem">
       <dm-select
         [label]="page().labels['pet']"
@@ -143,7 +143,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['groupedHeading']" [code]="groupedCode" language="ts">
+  <app-demo-block [heading]="page().labels['groupedHeading']" [code]="groupedCode" [ts]="groupedTs">
     <div style="width: 20rem">
       <dm-select
         [label]="page().labels['pet']"
@@ -154,7 +154,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['multiFilterHeading']" [code]="multiFilterCode">
+  <app-demo-block [heading]="page().labels['multiFilterHeading']" [code]="multiFilterCode" [ts]="multiFilterTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 20rem">
         <dm-select
@@ -174,6 +174,40 @@
       <span class="demo-output"
         >{{ page().labels['formValue'] }}: {{ multiFilterValues().join(', ') || '—' }}</span
       >
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['asyncHeading']" [code]="asyncCode" [ts]="asyncTs">
+    <div style="width: 20rem">
+      <dm-select
+        [label]="page().labels['assigneeLabel']"
+        [placeholder]="page().labels['assigneePlaceholder']"
+        filterable
+        [clearable]="true"
+        [filterPlaceholder]="page().labels['searchUsers']"
+        [noResultsLabel]="page().labels['noUsersFound']"
+        [loadingLabel]="page().labels['loadingUsers']"
+        [loadFn]="loadFn"
+        [(value)]="asyncValue"
+      />
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['asyncButtonHeading']"
+    [code]="asyncButtonCode"
+    [ts]="asyncTs"
+  >
+    <div style="width: 20rem">
+      <dm-select
+        [label]="page().labels['assigneeLabel']"
+        [placeholder]="page().labels['assigneePlaceholder']"
+        loadMoreMode="button"
+        [loadMoreLabel]="page().labels['loadMore']"
+        [loadingLabel]="page().labels['loadingUsers']"
+        [loadFn]="loadFn"
+        [(value)]="asyncButtonValue"
+      />
     </div>
   </app-demo-block>
 

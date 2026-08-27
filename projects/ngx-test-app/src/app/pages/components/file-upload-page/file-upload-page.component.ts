@@ -162,6 +162,20 @@ export class FileUploadPageComponent {
     '// files = signal<File[]>([]);',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmFileUploadComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-single-upload',",
+    '  imports: [DmFileUploadComponent],',
+    "  templateUrl: './single-upload.component.html',",
+    '})',
+    'export class SingleUploadComponent {',
+    '  protected readonly files = signal<File[]>([]);',
+    '}',
+  ].join('\n');
+
   // ---- Demo: multiple with list -------------------------------------------
   protected readonly multipleFiles = signal<File[]>([]);
   protected readonly multipleTotal = computed(() =>
@@ -185,6 +199,23 @@ export class FileUploadPageComponent {
     '// total = computed(() => formatFileSize(files().reduce((s, f) => s + f.size, 0)));',
   ].join('\n');
 
+  protected readonly multipleTs = [
+    "import { Component, computed, signal } from '@angular/core';",
+    "import { DmFileUploadComponent, formatFileSize } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-multiple-upload',",
+    '  imports: [DmFileUploadComponent],',
+    "  templateUrl: './multiple-upload.component.html',",
+    '})',
+    'export class MultipleUploadComponent {',
+    '  protected readonly files = signal<File[]>([]);',
+    '  protected readonly total = computed(() =>',
+    '    formatFileSize(this.files().reduce((sum, file) => sum + file.size, 0)),',
+    '  );',
+    '}',
+  ].join('\n');
+
   // ---- Demo: images with thumbnails ---------------------------------------
   protected readonly imageFiles = signal<File[]>([]);
 
@@ -197,6 +228,20 @@ export class FileUploadPageComponent {
     '  hint="PNG, JPG, GIF, WebP…"',
     '  [(files)]="images"',
     '/>',
+  ].join('\n');
+
+  protected readonly imagesTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmFileUploadComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-image-upload',",
+    '  imports: [DmFileUploadComponent],',
+    "  templateUrl: './image-upload.component.html',",
+    '})',
+    'export class ImageUploadComponent {',
+    '  protected readonly images = signal<File[]>([]);',
+    '}',
   ].join('\n');
 
   // ---- Demo: size limit + rejection ---------------------------------------
@@ -237,6 +282,21 @@ export class FileUploadPageComponent {
     '  <dm-alert color="danger" variant="flat" [dismissible]="true" (closed)="lastRejection.set(null)">',
     '    {{ r.file.name }} — {{ r.reason }}',
     '  </dm-alert>',
+    '}',
+  ].join('\n');
+
+  protected readonly limitTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmAlertComponent, DmFileRejection, DmFileUploadComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-limited-upload',",
+    '  imports: [DmFileUploadComponent, DmAlertComponent],',
+    "  templateUrl: './limited-upload.component.html',",
+    '})',
+    'export class LimitedUploadComponent {',
+    '  protected readonly files = signal<File[]>([]);',
+    '  protected readonly lastRejection = signal<DmFileRejection | null>(null);',
     '}',
   ].join('\n');
 
@@ -387,6 +447,21 @@ export class FileUploadPageComponent {
     '',
     '<!-- Disabled with an existing selection: the list is read-only. -->',
     '<dm-file-upload disabled [files]="existing" />',
+  ].join('\n');
+
+  protected readonly disabledTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmFileUploadComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-locked-upload',",
+    '  imports: [DmFileUploadComponent],',
+    "  templateUrl: './locked-upload.component.html',",
+    '})',
+    'export class LockedUploadComponent {',
+    '  // A pre-populated selection to show the read-only disabled state.',
+    '  protected readonly existing = signal<File[]>([]);',
+    '}',
   ].join('\n');
 
   // ---- Demo: global defaults ----------------------------------------------

@@ -104,13 +104,51 @@ export class BadgePageComponent {
     return `${open}${this.pgText()}</dm-badge>`;
   });
 
-  protected readonly colorsCode = COLORS.map((c) => `<dm-badge color="${c}">${c}</dm-badge>`).join(
-    '\n',
-  );
+  // Match the live preview: data-driven with @for so the class actually needs
+  // the `colors` array. HTML + TS tell the same story now.
+  protected readonly colorsCode = [
+    '@for (c of colors; track c) {',
+    '  <dm-badge [color]="c">{{ c }}</dm-badge>',
+    '}',
+  ].join('\n');
 
-  protected readonly variantsCode = VARIANTS.map(
-    (v) => `<dm-badge color="primary" variant="${v}">${v}</dm-badge>`,
-  ).join('\n');
+  protected readonly colorsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBadgeColor, DmBadgeComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-badge-colors',",
+    '  imports: [DmBadgeComponent],',
+    "  templateUrl: './badge-colors.component.html',",
+    '})',
+    'export class BadgeColorsComponent {',
+    '  protected readonly colors: DmBadgeColor[] = [',
+    "    'default', 'primary', 'secondary', 'success', 'warning', 'danger',",
+    '  ];',
+    '}',
+  ].join('\n');
+
+  protected readonly variantsCode = [
+    '@for (v of variants; track v) {',
+    '  <dm-badge color="primary" [variant]="v">{{ v }}</dm-badge>',
+    '}',
+  ].join('\n');
+
+  protected readonly variantsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBadgeComponent, DmBadgeVariant } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-badge-variants',",
+    '  imports: [DmBadgeComponent],',
+    "  templateUrl: './badge-variants.component.html',",
+    '})',
+    'export class BadgeVariantsComponent {',
+    '  protected readonly variants: DmBadgeVariant[] = [',
+    "    'solid', 'flat', 'bordered', 'light', 'dot', 'shadow',",
+    '  ];',
+    '}',
+  ].join('\n');
 
   protected readonly sizesRadiusCode = [
     '<!-- Two sizes -->',
@@ -124,10 +162,34 @@ export class BadgePageComponent {
     '<dm-badge color="primary" radius="full">full</dm-badge>',
   ].join('\n');
 
+  protected readonly sizesRadiusTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBadgeComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-badge-sizes',",
+    '  imports: [DmBadgeComponent],',
+    "  templateUrl: './badge-sizes.component.html',",
+    '})',
+    'export class BadgeSizesComponent {}',
+  ].join('\n');
+
   protected readonly dotCode = [
     '<dm-badge color="success" variant="dot">Active</dm-badge>',
     '<dm-badge color="warning" variant="dot">Degraded</dm-badge>',
     '<dm-badge color="danger" variant="dot">Down</dm-badge>',
+  ].join('\n');
+
+  protected readonly dotTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBadgeComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-badge-status',",
+    '  imports: [DmBadgeComponent],',
+    "  templateUrl: './badge-status.component.html',",
+    '})',
+    'export class BadgeStatusComponent {}',
   ].join('\n');
 
   protected readonly withIconCode = [
@@ -144,6 +206,18 @@ export class BadgePageComponent {
     '<dm-badge color="secondary" variant="bordered">',
     '  <dm-icon name="shield-check" size="1em" />Secure',
     '</dm-badge>',
+  ].join('\n');
+
+  protected readonly withIconTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBadgeComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-badge-with-icon',",
+    '  imports: [DmBadgeComponent, DmIconComponent],',
+    "  templateUrl: './badge-with-icon.component.html',",
+    '})',
+    'export class BadgeWithIconComponent {}',
   ].join('\n');
 
   protected readonly compositionCode = [
@@ -179,6 +253,8 @@ export class BadgePageComponent {
     '</dm-card>',
   ].join('\n');
 
+  // Static composition — the template hardcodes real copy for a project card,
+  // so no page state is needed. The class body is empty on purpose.
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
     'import {',
@@ -193,17 +269,7 @@ export class BadgePageComponent {
     '  imports: [DmBadgeComponent, DmButtonComponent, DmCardComponent, DmIconComponent],',
     "  templateUrl: './project-card.component.html',",
     '})',
-    'export class ProjectCardComponent {',
-    '  protected readonly project = {',
-    "    name: 'Design System',",
-    "    slug: '@dmaster/ui',",
-    "    plan: 'Pro',",
-    "    status: 'Deployed',",
-    "    tags: ['angular', 'typescript', 'a11y'],",
-    '    issues: 3,',
-    '    stars: 128,',
-    '  };',
-    '}',
+    'export class ProjectCardComponent {}',
   ].join('\n');
 
   protected readonly defaultsCode = [

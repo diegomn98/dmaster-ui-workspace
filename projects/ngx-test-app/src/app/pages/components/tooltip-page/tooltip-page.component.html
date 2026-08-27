@@ -25,7 +25,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div class="demo-row" style="align-items: center">
       <dm-button dmTooltip="Save your changes (⌘S)">Save</dm-button>
       <dm-button variant="bordered" dmTooltip="Discard all edits since last save"
@@ -42,7 +42,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.positions" [code]="positionsCode">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.positions"
+    [code]="positionsCode"
+    [ts]="positionsTs"
+  >
     <div class="demo-row">
       <dm-button variant="ghost" dmTooltip="Top">top</dm-button>
       <dm-button variant="ghost" dmTooltip="Bottom" dmTooltipPosition="bottom"> bottom </dm-button>
@@ -51,7 +55,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['iconButtons']" [code]="iconButtonsCode">
+  <app-demo-block
+    [heading]="page().labels['iconButtons']"
+    [code]="iconButtonsCode"
+    [ts]="iconButtonsTs"
+  >
     <div class="demo-row" style="align-items: center">
       <dm-button variant="ghost" dmTooltip="Edit">
         <dm-icon name="edit" label="Edit" />
@@ -104,7 +112,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['onContent']" [code]="onContentCode">
+  <app-demo-block [heading]="page().labels['onContent']" [code]="onContentCode" [ts]="onContentTs">
     <div class="demo-row" style="align-items: center; gap: 1.25rem">
       <span
         tabindex="0"

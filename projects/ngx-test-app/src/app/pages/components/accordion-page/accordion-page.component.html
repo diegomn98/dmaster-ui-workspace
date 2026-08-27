@@ -75,7 +75,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['variants']" [code]="variantsCode">
+  <app-demo-block [heading]="page().labels['variants']" [code]="variantsCode" [ts]="variantsTs">
     <div class="acc-variants">
       <dm-accordion variant="light">
         <dm-accordion-item value="a" title="Light (default)">Hairline separator.</dm-accordion-item>
@@ -98,7 +98,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['icon']" [code]="iconCode">
+  <app-demo-block [heading]="page().labels['icon']" [code]="iconCode" [ts]="iconTs">
     <div style="width: 100%; max-width: 32rem">
       <dm-accordion variant="splitted">
         <dm-accordion-item value="downloads" title="Downloads">
@@ -117,7 +117,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
+  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode" [ts]="disabledTs">
     <div style="width: 100%; max-width: 32rem">
       <dm-accordion>
         <dm-accordion-item value="a" title="Enabled item">You can open this.</dm-accordion-item>

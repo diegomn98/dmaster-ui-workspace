@@ -85,6 +85,18 @@ export class BreadcrumbsPageComponent {
     '</dm-breadcrumbs>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-breadcrumbs-basic',",
+    '  imports: [DmBreadcrumbsComponent, DmBreadcrumbItemComponent],',
+    "  templateUrl: './breadcrumbs-basic.component.html',",
+    '})',
+    'export class BreadcrumbsBasicComponent {}',
+  ].join('\n');
+
   protected readonly separatorCode = [
     '<dm-breadcrumbs separator="/">',
     '  <dm-breadcrumb-item href="/">Home</dm-breadcrumb-item>',
@@ -93,10 +105,34 @@ export class BreadcrumbsPageComponent {
     '</dm-breadcrumbs>',
   ].join('\n');
 
+  protected readonly separatorTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-breadcrumbs-separator',",
+    '  imports: [DmBreadcrumbsComponent, DmBreadcrumbItemComponent],',
+    "  templateUrl: './breadcrumbs-separator.component.html',",
+    '})',
+    'export class BreadcrumbsSeparatorComponent {}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-breadcrumbs size="sm">…</dm-breadcrumbs>',
     '<dm-breadcrumbs size="md">…</dm-breadcrumbs>',
     '<dm-breadcrumbs size="lg">…</dm-breadcrumbs>',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-breadcrumbs-sizes',",
+    '  imports: [DmBreadcrumbsComponent, DmBreadcrumbItemComponent],',
+    "  templateUrl: './breadcrumbs-sizes.component.html',",
+    '})',
+    'export class BreadcrumbsSizesComponent {}',
   ].join('\n');
 
   protected readonly disabledCode = [
@@ -107,6 +143,18 @@ export class BreadcrumbsPageComponent {
     '</dm-breadcrumbs>',
   ].join('\n');
 
+  protected readonly disabledTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-breadcrumbs-disabled',",
+    '  imports: [DmBreadcrumbsComponent, DmBreadcrumbItemComponent],',
+    "  templateUrl: './breadcrumbs-disabled.component.html',",
+    '})',
+    'export class BreadcrumbsDisabledComponent {}',
+  ].join('\n');
+
   protected readonly collapseCode = [
     '<dm-breadcrumbs [maxItems]="4" [itemsBeforeCollapse]="1" [itemsAfterCollapse]="2">',
     '  <dm-breadcrumb-item href="/">Home</dm-breadcrumb-item>',
@@ -115,6 +163,18 @@ export class BreadcrumbsPageComponent {
     '  <dm-breadcrumb-item href="/a/b/c">Subcategory</dm-breadcrumb-item>',
     '  <dm-breadcrumb-item>Item</dm-breadcrumb-item>',
     '</dm-breadcrumbs>',
+  ].join('\n');
+
+  protected readonly collapseTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-breadcrumbs-collapse',",
+    '  imports: [DmBreadcrumbsComponent, DmBreadcrumbItemComponent],',
+    "  templateUrl: './breadcrumbs-collapse.component.html',",
+    '})',
+    'export class BreadcrumbsCollapseComponent {}',
   ].join('\n');
 
   protected readonly compositionCode = [

@@ -95,7 +95,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.states" [code]="statesCode" [ts]="statesTs">
     <div style="width: 100%; max-width: 28rem">
       <dm-timeline [ariaLabel]="page().labels['pipelineAria']">
         <dm-timeline-item [title]="page().labels['checkout']" time="10:02" state="completed">
@@ -117,7 +117,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['outlined']" [code]="outlinedCode">
+  <app-demo-block [heading]="page().labels['outlined']" [code]="outlinedCode" [ts]="outlinedTs">
     <div style="width: 100%; max-width: 28rem">
       <dm-timeline [ariaLabel]="page().labels['incidentAria']" color="default">
         <dm-timeline-item
@@ -218,7 +218,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['alternate']" [code]="alternateCode">
+  <app-demo-block [heading]="page().labels['alternate']" [code]="alternateCode" [ts]="alternateTs">
     <div style="width: 100%; max-width: 40rem">
       <dm-timeline align="alternate" [ariaLabel]="page().labels['milestonesAria']">
         <dm-timeline-item
@@ -257,7 +257,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['horizontal']" [code]="horizontalCode">
+  <app-demo-block [heading]="page().labels['horizontal']" [code]="horizontalCode" [ts]="horizontalTs">
     <div style="width: 100%; max-width: 44rem">
       <dm-timeline
         orientation="horizontal"

@@ -107,14 +107,40 @@ export class RatingPageComponent {
   protected readonly basicCode = [
     '<dm-rating [(value)]="score" ariaLabel="Rate this product" />',
     '<span>value: {{ score() }}</span>',
+  ].join('\n');
+
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRatingComponent } from '@dmaster/ui';",
     '',
-    'protected readonly score = signal(3);',
+    '@Component({',
+    "  selector: 'app-rating-basic',",
+    '  imports: [DmRatingComponent],',
+    "  templateUrl: './rating-basic.component.html',",
+    '})',
+    'export class RatingBasicComponent {',
+    '  protected readonly score = signal(3);',
+    '}',
   ].join('\n');
 
   protected readonly halfCode = [
     '<!-- Half-star precision: hover the left half of a star, or step by 0.5 with the arrows -->',
     '<dm-rating [(value)]="quality" allowHalf ariaLabel="Quality" />',
     '<span>value: {{ quality() }}</span>',
+  ].join('\n');
+
+  protected readonly halfTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRatingComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-rating-half',",
+    '  imports: [DmRatingComponent],',
+    "  templateUrl: './rating-half.component.html',",
+    '})',
+    'export class RatingHalfComponent {',
+    '  protected readonly quality = signal(3.5);',
+    '}',
   ].join('\n');
 
   protected readonly readonlyCode = [
@@ -128,10 +154,36 @@ export class RatingPageComponent {
     '</div>',
   ].join('\n');
 
+  protected readonly readonlyTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmRatingComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-rating-readonly',",
+    '  imports: [DmRatingComponent],',
+    "  templateUrl: './rating-readonly.component.html',",
+    '})',
+    'export class RatingReadonlyComponent {}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-rating size="sm" [(value)]="v" ariaLabel="Small" />',
     '<dm-rating size="md" [(value)]="v" ariaLabel="Medium" />',
     '<dm-rating size="lg" [(value)]="v" ariaLabel="Large" />',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRatingComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-rating-sizes',",
+    '  imports: [DmRatingComponent],',
+    "  templateUrl: './rating-sizes.component.html',",
+    '})',
+    'export class RatingSizesComponent {',
+    '  protected readonly v = signal(4);',
+    '}',
   ].join('\n');
 
   protected readonly colorsCode = [
@@ -143,11 +195,41 @@ export class RatingPageComponent {
     '<dm-rating color="danger" [(value)]="v" ariaLabel="Danger" />',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRatingComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-rating-colors',",
+    '  imports: [DmRatingComponent],',
+    "  templateUrl: './rating-colors.component.html',",
+    '})',
+    'export class RatingColorsComponent {',
+    '  protected readonly v = signal(4);',
+    '}',
+  ].join('\n');
+
   protected readonly characterCode = [
     '<!-- Any glyph works: it is rendered twice (empty + filled layer) and clipped by the value -->',
     '<dm-rating [(value)]="love" character="❤" color="danger" allowHalf ariaLabel="Favourite" />',
     '<dm-rating [(value)]="spice" character="🌶" [max]="3" ariaLabel="Spiciness" />',
     '<dm-rating [(value)]="level" character="●" color="primary" size="sm" ariaLabel="Level" />',
+  ].join('\n');
+
+  protected readonly characterTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmRatingComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-rating-character',",
+    '  imports: [DmRatingComponent],',
+    "  templateUrl: './rating-character.component.html',",
+    '})',
+    'export class RatingCharacterComponent {',
+    '  protected readonly love = signal(2.5);',
+    '  protected readonly spice = signal(2);',
+    '  protected readonly level = signal(3);',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

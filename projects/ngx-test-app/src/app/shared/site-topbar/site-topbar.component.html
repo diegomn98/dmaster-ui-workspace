@@ -1,0 +1,148 @@
+<header class="stb">
+  <div class="stb__inner">
+    <!-- Grupo de cabeza: hamburguesa (móvil) + marca — a la IZQUIERDA, igual
+         que el shell de la documentación. -->
+    <div class="stb__lead">
+      <button
+        type="button"
+        class="stb__icon stb__burger"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="menuOpen()"
+        aria-controls="stb-mobile-menu"
+        [attr.aria-label]="menuOpen() ? i18n.t().shell.closeNav : i18n.t().shell.openNav"
+      >
+        @if (menuOpen()) {
+          <dm-icon name="x" size="1.125rem" />
+        } @else {
+          <dm-icon name="menu" size="1.125rem" />
+        }
+      </button>
+
+      <a routerLink="/" class="stb__brand" (click)="closeMenu()">
+        <svg class="stb__brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <linearGradient id="stb-logo-g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" style="stop-color: var(--dm-primary-hover)" />
+              <stop offset="1" style="stop-color: var(--dm-primary)" />
+            </linearGradient>
+            <linearGradient id="stb-logo-s" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0.22" />
+              <stop offset="0.5" stop-color="#ffffff" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <rect width="64" height="64" rx="16" fill="url(#stb-logo-g)" />
+          <rect width="64" height="64" rx="16" fill="url(#stb-logo-s)" />
+          <text
+            x="32"
+            y="34"
+            text-anchor="middle"
+            dominant-baseline="central"
+            font-family="'Inter','Segoe UI',system-ui,-apple-system,Arial,sans-serif"
+            font-size="31"
+            font-weight="700"
+            letter-spacing="-2.5"
+            fill="#fff"
+          >
+            dm
+          </text>
+        </svg>
+        <span class="stb__brand-name">dmaster/ui</span>
+      </a>
+    </div>
+
+    <!-- Nav inline: solo escritorio (≥ sm) -->
+    <nav class="stb__nav" [attr.aria-label]="i18n.t().shell.navAria">
+      <a routerLink="/getting-started" class="stb__link">
+        {{ i18n.t().home.navDocs }}
+      </a>
+      <a routerLink="/components" class="stb__link">
+        {{ i18n.t().home.navComponents }}
+      </a>
+      <a
+        routerLink="/roadmap"
+        class="stb__link"
+        [class.stb__link--active]="active() === 'roadmap'"
+        [attr.aria-current]="active() === 'roadmap' ? 'page' : null"
+      >
+        {{ i18n.t().home.navRoadmap }}
+      </a>
+      <a
+        routerLink="/blog"
+        class="stb__link"
+        [class.stb__link--active]="active() === 'blog'"
+        [attr.aria-current]="active() === 'blog' ? 'page' : null"
+      >
+        {{ i18n.t().home.navBlog }}
+      </a>
+    </nav>
+
+    <div class="stb__actions">
+      <!-- Acciones completas: solo escritorio -->
+      <app-palette-picker class="stb__palette" />
+
+      <app-lang-switch />
+
+      <a
+        class="stb__icon"
+        href="https://github.com/diegomn98/dmaster-ui"
+        target="_blank"
+        rel="noreferrer noopener"
+        [attr.aria-label]="i18n.t().shell.githubAria"
+      >
+        <dm-icon name="github" size="1.125rem" />
+      </a>
+
+      <!-- Theme toggle: siempre visible -->
+      <button
+        type="button"
+        class="stb__icon"
+        (click)="theme.toggle()"
+        [attr.aria-label]="
+          theme.resolvedTheme() === 'dark'
+            ? i18n.t().shell.switchToLight
+            : i18n.t().shell.switchToDark
+        "
+      >
+        @if (theme.resolvedTheme() === 'dark') {
+          <dm-icon name="sun" size="1.125rem" />
+        } @else {
+          <dm-icon name="moon" size="1.125rem" />
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Panel móvil: overlay FLOTANTE (no empuja el contenido). Solo navegación
+       — las acciones viven siempre en la fila. -->
+  @if (menuOpen()) {
+    <div class="stb__scrim" aria-hidden="true" (click)="closeMenu()"></div>
+    <div class="stb__menu" id="stb-mobile-menu">
+      <nav class="stb__menu-nav" [attr.aria-label]="i18n.t().shell.navAria">
+        <a routerLink="/getting-started" class="stb__menu-link" (click)="closeMenu()">
+          {{ i18n.t().home.navDocs }}
+        </a>
+        <a routerLink="/components" class="stb__menu-link" (click)="closeMenu()">
+          {{ i18n.t().home.navComponents }}
+        </a>
+        <a
+          routerLink="/roadmap"
+          class="stb__menu-link"
+          [class.stb__menu-link--active]="active() === 'roadmap'"
+          [attr.aria-current]="active() === 'roadmap' ? 'page' : null"
+          (click)="closeMenu()"
+        >
+          {{ i18n.t().home.navRoadmap }}
+        </a>
+        <a
+          routerLink="/blog"
+          class="stb__menu-link"
+          [class.stb__menu-link--active]="active() === 'blog'"
+          [attr.aria-current]="active() === 'blog' ? 'page' : null"
+          (click)="closeMenu()"
+        >
+          {{ i18n.t().home.navBlog }}
+        </a>
+      </nav>
+    </div>
+  }
+</header>

@@ -116,6 +116,10 @@
     <app-code-snippet [code]="colorsCode" language="scss" />
     <app-code-snippet [code]="customTokensCode" language="scss" />
     <aside class="gs__tip" [innerHTML]="page().colorsNote"></aside>
+
+    <h3 class="gs__section-subtitle">{{ page().namedThemesTitle }}</h3>
+    <p class="gs__section-body" [innerHTML]="page().namedThemesBody"></p>
+    <app-code-snippet [code]="namedThemesCode" language="ts" />
   </section>
 
   <!-- Animation -->

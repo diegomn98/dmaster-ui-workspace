@@ -35,7 +35,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="page().labels['single']" [code]="singleCode">
+  <app-demo-block [heading]="page().labels['single']" [code]="singleCode" [ts]="singleTs">
     <div class="demo-stack">
       <dm-toggle-group [(value)]="view" ariaLabel="Layout">
         <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
@@ -46,7 +46,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['multiple']" [code]="multipleCode">
+  <app-demo-block [heading]="page().labels['multiple']" [code]="multipleCode" [ts]="multipleTs">
     <div class="demo-stack">
       <dm-toggle-group multiple [(values)]="format" color="primary" ariaLabel="Text format">
         <dm-toggle value="bold" [ariaLabel]="page().labels['bold']"><strong>B</strong></dm-toggle>
@@ -61,7 +61,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode" [ts]="colorsTs">
     <div class="demo-stack">
       <dm-toggle-group color="primary" [(value)]="colorView" ariaLabel="Primary">
         <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
@@ -78,7 +78,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['sizes']" [code]="sizesCode">
+  <app-demo-block [heading]="page().labels['sizes']" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-stack" style="align-items: center">
       <dm-toggle-group size="sm" [(value)]="sizeView" ariaLabel="Small">
         <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
@@ -95,7 +95,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode">
+  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode" [ts]="fullWidthTs">
     <dm-toggle-group fullWidth [(value)]="fullView" ariaLabel="Range" style="width: 100%">
       <dm-toggle value="day">{{ page().labels['day'] }}</dm-toggle>
       <dm-toggle value="week">{{ page().labels['week'] }}</dm-toggle>
@@ -147,7 +147,7 @@
 
 <section class="page__section" aria-labelledby="forms-title">
   <h2 class="page__section-title" id="forms-title">{{ i18n.t().common.demos.forms }}</h2>
-  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formCode">
+  <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formCode" [ts]="formTs">
     <div class="demo-stack">
       <dm-toggle-group [formControl]="formView" ariaLabel="Layout">
         <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>

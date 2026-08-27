@@ -4,7 +4,7 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { DM_DATE_LOCALE, provideDmasterIcons, provideDmasterUI } from '@dmaster/ui';
 import { DM_ICONS } from '@dmaster/ui/icons';
 
@@ -20,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(
       routes,
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
+      withComponentInputBinding(),
     ),
     provideDmasterUI({
       theme: 'auto',

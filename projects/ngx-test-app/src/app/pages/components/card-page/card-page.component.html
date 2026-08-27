@@ -31,7 +31,11 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.appearances" [code]="appearancesCode">
+  <app-demo-block
+    [heading]="i18n.t().common.demos.appearances"
+    [code]="appearancesCode"
+    [ts]="appearancesTs"
+  >
     <div class="demo-grid">
       <dm-card>
         <h3 class="card-demo__title">elevated</h3>
@@ -48,7 +52,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['paddingHeading']" [code]="paddingCode">
+  <app-demo-block [heading]="page().labels['paddingHeading']" [code]="paddingCode" [ts]="paddingTs">
     <div class="demo-grid demo-grid--2col">
       @for (p of ['none', 'sm', 'md', 'lg']; track p) {
         <dm-card appearance="outlined" [padding]="$any(p)">
@@ -70,7 +74,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['interactiveHeading']" [code]="interactiveCode">
+  <app-demo-block
+    [heading]="page().labels['interactiveHeading']"
+    [code]="interactiveCode"
+    [ts]="interactiveTs"
+  >
     <dm-card [interactive]="true" style="width: 100%; max-width: 20rem">
       <div style="display: flex; align-items: center; gap: 0.75rem">
         <dm-icon name="box" size="1.35rem" style="color: var(--dm-primary)" />
@@ -83,7 +91,7 @@
     </dm-card>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['sectionsHeading']" [code]="sectionsCode">
+  <app-demo-block [heading]="page().labels['sectionsHeading']" [code]="sectionsCode" [ts]="sectionsTs">
     <dm-card padding="none" style="width: 100%; max-width: 24rem">
       <header
         style="
@@ -120,7 +128,7 @@
     </dm-card>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['mediaHeading']" [code]="mediaCode">
+  <app-demo-block [heading]="page().labels['mediaHeading']" [code]="mediaCode" [ts]="mediaTs">
     <dm-card padding="none" style="width: 100%; max-width: 22rem; overflow: hidden">
       <div
         style="

@@ -35,7 +35,7 @@
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
   <!-- 1. Basic -->
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div style="display: grid; gap: 0.75rem; justify-items: start">
       <dm-radio-group name="plan-basic" [(value)]="plan">
         <dm-radio value="free">Free</dm-radio>
@@ -50,7 +50,7 @@
   </app-demo-block>
 
   <!-- 2. Orientation -->
-  <app-demo-block [heading]="page().labels['orientation']" [code]="orientationCode">
+  <app-demo-block [heading]="page().labels['orientation']" [code]="orientationCode" [ts]="orientationTs">
     <div style="display: flex; flex-wrap: wrap; gap: 2.5rem; align-items: flex-start">
       <div style="display: grid; gap: 0.5rem">
         <span
@@ -92,7 +92,7 @@
   </app-demo-block>
 
   <!-- 3. Colors -->
-  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode" [ts]="colorsTs">
     <div style="display: flex; flex-wrap: wrap; gap: 1rem 1.5rem">
       <dm-radio-group name="c-default" color="default" [(value)]="colorPick">
         <dm-radio value="a">Default</dm-radio>
@@ -116,7 +116,7 @@
   </app-demo-block>
 
   <!-- 4. Sizes -->
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div style="display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; align-items: flex-start">
       <dm-radio-group name="size-sm" size="sm" [(value)]="sizePick">
         <dm-radio value="a">Small</dm-radio>
@@ -134,7 +134,7 @@
   </app-demo-block>
 
   <!-- 5. Disabled options -->
-  <app-demo-block [heading]="page().labels['disabledOptions']" [code]="disabledCode">
+  <app-demo-block [heading]="page().labels['disabledOptions']" [code]="disabledCode" [ts]="disabledTs">
     <div style="display: flex; flex-wrap: wrap; gap: 1.5rem 2.5rem; align-items: flex-start">
       <div style="display: grid; gap: 0.5rem">
         <span

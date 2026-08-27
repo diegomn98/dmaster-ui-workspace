@@ -208,6 +208,18 @@ export class TimelinePageComponent {
     '</dm-timeline>',
   ].join('\n');
 
+  protected readonly statesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pipeline-run',",
+    '  imports: [DmTimelineComponent, DmTimelineItemComponent],',
+    "  templateUrl: './pipeline-run.component.html',",
+    '})',
+    'export class PipelineRunComponent {}',
+  ].join('\n');
+
   // ---- Outlined variant + per-item colors: incident -------------------------
 
   protected readonly outlinedCode = [
@@ -227,6 +239,18 @@ export class TimelinePageComponent {
     '    Error rate back to baseline. Post-mortem scheduled.',
     '  </dm-timeline-item>',
     '</dm-timeline>',
+  ].join('\n');
+
+  protected readonly outlinedTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-incident-log',",
+    '  imports: [DmTimelineComponent, DmTimelineItemComponent],',
+    "  templateUrl: './incident-log.component.html',",
+    '})',
+    'export class IncidentLogComponent {}',
   ].join('\n');
 
   // ---- Custom markers: activity feed ---------------------------------------
@@ -303,6 +327,18 @@ export class TimelinePageComponent {
     '</dm-timeline>',
   ].join('\n');
 
+  protected readonly alternateTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-project-milestones',",
+    '  imports: [DmTimelineComponent, DmTimelineItemComponent],',
+    "  templateUrl: './project-milestones.component.html',",
+    '})',
+    'export class ProjectMilestonesComponent {}',
+  ].join('\n');
+
   // ---- Horizontal: release roadmap -----------------------------------------
 
   protected readonly horizontalCode = [
@@ -315,6 +351,18 @@ export class TimelinePageComponent {
     '  <dm-timeline-item title="Beta" time="Q3 2026" state="active">Early adopters testing.</dm-timeline-item>',
     '  <dm-timeline-item title="GA" time="Q4 2026" variant="outlined">Public release.</dm-timeline-item>',
     '</dm-timeline>',
+  ].join('\n');
+
+  protected readonly horizontalTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-release-roadmap',",
+    '  imports: [DmTimelineComponent, DmTimelineItemComponent],',
+    "  templateUrl: './release-roadmap.component.html',",
+    '})',
+    'export class ReleaseRoadmapComponent {}',
   ].join('\n');
 
   // ---- Global defaults ----------------------------------------------------

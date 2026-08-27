@@ -38,7 +38,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="page().labels['basicHeading']" [code]="basicCode">
+  <app-demo-block [heading]="page().labels['basicHeading']" [code]="basicCode" [ts]="basicTs">
     <div style="width: 100%; max-width: 20rem">
       <dm-autocomplete
         [label]="page().labels['fruit']"
@@ -50,7 +50,11 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['openOnFocusHeading']" [code]="openOnFocusCode">
+  <app-demo-block
+    [heading]="page().labels['openOnFocusHeading']"
+    [code]="openOnFocusCode"
+    [ts]="openOnFocusTs"
+  >
     <div style="width: 100%; max-width: 20rem">
       <dm-autocomplete
         [label]="page().labels['fruit']"
@@ -63,7 +67,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['eventsHeading']" [code]="eventsCode">
+  <app-demo-block [heading]="page().labels['eventsHeading']" [code]="eventsCode" [ts]="eventsTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-autocomplete
@@ -79,7 +83,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" language="ts">
+  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" [ts]="formsTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-autocomplete

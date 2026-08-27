@@ -2,6 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://dmasterui.com/</loc></url>
   <url><loc>https://dmasterui.com/getting-started</loc></url>
+  <url><loc>https://dmasterui.com/theming</loc></url>
+  <url><loc>https://dmasterui.com/component-tokens</loc></url>
+  <url><loc>https://dmasterui.com/roadmap</loc></url>
+  <url><loc>https://dmasterui.com/blog</loc></url>
+  <url><loc>https://dmasterui.com/blog/v0-8</loc></url>
+  <url><loc>https://dmasterui.com/blog/v0-7</loc></url>
+  <url><loc>https://dmasterui.com/blog/v0-6</loc></url>
+  <url><loc>https://dmasterui.com/blog/v0-5</loc></url>
+  <url><loc>https://dmasterui.com/blog/v0-4</loc></url>
+  <url><loc>https://dmasterui.com/blog/v0-3</loc></url>
+  <url><loc>https://dmasterui.com/blog/v0-2</loc></url>
+  <url><loc>https://dmasterui.com/blog/v0-1</loc></url>
   <url><loc>https://dmasterui.com/components</loc></url>
   <url><loc>https://dmasterui.com/components/skeleton</loc></url>
   <url><loc>https://dmasterui.com/components/spinner</loc></url>
@@ -16,7 +28,6 @@
   <url><loc>https://dmasterui.com/components/radio-group</loc></url>
   <url><loc>https://dmasterui.com/components/select</loc></url>
   <url><loc>https://dmasterui.com/components/autocomplete</loc></url>
-  <url><loc>https://dmasterui.com/components/paginated-select</loc></url>
   <url><loc>https://dmasterui.com/components/search-field</loc></url>
   <url><loc>https://dmasterui.com/components/date-picker</loc></url>
   <url><loc>https://dmasterui.com/components/color-picker</loc></url>

@@ -40,7 +40,7 @@
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
   <!-- File explorer (single selection) -->
-  <app-demo-block [heading]="page().labels['fileExplorer']" [code]="explorerCode">
+  <app-demo-block [heading]="page().labels['fileExplorer']" [code]="explorerCode" [ts]="explorerTs">
     <div style="width: 100%; max-width: 22rem">
       <dm-tree
         [nodes]="files"
@@ -59,7 +59,7 @@
   </app-demo-block>
 
   <!-- Multiple selection -->
-  <app-demo-block [heading]="page().labels['multiple']" [code]="multipleCode">
+  <app-demo-block [heading]="page().labels['multiple']" [code]="multipleCode" [ts]="multipleTs">
     <div style="width: 100%; max-width: 22rem">
       <dm-tree
         [nodes]="files"
@@ -79,7 +79,7 @@
   </app-demo-block>
 
   <!-- Controlled expansion -->
-  <app-demo-block [heading]="page().labels['controlled']" [code]="controlledCode">
+  <app-demo-block [heading]="page().labels['controlled']" [code]="controlledCode" [ts]="controlledTs">
     <div class="demo-stack" style="max-width: 22rem">
       <div class="demo-row" style="justify-content: flex-start">
         <dm-button size="sm" variant="bordered" (clicked)="expandAll()">
@@ -104,7 +104,7 @@
   </app-demo-block>
 
   <!-- Guides on / off -->
-  <app-demo-block [heading]="page().labels['guides']" [code]="guidesCode">
+  <app-demo-block [heading]="page().labels['guides']" [code]="guidesCode" [ts]="guidesTs">
     <div
       style="
         display: grid;
@@ -140,7 +140,7 @@
   </app-demo-block>
 
   <!-- Disabled nodes -->
-  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode">
+  <app-demo-block [heading]="page().labels['disabled']" [code]="disabledCode" [ts]="disabledTs">
     <div style="width: 100%; max-width: 22rem">
       <dm-tree
         [nodes]="settings"
@@ -153,7 +153,7 @@
   </app-demo-block>
 
   <!-- Keyboard -->
-  <app-demo-block [heading]="page().labels['keyboard']" [code]="keyboardCode">
+  <app-demo-block [heading]="page().labels['keyboard']" [code]="keyboardCode" [ts]="keyboardTs">
     <div
       style="
         display: grid;

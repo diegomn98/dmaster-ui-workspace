@@ -341,6 +341,134 @@
   box-shadow: var(--dm-shadow-sm);
 }
 
+// ---- Token reference (component-tokens page) -------------------------------
+// Each component's tokens live in a self-contained card: a header strip that
+// couples the component name to its table, laid out two-up on wide viewports
+// so small token sets don't stretch into a sea of whitespace.
+.token-cat-title {
+  margin-top: var(--dm-space-6);
+  font-size: var(--dm-text-lg);
+  font-weight: var(--dm-font-semibold);
+  letter-spacing: -0.01em;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.token-cards {
+  display: grid;
+  gap: var(--dm-space-4);
+}
+
+.token-card {
+  overflow: hidden;
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg);
+  box-shadow: var(--dm-shadow-sm);
+}
+
+.token-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--dm-space-2);
+  padding: var(--dm-space-3) var(--dm-space-4);
+  border-bottom: 1px solid var(--dm-border);
+  background: var(--dm-bg-subtle);
+
+  &::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: var(--dm-radius-full);
+    background: var(--dm-primary);
+  }
+}
+
+.token-card__name {
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-semibold);
+  color: var(--dm-fg);
+}
+
+// Token count: a quiet pill pinned to the trailing edge of the header.
+.token-card__count {
+  margin-left: auto;
+  min-width: 1.5rem;
+  padding: 0.0625rem 0.4375rem;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-bg-muted);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-semibold);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: var(--dm-fg-muted);
+}
+
+.token-card__body {
+  overflow-x: auto;
+}
+
+.token-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--dm-text-sm);
+
+  th {
+    padding: var(--dm-space-2) var(--dm-space-4);
+    border-bottom: 1px solid var(--dm-border);
+    background: var(--dm-bg);
+    font-size: var(--dm-text-xs);
+    font-weight: var(--dm-font-semibold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--dm-fg-subtle);
+  }
+
+  td {
+    padding: var(--dm-space-2) var(--dm-space-4);
+    border-bottom: 1px solid var(--dm-border);
+    vertical-align: middle;
+  }
+
+  // Zebra striping keeps long token lists scannable without heavy rules.
+  tbody tr:nth-child(even) {
+    background: color-mix(in srgb, var(--dm-bg-subtle) 55%, transparent);
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+// Shrink the token column to its content so the default value sits right
+// beside it, instead of stranded at the far edge of a full-width row.
+.token-table__name {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.token-table__name code {
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--dm-radius-sm);
+  background: var(--dm-bg-muted);
+  font-family: var(--dm-font-mono);
+  font-size: 0.8125rem;
+  color: var(--dm-primary-text);
+  white-space: nowrap;
+}
+
+.token-table__default {
+  font-family: var(--dm-font-mono);
+  font-size: 0.8125rem;
+  color: var(--dm-fg-muted);
+  white-space: nowrap;
+}
+
 // ---- Skeleton demo layouts -------------------------------------------------
 .sk-card {
   display: grid;
@@ -810,5 +938,64 @@
   .doc-icons__item[data-copied='true'] & {
     color: var(--dm-success);
     font-weight: var(--dm-font-semibold);
+  }
+}
+
+// ============================================================================
+// Syntax highlight — tokens inyectados por [innerHTML] desde
+// shared/code-snippet/syntax-highlight.ts. Deben ser globales (ver comentario
+// del componente): Angular ViewEncapsulation no scopea nodos de innerHTML.
+// Paleta "Cool developer": azules/emerald/violet apoyados en los tokens de
+// marca — mismo idioma visual que el resto de la lib.
+// ============================================================================
+.tok-comment {
+  color: #64748b;
+  font-style: italic;
+}
+
+.tok-string {
+  color: #059669;
+}
+
+.tok-keyword {
+  color: var(--dm-secondary);
+  font-weight: var(--dm-font-medium);
+}
+
+.tok-tag {
+  color: #0284c7;
+}
+
+.tok-attr {
+  color: #e11d48;
+}
+
+.tok-punc {
+  color: #64748b;
+}
+
+[data-dm-theme='dark'] {
+  .tok-comment {
+    color: #94a3b8;
+  }
+
+  .tok-string {
+    color: #34d399;
+  }
+
+  .tok-keyword {
+    color: var(--dm-secondary-text);
+  }
+
+  .tok-tag {
+    color: #38bdf8;
+  }
+
+  .tok-attr {
+    color: #fb7185;
+  }
+
+  .tok-punc {
+    color: #94a3b8;
   }
 }

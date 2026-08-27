@@ -96,12 +96,34 @@ export class ToastPageComponent {
 
   // Demo: variant helpers
   protected readonly helpersCode = [
-    'private readonly toast = inject(DmToastService);',
+    "<dm-button variant=\"flat\" (clicked)=\"toast.show('Draft autosaved')\">",
+    '  neutral',
+    '</dm-button>',
+    "<dm-button variant=\"flat\" color=\"success\" (clicked)=\"toast.success('Changes saved successfully')\">",
+    '  success',
+    '</dm-button>',
+    "<dm-button variant=\"flat\" color=\"warning\" (clicked)=\"toast.warning('Storage almost full')\">",
+    '  warning',
+    '</dm-button>',
+    "<dm-button variant=\"flat\" color=\"danger\" (clicked)=\"toast.danger('Something went wrong')\">",
+    '  danger',
+    '</dm-button>',
+  ].join('\n');
+
+  protected readonly helpersTs = [
+    "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
+    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
     '',
-    "this.toast.show('Draft autosaved');               // neutral (default)",
-    "this.toast.success('Changes saved');",
-    "this.toast.warning('Storage almost full');",
-    "this.toast.danger('Something went wrong');",
+    '@Component({',
+    "  selector: 'app-toast-helpers',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './toast-helpers.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class ToastHelpersComponent {',
+    '  // show() is neutral; success/warning/danger are shorthands for the tinted variants.',
+    '  protected readonly toast = inject(DmToastService);',
+    '}',
   ].join('\n');
 
   // Demo: duration
@@ -118,9 +140,37 @@ export class ToastPageComponent {
   }
 
   protected readonly durationCode = [
-    "this.toast.success('Copied to clipboard', { duration: 1500 }); // short",
-    "this.toast.success('Changes saved');                           // default: 4000 ms",
-    "this.toast.warning('Sticky toast (duration 0)', { duration: 0 }); // stays until dismissed",
+    '<dm-button variant="flat" (clicked)="showShort()">Short (1.5 s)</dm-button>',
+    '<dm-button variant="flat" (clicked)="showDefault()">Default (4 s)</dm-button>',
+    '<dm-button variant="flat" (clicked)="showSticky()">Sticky toast (duration 0)</dm-button>',
+  ].join('\n');
+
+  protected readonly durationTs = [
+    "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
+    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-toast-duration',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './toast-duration.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class ToastDurationComponent {',
+    '  private readonly toast = inject(DmToastService);',
+    '',
+    '  showShort(): void {',
+    "    this.toast.success('Copied to clipboard', { duration: 1500 });",
+    '  }',
+    '',
+    '  showDefault(): void {',
+    "    this.toast.success('Changes saved successfully'); // default: 4000 ms",
+    '  }',
+    '',
+    '  showSticky(): void {',
+    '    // duration 0 → stays until dismissed',
+    "    this.toast.warning('Sticky toast (duration 0)', { duration: 0 });",
+    '  }',
+    '}',
   ].join('\n');
 
   // Demo: dismissible
@@ -133,11 +183,33 @@ export class ToastPageComponent {
   }
 
   protected readonly dismissibleCode = [
-    '// Dismiss button shown (default). Screen readers get its aria-label (dismissLabel).',
-    "this.toast.show('You can close me', { dismissible: true });",
+    '<dm-button variant="flat" (clicked)="showDismissible()">With dismiss button</dm-button>',
+    '<dm-button variant="flat" (clicked)="showNotDismissible()">Auto-dismiss only</dm-button>',
+  ].join('\n');
+
+  protected readonly dismissibleTs = [
+    "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
+    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
     '',
-    '// No dismiss button: auto-dismiss only. Keep the duration short.',
-    "this.toast.show('I go away on my own', { dismissible: false, duration: 2500 });",
+    '@Component({',
+    "  selector: 'app-toast-dismissible',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './toast-dismissible.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class ToastDismissibleComponent {',
+    '  private readonly toast = inject(DmToastService);',
+    '',
+    '  // Dismiss button shown (default). Screen readers get its aria-label (dismissLabel).',
+    '  showDismissible(): void {',
+    "    this.toast.show('You can close me', { dismissible: true });",
+    '  }',
+    '',
+    '  // No dismiss button: auto-dismiss only. Keep the duration short.',
+    '  showNotDismissible(): void {',
+    "    this.toast.show('I go away on my own', { dismissible: false, duration: 2500 });",
+    '  }',
+    '}',
   ].join('\n');
 
   // Demo: programmatic control (DmToastRef + dismissAll)
@@ -167,20 +239,54 @@ export class ToastPageComponent {
   }
 
   protected readonly programmaticCode = [
-    '// show() and its helpers return a DmToastRef: keep it to close the toast yourself.',
-    'private uploadRef: DmToastRef | null = null;',
+    '<dm-button variant="flat" [disabled]="uploading()" (clicked)="startUpload()">',
+    '  Start upload',
+    '</dm-button>',
+    '<dm-button variant="flat" color="success" [disabled]="!uploading()" (clicked)="finishUpload()">',
+    '  Finish upload',
+    '</dm-button>',
+    '<dm-button variant="light" color="danger" (clicked)="dismissAll()">',
+    '  Dismiss all',
+    '</dm-button>',
+  ].join('\n');
+
+  protected readonly programmaticTs = [
+    "import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';",
+    "import { DmButtonComponent, DmToastRef, DmToastService } from '@dmaster/ui';",
     '',
-    'startUpload(): void {',
-    "  this.uploadRef = this.toast.show('Uploading photos…', { duration: 0, dismissible: false });",
+    '@Component({',
+    "  selector: 'app-toast-programmatic',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './toast-programmatic.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class ToastProgrammaticComponent {',
+    '  private readonly toast = inject(DmToastService);',
+    '',
+    '  // show() and its helpers return a DmToastRef: keep it to close the toast yourself.',
+    '  private uploadRef: DmToastRef | null = null;',
+    '  protected readonly uploading = signal(false);',
+    '',
+    '  startUpload(): void {',
+    '    this.uploadRef?.dismiss();',
+    "    this.uploadRef = this.toast.show('Uploading photos…', { duration: 0, dismissible: false });",
+    '    this.uploading.set(true);',
+    '  }',
+    '',
+    '  finishUpload(): void {',
+    '    this.uploadRef?.dismiss();',
+    '    this.uploadRef = null;',
+    '    this.uploading.set(false);',
+    "    this.toast.success('12 photos uploaded');",
+    '  }',
+    '',
+    '  // Clear the whole queue at once (e.g. on route change).',
+    '  dismissAll(): void {',
+    '    this.uploadRef = null;',
+    '    this.uploading.set(false);',
+    '    this.toast.dismissAll();',
+    '  }',
     '}',
-    '',
-    'finishUpload(): void {',
-    '  this.uploadRef?.dismiss();',
-    "  this.toast.success('12 photos uploaded');",
-    '}',
-    '',
-    '// Clear the whole queue at once (e.g. on route change).',
-    'this.toast.dismissAll();',
   ].join('\n');
 
   // Demo: queue / stacking
@@ -191,10 +297,35 @@ export class ToastPageComponent {
   }
 
   protected readonly queueCode = [
-    '// Toasts stack bottom-right in call order; each one keeps its own timer.',
-    "this.toast.show('Syncing library…');",
-    "this.toast.success('3 files imported');",
-    "this.toast.warning('2 duplicates skipped', { duration: 6000 });",
+    '<dm-button variant="flat" (clicked)="fireMany()">Fire 3 toasts</dm-button>',
+    '<dm-button variant="light" (clicked)="dismissAll()">Dismiss all</dm-button>',
+  ].join('\n');
+
+  protected readonly queueTs = [
+    "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
+    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-toast-queue',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './toast-queue.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class ToastQueueComponent {',
+    '  private readonly toast = inject(DmToastService);',
+    '',
+    '  // Toasts stack bottom-right in call order; each one keeps its own timer.',
+    '  fireMany(): void {',
+    "    this.toast.show('Syncing library…');",
+    "    this.toast.success('3 files imported');",
+    "    this.toast.warning('2 duplicates skipped', { duration: 6000 });",
+    '  }',
+    '',
+    '  // Clear the whole queue at once.',
+    '  dismissAll(): void {',
+    '    this.toast.dismissAll();',
+    '  }',
+    '}',
   ].join('\n');
 
   // Composition: a settings card that saves and confirms via toast (with undo).

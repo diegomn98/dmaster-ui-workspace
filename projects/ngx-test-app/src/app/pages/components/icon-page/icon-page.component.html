@@ -147,7 +147,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="page().labels['styles']" [code]="stylesCode">
+  <app-demo-block [heading]="page().labels['styles']" [code]="stylesCode" [ts]="stylesTs">
     <div class="demo-row" style="align-items: flex-end; gap: var(--dm-space-6); flex-wrap: wrap">
       <div class="doc-icons__style-sample">
         <dm-icon size="2rem">favorite</dm-icon>
@@ -172,7 +172,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['color']" [code]="colorCode">
+  <app-demo-block [heading]="page().labels['color']" [code]="colorCode" [ts]="colorTs">
     <div class="demo-row" style="align-items: center">
       <dm-icon name="heart" size="lg" color="danger" />
       <dm-icon name="star" size="lg" color="warning" />
@@ -182,7 +182,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row" style="align-items: center">
       <dm-icon name="sparkles" size="sm" />
       <dm-icon name="sparkles" size="md" />
@@ -191,13 +191,13 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['spin']" [code]="spinCode">
+  <app-demo-block [heading]="page().labels['spin']" [code]="spinCode" [ts]="spinTs">
     <div class="demo-row">
       <dm-icon name="refresh" size="lg" [spin]="true" />
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['projected']" [code]="projectedCode">
+  <app-demo-block [heading]="page().labels['projected']" [code]="projectedCode" [ts]="projectedTs">
     <div class="demo-row">
       <dm-icon size="lg" label="Verified">
         <svg

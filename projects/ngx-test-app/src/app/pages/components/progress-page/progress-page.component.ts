@@ -98,6 +98,18 @@ export class ProgressPageComponent {
     '<dm-progress [value]="64" label="Uploading assets" [showValueLabel]="true" />',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmProgressComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-progress-basic',",
+    '  imports: [DmProgressComponent],',
+    "  templateUrl: './progress-basic.component.html',",
+    '})',
+    'export class ProgressBasicComponent {}',
+  ].join('\n');
+
   protected readonly colorsCode = [
     '<dm-progress [value]="40" color="primary" />',
     '<dm-progress [value]="55" color="secondary" />',
@@ -107,10 +119,34 @@ export class ProgressPageComponent {
     '<dm-progress [value]="50" color="default" />',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmProgressComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-progress-colors',",
+    '  imports: [DmProgressComponent],',
+    "  templateUrl: './progress-colors.component.html',",
+    '})',
+    'export class ProgressColorsComponent {}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-progress [value]="60" size="sm" />',
     '<dm-progress [value]="60" size="md" />',
     '<dm-progress [value]="60" size="lg" />',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmProgressComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-progress-sizes',",
+    '  imports: [DmProgressComponent],',
+    "  templateUrl: './progress-sizes.component.html',",
+    '})',
+    'export class ProgressSizesComponent {}',
   ].join('\n');
 
   protected readonly indeterminateCode = [
@@ -118,14 +154,35 @@ export class ProgressPageComponent {
     '<dm-progress label="Syncing" ariaLabel="Syncing your library" />',
   ].join('\n');
 
+  protected readonly indeterminateTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmProgressComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-progress-indeterminate',",
+    '  imports: [DmProgressComponent],',
+    "  templateUrl: './progress-indeterminate.component.html',",
+    '})',
+    'export class ProgressIndeterminateComponent {}',
+  ].join('\n');
+
   protected readonly stripedCode = [
     '<dm-progress [value]="70" color="warning" [striped]="true" [showValueLabel]="true" />',
   ].join('\n');
 
-  protected readonly formatCode = [
-    'protected readonly gbFormat = (value: number, max: number): string =>',
-    '  `${value} GB of ${max} GB`;',
+  protected readonly stripedTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmProgressComponent } from '@dmaster/ui';",
     '',
+    '@Component({',
+    "  selector: 'app-progress-striped',",
+    '  imports: [DmProgressComponent],',
+    "  templateUrl: './progress-striped.component.html',",
+    '})',
+    'export class ProgressStripedComponent {}',
+  ].join('\n');
+
+  protected readonly formatCode = [
     '<dm-progress',
     '  [value]="48"',
     '  [max]="64"',
@@ -133,6 +190,21 @@ export class ProgressPageComponent {
     '  [showValueLabel]="true"',
     '  [formatValue]="gbFormat"',
     '/>',
+  ].join('\n');
+
+  protected readonly formatTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmProgressComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-progress-format',",
+    '  imports: [DmProgressComponent],',
+    "  templateUrl: './progress-format.component.html',",
+    '})',
+    'export class ProgressFormatComponent {',
+    '  protected readonly gbFormat = (value: number, max: number): string =>',
+    '    `${value} GB of ${max} GB`;',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

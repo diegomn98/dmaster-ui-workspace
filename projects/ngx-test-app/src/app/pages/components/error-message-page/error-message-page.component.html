@@ -25,18 +25,22 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <dm-error>{{ page().labels['sampleMessage'] }}</dm-error>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['withIconHeading']" [code]="withIconCode">
+  <app-demo-block
+    [heading]="page().labels['withIconHeading']"
+    [code]="withIconCode"
+    [ts]="withIconTs"
+  >
     <dm-error>
       <dm-icon name="warning" size="sm" />
       {{ page().labels['sampleMessage'] }}
     </dm-error>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div
       class="demo-row"
       style="flex-direction: column; align-items: flex-start; gap: var(--dm-space-3)"

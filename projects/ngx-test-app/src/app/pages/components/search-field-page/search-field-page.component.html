@@ -37,7 +37,7 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div style="width: 100%; max-width: 20rem">
       <dm-search-field
         [label]="page().labels['searchLabel']"
@@ -46,7 +46,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode">
+  <app-demo-block [heading]="i18n.t().common.demos.variants" [code]="variantsCode" [ts]="variantsTs">
     <div class="demo-grid demo-grid--2col">
       @for (v of variants; track v) {
         <dm-search-field
@@ -58,7 +58,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.appearances" [code]="colorsCode">
+  <app-demo-block [heading]="i18n.t().common.demos.appearances" [code]="colorsCode" [ts]="colorsTs">
     <div class="demo-grid demo-grid--2col">
       @for (c of colors; track c) {
         <dm-search-field [color]="c" [label]="c" value="query" />
@@ -66,7 +66,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-row" style="flex-direction: column; align-items: stretch; max-width: 20rem">
       <dm-search-field size="sm" [placeholder]="page().labels['searchPlaceholder']" />
       <dm-search-field size="md" [placeholder]="page().labels['searchPlaceholder']" />
@@ -74,7 +74,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['eventsHeading']" [code]="eventsCode">
+  <app-demo-block [heading]="page().labels['eventsHeading']" [code]="eventsCode" [ts]="eventsTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-search-field
@@ -89,7 +89,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" language="ts">
+  <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" [ts]="formsTs">
     <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-search-field

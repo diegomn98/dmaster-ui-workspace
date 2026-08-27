@@ -59,6 +59,18 @@ export class ErrorMessagePageComponent {
   // ---- Basic ---------------------------------------------------------------
   protected readonly basicCode = '<dm-error>This field is required</dm-error>';
 
+  protected readonly basicTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmErrorComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-error-basic',",
+    '  imports: [DmErrorComponent],',
+    "  templateUrl: './error-basic.component.html',",
+    '})',
+    'export class ErrorBasicComponent {}',
+  ].join('\n');
+
   // ---- With an icon --------------------------------------------------------
   protected readonly withIconCode = [
     '<!-- No built-in icon: project any icon and the flex host aligns it. -->',
@@ -68,10 +80,34 @@ export class ErrorMessagePageComponent {
     '</dm-error>',
   ].join('\n');
 
+  protected readonly withIconTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmErrorComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-error-with-icon',",
+    '  imports: [DmErrorComponent, DmIconComponent],',
+    "  templateUrl: './error-with-icon.component.html',",
+    '})',
+    'export class ErrorWithIconComponent {}',
+  ].join('\n');
+
   // ---- Sizes ---------------------------------------------------------------
   protected readonly sizesCode = [
     '<dm-error size="sm">Small message</dm-error>',
     '<dm-error size="md">Medium message</dm-error>',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmErrorComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-error-sizes',",
+    '  imports: [DmErrorComponent],',
+    "  templateUrl: './error-sizes.component.html',",
+    '})',
+    'export class ErrorSizesComponent {}',
   ].join('\n');
 
   // ---- Inside a form field (live) ------------------------------------------

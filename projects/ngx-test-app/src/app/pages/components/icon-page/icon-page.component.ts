@@ -306,12 +306,38 @@ export class IconPageComponent {
     '<dm-icon [weight]="700">favorite</dm-icon> <!-- bolder -->',
   ].join('\n');
 
+  protected readonly stylesTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-styles',",
+    '  imports: [DmIconComponent],',
+    "  templateUrl: './icon-styles.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class IconStylesComponent {}',
+  ].join('\n');
+
   protected readonly colorCode = [
     '<!-- A semantic token… -->',
     '<dm-icon name="heart" color="danger" />',
     '<dm-icon name="star" color="warning" />',
     '<!-- …or any CSS color -->',
     '<dm-icon name="bell" color="#8b5cf6" />',
+  ].join('\n');
+
+  protected readonly colorTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-color',",
+    '  imports: [DmIconComponent],',
+    "  templateUrl: './icon-color.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class IconColorComponent {}',
   ].join('\n');
 
   protected readonly sizesCode = [
@@ -321,7 +347,33 @@ export class IconPageComponent {
     '<dm-icon name="sparkles" size="2.5rem" />',
   ].join('\n');
 
+  protected readonly sizesTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-sizes',",
+    '  imports: [DmIconComponent],',
+    "  templateUrl: './icon-sizes.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class IconSizesComponent {}',
+  ].join('\n');
+
   protected readonly spinCode = '<dm-icon name="refresh" [spin]="true" />';
+
+  protected readonly spinTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-spin',",
+    '  imports: [DmIconComponent],',
+    "  templateUrl: './icon-spin.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class IconSpinComponent {}',
+  ].join('\n');
 
   protected readonly projectedCode = [
     '<dm-icon size="lg" label="Verified">',
@@ -330,6 +382,19 @@ export class IconPageComponent {
     '    <path d="M20 6 9 17l-5-5" />',
     '  </svg>',
     '</dm-icon>',
+  ].join('\n');
+
+  protected readonly projectedTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-projected',",
+    '  imports: [DmIconComponent],',
+    "  templateUrl: './icon-projected.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class IconProjectedComponent {}',
   ].join('\n');
 
   protected readonly fontSetupCode = [

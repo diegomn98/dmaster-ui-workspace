@@ -32,13 +32,13 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
-  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode">
+  <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div style="width: 100%; max-width: 26rem">
       <dm-progress [value]="64" label="Uploading assets" [showValueLabel]="true" />
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode">
+  <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode" [ts]="colorsTs">
     <div class="demo-stack" style="width: 100%; max-width: 26rem">
       <dm-progress [value]="40" color="primary" ariaLabel="Primary example" />
       <dm-progress [value]="55" color="secondary" ariaLabel="Secondary example" />
@@ -49,7 +49,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode">
+  <app-demo-block [heading]="i18n.t().common.demos.sizes" [code]="sizesCode" [ts]="sizesTs">
     <div class="demo-stack" style="width: 100%; max-width: 26rem">
       <dm-progress [value]="60" size="sm" ariaLabel="Small example" />
       <dm-progress [value]="60" size="md" ariaLabel="Medium example" />
@@ -57,13 +57,17 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['indeterminate']" [code]="indeterminateCode">
+  <app-demo-block
+    [heading]="page().labels['indeterminate']"
+    [code]="indeterminateCode"
+    [ts]="indeterminateTs"
+  >
     <div style="width: 100%; max-width: 26rem">
       <dm-progress label="Syncing" ariaLabel="Syncing your library" />
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['striped']" [code]="stripedCode">
+  <app-demo-block [heading]="page().labels['striped']" [code]="stripedCode" [ts]="stripedTs">
     <div style="width: 100%; max-width: 26rem">
       <dm-progress
         [value]="70"
@@ -75,7 +79,7 @@
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['formatValue']" [code]="formatCode">
+  <app-demo-block [heading]="page().labels['formatValue']" [code]="formatCode" [ts]="formatTs">
     <div style="width: 100%; max-width: 26rem">
       <dm-progress
         [value]="48"

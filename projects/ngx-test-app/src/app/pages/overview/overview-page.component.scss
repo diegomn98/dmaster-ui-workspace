@@ -595,64 +595,6 @@
   width: 85%;
 }
 
-// Paginated select — realistic async combobox
-.ov__ex-combo {
-  display: grid;
-  gap: 0.15rem;
-  width: 88%;
-  padding: 0.35rem;
-  border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-md);
-  background: var(--dm-bg-elevated);
-  box-shadow: var(--dm-shadow-md);
-  font-size: var(--dm-text-xs);
-}
-
-.ov__ex-combo-search {
-  display: flex;
-  align-items: center;
-  gap: var(--dm-space-2);
-  padding: 0.4rem 0.5rem;
-  margin-bottom: 0.15rem;
-  border-bottom: 1px solid var(--dm-border);
-  color: var(--dm-fg-subtle);
-
-  svg {
-    width: 0.85rem;
-    height: 0.85rem;
-    flex-shrink: 0;
-  }
-}
-
-.ov__ex-combo-opt {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.4rem 0.5rem;
-  border-radius: 0.45rem;
-  color: var(--dm-fg);
-
-  svg {
-    width: 0.85rem;
-    height: 0.85rem;
-    color: var(--dm-primary);
-  }
-
-  &--active {
-    background: var(--dm-primary-subtle);
-    color: var(--dm-primary);
-    font-weight: var(--dm-font-semibold);
-  }
-}
-
-.ov__ex-combo-foot {
-  display: flex;
-  align-items: center;
-  gap: var(--dm-space-2);
-  padding: 0.4rem 0.5rem;
-  color: var(--dm-fg-subtle);
-}
-
 // Tooltip — hovered bubble over a trigger
 .ov__ex-tooltip {
   display: grid;

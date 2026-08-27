@@ -102,6 +102,18 @@ export class CardPageComponent {
     '<dm-card appearance="flat">flat — muted fill</dm-card>',
   ].join('\n');
 
+  protected readonly appearancesTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmCardComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-card-appearances',",
+    '  imports: [DmCardComponent],',
+    "  templateUrl: './card-appearances.component.html',",
+    '})',
+    'export class CardAppearancesComponent {}',
+  ].join('\n');
+
   protected readonly paddingCode = [
     '<!-- Four padding steps. Use "none" when a child (media, a table,',
     '     a list) needs to bleed to the card edges. -->',
@@ -111,12 +123,37 @@ export class CardPageComponent {
     '<dm-card padding="lg">lg</dm-card>',
   ].join('\n');
 
+  protected readonly paddingTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmCardComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-card-padding',",
+    '  imports: [DmCardComponent],',
+    "  templateUrl: './card-padding.component.html',",
+    '})',
+    'export class CardPaddingComponent {}',
+  ].join('\n');
+
   protected readonly interactiveCode = [
     '<!-- interactive adds the hover lift + press. Wrap the card in a',
     '     link or button so it gets real focus and click semantics. -->',
     '<a routerLink="/projects/42" style="text-decoration: none; color: inherit">',
     '  <dm-card [interactive]="true">…</dm-card>',
     '</a>',
+  ].join('\n');
+
+  protected readonly interactiveTs = [
+    "import { Component } from '@angular/core';",
+    "import { RouterLink } from '@angular/router';",
+    "import { DmCardComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-card-interactive',",
+    '  imports: [DmCardComponent, RouterLink],',
+    "  templateUrl: './card-interactive.component.html',",
+    '})',
+    'export class CardInteractiveComponent {}',
   ].join('\n');
 
   protected readonly sectionsCode = [
@@ -144,6 +181,27 @@ export class CardPageComponent {
     '</dm-card>',
   ].join('\n');
 
+  protected readonly sectionsTs = [
+    "import { Component } from '@angular/core';",
+    'import {',
+    '  DmAvatarComponent,',
+    '  DmBadgeComponent,',
+    '  DmButtonComponent,',
+    '  DmCardComponent,',
+    "} from '@dmaster/ui';",
+    '',
+    'const AVATAR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" fill="#6366f1"/><circle cx="24" cy="18" r="8" fill="#fff" opacity="0.92"/><path d="M8 46c0-9 7-15 16-15s16 6 16 15" fill="#fff" opacity="0.92"/></svg>`;',
+    '',
+    '@Component({',
+    "  selector: 'app-card-sections',",
+    '  imports: [DmCardComponent, DmAvatarComponent, DmBadgeComponent, DmButtonComponent],',
+    "  templateUrl: './card-sections.component.html',",
+    '})',
+    'export class CardSectionsComponent {',
+    '  protected readonly avatar = `data:image/svg+xml;utf8,${encodeURIComponent(AVATAR_SVG)}`;',
+    '}',
+  ].join('\n');
+
   protected readonly mediaCode = [
     '<!-- A cover card: padding="none" lets a full-bleed banner sit flush',
     '     to the rounded corners, with padded content beneath it. -->',
@@ -160,6 +218,18 @@ export class CardPageComponent {
     '    </p>',
     '  </div>',
     '</dm-card>',
+  ].join('\n');
+
+  protected readonly mediaTs = [
+    "import { Component } from '@angular/core';",
+    "import { DmBadgeComponent, DmCardComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-card-media',",
+    '  imports: [DmCardComponent, DmBadgeComponent],',
+    "  templateUrl: './card-media.component.html',",
+    '})',
+    'export class CardMediaComponent {}',
   ].join('\n');
 
   protected readonly compositionCode = [

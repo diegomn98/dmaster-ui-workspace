@@ -158,6 +158,20 @@ export class PaginationPageComponent {
     '<span>Page {{ page() }}</span>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmPaginationComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pagination-basic',",
+    '  imports: [DmPaginationComponent],',
+    "  templateUrl: './pagination-basic.component.html',",
+    '})',
+    'export class PaginationBasicComponent {',
+    '  protected readonly page = signal(1);',
+    '}',
+  ].join('\n');
+
   protected readonly windowCode = [
     '<dm-pagination',
     '  [totalPages]="20"',
@@ -166,10 +180,38 @@ export class PaginationPageComponent {
     '  [(page)]="page" />',
   ].join('\n');
 
+  protected readonly windowTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmPaginationComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pagination-window',",
+    '  imports: [DmPaginationComponent],',
+    "  templateUrl: './pagination-window.component.html',",
+    '})',
+    'export class PaginationWindowComponent {',
+    '  protected readonly page = signal(8);',
+    '}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-pagination size="sm" [totalPages]="8" [(page)]="page" />',
     '<dm-pagination size="md" [totalPages]="8" [(page)]="page" />',
     '<dm-pagination size="lg" [totalPages]="8" [(page)]="page" />',
+  ].join('\n');
+
+  protected readonly sizesTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmPaginationComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pagination-sizes',",
+    '  imports: [DmPaginationComponent],',
+    "  templateUrl: './pagination-sizes.component.html',",
+    '})',
+    'export class PaginationSizesComponent {',
+    '  protected readonly page = signal(2);',
+    '}',
   ].join('\n');
 
   protected readonly colorsCode = [
@@ -180,12 +222,54 @@ export class PaginationPageComponent {
     '<dm-pagination color="danger" [totalPages]="6" [(page)]="page" />',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmPaginationComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pagination-colors',",
+    '  imports: [DmPaginationComponent],',
+    "  templateUrl: './pagination-colors.component.html',",
+    '})',
+    'export class PaginationColorsComponent {',
+    '  protected readonly page = signal(3);',
+    '}',
+  ].join('\n');
+
   protected readonly noControlsCode = [
     '<dm-pagination [totalPages]="8" [showControls]="false" [(page)]="page" />',
   ].join('\n');
 
+  protected readonly noControlsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmPaginationComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pagination-no-controls',",
+    '  imports: [DmPaginationComponent],',
+    "  templateUrl: './pagination-no-controls.component.html',",
+    '})',
+    'export class PaginationNoControlsComponent {',
+    '  protected readonly page = signal(2);',
+    '}',
+  ].join('\n');
+
   protected readonly disabledCode = [
     '<dm-pagination [totalPages]="8" [disabled]="true" [(page)]="page" />',
+  ].join('\n');
+
+  protected readonly disabledTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmPaginationComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-pagination-disabled',",
+    '  imports: [DmPaginationComponent],',
+    "  templateUrl: './pagination-disabled.component.html',",
+    '})',
+    'export class PaginationDisabledComponent {',
+    '  protected readonly page = signal(2);',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [

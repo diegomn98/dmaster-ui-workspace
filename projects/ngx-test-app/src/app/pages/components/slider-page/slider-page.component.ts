@@ -94,6 +94,20 @@ export class SliderPageComponent {
     '/>',
   ].join('\n');
 
+  protected readonly basicTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSliderComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-slider-basic',",
+    '  imports: [DmSliderComponent],',
+    "  templateUrl: './slider-basic.component.html',",
+    '})',
+    'export class SliderBasicComponent {',
+    '  protected readonly volume = signal(60);',
+    '}',
+  ].join('\n');
+
   protected readonly marksCode = [
     '<dm-slider',
     '  [(value)]="level"',
@@ -101,14 +115,28 @@ export class SliderPageComponent {
     '  [marks]="marks"',
     '  ariaLabel="Level"',
     '/>',
+  ].join('\n');
+
+  protected readonly marksTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSliderComponent } from '@dmaster/ui';",
     '',
-    'protected readonly marks = [',
-    "  { value: 0, label: 'Low' },",
-    '  { value: 25 },',
-    '  { value: 50 },',
-    '  { value: 75 },',
-    "  { value: 100, label: 'High' },",
-    '];',
+    '@Component({',
+    "  selector: 'app-slider-marks',",
+    '  imports: [DmSliderComponent],',
+    "  templateUrl: './slider-marks.component.html',",
+    '})',
+    'export class SliderMarksComponent {',
+    '  protected readonly level = signal(50);',
+    '',
+    '  protected readonly marks = [',
+    "    { value: 0, label: 'Low' },",
+    '    { value: 25 },',
+    '    { value: 50 },',
+    '    { value: 75 },',
+    "    { value: 100, label: 'High' },",
+    '  ];',
+    '}',
   ].join('\n');
 
   protected readonly colorsCode = [
@@ -119,24 +147,61 @@ export class SliderPageComponent {
     '<dm-slider color="danger" [(value)]="v" ariaLabel="Danger" />',
   ].join('\n');
 
+  protected readonly colorsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSliderComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-slider-colors',",
+    '  imports: [DmSliderComponent],',
+    "  templateUrl: './slider-colors.component.html',",
+    '})',
+    'export class SliderColorsComponent {',
+    '  protected readonly v = signal(65);',
+    '}',
+  ].join('\n');
+
   protected readonly sizesCode = [
     '<dm-slider size="sm" [(value)]="v" ariaLabel="Small" />',
     '<dm-slider size="md" [(value)]="v" ariaLabel="Medium" />',
     '<dm-slider size="lg" [(value)]="v" ariaLabel="Large" />',
   ].join('\n');
 
+  protected readonly sizesTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSliderComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-slider-sizes',",
+    '  imports: [DmSliderComponent],',
+    "  templateUrl: './slider-sizes.component.html',",
+    '})',
+    'export class SliderSizesComponent {',
+    '  protected readonly v = signal(45);',
+    '}',
+  ].join('\n');
+
   protected readonly formsCode = [
-    "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
-    '',
-    'protected readonly price = new FormControl(250, { nonNullable: true });',
-    '',
     '<dm-slider [formControl]="price" [max]="1000" [step]="50" ariaLabel="Price" />',
     '<span>value: {{ price.value }}</span>',
   ].join('\n');
 
-  protected readonly formatCode = [
-    'protected readonly asCurrency = (v: number) => `$${v}`;',
+  protected readonly formsTs = [
+    "import { Component } from '@angular/core';",
+    "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
+    "import { DmSliderComponent } from '@dmaster/ui';",
     '',
+    '@Component({',
+    "  selector: 'app-slider-forms',",
+    '  imports: [DmSliderComponent, ReactiveFormsModule],',
+    "  templateUrl: './slider-forms.component.html',",
+    '})',
+    'export class SliderFormsComponent {',
+    '  protected readonly price = new FormControl(250, { nonNullable: true });',
+    '}',
+  ].join('\n');
+
+  protected readonly formatCode = [
     '<dm-slider',
     '  [(value)]="budget"',
     '  [max]="2000"',
@@ -145,6 +210,22 @@ export class SliderPageComponent {
     '  [formatValue]="asCurrency"',
     '  ariaLabel="Budget"',
     '/>',
+  ].join('\n');
+
+  protected readonly formatTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSliderComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-slider-format',",
+    '  imports: [DmSliderComponent],',
+    "  templateUrl: './slider-format.component.html',",
+    '})',
+    'export class SliderFormatComponent {',
+    '  protected readonly budget = signal(750);',
+    '',
+    '  protected readonly asCurrency = (v: number) => `$${v}`;',
+    '}',
   ].join('\n');
 
   protected readonly defaultsCode = [
