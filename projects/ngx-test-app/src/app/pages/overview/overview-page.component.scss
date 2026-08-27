@@ -163,6 +163,7 @@
   }
 }
 
+// Terminal-style install chip; the copy interaction is a dogfooded dm-copy-button.
 .ov__install {
   display: inline-flex;
   align-items: center;
@@ -175,18 +176,6 @@
   font-family: var(--dm-font-mono);
   font-size: var(--dm-text-sm);
   color: var(--dm-fg);
-  cursor: pointer;
-
-  @include mixins.transition(background-color, border-color);
-
-  &:hover {
-    background: var(--dm-bg-muted);
-    border-color: var(--dm-fg-subtle);
-  }
-
-  &:focus-visible {
-    @include mixins.focus-ring;
-  }
 }
 
 .ov__install-prompt {
@@ -197,28 +186,6 @@
 .ov__install-cmd {
   font-family: inherit;
   color: var(--dm-fg);
-}
-
-.ov__install-copy {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.9rem;
-  height: 1.9rem;
-  border-radius: var(--dm-radius-full);
-  background: var(--dm-bg-muted);
-  color: var(--dm-fg-muted);
-
-  @include mixins.transition(background-color, color);
-}
-
-.ov__install:hover .ov__install-copy {
-  color: var(--dm-fg);
-}
-
-.ov__install--copied .ov__install-copy {
-  background: var(--dm-success-subtle);
-  color: var(--dm-success);
 }
 
 // ============================================================================

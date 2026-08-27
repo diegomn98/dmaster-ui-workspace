@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  DestroyRef,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   DmAlertComponent,
@@ -20,6 +13,7 @@ import {
   DmCardComponent,
   DmCheckboxComponent,
   DmColorPickerComponent,
+  DmCopyButtonComponent,
   DmDatePickerComponent,
   DmDividerComponent,
   DmErrorComponent,
@@ -97,6 +91,7 @@ interface OverviewStat {
     DmAvatarComponent,
     DmCardComponent,
     DmButtonComponent,
+    DmCopyButtonComponent,
     DmButtonGroupComponent,
     DmSwitchComponent,
     DmCheckboxComponent,
@@ -144,25 +139,9 @@ export class OverviewPageComponent {
   protected readonly i18n = inject(LocaleService);
   protected readonly page = computed(() => this.i18n.t().pages.overview);
 
-  private readonly destroyRef = inject(DestroyRef);
-  protected readonly installCmd = 'npm i @dmaster/ui';
-  protected readonly copied = signal(false);
-  private copyTimer?: ReturnType<typeof setTimeout>;
-
-  constructor() {
-    this.destroyRef.onDestroy(() => clearTimeout(this.copyTimer));
-  }
-
-  protected async copyInstall(): Promise<void> {
-    try {
-      await navigator.clipboard.writeText(this.installCmd);
-      this.copied.set(true);
-      clearTimeout(this.copyTimer);
-      this.copyTimer = setTimeout(() => this.copied.set(false), 2000);
-    } catch {
-      // Clipboard unavailable (insecure context / permissions): no-op.
-    }
-  }
+  // The recommended install — same command shown on the home and getting-started
+  // pages. Copied via the library's own dm-copy-button (dogfooding).
+  protected readonly installCmd = 'ng add @dmaster/ui';
 
   protected readonly tiles = computed<OverviewTile[]>(() => {
     const nav = this.i18n.t().shell.nav;

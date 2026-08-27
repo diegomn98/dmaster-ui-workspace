@@ -56,6 +56,7 @@ export const COMPONENT_REGISTRY: ComponentRegistryEntry[] = [
   { id: 'alert', categoryKey: 'feedback', navKey: 'alert' },
   { id: 'button', categoryKey: 'buttons', navKey: 'button' },
   { id: 'button-group', categoryKey: 'buttons', navKey: 'buttonGroup' },
+  { id: 'copy-button', categoryKey: 'buttons', navKey: 'copyButton' },
   { id: 'switch', categoryKey: 'forms', navKey: 'switch' },
   { id: 'checkbox', categoryKey: 'forms', navKey: 'checkbox' },
   { id: 'radio-group', categoryKey: 'forms', navKey: 'radioGroup' },

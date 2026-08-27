@@ -90,7 +90,8 @@ projects/ngx-dmaster-ui/src/
         │   └── alert/             # color × variant, icono semántico, dismissible, action slot
         ├── buttons/
         │   ├── button/            # color × variant + estados idle/loading/success/error, live region
-        │   └── button-group/      # agrupa dm-button en un control segmentado (bordes unidos, un solo contorno)
+        │   ├── button-group/      # agrupa dm-button en un control segmentado (bordes unidos, un solo contorno)
+        │   └── copy-button/       # dm-copy-button (compone dm-button, icono copiar→check) + directiva dmCopyToClipboard; clipboard SSR-safe (DOCUMENT + async API, fallback execCommand)
         ├── forms/                 # CVA: switch, checkbox, select, autocomplete, search-field, slider; form-field + directiva dmInput
         │   ├── switch/            # prop-signal del dashboard lo dogfoodea
         │   ├── checkbox/

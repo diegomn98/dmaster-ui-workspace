@@ -117,6 +117,7 @@ export class ShellComponent implements OnInit {
         items: [
           { label: t.shell.nav.button, path: '/components/button' },
           { label: t.shell.nav.buttonGroup, path: '/components/button-group' },
+          { label: t.shell.nav.copyButton, path: '/components/copy-button' },
         ],
       },
       {

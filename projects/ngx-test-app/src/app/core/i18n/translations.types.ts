@@ -99,6 +99,7 @@ export interface DashboardTranslations {
       emptyState: string;
       toggleGroup: string;
       buttonGroup: string;
+      copyButton: string;
       otp: string;
     };
   };
@@ -507,6 +508,7 @@ export interface DashboardTranslations {
     emptyState: SimplePageTranslations;
     toggleGroup: SimplePageTranslations;
     buttonGroup: SimplePageTranslations;
+    copyButton: SimplePageTranslations;
     otp: SimplePageTranslations;
   };
 }

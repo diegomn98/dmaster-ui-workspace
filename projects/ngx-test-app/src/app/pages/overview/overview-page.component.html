@@ -12,23 +12,17 @@
         {{ page().labels['getStarted'] || 'Get started' }}
         <dm-icon name="arrow-right" size="1rem" />
       </a>
-      <button
-        type="button"
-        class="ov__install"
-        [class.ov__install--copied]="copied()"
-        (click)="copyInstall()"
-        [attr.aria-label]="page().labels['copyInstall'] || 'Copy install command'"
-      >
+      <div class="ov__install">
         <span class="ov__install-prompt">$</span>
-        <code class="ov__install-cmd">npm i &#64;dmaster/ui</code>
-        <span class="ov__install-copy">
-          @if (copied()) {
-            <dm-icon name="check" size="0.95rem" />
-          } @else {
-            <dm-icon name="copy" size="0.95rem" />
-          }
-        </span>
-      </button>
+        <code class="ov__install-cmd">ng add &#64;dmaster/ui</code>
+        <dm-copy-button
+          class="ov__install-copy"
+          [value]="installCmd"
+          size="sm"
+          [ariaLabel]="page().labels['copyInstall'] || 'Copy install command'"
+          [copiedAriaLabel]="page().labels['copiedInstall'] || 'Copied'"
+        />
+      </div>
     </div>
 
     <dl class="ov__stats">
@@ -374,6 +368,15 @@
                     <dm-button>Cut</dm-button>
                     <dm-button>Paste</dm-button>
                   </dm-button-group>
+                }
+                @case ('copy-button') {
+                  <dm-copy-button
+                    value="ng add @dmaster/ui"
+                    variant="flat"
+                    copyLabel="Copy"
+                    copiedLabel="Copied!"
+                    ariaLabel="Copy install command"
+                  />
                 }
                 @case ('otp') {
                   <dm-otp [(value)]="ovOtp" [length]="4" ariaLabel="Code preview" />
