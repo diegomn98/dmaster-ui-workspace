@@ -1178,6 +1178,7 @@ export const ES: DashboardTranslations = {
           'Valor de texto en dos direcciones (el texto libre del campo): [(value)] / (valueChange).',
         optionSelected:
           'Emite la DmAutocompleteOption elegida cuando el usuario selecciona una sugerencia.',
+        openChange: 'Emite cuando el overlay de sugerencias se abre (true) o cierra (false).',
         label: 'Etiqueta visible sobre el campo.',
         placeholder: 'Se muestra mientras el campo está vacío.',
         description: 'Texto de ayuda bajo el campo.',

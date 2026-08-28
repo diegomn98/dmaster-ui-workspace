@@ -485,6 +485,7 @@ export class AutocompletePageComponent {
         default: '—',
         description: api['optionSelected'],
       },
+      { name: 'openChange', type: 'output<boolean>', default: '—', description: api['openChange'] },
       { name: 'label', type: 'string', default: "''", description: api['label'] },
       { name: 'placeholder', type: 'string', default: "''", description: api['placeholder'] },
       { name: 'description', type: 'string', default: "''", description: api['description'] },

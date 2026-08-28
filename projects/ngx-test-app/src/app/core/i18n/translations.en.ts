@@ -1172,6 +1172,7 @@ export const EN: DashboardTranslations = {
         options: 'Array of { value, label, description?, disabled? } suggestions.',
         value: 'Two-way text value (the free text in the field): [(value)] / (valueChange).',
         optionSelected: 'Emits the chosen DmAutocompleteOption when the user picks a suggestion.',
+        openChange: 'Emits when the suggestions overlay opens (true) or closes (false).',
         label: 'Visible label above the field.',
         placeholder: 'Shown while the field is empty.',
         description: 'Help text below the field.',

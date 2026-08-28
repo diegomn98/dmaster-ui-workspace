@@ -1179,6 +1179,7 @@ export const FR: DashboardTranslations = {
           'Valeur texte bidirectionnelle (le texte libre du champ) : [(value)] / (valueChange).',
         optionSelected:
           'Émet la DmAutocompleteOption choisie quand l’utilisateur sélectionne une suggestion.',
+        openChange: 'Émet quand l’overlay de suggestions s’ouvre (true) ou se ferme (false).',
         label: 'Libellé visible au-dessus du champ.',
         placeholder: 'Affiché tant que le champ est vide.',
         description: 'Texte d’aide sous le champ.',
