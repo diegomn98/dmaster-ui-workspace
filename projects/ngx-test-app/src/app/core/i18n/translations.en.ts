@@ -1085,6 +1085,7 @@ export const EN: DashboardTranslations = {
         multiple: 'Selects more than one value; chips replace the single-value label.',
         value: 'Two-way state for single mode: [(value)] / (valueChange).',
         values: 'Two-way array for multiple mode: [(values)] / (valuesChange).',
+        compareWith: 'Match a value against options by identity (objects by field), not by reference.',
         filterable: 'Shows an inline search box in the panel that filters the options.',
         filterPlaceholder: 'Placeholder for the inline filter input.',
         noResultsLabel: 'Message shown when the filter matches no options.',
@@ -1380,7 +1381,7 @@ export const EN: DashboardTranslations = {
         'A hidden <code>&lt;input name&gt;</code> serializes the value in native <code>&lt;form&gt;</code> submissions.',
       ],
       api: {
-        name: 'Form control name (required for native form submission).',
+        name: 'Attribute name of the hidden input for native form submission. Optional (auto-generated id).',
         value: 'Currently selected value (two-way).',
         color: 'Semantic color of the checked state.',
         size: 'Control size (sm, md, lg).',

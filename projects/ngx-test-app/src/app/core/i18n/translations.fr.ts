@@ -1088,6 +1088,7 @@ export const FR: DashboardTranslations = {
           'Sélectionne plusieurs valeurs ; les chips remplacent le libellé de valeur unique.',
         value: 'État two-way en mode simple : [(value)] / (valueChange).',
         values: 'Tableau two-way en mode multiple : [(values)] / (valuesChange).',
+        compareWith: 'Compare une valeur aux options par identité (objets par champ), pas par référence.',
         filterable: 'Affiche un champ de recherche inline dans le panneau qui filtre les options.',
         filterPlaceholder: 'Placeholder du champ de filtre inline.',
         noResultsLabel: 'Message affiché quand le filtre ne trouve aucune option.',
@@ -1388,7 +1389,7 @@ export const FR: DashboardTranslations = {
         'Un <code>&lt;input name&gt;</code> caché sérialise la valeur dans un <code>&lt;form&gt;</code> natif.',
       ],
       api: {
-        name: 'Nom du contrôle (requis pour la soumission native).',
+        name: 'Nom de l’input caché pour la soumission native. Optionnel (id auto-généré).',
         value: 'Valeur sélectionnée (two-way).',
         color: 'Couleur sémantique de l’état checked.',
         size: 'Taille du contrôle (sm, md, lg).',

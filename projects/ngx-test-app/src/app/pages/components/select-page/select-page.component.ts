@@ -740,6 +740,12 @@ export class SelectPageComponent {
       { name: 'multiple', type: 'boolean', default: 'false', description: api['multiple'] },
       { name: 'value', type: 'model<T | null>', default: 'null', description: api['value'] },
       { name: 'values', type: 'model<T[]>', default: '[]', description: api['values'] },
+      {
+        name: 'compareWith',
+        type: '(a: T, b: T) => boolean',
+        default: '===',
+        description: api['compareWith'],
+      },
       { name: 'filterable', type: 'boolean', default: 'false', description: api['filterable'] },
       {
         name: 'filterPlaceholder',
