@@ -765,6 +765,7 @@ export const FR: DashboardTranslations = {
         initials: 'Affichées sans image (valide).',
         size: 'Taille nommée (2 / 2.5 / 3rem), pixels (nombre) ou longueur CSS.',
         shape: 'Cercle ou carré.',
+        color: 'Couleur sémantique de la teinte des initiales.',
       },
       labels: {
         fallbackHeading: 'Chaîne de fallback',
@@ -785,6 +786,7 @@ export const FR: DashboardTranslations = {
       ],
       api: {
         checked: 'État two-way : [(checked)] / (checkedChange).',
+        color: 'Couleur sémantique du rail coché.',
         disabled: 'Combiné avec l’état disabled des forms.',
         size: 'Échelle de taille.',
         inputId: 'Id du bouton interne, pour label[for] externe.',
@@ -802,11 +804,12 @@ export const FR: DashboardTranslations = {
       apiCaption: 'Inputs de dm-checkbox',
       a11yItems: [
         'Input natif réel : clavier, focus et sémantique de formulaire gratuits ; le contenu projeté est un vrai label.',
-        'L’indéterminé expose <code>aria-checked="mixed"</code>.',
+        'L’indéterminé utilise la propriété native <code>indeterminate</code> (pas <code>aria-checked="mixed"</code>).',
         'Cible tactile ≥44px ; l’animation de la coche respecte reduced-motion.',
       ],
       api: {
         checked: 'État two-way : [(checked)] / (checkedChange).',
+        color: 'Couleur sémantique du remplissage coché / indéterminé.',
         indeterminate: 'État mixte visuel tant que non coché.',
         disabled: 'Combiné avec l’état disabled des forms.',
         inputId: 'Id de l’input natif, pour label[for] externe.',

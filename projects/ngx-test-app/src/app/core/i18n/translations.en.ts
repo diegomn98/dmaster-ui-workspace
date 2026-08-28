@@ -763,6 +763,7 @@ export const EN: DashboardTranslations = {
         initials: 'Shown when there is no (working) image.',
         size: 'Named size (2 / 2.5 / 3rem), pixels (number) or CSS length.',
         shape: 'Circle or square.',
+        color: 'Semantic color of the initials tint.',
       },
       labels: {
         fallbackHeading: 'Fallback chain',
@@ -783,6 +784,7 @@ export const EN: DashboardTranslations = {
       ],
       api: {
         checked: 'Two-way state: [(checked)] / (checkedChange).',
+        color: 'Semantic color of the checked track.',
         disabled: 'Combined with the forms disabled state.',
         size: 'Size scale.',
         inputId: 'Id of the internal button, for external label[for].',
@@ -800,11 +802,12 @@ export const EN: DashboardTranslations = {
       apiCaption: 'dm-checkbox inputs',
       a11yItems: [
         'Real native input: keyboard, focus and form semantics for free; the projected content is a real label.',
-        'Indeterminate exposes <code>aria-checked="mixed"</code>.',
+        'Indeterminate uses the native <code>indeterminate</code> property (not <code>aria-checked="mixed"</code>).',
         '≥44px touch target; the check animation honors reduced-motion.',
       ],
       api: {
         checked: 'Two-way state: [(checked)] / (checkedChange).',
+        color: 'Semantic color of the checked / indeterminate fill.',
         indeterminate: 'Visual mixed state while not checked.',
         disabled: 'Combined with the forms disabled state.',
         inputId: 'Id of the native input, for external label[for].',

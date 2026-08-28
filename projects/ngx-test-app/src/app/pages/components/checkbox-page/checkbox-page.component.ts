@@ -352,6 +352,12 @@ export class CheckboxPageComponent {
     return [
       { name: 'checked', type: 'model<boolean>', default: 'false', description: api['checked'] },
       {
+        name: 'color',
+        type: "'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'",
+        default: "'primary'",
+        description: api['color'],
+      },
+      {
         name: 'indeterminate',
         type: 'boolean',
         default: 'false',

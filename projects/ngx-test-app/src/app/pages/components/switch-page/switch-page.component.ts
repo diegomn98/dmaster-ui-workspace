@@ -380,6 +380,12 @@ export class SwitchPageComponent {
     const api = this.page().api;
     return [
       { name: 'checked', type: 'model<boolean>', default: 'false', description: api['checked'] },
+      {
+        name: 'color',
+        type: "'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'",
+        default: "'primary'",
+        description: api['color'],
+      },
       { name: 'disabled', type: 'boolean', default: 'false', description: api['disabled'] },
       { name: 'size', type: "'sm' | 'md'", default: "'md'", description: api['size'] },
       { name: 'inputId', type: 'string', default: "''", description: api['inputId'] },

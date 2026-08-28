@@ -288,6 +288,12 @@ export class AvatarPageComponent {
         default: "'circle'",
         description: api['shape'],
       },
+      {
+        name: 'color',
+        type: "'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'",
+        default: "'primary'",
+        description: api['color'],
+      },
     ];
   });
 }

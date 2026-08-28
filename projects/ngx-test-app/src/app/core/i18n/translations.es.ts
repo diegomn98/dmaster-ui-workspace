@@ -765,6 +765,7 @@ export const ES: DashboardTranslations = {
         initials: 'Se muestran cuando no hay imagen (válida).',
         size: 'Tamaño con nombre (2 / 2.5 / 3rem), píxeles (número) o longitud CSS.',
         shape: 'Círculo o cuadrado.',
+        color: 'Color semántico del tinte de las iniciales.',
       },
       labels: {
         fallbackHeading: 'Cadena de fallback',
@@ -785,6 +786,7 @@ export const ES: DashboardTranslations = {
       ],
       api: {
         checked: 'Estado two-way: [(checked)] / (checkedChange).',
+        color: 'Color semántico del track marcado.',
         disabled: 'Se combina con el estado disabled de forms.',
         size: 'Escala de tamaño.',
         inputId: 'Id del botón interno, para label[for] externo.',
@@ -802,11 +804,12 @@ export const ES: DashboardTranslations = {
       apiCaption: 'Inputs de dm-checkbox',
       a11yItems: [
         'Input nativo real: teclado, foco y semántica de formulario gratis; el contenido proyectado es un label real.',
-        'El indeterminado expone <code>aria-checked="mixed"</code>.',
+        'El indeterminado usa la propiedad nativa <code>indeterminate</code> (no <code>aria-checked="mixed"</code>).',
         'Target táctil ≥44px; la animación del check respeta reduced-motion.',
       ],
       api: {
         checked: 'Estado two-way: [(checked)] / (checkedChange).',
+        color: 'Color semántico del relleno marcado / indeterminado.',
         indeterminate: 'Estado mixto visual mientras no está marcado.',
         disabled: 'Se combina con el estado disabled de forms.',
         inputId: 'Id del input nativo, para label[for] externo.',
