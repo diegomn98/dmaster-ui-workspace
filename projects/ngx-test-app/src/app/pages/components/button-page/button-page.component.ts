@@ -371,6 +371,7 @@ export class ButtonPageComponent {
         description: api.radius,
       },
       { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: api.size },
+      { name: 'loading', type: 'boolean', default: 'false', description: api.loading },
       {
         name: 'state',
         type: "'idle' | 'loading' | 'success' | 'error'",

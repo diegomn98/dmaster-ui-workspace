@@ -455,8 +455,9 @@ export const EN: DashboardTranslations = {
       variant: 'Visual variant: solid, flat, faded, bordered, light, ghost, shadow (colored glow).',
       radius: 'Corner rounding: none, sm, md, lg, full (pill).',
       size: 'Control size; heights follow the global density tokens.',
+      loading: 'Shows the spinner and disables the button — the shortcut for a simple async state.',
       state:
-        'Current state. loading disables the button and shows the spinner; success/error flash an icon.',
+        'Full state machine; success/error flash an icon. A non-idle value takes precedence over loading.',
       type: 'Native button type.',
       disabled: 'Disables the button (it is also disabled automatically while loading).',
       loadingLabel:
@@ -1175,6 +1176,8 @@ export const EN: DashboardTranslations = {
         required: 'Shows the * marker and sets aria-required.',
         clearable: 'Shows an × button to clear the text.',
         openOnFocus: 'Opens the suggestions on focus, before any text is typed.',
+        filter: 'Client-side filtering. Set false for server-driven options shown verbatim.',
+        filterFn: 'Custom matcher for the built-in filter (e.g. match on a description).',
         noResultsLabel: 'Message shown when no option matches (hidden if empty).',
         color: 'Semantic color for the focus ring and caret.',
         variant: 'Field surface: flat, bordered, faded, underlined.',

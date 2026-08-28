@@ -357,6 +357,7 @@ export interface DashboardTranslations {
       variant: string;
       radius: string;
       size: string;
+      loading: string;
       state: string;
       type: string;
       disabled: string;

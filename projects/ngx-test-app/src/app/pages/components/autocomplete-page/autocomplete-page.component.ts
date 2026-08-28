@@ -493,6 +493,13 @@ export class AutocompletePageComponent {
       { name: 'required', type: 'boolean', default: 'false', description: api['required'] },
       { name: 'clearable', type: 'boolean', default: 'true', description: api['clearable'] },
       { name: 'openOnFocus', type: 'boolean', default: 'false', description: api['openOnFocus'] },
+      { name: 'filter', type: 'boolean', default: 'true', description: api['filter'] },
+      {
+        name: 'filterFn',
+        type: '((option, query) => boolean) | null',
+        default: 'null',
+        description: api['filterFn'],
+      },
       { name: 'noResultsLabel', type: 'string', default: "''", description: api['noResultsLabel'] },
       {
         name: 'color',

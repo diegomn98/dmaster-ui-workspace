@@ -456,8 +456,9 @@ export const FR: DashboardTranslations = {
         'Variante visuelle : solid, flat, faded, bordered, light, ghost, shadow (glow coloré).',
       radius: 'Arrondi des coins : none, sm, md, lg, full (pilule).',
       size: 'Taille du contrôle ; les hauteurs suivent les tokens globaux de densité.',
+      loading: 'Affiche le spinner et désactive le bouton — le raccourci pour un état async simple.',
       state:
-        'État courant. loading désactive le bouton et affiche le spinner ; success/error affichent une icône.',
+        'Machine à états complète ; success/error affichent une icône. Une valeur non-idle prime sur loading.',
       type: 'Type natif du bouton.',
       disabled: 'Désactive le bouton (désactivé aussi automatiquement pendant le chargement).',
       loadingLabel:
@@ -1182,6 +1183,8 @@ export const FR: DashboardTranslations = {
         required: 'Affiche le marqueur * et fixe aria-required.',
         clearable: 'Affiche un bouton × pour effacer le texte.',
         openOnFocus: 'Ouvre les suggestions au focus, avant toute saisie.',
+        filter: 'Filtrage côté client. Mettez false pour des options server-driven affichées telles quelles.',
+        filterFn: 'Matcher personnalisé pour le filtre intégré (p. ex. sur une description).',
         noResultsLabel: 'Message quand aucune option ne correspond (masqué si vide).',
         color: 'Couleur sémantique de l’anneau de focus et du curseur.',
         variant: 'Surface du champ : flat, bordered, faded, underlined.',

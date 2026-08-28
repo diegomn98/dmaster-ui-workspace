@@ -456,8 +456,9 @@ export const ES: DashboardTranslations = {
         'Variante visual: solid, flat, faded, bordered, light, ghost, shadow (glow de color).',
       radius: 'Redondeo de esquinas: none, sm, md, lg, full (píldora).',
       size: 'Tamaño del control; las alturas siguen los tokens globales de densidad.',
+      loading: 'Muestra el spinner y deshabilita el botón — el atajo para un estado async simple.',
       state:
-        'Estado actual. loading deshabilita el botón y muestra el spinner; success/error muestran un icono.',
+        'Máquina de estados completa; success/error muestran un icono. Un valor no-idle tiene prioridad sobre loading.',
       type: 'Type nativo del botón.',
       disabled: 'Deshabilita el botón (también se deshabilita automáticamente mientras carga).',
       loadingLabel:
@@ -1181,6 +1182,8 @@ export const ES: DashboardTranslations = {
         required: 'Muestra el marcador * y fija aria-required.',
         clearable: 'Muestra un botón × para limpiar el texto.',
         openOnFocus: 'Abre las sugerencias al enfocar, antes de escribir nada.',
+        filter: 'Filtrado en cliente. Ponlo en false para opciones server-driven mostradas tal cual.',
+        filterFn: 'Matcher personalizado del filtro integrado (p. ej. buscar en la descripción).',
         noResultsLabel: 'Mensaje cuando ninguna opción coincide (oculto si está vacío).',
         color: 'Color semántico del ring de foco y el cursor.',
         variant: 'Superficie del campo: flat, bordered, faded, underlined.',
