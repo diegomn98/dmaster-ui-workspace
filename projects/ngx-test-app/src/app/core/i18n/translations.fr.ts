@@ -456,7 +456,8 @@ export const FR: DashboardTranslations = {
         'Variante visuelle : solid, flat, faded, bordered, light, ghost, shadow (glow coloré).',
       radius: 'Arrondi des coins : none, sm, md, lg, full (pilule).',
       size: 'Taille du contrôle ; les hauteurs suivent les tokens globaux de densité.',
-      loading: 'Affiche le spinner et désactive le bouton — le raccourci pour un état async simple.',
+      loading:
+        'Affiche le spinner et désactive le bouton — le raccourci pour un état async simple.',
       state:
         'Machine à états complète ; success/error affichent une icône. Une valeur non-idle prime sur loading.',
       type: 'Type natif du bouton.',
@@ -1088,7 +1089,8 @@ export const FR: DashboardTranslations = {
           'Sélectionne plusieurs valeurs ; les chips remplacent le libellé de valeur unique.',
         value: 'État two-way en mode simple : [(value)] / (valueChange).',
         values: 'Tableau two-way en mode multiple : [(values)] / (valuesChange).',
-        compareWith: 'Compare une valeur aux options par identité (objets par champ), pas par référence.',
+        compareWith:
+          'Compare une valeur aux options par identité (objets par champ), pas par référence.',
         filterable: 'Affiche un champ de recherche inline dans le panneau qui filtre les options.',
         filterPlaceholder: 'Placeholder du champ de filtre inline.',
         noResultsLabel: 'Message affiché quand le filtre ne trouve aucune option.',
@@ -1188,7 +1190,8 @@ export const FR: DashboardTranslations = {
         required: 'Affiche le marqueur * et fixe aria-required.',
         clearable: 'Affiche un bouton × pour effacer le texte.',
         openOnFocus: 'Ouvre les suggestions au focus, avant toute saisie.',
-        filter: 'Filtrage côté client. Mettez false pour des options server-driven affichées telles quelles.',
+        filter:
+          'Filtrage côté client. Mettez false pour des options server-driven affichées telles quelles.',
         filterFn: 'Matcher personnalisé pour le filtre intégré (p. ex. sur une description).',
         noResultsLabel: 'Message quand aucune option ne correspond (masqué si vide).',
         color: 'Couleur sémantique de l’anneau de focus et du curseur.',
@@ -1499,9 +1502,13 @@ export const FR: DashboardTranslations = {
         selectionChange: 'Émet avec les lignes sélectionnées.',
         pageChange: 'Émet quand la page ou la taille change.',
         searchChange: 'Émet quand le terme de recherche change.',
+        cellTemplate:
+          'Template projeté rendant des cellules riches pour une colonne (contexte : ligne, index, column).',
+        emptyTemplate: 'Template projeté remplaçant le bloc vide intégré (contexte : filtered).',
       },
       labels: {
         fullFeatured: 'Rechercher, sélectionner & paginer',
+        customCells: 'Cellules personnalisées (templates)',
         selection: 'Sélection de lignes',
         pagination: 'Pagination',
         virtualScroll: 'Virtual scroll (1000 lignes)',

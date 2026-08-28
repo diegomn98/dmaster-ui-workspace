@@ -1087,7 +1087,8 @@ export const ES: DashboardTranslations = {
         multiple: 'Selecciona más de un valor; los chips sustituyen al label de valor único.',
         value: 'Estado two-way en modo simple: [(value)] / (valueChange).',
         values: 'Array two-way en modo múltiple: [(values)] / (valuesChange).',
-        compareWith: 'Compara un valor con las opciones por identidad (objetos por campo), no por referencia.',
+        compareWith:
+          'Compara un valor con las opciones por identidad (objetos por campo), no por referencia.',
         filterable: 'Muestra un buscador inline en el panel que filtra las opciones.',
         filterPlaceholder: 'Placeholder del input de filtro inline.',
         noResultsLabel: 'Mensaje que se muestra cuando el filtro no encuentra opciones.',
@@ -1187,7 +1188,8 @@ export const ES: DashboardTranslations = {
         required: 'Muestra el marcador * y fija aria-required.',
         clearable: 'Muestra un botón × para limpiar el texto.',
         openOnFocus: 'Abre las sugerencias al enfocar, antes de escribir nada.',
-        filter: 'Filtrado en cliente. Ponlo en false para opciones server-driven mostradas tal cual.',
+        filter:
+          'Filtrado en cliente. Ponlo en false para opciones server-driven mostradas tal cual.',
         filterFn: 'Matcher personalizado del filtro integrado (p. ej. buscar en la descripción).',
         noResultsLabel: 'Mensaje cuando ninguna opción coincide (oculto si está vacío).',
         color: 'Color semántico del ring de foco y el cursor.',
@@ -1496,9 +1498,14 @@ export const ES: DashboardTranslations = {
         selectionChange: 'Emite con las filas seleccionadas.',
         pageChange: 'Emite cuando cambia la página o el tamaño.',
         searchChange: 'Emite cuando cambia el término de búsqueda.',
+        cellTemplate:
+          'Plantilla proyectada que renderiza celdas ricas para una columna (contexto: fila, index, column).',
+        emptyTemplate:
+          'Plantilla proyectada que sustituye el bloque vacío integrado (contexto: filtered).',
       },
       labels: {
         fullFeatured: 'Buscar, seleccionar y paginar',
+        customCells: 'Celdas personalizadas (plantillas)',
         selection: 'Selección de filas',
         pagination: 'Paginación',
         virtualScroll: 'Virtual scroll (1000 filas)',

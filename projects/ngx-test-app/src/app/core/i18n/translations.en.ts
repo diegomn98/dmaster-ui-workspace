@@ -1085,7 +1085,8 @@ export const EN: DashboardTranslations = {
         multiple: 'Selects more than one value; chips replace the single-value label.',
         value: 'Two-way state for single mode: [(value)] / (valueChange).',
         values: 'Two-way array for multiple mode: [(values)] / (valuesChange).',
-        compareWith: 'Match a value against options by identity (objects by field), not by reference.',
+        compareWith:
+          'Match a value against options by identity (objects by field), not by reference.',
         filterable: 'Shows an inline search box in the panel that filters the options.',
         filterPlaceholder: 'Placeholder for the inline filter input.',
         noResultsLabel: 'Message shown when the filter matches no options.',
@@ -1490,9 +1491,13 @@ export const EN: DashboardTranslations = {
         selectionChange: 'Emitted with the selected rows.',
         pageChange: 'Emitted when the page or page size changes.',
         searchChange: 'Emitted when the search term changes.',
+        cellTemplate:
+          'Projected template rendering rich cells for one column key (context: row, index, column).',
+        emptyTemplate: 'Projected template replacing the built-in empty block (context: filtered).',
       },
       labels: {
         fullFeatured: 'Search, select & paginate',
+        customCells: 'Custom cells (templates)',
         selection: 'Row selection',
         pagination: 'Pagination',
         virtualScroll: 'Virtual scroll (1,000 rows)',
