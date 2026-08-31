@@ -47,24 +47,15 @@
       <div class="home__hero-install">
         <span class="home__hero-install-prompt" aria-hidden="true">$</span>
         <code>{{ installCode }}</code>
-        <button
-          type="button"
-          class="home__hero-copy-btn"
-          [class.home__hero-copy-btn--done]="copied()"
-          [attr.aria-label]="i18n.t().home.copyAria"
-          (click)="copyInstall()"
-        >
-          @if (copied()) {
-            <dm-icon name="check" size="0.875rem" />
-          } @else {
-            <dm-icon name="copy" size="0.875rem" />
-          }
-        </button>
-        <span class="home__hero-copied" role="status" aria-live="polite">
-          @if (copied()) {
-            {{ i18n.t().shared.copied }}
-          }
-        </span>
+        <dm-copy-button
+          class="home__hero-copy"
+          [value]="installCode"
+          variant="light"
+          size="sm"
+          radius="full"
+          [ariaLabel]="i18n.t().home.copyAria"
+          [copiedAriaLabel]="i18n.t().shared.copied"
+        />
       </div>
     </div>
 

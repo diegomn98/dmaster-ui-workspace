@@ -174,54 +174,11 @@
   font-weight: var(--dm-font-bold);
 }
 
-.home__hero-copy-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+// Botón de copiar del hero: dogfooding de `dm-copy-button` (feedback de check +
+// portapapeles SSR-safe incluidos). Se recoge un pelín hacia dentro del pill.
+.home__hero-copy {
   flex-shrink: 0;
-  width: 1.75rem;
-  height: 1.75rem;
-  padding: 0;
-  border: none;
-  border-radius: var(--dm-radius-full);
-  background: var(--dm-bg-muted);
-  color: var(--dm-fg-muted);
-  cursor: pointer;
-
-  @include mixins.transition(background-color, color);
-  @include mixins.touch-target;
-
-  svg {
-    width: 0.875rem;
-    height: 0.875rem;
-  }
-
-  &:hover {
-    background: var(--dm-primary-subtle);
-    color: var(--dm-primary);
-  }
-
-  &:focus-visible {
-    @include mixins.focus-ring;
-  }
-
-  &--done {
-    background: var(--dm-success-subtle, var(--dm-bg-muted));
-    color: var(--dm-success, currentcolor);
-  }
-}
-
-// Live region: feedback audible siempre, visible solo tras copiar.
-.home__hero-copied {
-  font-family: inherit;
-  font-size: var(--dm-text-xs);
-  color: var(--dm-success, var(--dm-fg-muted));
-  white-space: nowrap;
-
-  &:empty {
-    display: none;
-  }
+  margin-inline-start: calc(-1 * var(--dm-space-1));
 }
 
 // -----------------------------------------------------------------------------

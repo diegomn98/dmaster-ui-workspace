@@ -49,7 +49,7 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['rangeHeading']" [code]="rangeCode" [ts]="rangeTs">
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-date-picker
           range
@@ -59,10 +59,9 @@
           [clearable]="true"
         />
       </div>
-      <span class="demo-output">
-        {{ page().labels['selectedRange'] }}: {{ format(rangeValue()?.start ?? null) }} –
-        {{ format(rangeValue()?.end ?? null) }}
-      </span>
+      <span class="demo-output"
+        >{{ format(rangeValue()?.start ?? null) }} – {{ format(rangeValue()?.end ?? null) }}</span
+      >
     </div>
   </app-demo-block>
 
@@ -108,7 +107,7 @@
     [code]="constraintsCode"
     [ts]="constraintsTs"
   >
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row" style="flex-direction: column; align-items: flex-start; gap: var(--dm-space-3)">
       <div style="width: 18rem">
         <dm-date-picker
           [label]="page().labels['appointmentLabel']"
@@ -120,7 +119,7 @@
         />
       </div>
       <span class="demo-output"
-        >{{ page().labels['selected'] }}: {{ format(constraintsValue()) }}</span
+        >{{ format(constraintsValue()) }}</span
       >
     </div>
   </app-demo-block>
@@ -151,11 +150,11 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" [ts]="formsTs">
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-date-picker [label]="page().labels['pickLabel']" [formControl]="formControl" />
       </div>
-      <span class="demo-output">{{ page().labels['formValue'] }}: {{ format(formValue()) }}</span>
+      <span class="demo-output">{{ format(formValue()) }}</span>
     </div>
   </app-demo-block>
 

@@ -34,7 +34,7 @@
   <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div class="demo-stack">
       <dm-pagination [totalPages]="10" [(page)]="basicPage" />
-      <span class="demo-output">{{ page().labels['currentPage'] }} {{ basicPage() }}</span>
+      <span class="demo-output">{{ basicPage() }}</span>
     </div>
   </app-demo-block>
 

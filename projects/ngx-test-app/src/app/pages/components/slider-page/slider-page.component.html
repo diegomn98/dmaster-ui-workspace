@@ -58,7 +58,7 @@
   <app-demo-block [heading]="i18n.t().common.demos.forms" [code]="formsCode" [ts]="formsTs">
     <div class="demo-stack">
       <dm-slider [formControl]="price" [max]="1000" [step]="50" ariaLabel="Price" />
-      <span class="demo-output">value: {{ price.value }}</span>
+      <span class="demo-output">{{ price.value }}</span>
     </div>
   </app-demo-block>
 

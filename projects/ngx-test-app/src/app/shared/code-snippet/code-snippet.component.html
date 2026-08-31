@@ -8,36 +8,28 @@
         </span>
       }
 
-      <button
-        type="button"
+      <dm-copy-button
         class="snippet__copy"
-        (click)="copy()"
-        [class.snippet__copy--done]="copied()"
-        [attr.aria-label]="copied() ? i18n.t().shared.copied : i18n.t().shared.copyCode"
-      >
-        @if (copied()) {
-          <dm-icon name="check" size="0.75rem" />
-          {{ i18n.t().shared.copied }}
-        } @else {
-          <dm-icon name="copy" size="0.75rem" />
-          {{ i18n.t().shared.copy }}
-        }
-      </button>
+        [value]="code()"
+        variant="bordered"
+        size="sm"
+        radius="full"
+        [copyLabel]="i18n.t().shared.copy"
+        [copiedLabel]="i18n.t().shared.copied"
+        [ariaLabel]="i18n.t().shared.copyCode"
+        [copiedAriaLabel]="i18n.t().shared.copied"
+      />
     </header>
   } @else {
-    <button
-      type="button"
+    <dm-copy-button
       class="snippet__copy snippet__copy--float"
-      (click)="copy()"
-      [class.snippet__copy--done]="copied()"
-      [attr.aria-label]="copied() ? i18n.t().shared.copied : i18n.t().shared.copyCode"
-    >
-      @if (copied()) {
-        <dm-icon name="check" size="0.875rem" />
-      } @else {
-        <dm-icon name="copy" size="0.875rem" />
-      }
-    </button>
+      [value]="code()"
+      variant="flat"
+      size="sm"
+      radius="md"
+      [ariaLabel]="i18n.t().shared.copyCode"
+      [copiedAriaLabel]="i18n.t().shared.copied"
+    />
   }
 
   <pre class="snippet__pre" tabindex="0"><code [innerHTML]="highlighted()"></code></pre>

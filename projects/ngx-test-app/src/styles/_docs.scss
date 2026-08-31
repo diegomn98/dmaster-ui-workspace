@@ -545,53 +545,34 @@
   gap: var(--dm-space-2);
 }
 
-// Salida en vivo de valores (páginas de forms): lectura tipo "readout"
-// sobre fondo sólido para que respire encima de la retícula de puntos.
-// Live-value readout: a small elevated pill with a pulsing primary dot that
-// signals "this reflects the component's state right now". Shared across every
-// docs demo that echoes a value/event.
+// Salida en vivo de valores (páginas de forms): chip neutro monoespacio.
+// Flat bg-muted chip, no label, no dot — el valor habla por sí solo.
 .demo-output {
   display: inline-flex;
   align-items: center;
-  gap: var(--dm-space-2);
-  padding: 0.375rem 0.75rem 0.375rem 0.625rem;
-  border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-full);
-  background: var(--dm-bg-elevated);
-  box-shadow: var(--dm-shadow-sm);
+  padding: 0.1875rem 0.5rem;
+  background: var(--dm-bg-muted);
+  border-radius: var(--dm-radius-sm);
   font-family: var(--dm-font-mono);
   font-size: var(--dm-text-xs);
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
   line-height: 1.45;
   color: var(--dm-fg);
-
-  &::before {
-    content: '';
-    flex-shrink: 0;
-    width: 0.4375rem;
-    height: 0.4375rem;
-    border-radius: var(--dm-radius-full);
-    background: var(--dm-primary);
-    box-shadow: 0 0 0 0.1875rem var(--dm-primary-subtle);
-    animation: demo-output-pulse 2s var(--dm-ease-out) infinite;
-  }
 }
 
-@keyframes demo-output-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 0.1875rem var(--dm-primary-subtle);
-  }
-
-  50% {
-    box-shadow: 0 0 0 0.1875rem color-mix(in srgb, var(--dm-primary) 25%, transparent);
-  }
+// Field paired with its live-value readout (side by side). A field carries a
+// label above (and sometimes a hint), so it stands taller than a bare chip —
+// with the row centered, the chip floats up by half the label's height and
+// reads as misaligned. Bottom-align the row and give the readout the md control
+// height instead: it then sits as a field beside the input, centered on it.
+.demo-io {
+  align-items: flex-end;
 }
 
-@include mixins.reduced-motion {
-  .demo-output::before {
-    animation: none;
-  }
+.demo-io > .demo-output {
+  min-height: 2.5rem;
+  padding-inline: var(--dm-space-3);
 }
 
 // ---- Layouts específicos de demos de páginas nuevas ------------------------

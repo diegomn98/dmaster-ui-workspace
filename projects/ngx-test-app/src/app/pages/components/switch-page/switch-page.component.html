@@ -81,7 +81,7 @@
     <div style="display: grid; gap: 0.875rem; justify-items: start">
       <div class="demo-row" style="align-items: center">
         <dm-switch [formControl]="formControl">{{ page().labels['notifications'] }}</dm-switch>
-        <span class="demo-output">{{ page().labels['formValue'] }}: {{ formValue() }}</span>
+        <span class="demo-output">{{ formValue() }}</span>
       </div>
       <dm-button size="sm" variant="bordered" (clicked)="formControl.setValue(!formControl.value)">
         Toggle from code

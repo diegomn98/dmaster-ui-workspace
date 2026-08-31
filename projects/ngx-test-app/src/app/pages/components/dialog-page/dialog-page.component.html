@@ -15,7 +15,7 @@
   <div class="page__playground-preview">
     <div class="demo-row">
       <dm-button (clicked)="open()">{{ page().labels['open'] }}</dm-button>
-      <span class="demo-output">{{ page().labels['result'] }}: {{ lastResult() }}</span>
+      <span class="demo-output">{{ lastResult() }}</span>
     </div>
   </div>
 
@@ -40,7 +40,7 @@
       <dm-button color="danger" variant="flat" (clicked)="openConfirm()">
         {{ page().labels['demoTitle'] }}
       </dm-button>
-      <span class="demo-output">{{ page().labels['result'] }}: {{ confirmResult() }}</span>
+      <span class="demo-output">{{ confirmResult() }}</span>
     </div>
   </app-demo-block>
 
@@ -64,7 +64,7 @@
       <dm-button color="primary" variant="flat" (clicked)="openForm()">
         {{ page().labels['formTitle'] }}
       </dm-button>
-      <span class="demo-output">{{ page().labels['result'] }}: {{ formResult() }}</span>
+      <span class="demo-output">{{ formResult() }}</span>
     </div>
   </app-demo-block>
 
