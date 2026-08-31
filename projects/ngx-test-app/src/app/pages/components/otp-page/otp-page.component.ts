@@ -300,9 +300,13 @@ export class OtpPageComponent {
   protected readonly verifying = signal(false);
 
   protected submitVerify(): void {
-    if (this.verifying()) { return; }
+    if (this.verifying()) {
+      return;
+    }
     this.codeControl.markAsTouched();
-    if (this.codeControl.invalid) { return; }
+    if (this.codeControl.invalid) {
+      return;
+    }
     this.verifying.set(true);
     setTimeout(() => {
       this.verifying.set(false);

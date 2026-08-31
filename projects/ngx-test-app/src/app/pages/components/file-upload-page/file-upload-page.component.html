@@ -63,9 +63,7 @@
         [messages]="messages()"
         [(files)]="basicFiles"
       />
-      <span class="demo-output"
-        >{{ basicFiles().length ? basicFiles()[0].name : '—' }}</span
-      >
+      <span class="demo-output">{{ basicFiles().length ? basicFiles()[0].name : '—' }}</span>
     </div>
   </app-demo-block>
 
@@ -84,7 +82,8 @@
         [(files)]="multipleFiles"
       />
       <span class="demo-output"
-        >{{ multipleFiles().length }} {{ page().labels['filesWord'] }} · {{ multipleTotal() || '0 B' }}</span
+        >{{ multipleFiles().length }} {{ page().labels['filesWord'] }} ·
+        {{ multipleTotal() || '0 B' }}</span
       >
     </div>
   </app-demo-block>

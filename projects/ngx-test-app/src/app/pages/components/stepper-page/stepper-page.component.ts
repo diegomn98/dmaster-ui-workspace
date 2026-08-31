@@ -420,7 +420,9 @@ export class StepperPageComponent {
   }
 
   protected placeOrder(): void {
-    if (this.placingOrder()) { return; }
+    if (this.placingOrder()) {
+      return;
+    }
     this.placingOrder.set(true);
     setTimeout(() => this.placingOrder.set(false), 1000);
   }
@@ -625,7 +627,7 @@ export class StepperPageComponent {
     '',
     '  protected placeOrder(): void {',
     '    this.loading.set(true);',
-    "    setTimeout(() => this.loading.set(false), 1000);",
+    '    setTimeout(() => this.loading.set(false), 1000);',
     '  }',
     '}',
   ].join('\n');

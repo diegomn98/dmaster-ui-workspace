@@ -717,7 +717,7 @@ export class TreePageComponent {
     '',
     '  protected save(): void {',
     '    this.loading.set(true);',
-    "    setTimeout(() => this.loading.set(false), 900);",
+    '    setTimeout(() => this.loading.set(false), 900);',
     '  }',
     '}',
   ].join('\n');

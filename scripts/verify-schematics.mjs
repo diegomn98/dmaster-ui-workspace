@@ -77,7 +77,11 @@ console.log('verify-schematics: running the built @dmaster/ui schematics\n');
 
 // ── theme: global recolor ────────────────────────────────────────────────────
 await test('theme (global) scaffolds :root + dark and wires angular.json', async () => {
-  const tree = await runner.runSchematic('theme', { name: 'Brand', primary: '#Ff0000' }, baseTree());
+  const tree = await runner.runSchematic(
+    'theme',
+    { name: 'Brand', primary: '#Ff0000' },
+    baseTree(),
+  );
   const css = tree.readContent('/src/brand.theme.css');
   assert.match(css, /:root \{/, 'expected a :root block');
   assert.match(css, /\[data-dm-theme='dark'\] \{/, 'expected a dark block');
@@ -114,7 +118,11 @@ await test('theme expands #rgb and honours --skipImport', async () => {
     { name: 'lime', primary: '#0f0', skipImport: true },
     baseTree(),
   );
-  assert.match(tree.readContent('/src/lime.theme.css'), /--dm-primary: #00ff00;/, 'short hex expands');
+  assert.match(
+    tree.readContent('/src/lime.theme.css'),
+    /--dm-primary: #00ff00;/,
+    'short hex expands',
+  );
   assert.ok(
     !stylesOf(tree).includes('src/lime.theme.css'),
     'skipImport must not touch angular.json',
@@ -133,7 +141,11 @@ await test('ng-add wires the chosen prebuilt theme css last', async () => {
     styles.includes('node_modules/@angular/cdk/overlay-prebuilt.css'),
     'cdk overlay css should be first',
   );
-  assert.equal(styles[0], 'node_modules/@angular/cdk/overlay-prebuilt.css', 'cdk css must be first');
+  assert.equal(
+    styles[0],
+    'node_modules/@angular/cdk/overlay-prebuilt.css',
+    'cdk css must be first',
+  );
   assert.equal(
     styles[styles.length - 1],
     'node_modules/@dmaster/ui/themes/ocean.css',

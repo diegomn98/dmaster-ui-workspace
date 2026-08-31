@@ -270,9 +270,13 @@ export class RatingPageComponent {
   protected readonly reviewing = signal(false);
 
   protected submitReview(): void {
-    if (this.reviewing()) { return; }
+    if (this.reviewing()) {
+      return;
+    }
     this.reviewForm.markAllAsTouched();
-    if (this.reviewForm.invalid) { return; }
+    if (this.reviewForm.invalid) {
+      return;
+    }
     this.reviewing.set(true);
     setTimeout(() => {
       this.reviewing.set(false);
