@@ -575,6 +575,76 @@
   padding-inline: var(--dm-space-3);
 }
 
+// ---- Prebuilt-theme gallery (/theming) -------------------------------------
+// Clickable swatches that recolor the whole page live via PaletteService. The
+// swatch colour arrives inline as --dm-theme-swatch; the active state and focus ring
+// track --dm-primary, so they recolor along with the previewed theme.
+.theme-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  gap: var(--dm-space-3);
+  width: 100%;
+  margin: var(--dm-space-4) 0;
+}
+
+.theme-swatch {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--dm-space-2);
+  padding: var(--dm-space-4) var(--dm-space-3);
+  border: 1px solid var(--dm-border);
+  border-radius: var(--dm-radius-lg);
+  background: var(--dm-bg-subtle);
+  color: var(--dm-fg-muted);
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    border-color var(--dm-duration-base) var(--dm-ease-out),
+    background-color var(--dm-duration-base) var(--dm-ease-out),
+    transform var(--dm-duration-fast) var(--dm-ease-snappy);
+
+  &:hover {
+    border-color: var(--dm-border-strong);
+    background: var(--dm-bg-muted);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--dm-primary);
+    outline-offset: 2px;
+  }
+
+  &--active {
+    border-color: var(--dm-theme-swatch);
+    background: color-mix(in srgb, var(--dm-theme-swatch) 8%, var(--dm-bg-subtle));
+  }
+
+  &--active .theme-swatch__label {
+    color: var(--dm-fg);
+    font-weight: var(--dm-font-semibold);
+  }
+}
+
+.theme-swatch__chip {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--dm-radius-full);
+  background: var(--dm-theme-swatch);
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 10%),
+    0 1px 3px rgb(0 0 0 / 18%);
+}
+
+.theme-swatch__label {
+  font-size: var(--dm-text-xs);
+  line-height: 1.2;
+  text-align: center;
+}
+
 // ---- Layouts específicos de demos de páginas nuevas ------------------------
 .acc-variants {
   display: grid;

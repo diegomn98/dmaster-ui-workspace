@@ -3,6 +3,8 @@ import { RouterLink } from '@angular/router';
 import { DmButtonComponent } from '@dmaster/ui';
 
 import { LocaleService } from '../../core/i18n/locale.service';
+import { PALETTE_PRESETS } from '../../core/palette/palette';
+import { PaletteService } from '../../core/palette/palette.service';
 import { CodeSnippetComponent } from '../../shared/code-snippet/code-snippet.component';
 
 @Component({
@@ -16,12 +18,36 @@ export class ThemingPageComponent {
   protected readonly i18n = inject(LocaleService);
   protected readonly page = computed(() => this.i18n.t().theming);
 
+  // ---- Prebuilt themes gallery (live preview, dogfoods PaletteService) ------
+  protected readonly palette = inject(PaletteService);
+  protected readonly presets = PALETTE_PRESETS;
+
+  /** `ng add` line for the active preset — prebuilt themes ship on a subpath. */
+  protected readonly themeInstall = computed(() => {
+    const key = this.palette.current();
+    return key === 'default' ? 'ng add @dmaster/ui' : `ng add @dmaster/ui --theme=${key}`;
+  });
+
+  /** angular.json styles for the active preset (falls back to `ocean` on default). */
+  protected readonly themeStylesCode = computed(() => {
+    const key = this.palette.current();
+    const name = key === 'default' ? 'ocean' : key;
+    return [
+      '// angular.json → architect.build.options.styles',
+      '"styles": [',
+      '  "node_modules/@angular/cdk/overlay-prebuilt.css",',
+      '  "node_modules/@dmaster/ui/styles/dmaster-ui.css",',
+      `  "node_modules/@dmaster/ui/themes/${name}.css"`,
+      ']',
+    ].join('\n');
+  });
+
   // ---- Code snippets --------------------------------------------------------
 
   protected readonly overrideCode = [
     '/* Override any token in plain CSS — no Sass, no build step */',
     ':root {',
-    '  --dm-primary: #e50914;         /* Netflix red */',
+    '  --dm-primary: #e11d48;         /* a bold rose accent */',
     '  --dm-radius-md: 0.5rem;        /* sharper corners */',
     '}',
   ].join('\n');

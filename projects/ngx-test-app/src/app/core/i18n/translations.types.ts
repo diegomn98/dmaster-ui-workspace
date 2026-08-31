@@ -248,6 +248,7 @@ export interface DashboardTranslations {
     lead: string;
     sections: {
       overview: string;
+      prebuilt: string;
       semanticTokens: string;
       colorSystem: string;
       derivedCascade: string;
@@ -260,6 +261,10 @@ export interface DashboardTranslations {
     };
     overviewBody: string;
     overviewHighlights: string[];
+    prebuiltBody: string;
+    prebuiltGalleryAria: string;
+    prebuiltApply: string;
+    prebuiltManual: string;
     semanticBody: string;
     surfaceTokens: string;
     textTokens: string;

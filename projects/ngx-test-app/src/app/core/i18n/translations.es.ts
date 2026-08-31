@@ -269,6 +269,7 @@ export const ES: DashboardTranslations = {
     lead: 'Guía completa para personalizar @dmaster/ui — desde overrides de color rápidos hasta temas con marca completa, escalas de densidad y control de motion.',
     sections: {
       overview: 'Visión general',
+      prebuilt: 'Temas prediseñados',
       semanticTokens: 'Tokens semánticos',
       colorSystem: 'Sistema de color',
       derivedCascade: 'Cascada derivada',
@@ -287,6 +288,12 @@ export const ES: DashboardTranslations = {
       '<strong>~300 tokens por componente</strong> para control granular — radius, altura, fondo, espaciado y más para cada componente.',
       '<strong>Temas con nombre y cambio en runtime</strong> — registra paletas alternativas con <code>provideDmasterUI()</code> y cambia con signals en runtime.',
     ],
+    prebuiltBody:
+      'La vía más rápida a un look de marca: nueve paletas curadas se publican como archivos CSS diminutos en el subpath <code>@dmaster/ui/themes/*</code>. Cada una recolorea la app en <strong>claro Y oscuro</strong> — el toggle claro/oscuro sigue funcionando — sobrescribiendo solo <code>--dm-primary</code>, y el color de cada etiqueta está verificado en WCAG AA. Haz clic en un swatch para previsualizarlo en vivo en esta página.',
+    prebuiltGalleryAria: 'Paletas de temas prediseñados — clic para previsualizar',
+    prebuiltApply: 'Lleva el tema previsualizado a tu app — elígelo al instalar, sin código:',
+    prebuiltManual:
+      '¿Prefieres cablearlo tú? Añade el CSS del tema a <code>angular.json</code>, justo después de los estilos base para que gane:',
     semanticBody:
       "La capa base es un set de ~30 tokens semánticos que describen superficies, texto, bordes y sombras. Se definen una vez en <code>:root</code> (tema claro) y se redefinen bajo <code>[data-dm-theme='dark']</code>. Todos los componentes de la librería leen estos tokens — nunca colores hardcodeados.",
     surfaceTokens:

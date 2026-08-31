@@ -269,6 +269,7 @@ export const FR: DashboardTranslations = {
     lead: 'Guide complet pour personnaliser @dmaster/ui — des overrides de couleur rapides aux thèmes de marque complets, échelles de densité et contrôle du motion.',
     sections: {
       overview: "Vue d'ensemble",
+      prebuilt: 'Thèmes prêts à l’emploi',
       semanticTokens: 'Tokens sémantiques',
       colorSystem: 'Système de couleurs',
       derivedCascade: 'Cascade dérivée',
@@ -287,6 +288,12 @@ export const FR: DashboardTranslations = {
       '<strong>~300 tokens par composant</strong> pour un contrôle granulaire — radius, hauteur, fond, espacement et plus pour chaque composant.',
       '<strong>Thèmes nommés avec changement au runtime</strong> — enregistrez des palettes alternatives avec <code>provideDmasterUI()</code> et changez avec des signals au runtime.',
     ],
+    prebuiltBody:
+      'Le chemin le plus rapide vers une identité de marque : neuf palettes soignées sont publiées comme de minuscules fichiers CSS sur le sous-chemin <code>@dmaster/ui/themes/*</code>. Chacune recolore l’app en <strong>clair ET sombre</strong> — le basculement clair/sombre continue de fonctionner — en surchargeant uniquement <code>--dm-primary</code>, et la couleur de chaque libellé est vérifiée en WCAG AA. Cliquez sur un swatch pour le prévisualiser en direct sur cette page.',
+    prebuiltGalleryAria: 'Palettes de thèmes prêts à l’emploi — cliquez pour prévisualiser',
+    prebuiltApply: 'Adoptez le thème prévisualisé — choisissez-le à l’installation, sans code :',
+    prebuiltManual:
+      'Vous préférez le brancher vous-même ? Ajoutez le CSS du thème à <code>angular.json</code>, juste après les styles de base pour qu’il l’emporte :',
     semanticBody:
       "La couche de fondation est un set d'environ 30 tokens sémantiques qui décrivent surfaces, texte, bordures et ombres. Ils sont définis une fois dans <code>:root</code> (thème clair) et redéfinis sous <code>[data-dm-theme='dark']</code>. Tous les composants de la librairie lisent ces tokens — jamais de couleurs en dur.",
     surfaceTokens:

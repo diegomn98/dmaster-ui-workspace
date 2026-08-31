@@ -269,6 +269,7 @@ export const EN: DashboardTranslations = {
     lead: 'A complete guide to customizing @dmaster/ui — from quick color overrides to fully branded themes, density scales, and motion control.',
     sections: {
       overview: 'Overview',
+      prebuilt: 'Prebuilt themes',
       semanticTokens: 'Semantic tokens',
       colorSystem: 'Color system',
       derivedCascade: 'Derived cascade',
@@ -287,6 +288,12 @@ export const EN: DashboardTranslations = {
       '<strong>~300 per-component tokens</strong> for granular control — radius, height, background, spacing, and more for each component.',
       '<strong>Named themes with runtime switching</strong> — register alternate palettes via <code>provideDmasterUI()</code> and switch with signals at runtime.',
     ],
+    prebuiltBody:
+      'The fastest way to a branded look: nine curated palettes ship as tiny CSS files on the <code>@dmaster/ui/themes/*</code> subpath. Each recolors the app in <strong>both light and dark</strong> — the light/dark toggle keeps working — by overriding only <code>--dm-primary</code>, and every label color is verified at WCAG AA. Click a swatch to preview it live on this page.',
+    prebuiltGalleryAria: 'Prebuilt theme palettes — click to preview',
+    prebuiltApply: 'Ship the previewed theme — pick it at install, no code:',
+    prebuiltManual:
+      'Prefer to wire it yourself? Add the theme CSS to <code>angular.json</code>, right after the base styles so it wins:',
     semanticBody:
       "The foundation layer is a set of ~30 semantic tokens that describe surfaces, text, borders, and shadows. They are defined once in <code>:root</code> (light theme) and redefined under <code>[data-dm-theme='dark']</code>. Every component in the library reads from these tokens — never from hardcoded colors.",
     surfaceTokens:
