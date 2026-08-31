@@ -398,6 +398,7 @@ export interface DashboardTranslations {
       current: string;
       theming: string;
       copy: string;
+      themes: string;
     };
     focusItems: {
       freezeTitle: string;
@@ -465,6 +466,7 @@ export interface DashboardTranslations {
     articleNewer: string;
     articleOlder: string;
     articles: {
+      v010: BlogArticleTranslations;
       v09: BlogArticleTranslations;
       v08: BlogArticleTranslations;
       v07: BlogArticleTranslations;
