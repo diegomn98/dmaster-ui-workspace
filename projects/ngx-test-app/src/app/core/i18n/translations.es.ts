@@ -460,6 +460,8 @@ export const ES: DashboardTranslations = {
       state:
         'Máquina de estados completa; success/error muestran un icono. Un valor no-idle tiene prioridad sobre loading.',
       type: 'Type nativo del botón.',
+      iconOnly:
+        'Renderiza un cuadrado compacto (ancho = alto, sin min-width ni padding lateral) para un botón de solo icono. Combínalo con ariaLabel.',
       disabled: 'Deshabilita el botón (también se deshabilita automáticamente mientras carga).',
       loadingLabel:
         'Texto anunciado a lectores de pantalla durante la carga (la librería no lleva copy propio).',

@@ -459,6 +459,8 @@ export const EN: DashboardTranslations = {
       state:
         'Full state machine; success/error flash an icon. A non-idle value takes precedence over loading.',
       type: 'Native button type.',
+      iconOnly:
+        'Renders a compact square (width = height, no min-width or side padding) for a glyph-only button. Pair with ariaLabel.',
       disabled: 'Disables the button (it is also disabled automatically while loading).',
       loadingLabel:
         'Text announced to screen readers while loading (the library ships no copy of its own).',

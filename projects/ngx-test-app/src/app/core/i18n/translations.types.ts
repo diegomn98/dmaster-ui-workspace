@@ -360,6 +360,7 @@ export interface DashboardTranslations {
       loading: string;
       state: string;
       type: string;
+      iconOnly: string;
       disabled: string;
       loadingLabel: string;
       successLabel: string;

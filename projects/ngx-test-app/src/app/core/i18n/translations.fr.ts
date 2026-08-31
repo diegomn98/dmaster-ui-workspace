@@ -461,6 +461,8 @@ export const FR: DashboardTranslations = {
       state:
         'Machine à états complète ; success/error affichent une icône. Une valeur non-idle prime sur loading.',
       type: 'Type natif du bouton.',
+      iconOnly:
+        'Rend un carré compact (largeur = hauteur, sans min-width ni padding latéral) pour un bouton avec une icône seule. À associer à ariaLabel.',
       disabled: 'Désactive le bouton (désactivé aussi automatiquement pendant le chargement).',
       loadingLabel:
         'Texte annoncé aux lecteurs d’écran pendant le chargement (la librairie n’embarque aucun texte).',
