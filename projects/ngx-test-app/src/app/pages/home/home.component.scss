@@ -960,6 +960,18 @@
   font-style: italic;
 }
 
+.home__theming-apply {
+  margin: var(--dm-space-5) 0 var(--dm-space-2);
+  font-size: var(--dm-text-sm);
+  font-weight: var(--dm-font-medium);
+  color: var(--dm-fg-muted);
+}
+
+.home__theming-snippet {
+  display: block;
+  max-width: 26rem;
+}
+
 // Tarjeta de preview: todo en color primary — muestra la paleta activa.
 .home__theming-preview {
   display: grid;

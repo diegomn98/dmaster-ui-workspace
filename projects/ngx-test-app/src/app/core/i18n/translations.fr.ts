@@ -148,6 +148,7 @@ export const FR: DashboardTranslations = {
     themingLead:
       'Chaque couleur est une variable CSS. Choisissez une palette — tout le site change de peau instantanément, sans rebuild ni configuration.',
     themingHint: 'Essayez : ce sélecteur pilote les vrais design tokens de cette page.',
+    themingApply: 'Adoptez ce thème — choisissez-le à l’installation, sans code :',
     themingSwatchesAria: 'Palettes de couleurs',
     featuresAria: 'Fonctionnalités',
     featuresEyebrow: 'Pourquoi @dmaster/ui',

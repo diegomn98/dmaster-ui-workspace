@@ -148,6 +148,7 @@ export const EN: DashboardTranslations = {
     themingLead:
       'Every color is a CSS variable. Pick a palette — the whole site re-skins instantly, with no rebuild and no configuration.',
     themingHint: 'Try it: this switcher drives the real design tokens of this very page.',
+    themingApply: 'Ship this theme — pick it at install, no code:',
     themingSwatchesAria: 'Color palettes',
     featuresAria: 'Features',
     featuresEyebrow: 'Why @dmaster/ui',

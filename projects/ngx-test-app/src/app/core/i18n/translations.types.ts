@@ -173,6 +173,7 @@ export interface DashboardTranslations {
     themingTitle: string;
     themingLead: string;
     themingHint: string;
+    themingApply: string;
     themingSwatchesAria: string;
     featuresAria: string;
     featuresEyebrow: string;

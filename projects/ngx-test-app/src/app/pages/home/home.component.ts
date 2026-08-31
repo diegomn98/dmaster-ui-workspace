@@ -183,4 +183,10 @@ export class HomeComponent {
   );
 
   protected readonly presetInitial = computed(() => this.activePreset().label.charAt(0));
+
+  /** `ng add` line for the active preset — the prebuilt themes ship on a subpath. */
+  protected readonly themeInstall = computed(() => {
+    const key = this.palette.current();
+    return key === 'default' ? 'ng add @dmaster/ui' : `ng add @dmaster/ui --theme=${key}`;
+  });
 }

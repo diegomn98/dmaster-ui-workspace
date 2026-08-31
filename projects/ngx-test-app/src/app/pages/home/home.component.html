@@ -501,6 +501,9 @@
       </div>
 
       <p class="home__theming-hint">{{ i18n.t().home.themingHint }}</p>
+
+      <p class="home__theming-apply">{{ i18n.t().home.themingApply }}</p>
+      <app-code-snippet class="home__theming-snippet" [code]="themeInstall()" language="bash" />
     </div>
 
     <div class="home__theming-preview" inert>
