@@ -42,6 +42,9 @@
 
   <p class="page__section-desc" [innerHTML]="page().prebuiltManual"></p>
   <app-code-snippet [code]="themeStylesCode()" language="json" />
+
+  <p class="page__section-desc" [innerHTML]="page().prebuiltCustom"></p>
+  <app-code-snippet [code]="themeGenerateCode" language="bash" />
 </section>
 
 <!-- Semantic tokens -->

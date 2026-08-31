@@ -42,6 +42,14 @@ export class ThemingPageComponent {
     ].join('\n');
   });
 
+  /** Scaffolding commands for a bespoke theme (shown under the prebuilt gallery). */
+  protected readonly themeGenerateCode = [
+    'ng generate @dmaster/ui:theme brand --primary=#e11d48',
+    '',
+    '# a switchable named theme instead of a global recolor:',
+    'ng generate @dmaster/ui:theme midnight --named --scheme=dark',
+  ].join('\n');
+
   // ---- Code snippets --------------------------------------------------------
 
   protected readonly overrideCode = [

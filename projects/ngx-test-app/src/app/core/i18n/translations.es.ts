@@ -294,6 +294,8 @@ export const ES: DashboardTranslations = {
     prebuiltApply: 'Lleva el tema previsualizado a tu app — elígelo al instalar, sin código:',
     prebuiltManual:
       '¿Prefieres cablearlo tú? Añade el CSS del tema a <code>angular.json</code>, justo después de los estilos base para que gane:',
+    prebuiltCustom:
+      '¿Necesitas algo a medida? Genera un tema custom desde un color semilla — <code>ng generate</code> escribe el CSS (con cada knob comentado) y lo cablea en <code>angular.json</code>:',
     semanticBody:
       "La capa base es un set de ~30 tokens semánticos que describen superficies, texto, bordes y sombras. Se definen una vez en <code>:root</code> (tema claro) y se redefinen bajo <code>[data-dm-theme='dark']</code>. Todos los componentes de la librería leen estos tokens — nunca colores hardcodeados.",
     surfaceTokens:

@@ -294,6 +294,8 @@ export const FR: DashboardTranslations = {
     prebuiltApply: 'Adoptez le thème prévisualisé — choisissez-le à l’installation, sans code :',
     prebuiltManual:
       'Vous préférez le brancher vous-même ? Ajoutez le CSS du thème à <code>angular.json</code>, juste après les styles de base pour qu’il l’emporte :',
+    prebuiltCustom:
+      'Besoin de sur-mesure ? Générez un thème personnalisé à partir d’une couleur — <code>ng generate</code> écrit le CSS (chaque réglage commenté) et le branche dans <code>angular.json</code> :',
     semanticBody:
       "La couche de fondation est un set d'environ 30 tokens sémantiques qui décrivent surfaces, texte, bordures et ombres. Ils sont définis une fois dans <code>:root</code> (thème clair) et redéfinis sous <code>[data-dm-theme='dark']</code>. Tous les composants de la librairie lisent ces tokens — jamais de couleurs en dur.",
     surfaceTokens:

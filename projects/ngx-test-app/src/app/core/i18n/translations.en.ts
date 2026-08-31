@@ -294,6 +294,8 @@ export const EN: DashboardTranslations = {
     prebuiltApply: 'Ship the previewed theme — pick it at install, no code:',
     prebuiltManual:
       'Prefer to wire it yourself? Add the theme CSS to <code>angular.json</code>, right after the base styles so it wins:',
+    prebuiltCustom:
+      'Need something bespoke? Scaffold a custom theme from a seed color — <code>ng generate</code> writes the CSS (every knob commented in) and wires it into <code>angular.json</code>:',
     semanticBody:
       "The foundation layer is a set of ~30 semantic tokens that describe surfaces, text, borders, and shadows. They are defined once in <code>:root</code> (light theme) and redefined under <code>[data-dm-theme='dark']</code>. Every component in the library reads from these tokens — never from hardcoded colors.",
     surfaceTokens:

@@ -265,6 +265,7 @@ export interface DashboardTranslations {
     prebuiltGalleryAria: string;
     prebuiltApply: string;
     prebuiltManual: string;
+    prebuiltCustom: string;
     semanticBody: string;
     surfaceTokens: string;
     textTokens: string;
