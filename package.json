@@ -12,8 +12,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve ngx-test-app",
-    "build": "ng build dmaster-ui && npm run build:styles && npm run build:schematics",
+    "build": "ng build dmaster-ui && npm run build:styles && npm run build:themes && npm run build:schematics",
     "build:styles": "sass projects/ngx-dmaster-ui/src/lib/styles/index.scss dist/dmaster-ui/styles/dmaster-ui.css --load-path=projects/ngx-dmaster-ui/src/lib/styles --style=compressed --no-source-map",
+    "build:themes": "node scripts/build-themes.mjs",
     "build:schematics": "tsc -p projects/ngx-dmaster-ui/tsconfig.schematics.json && node scripts/copy-schematics-assets.mjs",
     "build:app": "ng build ngx-test-app",
     "watch": "ng build dmaster-ui --watch --configuration development",
