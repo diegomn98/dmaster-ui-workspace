@@ -7,7 +7,6 @@ import {
   DmAutocompleteRadius,
   DmAutocompleteVariant,
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmErrorComponent,
   DmFormFieldComponent,
@@ -359,23 +358,20 @@ export class AutocompletePageComponent {
     city: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
     street: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
   });
-  protected readonly shipState = signal<DmButtonState>('idle');
+  protected readonly continuing = signal(false);
 
   protected continueShipping(): void {
-    if (this.shipState() !== 'idle') {
+    if (this.continuing()) {
       return;
     }
     this.shipForm.markAllAsTouched();
     if (this.shipForm.invalid) {
       return;
     }
-    this.shipState.set('loading');
+    this.continuing.set(true);
     setTimeout(() => {
-      this.shipState.set('success');
-      setTimeout(() => {
-        this.shipState.set('idle');
-        this.shipForm.reset({ city: '', street: '' });
-      }, 1600);
+      this.continuing.set(false);
+      this.shipForm.reset({ city: '', street: '' });
     }, 1200);
   }
 
@@ -409,7 +405,7 @@ export class AutocompletePageComponent {
     '    </dm-form-field>',
     '',
     '    <dm-button type="submit" color="primary" style="width: 100%"',
-    '               [state]="state()" loadingLabel="Checking address…" successLabel="Address saved">',
+    '               [loading]="loading()" loadingLabel="Checking address…">',
     '      Continue',
     '    </dm-button>',
     '  </form>',
@@ -423,7 +419,6 @@ export class AutocompletePageComponent {
     '  DmAutocompleteComponent,',
     '  DmAutocompleteOption,',
     '  DmButtonComponent,',
-    '  DmButtonState,',
     '  DmCardComponent,',
     '  DmErrorComponent,',
     '  DmFormFieldComponent,',
@@ -454,15 +449,15 @@ export class AutocompletePageComponent {
     "    city: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),",
     "    street: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),",
     '  });',
-    "  state = signal<DmButtonState>('idle');",
+    '  loading = signal(false);',
     '',
     '  continue(): void {',
     '    this.form.markAllAsTouched();',
     '    if (this.form.invalid) return;',
-    "    this.state.set('loading');",
+    '    this.loading.set(true);',
     '    this.api.validateAddress(this.form.getRawValue()).subscribe({',
-    "      next: () => this.state.set('success'),",
-    "      error: () => this.state.set('error'),",
+    '      next: () => this.loading.set(false),',
+    '      error: () => this.loading.set(false),',
     '    });',
     '  }',
     '}',

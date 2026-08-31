@@ -34,14 +34,14 @@
   <app-demo-block [heading]="i18n.t().common.demos.basic" [code]="basicCode" [ts]="basicTs">
     <div class="demo-stack">
       <dm-rating [(value)]="score" ariaLabel="Rate this product" />
-      <span class="demo-output">value: {{ score() }}</span>
+      <span class="demo-output">{{ score() }}</span>
     </div>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['halfStars']" [code]="halfCode" [ts]="halfTs">
     <div class="demo-stack">
       <dm-rating [(value)]="quality" allowHalf ariaLabel="Quality" />
-      <span class="demo-output">value: {{ quality() }}</span>
+      <span class="demo-output">{{ quality() }}</span>
     </div>
   </app-demo-block>
 
@@ -144,9 +144,8 @@
           type="submit"
           color="primary"
           style="width: 100%"
-          [state]="reviewState()"
+          [loading]="reviewing()"
           [loadingLabel]="page().labels['submitting']"
-          [successLabel]="page().labels['submitted']"
         >
           {{ page().labels['submit'] }}
         </dm-button>

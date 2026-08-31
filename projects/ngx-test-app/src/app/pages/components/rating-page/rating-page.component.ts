@@ -4,7 +4,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import {
   DmAvatarComponent,
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmErrorComponent,
   DmFormFieldComponent,
@@ -268,23 +267,16 @@ export class RatingPageComponent {
     return picked > 0 ? labels[`rate${picked}`] : labels['tapToRate'];
   });
 
-  protected readonly reviewState = signal<DmButtonState>('idle');
+  protected readonly reviewing = signal(false);
 
   protected submitReview(): void {
-    if (this.reviewState() !== 'idle') {
-      return;
-    }
+    if (this.reviewing()) { return; }
     this.reviewForm.markAllAsTouched();
-    if (this.reviewForm.invalid) {
-      return;
-    }
-    this.reviewState.set('loading');
+    if (this.reviewForm.invalid) { return; }
+    this.reviewing.set(true);
     setTimeout(() => {
-      this.reviewState.set('success');
-      setTimeout(() => {
-        this.reviewState.set('idle');
-        this.reviewForm.reset({ score: 0, review: '' });
-      }, 1600);
+      this.reviewing.set(false);
+      this.reviewForm.reset({ score: 0, review: '' });
     }, 1200);
   }
 
@@ -318,7 +310,7 @@ export class RatingPageComponent {
     '    </dm-form-field>',
     '',
     '    <dm-button type="submit" color="primary" style="width: 100%"',
-    '               [state]="state()" loadingLabel="Posting…" successLabel="Review posted">',
+    '               [loading]="loading()" loadingLabel="Posting…">',
     '      Post review',
     '    </dm-button>',
     '  </form>',
@@ -330,7 +322,7 @@ export class RatingPageComponent {
     "import { toSignal } from '@angular/core/rxjs-interop';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
     'import {',
-    '  DmAvatarComponent, DmButtonComponent, DmButtonState, DmCardComponent,',
+    '  DmAvatarComponent, DmButtonComponent, DmCardComponent,',
     '  DmErrorComponent, DmFormFieldComponent, DmInputDirective, DmRatingComponent,',
     "} from '@dmaster/ui';",
     '',
@@ -355,15 +347,15 @@ export class RatingPageComponent {
     "    this.score() > 0 ? HINTS[Math.ceil(this.score()) - 1] : 'Tap a star to rate',",
     '  );',
     '',
-    "  protected readonly state = signal<DmButtonState>('idle');",
+    '  protected readonly loading = signal(false);',
     '',
     '  protected submit(): void {',
     '    this.form.markAllAsTouched();',
     '    if (this.form.invalid) return;',
-    "    this.state.set('loading');",
+    '    this.loading.set(true);',
     '    this.api.postReview(this.form.getRawValue()).subscribe({',
-    "      next: () => this.state.set('success'),",
-    "      error: () => this.state.set('error'),",
+    '      next: () => this.loading.set(false),',
+    '      error: () => this.loading.set(false),',
     '    });',
     '  }',
     '}',

@@ -65,7 +65,7 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" [ts]="formsTs">
-    <div class="demo-row">
+    <div class="demo-row demo-io">
       <div style="width: 18rem">
         <dm-select
           [ariaLabel]="page().labels['pet']"
@@ -74,7 +74,7 @@
           [formControl]="formControl"
         />
       </div>
-      <span class="demo-output">{{ page().labels['formValue'] }}: {{ formValue() ?? '—' }}</span>
+      <span class="demo-output">{{ formValue() ?? '—' }}</span>
     </div>
   </app-demo-block>
 
@@ -103,7 +103,7 @@
     [code]="clearableCode"
     [ts]="clearableTs"
   >
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-select
           [ariaLabel]="page().labels['pet']"
@@ -114,7 +114,7 @@
         />
       </div>
       <span class="demo-output"
-        >{{ page().labels['formValue'] }}: {{ clearableValue() ?? '—' }}</span
+        >{{ clearableValue() ?? '—' }}</span
       >
     </div>
   </app-demo-block>
@@ -124,7 +124,7 @@
     [code]="multipleCode"
     [ts]="multipleTs"
   >
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 20rem">
         <dm-select
           [label]="page().labels['pets']"
@@ -136,7 +136,7 @@
         />
       </div>
       <span class="demo-output"
-        >{{ page().labels['formValue'] }}: {{ multipleValues().join(', ') || '—' }}</span
+        >{{ multipleValues().join(', ') || '—' }}</span
       >
     </div>
   </app-demo-block>
@@ -205,7 +205,7 @@
     [code]="multiFilterCode"
     [ts]="multiFilterTs"
   >
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 20rem">
         <dm-select
           [label]="page().labels['pets']"
@@ -222,7 +222,7 @@
         />
       </div>
       <span class="demo-output"
-        >{{ page().labels['formValue'] }}: {{ multiFilterValues().join(', ') || '—' }}</span
+        >{{ multiFilterValues().join(', ') || '—' }}</span
       >
     </div>
   </app-demo-block>
@@ -317,9 +317,8 @@
           type="submit"
           color="primary"
           style="width: 100%"
-          [state]="inviteState()"
+          [loading]="inviting()"
           [loadingLabel]="page().labels['inviteSending']"
-          [successLabel]="page().labels['inviteSent']"
         >
           {{ page().labels['sendInvite'] }}
         </dm-button>

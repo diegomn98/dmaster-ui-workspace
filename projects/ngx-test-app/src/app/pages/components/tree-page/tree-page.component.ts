@@ -10,7 +10,6 @@ import {
   DmAvatarComponent,
   DmBadgeComponent,
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmKbdComponent,
   DmSwitchComponent,
@@ -535,7 +534,7 @@ export class TreePageComponent {
   protected readonly orgSelected = signal<string[]>(['eng/frontend']);
   protected readonly orgExpanded = signal<string[]>(['eng', 'eng/frontend']);
   protected readonly grantAccess = signal(true);
-  protected readonly saveState = signal<DmButtonState>('idle');
+  protected readonly saving = signal(false);
 
   /** The selected org nodes, resolved from `selectedIds`, in tree order. */
   protected readonly orgSelectedNodes = computed(() => {
@@ -596,12 +595,9 @@ export class TreePageComponent {
   }
 
   protected save(): void {
-    if (this.saveState() !== 'idle') return;
-    this.saveState.set('loading');
-    setTimeout(() => {
-      this.saveState.set('success');
-      setTimeout(() => this.saveState.set('idle'), 1500);
-    }, 900);
+    if (this.saving()) return;
+    this.saving.set(true);
+    setTimeout(() => this.saving.set(false), 900);
   }
 
   protected readonly compositionCode = [
@@ -647,8 +643,8 @@ export class TreePageComponent {
     '          <dm-switch [(checked)]="grant" ariaLabel="Grant access" />',
     '        </div>',
     '',
-    '        <dm-button color="primary" size="sm" [state]="saveState()"',
-    '                   loadingLabel="Saving…" successLabel="Saved!" (clicked)="save()">',
+    '        <dm-button color="primary" size="sm" [loading]="loading()"',
+    '                   loadingLabel="Saving…" (clicked)="save()">',
     '          Save changes',
     '        </dm-button>',
     '      } @else {',
@@ -665,7 +661,6 @@ export class TreePageComponent {
     '  DmAvatarComponent,',
     '  DmBadgeComponent,',
     '  DmButtonComponent,',
-    '  DmButtonState,',
     '  DmCardComponent,',
     '  DmSwitchComponent,',
     '  DmTreeComponent,',
@@ -700,7 +695,7 @@ export class TreePageComponent {
     "  protected readonly selected = signal<string[]>(['eng/frontend']);",
     "  protected readonly expanded = signal<string[]>(['eng', 'eng/frontend']);",
     '  protected readonly grant = signal(true);',
-    "  protected readonly saveState = signal<DmButtonState>('idle');",
+    '  protected readonly loading = signal(false);',
     '',
     '  // Resolve the selected NODES from the two-way selectedIds model.',
     '  protected readonly selectedNodes = computed(() => {',
@@ -721,8 +716,8 @@ export class TreePageComponent {
     '  }',
     '',
     '  protected save(): void {',
-    "    this.saveState.set('loading');",
-    "    setTimeout(() => this.saveState.set('success'), 900);",
+    '    this.loading.set(true);',
+    "    setTimeout(() => this.loading.set(false), 900);",
     '  }',
     '}',
   ].join('\n');

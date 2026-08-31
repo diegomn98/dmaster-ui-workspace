@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmErrorComponent,
   DmSelectColor,
@@ -685,23 +684,20 @@ export class SelectPageComponent {
     role: new FormControl<string | null>(null, Validators.required),
     teams: new FormControl<string[]>([], { nonNullable: true, validators: Validators.required }),
   });
-  protected readonly inviteState = signal<DmButtonState>('idle');
+  protected readonly inviting = signal(false);
 
   protected sendInvite(): void {
-    if (this.inviteState() !== 'idle') {
+    if (this.inviting()) {
       return;
     }
     this.inviteForm.markAllAsTouched();
     if (this.inviteForm.invalid) {
       return;
     }
-    this.inviteState.set('loading');
+    this.inviting.set(true);
     setTimeout(() => {
-      this.inviteState.set('success');
-      setTimeout(() => {
-        this.inviteState.set('idle');
-        this.inviteForm.reset({ role: null, teams: [] });
-      }, 1600);
+      this.inviting.set(false);
+      this.inviteForm.reset({ role: null, teams: [] });
     }, 1200);
   }
 
@@ -735,7 +731,7 @@ export class SelectPageComponent {
     '    </div>',
     '',
     '    <dm-button type="submit" color="primary" style="width: 100%"',
-    '               [state]="state()" loadingLabel="Sending…" successLabel="Invite sent">',
+    '               [loading]="loading()" loadingLabel="Sending…">',
     '      Send invite',
     '    </dm-button>',
     '  </form>',
@@ -747,7 +743,6 @@ export class SelectPageComponent {
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
     'import {',
     '  DmButtonComponent,',
-    '  DmButtonState,',
     '  DmCardComponent,',
     '  DmErrorComponent,',
     '  DmSelectComponent,',
@@ -780,15 +775,15 @@ export class SelectPageComponent {
     '    role: new FormControl<string | null>(null, Validators.required),',
     '    teams: new FormControl<string[]>([], { nonNullable: true, validators: Validators.required }),',
     '  });',
-    "  state = signal<DmButtonState>('idle');",
+    '  loading = signal(false);',
     '',
     '  send(): void {',
     '    this.form.markAllAsTouched();',
     '    if (this.form.invalid) return;',
-    "    this.state.set('loading');",
+    '    this.loading.set(true);',
     '    this.api.invite(this.form.getRawValue()).subscribe({',
-    "      next: () => this.state.set('success'),",
-    "      error: () => this.state.set('error'),",
+    '      next: () => this.loading.set(false),',
+    '      error: () => this.loading.set(false),',
     '    });',
     '  }',
     '}',

@@ -143,9 +143,8 @@
           }
           <dm-button
             size="sm"
-            [state]="saveState()"
+            [loading]="saving()"
             loadingLabel="Saving settings"
-            successLabel="Settings saved"
             (clicked)="saveSettings()"
           >
             Save

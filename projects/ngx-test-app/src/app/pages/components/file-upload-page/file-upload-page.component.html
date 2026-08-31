@@ -63,10 +63,9 @@
         [messages]="messages()"
         [(files)]="basicFiles"
       />
-      <span class="demo-output">
-        {{ page().labels['selected'] }}:
-        {{ basicFiles().length ? basicFiles()[0].name : '—' }}
-      </span>
+      <span class="demo-output"
+        >{{ basicFiles().length ? basicFiles()[0].name : '—' }}</span
+      >
     </div>
   </app-demo-block>
 
@@ -84,10 +83,9 @@
         [messages]="messages()"
         [(files)]="multipleFiles"
       />
-      <span class="demo-output">
-        {{ multipleFiles().length }} {{ page().labels['filesWord'] }} ·
-        {{ multipleTotal() || '0 B' }}
-      </span>
+      <span class="demo-output"
+        >{{ multipleFiles().length }} {{ page().labels['filesWord'] }} · {{ multipleTotal() || '0 B' }}</span
+      >
     </div>
   </app-demo-block>
 
@@ -158,10 +156,9 @@
         <dm-button
           color="primary"
           size="sm"
-          [state]="uploadState()"
+          [loading]="uploading()"
           [disabled]="progressFiles().length === 0"
           [loadingLabel]="page().labels['uploading']"
-          [successLabel]="page().labels['uploaded']"
           (clicked)="simulateUpload()"
         >
           {{ page().labels['simulateUpload'] }}
@@ -297,14 +294,13 @@
           type="submit"
           color="primary"
           style="width: 100%"
-          [state]="ticketState()"
+          [loading]="submitting()"
           [loadingLabel]="page().labels['sending']"
-          [successLabel]="page().labels['sent']"
         >
           {{ page().labels['sendTicket'] }}
         </dm-button>
 
-        @if (ticketSubmitted() !== null && ticketState() === 'success') {
+        @if (ticketSubmitted() !== null) {
           <dm-alert color="success" variant="flat" [title]="page().labels['sent']">
             {{ page().labels['ticketThanks'] }} ({{ ticketSubmitted() }}
             {{ page().labels['attachmentsWord'] }})

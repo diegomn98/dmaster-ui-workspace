@@ -39,7 +39,7 @@
         [ariaLabel]="page().labels['code']"
         (completed)="onCompleted($event)"
       />
-      <span class="demo-output">value: {{ numericValue() || '—' }}</span>
+      <span class="demo-output">{{ numericValue() || '—' }}</span>
       @if (completeMsg()) {
         <span class="demo-output" aria-live="polite">{{ completeMsg() }}</span>
       }
@@ -49,14 +49,14 @@
   <app-demo-block [heading]="page().labels['alphanumeric']" [code]="alnumCode" [ts]="alnumTs">
     <div class="demo-stack">
       <dm-otp [(value)]="alnumValue" mode="alphanumeric" [length]="5" ariaLabel="Coupon code" />
-      <span class="demo-output">value: {{ alnumValue() || '—' }}</span>
+      <span class="demo-output">{{ alnumValue() || '—' }}</span>
     </div>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['masked']" [code]="maskedCode" [ts]="maskedTs">
     <div class="demo-stack">
       <dm-otp [(value)]="maskedValue" mask [length]="4" [ariaLabel]="page().labels['pin']" />
-      <span class="demo-output">value: {{ maskedValue() || '—' }}</span>
+      <span class="demo-output">{{ maskedValue() || '—' }}</span>
     </div>
   </app-demo-block>
 
@@ -129,9 +129,8 @@
           type="submit"
           color="primary"
           style="width: 100%"
-          [state]="verifyState()"
+          [loading]="verifying()"
           [loadingLabel]="page().labels['verifying']"
-          [successLabel]="page().labels['verified']"
         >
           {{ page().labels['verify'] }}
         </dm-button>

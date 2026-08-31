@@ -20,7 +20,6 @@ import {
   DmAlertComponent,
   DmBadgeComponent,
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmErrorComponent,
   DmFileRejection,
@@ -303,7 +302,7 @@ export class FileUploadPageComponent {
   // ---- Demo: upload progress simulation -----------------------------------
   protected readonly progressFiles = signal<File[]>([]);
   protected readonly progressMap = signal<Record<string, number> | null>(null);
-  protected readonly uploadState = signal<DmButtonState>('idle');
+  protected readonly uploading = signal(false);
   private uploadTimer: ReturnType<typeof setInterval> | undefined;
   private readonly demoTimers: ReturnType<typeof setTimeout>[] = [];
 
@@ -314,11 +313,11 @@ export class FileUploadPageComponent {
   });
 
   protected simulateUpload(): void {
-    if (this.uploadState() === 'loading' || this.progressFiles().length === 0) {
+    if (this.uploading() || this.progressFiles().length === 0) {
       return;
     }
     this.stopUpload();
-    this.uploadState.set('loading');
+    this.uploading.set(true);
     const initial: Record<string, number> = {};
     for (const file of this.progressFiles()) {
       initial[file.name] = 0;
@@ -343,8 +342,7 @@ export class FileUploadPageComponent {
       });
       if (allDone) {
         this.stopUpload();
-        this.uploadState.set('success');
-        this.demoTimers.push(setTimeout(() => this.uploadState.set('idle'), 1400));
+        this.uploading.set(false);
       }
     }, 220);
   }
@@ -352,7 +350,7 @@ export class FileUploadPageComponent {
   protected resetUpload(): void {
     this.stopUpload();
     this.progressMap.set(null);
-    this.uploadState.set('idle');
+    this.uploading.set(false);
   }
 
   protected onProgressFilesChange(files: File[]): void {
@@ -390,10 +388,9 @@ export class FileUploadPageComponent {
     '',
     '<dm-button',
     '  color="primary"',
-    '  [state]="state()"',
+    '  [loading]="uploading()"',
     '  [disabled]="files().length === 0"',
     '  loadingLabel="Uploading…"',
-    '  successLabel="Uploaded"',
     '  (clicked)="upload()"',
     '>',
     '  Upload',
@@ -402,7 +399,7 @@ export class FileUploadPageComponent {
 
   protected readonly progressTs = [
     "import { Component, DestroyRef, inject, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmButtonState, DmFileUploadComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent, DmFileUploadComponent } from '@dmaster/ui';",
     '',
     '@Component({',
     "  selector: 'app-uploader',",
@@ -412,7 +409,7 @@ export class FileUploadPageComponent {
     'export class UploaderComponent {',
     '  protected readonly files = signal<File[]>([]);',
     '  protected readonly progress = signal<Record<string, number> | null>(null);',
-    "  protected readonly state = signal<DmButtonState>('idle');",
+    '  protected readonly uploading = signal(false);',
     '  private timer?: ReturnType<typeof setInterval>;',
     '',
     '  constructor() {',
@@ -420,7 +417,8 @@ export class FileUploadPageComponent {
     '  }',
     '',
     '  protected upload(): void {',
-    "    this.state.set('loading');",
+    '    if (this.uploading()) return;',
+    '    this.uploading.set(true);',
     '    this.progress.set(Object.fromEntries(this.files().map((f) => [f.name, 0])));',
     '    // Replace with your real transport (HttpClient reportProgress, XHR, tus…)',
     '    this.timer = setInterval(() => {',
@@ -431,7 +429,7 @@ export class FileUploadPageComponent {
     '      });',
     '      if (this.files().every((f) => (this.progress()?.[f.name] ?? 0) >= 100)) {',
     '        clearInterval(this.timer);',
-    "        this.state.set('success');",
+    '        this.uploading.set(false);',
     '      }',
     '    }, 200);',
     '  }',
@@ -503,7 +501,7 @@ export class FileUploadPageComponent {
     }),
   });
 
-  protected readonly ticketState = signal<DmButtonState>('idle');
+  protected readonly submitting = signal(false);
   protected readonly ticketSubmitted = signal<number | null>(null);
 
   protected onTicketFiles(files: File[]): void {
@@ -513,22 +511,22 @@ export class FileUploadPageComponent {
   }
 
   protected submitTicket(): void {
-    if (this.ticketState() !== 'idle') {
+    if (this.submitting()) {
       return;
     }
     this.ticketForm.markAllAsTouched();
     if (this.ticketForm.invalid) {
       return;
     }
-    this.ticketState.set('loading');
+    this.submitting.set(true);
     this.demoTimers.push(
       setTimeout(() => {
-        this.ticketState.set('success');
         this.ticketSubmitted.set(this.ticketForm.controls.attachments.value.length);
+        this.submitting.set(false);
         this.demoTimers.push(
           setTimeout(() => {
             this.ticketForm.reset();
-            this.ticketState.set('idle');
+            this.ticketSubmitted.set(null);
           }, 1400),
         );
       }, 1200),
@@ -596,9 +594,8 @@ export class FileUploadPageComponent {
     '      type="submit"',
     '      color="primary"',
     '      style="width: 100%"',
-    '      [state]="state()"',
+    '      [loading]="submitting()"',
     '      loadingLabel="Sending…"',
-    '      successLabel="Ticket sent"',
     '    >',
     '      Send ticket',
     '    </dm-button>',
@@ -614,7 +611,7 @@ export class FileUploadPageComponent {
     '  ValidationErrors, ValidatorFn, Validators,',
     "} from '@angular/forms';",
     'import {',
-    '  DmButtonComponent, DmButtonState, DmCardComponent, DmErrorComponent,',
+    '  DmButtonComponent, DmCardComponent, DmErrorComponent,',
     '  DmFileUploadComponent, DmFormFieldComponent, DmInputDirective,',
     '  DmSelectComponent, DmSelectItem,',
     "} from '@dmaster/ui';",
@@ -653,7 +650,7 @@ export class FileUploadPageComponent {
     '    attachments: new FormControl<File[]>([], { nonNullable: true, validators: [minFiles(1)] }),',
     '  });',
     '',
-    "  protected readonly state = signal<DmButtonState>('idle');",
+    '  protected readonly submitting = signal(false);',
     '',
     '  protected onFiles(files: File[]): void {',
     '    this.form.controls.attachments.setValue(files);',
@@ -662,8 +659,8 @@ export class FileUploadPageComponent {
     '',
     '  protected submit(): void {',
     '    this.form.markAllAsTouched();',
-    '    if (this.form.invalid) return;',
-    "    this.state.set('loading');",
+    '    if (this.form.invalid || this.submitting()) return;',
+    '    this.submitting.set(true);',
     '    // Send as multipart/form-data',
     '    const body = new FormData();',
     "    body.append('subject', this.form.controls.subject.value);",
@@ -671,8 +668,8 @@ export class FileUploadPageComponent {
     "    body.append('message', this.form.controls.message.value);",
     "    for (const file of this.form.controls.attachments.value) body.append('files', file);",
     "    this.http.post('/api/tickets', body).subscribe({",
-    "      next: () => { this.state.set('success'); this.form.reset(); },",
-    "      error: () => this.state.set('error'),",
+    "      next: () => { this.submitting.set(false); this.form.reset(); },",
+    "      error: () => this.submitting.set(false),",
     '    });',
     '  }',
     '}',

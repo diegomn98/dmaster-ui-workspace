@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmFormFieldComponent,
   DmInputDirective,
@@ -375,14 +374,14 @@ export class ToastPageComponent {
   // Composition: a settings card that saves and confirms via toast (with undo).
   protected readonly emailAlerts = signal(true);
   protected readonly weeklyDigest = signal(false);
-  protected readonly saveState = signal<DmButtonState>('idle');
+  protected readonly saving = signal(false);
   // Last committed values (what the "server" holds) and the snapshot Undo restores.
   private committed: SettingsSnapshot = { emailAlerts: true, weeklyDigest: false };
   private readonly lastSaved = signal<SettingsSnapshot | null>(null);
   protected readonly canUndo = computed(() => this.lastSaved() !== null);
 
   protected saveSettings(): void {
-    if (this.saveState() !== 'idle') {
+    if (this.saving()) {
       return;
     }
     const previous = this.committed;
@@ -390,13 +389,12 @@ export class ToastPageComponent {
       emailAlerts: this.emailAlerts(),
       weeklyDigest: this.weeklyDigest(),
     };
-    this.saveState.set('loading');
+    this.saving.set(true);
     setTimeout(() => {
       this.committed = next;
       this.lastSaved.set(previous);
-      this.saveState.set('success');
+      this.saving.set(false);
       this.toast.success('Settings saved');
-      setTimeout(() => this.saveState.set('idle'), 1500);
     }, 900);
   }
 
@@ -440,9 +438,8 @@ export class ToastPageComponent {
     '      }',
     '      <dm-button',
     '        size="sm"',
-    '        [state]="saveState()"',
+    '        [loading]="saving()"',
     '        loadingLabel="Saving settings"',
-    '        successLabel="Settings saved"',
     '        (clicked)="saveSettings()"',
     '      >',
     '        Save',
@@ -456,7 +453,6 @@ export class ToastPageComponent {
     "import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';",
     'import {',
     '  DmButtonComponent,',
-    '  DmButtonState,',
     '  DmCardComponent,',
     '  DmFormFieldComponent,',
     '  DmInputDirective,',
@@ -481,7 +477,7 @@ export class ToastPageComponent {
     '',
     '  protected readonly emailAlerts = signal(true);',
     '  protected readonly weeklyDigest = signal(false);',
-    "  protected readonly saveState = signal<DmButtonState>('idle');",
+    '  protected readonly saving = signal(false);',
     '',
     '  // Last committed values and the snapshot Undo restores.',
     '  private committed = { emailAlerts: true, weeklyDigest: false };',
@@ -489,18 +485,17 @@ export class ToastPageComponent {
     '  protected readonly canUndo = computed(() => this.lastSaved() !== null);',
     '',
     '  saveSettings(): void {',
-    "    if (this.saveState() !== 'idle') return;",
+    '    if (this.saving()) return;',
     '    const previous = this.committed;',
     '    const next = { emailAlerts: this.emailAlerts(), weeklyDigest: this.weeklyDigest() };',
-    "    this.saveState.set('loading');",
+    '    this.saving.set(true);',
     '',
     '    // Replace the timeout with your real request.',
     '    setTimeout(() => {',
     '      this.committed = next;',
     '      this.lastSaved.set(previous);',
-    "      this.saveState.set('success');",
     "      this.toast.success('Settings saved');",
-    "      setTimeout(() => this.saveState.set('idle'), 1500);",
+    '      this.saving.set(false);',
     '    }, 900);',
     '  }',
     '',

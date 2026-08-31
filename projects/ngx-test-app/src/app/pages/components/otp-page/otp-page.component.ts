@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmErrorComponent,
   DmOtpColor,
@@ -298,23 +297,16 @@ export class OtpPageComponent {
     validators: [Validators.required, Validators.minLength(6)],
   });
 
-  protected readonly verifyState = signal<DmButtonState>('idle');
+  protected readonly verifying = signal(false);
 
   protected submitVerify(): void {
-    if (this.verifyState() !== 'idle') {
-      return;
-    }
+    if (this.verifying()) { return; }
     this.codeControl.markAsTouched();
-    if (this.codeControl.invalid) {
-      return;
-    }
-    this.verifyState.set('loading');
+    if (this.codeControl.invalid) { return; }
+    this.verifying.set(true);
     setTimeout(() => {
-      this.verifyState.set('success');
-      setTimeout(() => {
-        this.verifyState.set('idle');
-        this.codeControl.reset('');
-      }, 1600);
+      this.verifying.set(false);
+      this.codeControl.reset('');
     }, 1200);
   }
 
@@ -335,7 +327,7 @@ export class OtpPageComponent {
     '    }',
     '',
     '    <dm-button type="submit" color="primary" style="width: 100%"',
-    '               [state]="state()" loadingLabel="Verifying…" successLabel="Verified">',
+    '               [loading]="loading()" loadingLabel="Verifying…">',
     '      Verify',
     '    </dm-button>',
     '  </form>',
@@ -345,7 +337,7 @@ export class OtpPageComponent {
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
-    "import { DmButtonComponent, DmButtonState, DmCardComponent, DmErrorComponent, DmOtpComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent, DmCardComponent, DmErrorComponent, DmOtpComponent } from '@dmaster/ui';",
     '',
     '@Component({',
     "  selector: 'app-verify-card',",
@@ -359,15 +351,15 @@ export class OtpPageComponent {
     '      validators: [Validators.required, Validators.minLength(6)],',
     '    }),',
     '  });',
-    "  protected readonly state = signal<DmButtonState>('idle');",
+    '  protected readonly loading = signal(false);',
     '',
     '  protected verify(): void {',
     '    this.form.markAllAsTouched();',
     '    if (this.form.invalid) return;',
-    "    this.state.set('loading');",
+    '    this.loading.set(true);',
     '    this.api.verify(this.form.getRawValue().code).subscribe({',
-    "      next: () => this.state.set('success'),",
-    "      error: () => this.state.set('error'),",
+    '      next: () => this.loading.set(false),',
+    '      error: () => this.loading.set(false),',
     '    });',
     '  }',
     '}',
