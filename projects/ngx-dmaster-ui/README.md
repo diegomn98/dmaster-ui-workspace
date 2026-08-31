@@ -10,7 +10,7 @@
 [![WCAG 2.1 AA](https://img.shields.io/badge/a11y-WCAG_2.1_AA-0F6E56?style=flat-square)](https://dmasterui.com)
 [![docs](https://img.shields.io/badge/docs-dmasterui.com-7c3aed?style=flat-square)](https://dmasterui.com)
 
-**45 components · 3 languages (EN/ES/FR) in the docs · 0 third-party UI dependencies · 600+ tests**
+**45 components · 3 languages (EN/ES/FR) in the docs · 0 third-party UI dependencies · 790+ tests**
 
 **[→ Browse every component live at dmasterui.com/components](https://dmasterui.com/components)** — each tile is the real, interactive component, not a screenshot.
 
@@ -211,8 +211,48 @@ The four CI jobs — build/test/lint/publint, integration, a11y and visual — r
 Everything is a **CSS custom property** — no Sass required to consume, no Tailwind
 lock-in, no runtime engine. Theme state lives on `<html>` attributes
 (`data-dm-theme`, `data-dm-density`), so it is SSR-safe and flips without a
-flash. There are four levels of customization, from a one-line accent swap to a
-full custom theme.
+flash. Start from a prebuilt theme, then customize across four levels — from a
+one-line accent swap to a full custom theme.
+
+### Prebuilt themes
+
+Nine curated palettes ship as tiny CSS files. Pick one at install — no code:
+
+```bash
+ng add @dmaster/ui                 # prompts for a theme
+ng add @dmaster/ui --theme=ocean   # or pass it directly
+```
+
+…or add it to `angular.json`, right after the base styles:
+
+```jsonc
+"styles": [
+  "node_modules/@angular/cdk/overlay-prebuilt.css",
+  "node_modules/@dmaster/ui/styles/dmaster-ui.css",
+  "node_modules/@dmaster/ui/themes/ocean.css" // ← recolors the whole app
+]
+```
+
+Available: `ocean` · `cobalt` · `iris` · `grape` · `rose` · `ember` · `sunset` ·
+`forest` · `slate` (plus the built-in blue, which needs no file). Each recolors
+the brand in **both** light and dark — the light/dark toggle keeps working — and
+every label color is gated at WCAG AA.
+
+### Custom theme — `ng generate`
+
+Want your own? Scaffold one from a seed color — it writes the CSS (with every
+knob commented in) and wires it into `angular.json`:
+
+```bash
+ng generate @dmaster/ui:theme brand --primary=#e11d48
+# switchable named theme instead of a global recolor:
+ng generate @dmaster/ui:theme midnight --named --scheme=dark
+```
+
+The default is a **global recolor** (`:root` + `[data-dm-theme='dark']`, so
+light/dark keeps working). `--named` emits a `[data-dm-theme='<name>']` block and
+prints the [`provideDmasterUI`](#3-custom-named-themes) line to register it. Or
+just override a token by hand:
 
 ### 1. Override a token — the whole family cascades
 

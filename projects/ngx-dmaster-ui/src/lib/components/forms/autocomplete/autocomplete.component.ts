@@ -1,10 +1,12 @@
 import { OverlayModule, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   booleanAttribute,
   computed,
+  contentChild,
   effect,
   forwardRef,
   inject,
@@ -18,6 +20,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { DmSize } from '../../../core/types/common.types';
 import { dmUid } from '../../../core/utils/uid';
+import {
+  DmAutocompleteOptionContext,
+  DmAutocompleteOptionDirective,
+} from './autocomplete-option.directive';
 import { AUTOCOMPLETE_DEFAULTS } from './autocomplete.tokens';
 import {
   DmAutocompleteColor,
@@ -48,7 +54,7 @@ import {
  */
 @Component({
   selector: 'dm-autocomplete',
-  imports: [OverlayModule],
+  imports: [NgTemplateOutlet, OverlayModule],
   templateUrl: './autocomplete.component.html',
   styleUrl: './autocomplete.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -117,9 +123,29 @@ export class DmAutocompleteComponent implements ControlValueAccessor {
   /** Show all options as soon as the field is focused, before any typing. */
   readonly openOnFocus = input(false, { transform: booleanAttribute });
 
+  /**
+   * Client-side filtering. Set `false` for server-driven options that are
+   * already filtered upstream — the panel then shows `options` verbatim, so
+   * async/typeahead suggestions whose label doesn't literally contain the typed
+   * text are no longer dropped.
+   */
+  readonly filter = input(true, { transform: booleanAttribute });
+
+  /**
+   * Custom matcher for the built-in client-side filter (e.g. match on a
+   * description field or fuzzy). Ignored when `filter` is `false`. Default
+   * matches the option label, case-insensitive.
+   */
+  readonly filterFn = input<((option: DmAutocompleteOption, query: string) => boolean) | null>(
+    null,
+  );
+
   // ---- Outputs -------------------------------------------------------------
   /** Emitted when the user picks a suggestion (carries the full option). */
   readonly optionSelected = output<DmAutocompleteOption>();
+
+  /** Emitted whenever the suggestions overlay opens (`true`) or closes (`false`). */
+  readonly openChange = output<boolean>();
 
   // ---- State ---------------------------------------------------------------
   protected readonly labelId = `${this.uid}-label`;
@@ -139,11 +165,20 @@ export class DmAutocompleteComponent implements ControlValueAccessor {
 
   /** Options filtered by the current text (case-insensitive, trimmed). */
   protected readonly visibleOptions = computed<DmAutocompleteOption[]>(() => {
-    const text = this.value().trim().toLowerCase();
-    if (!text) {
+    // Server-driven mode: options are already filtered upstream, show verbatim.
+    if (!this.filter()) {
       return this.options();
     }
-    return this.options().filter((o) => o.label.toLowerCase().includes(text));
+    const query = this.value().trim();
+    if (!query) {
+      return this.options();
+    }
+    const match = this.filterFn();
+    if (match) {
+      return this.options().filter((o) => match(o, query));
+    }
+    const lower = query.toLowerCase();
+    return this.options().filter((o) => o.label.toLowerCase().includes(lower));
   });
 
   protected readonly hasResults = computed(() => this.visibleOptions().length > 0);
@@ -193,6 +228,21 @@ export class DmAutocompleteComponent implements ControlValueAccessor {
 
   protected optionId(index: number): string {
     return `${this.uid}-option-${index}`;
+  }
+
+  // ---- Content templates ---------------------------------------------------
+  /** Optional projected `ng-template[dmAutocompleteOption]` replacing the option content. */
+  private readonly optionDirective = contentChild(DmAutocompleteOptionDirective);
+
+  /** The custom option template, or `null` to render the default label + description. */
+  protected readonly optionTemplate = computed(() => this.optionDirective()?.templateRef ?? null);
+
+  /** Context builder for a templated option row. */
+  protected optionContext(
+    option: DmAutocompleteOption,
+    index: number,
+  ): DmAutocompleteOptionContext {
+    return { $implicit: option, index, active: index === this.activeIndex() };
   }
 
   // ---- CVA -----------------------------------------------------------------
@@ -256,12 +306,21 @@ export class DmAutocompleteComponent implements ControlValueAccessor {
     return this.hasResults() || (hasText && !!this.noResultsLabel());
   }
 
+  /** Central open-state setter that emits `openChange` on a real transition. */
+  private setOpen(next: boolean): void {
+    if (this.open() === next) {
+      return;
+    }
+    this.open.set(next);
+    this.openChange.emit(next);
+  }
+
   private syncOpen(): void {
-    this.open.set(this.shouldOpen());
+    this.setOpen(this.shouldOpen());
   }
 
   protected close(): void {
-    this.open.set(false);
+    this.setOpen(false);
   }
 
   // ---- Interaction ---------------------------------------------------------
@@ -307,7 +366,7 @@ export class DmAutocompleteComponent implements ControlValueAccessor {
         // Force-open (openOnFocus semantics) so the user can browse options.
         if (this.hasResults()) {
           event.preventDefault();
-          this.open.set(true);
+          this.setOpen(true);
           this.activeIndex.set(this.firstEnabledIndex());
         }
       }

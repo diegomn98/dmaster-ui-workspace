@@ -70,6 +70,14 @@
     </div>
   </app-demo-block>
 
+  <app-demo-block [heading]="page().labels['actionDemo']" [code]="actionCode" [ts]="actionTs">
+    <div class="demo-row">
+      <dm-button variant="flat" (clicked)="showWithAction()">
+        {{ page().labels['archive'] }}
+      </dm-button>
+    </div>
+  </app-demo-block>
+
   <app-demo-block
     [heading]="page().labels['programmatic']"
     [code]="programmaticCode"
@@ -135,9 +143,8 @@
           }
           <dm-button
             size="sm"
-            [state]="saveState()"
+            [loading]="saving()"
             loadingLabel="Saving settings"
-            successLabel="Settings saved"
             (clicked)="saveSettings()"
           >
             Save

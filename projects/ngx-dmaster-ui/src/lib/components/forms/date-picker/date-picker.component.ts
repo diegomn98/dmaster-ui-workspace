@@ -1,15 +1,18 @@
 import { OverlayModule, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   booleanAttribute,
   computed,
+  contentChild,
   effect,
   forwardRef,
   inject,
   input,
   model,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -31,6 +34,7 @@ import {
   startOfDay,
   startOfMonth,
 } from './date-utils';
+import { DmDatePickerDayContext, DmDatePickerDayDirective } from './date-picker-day.directive';
 import { DATE_PICKER_DEFAULTS, DM_DATE_LOCALE } from './date-picker.tokens';
 import {
   DmCalendarView,
@@ -81,7 +85,7 @@ function chunk<T>(arr: T[], size: number): T[][] {
  */
 @Component({
   selector: 'dm-date-picker',
-  imports: [OverlayModule],
+  imports: [NgTemplateOutlet, OverlayModule],
   templateUrl: './date-picker.component.html',
   styleUrl: './date-picker.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -133,10 +137,10 @@ export class DmDatePickerComponent implements ControlValueAccessor {
   readonly error = input<string>('');
 
   /** Disables the trigger. */
-  readonly disabled = input<boolean>(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
 
   /** Shows the required marker next to the label. */
-  readonly required = input<boolean>(false);
+  readonly required = input(false, { transform: booleanAttribute });
 
   /** Semantic color for focus ring and the selected-day fill. */
   readonly color = input<DmDatePickerColor>(this.defaults.color);
@@ -154,7 +158,7 @@ export class DmDatePickerComponent implements ControlValueAccessor {
   readonly ariaLabel = input<string>('');
 
   /** Shows an × button to clear the selection. Keyboard: Delete / Backspace. */
-  readonly clearable = input<boolean>(false);
+  readonly clearable = input(false, { transform: booleanAttribute });
 
   /** ARIA label for the clear button. */
   readonly clearAriaLabel = input<string>('Clear');
@@ -190,13 +194,16 @@ export class DmDatePickerComponent implements ControlValueAccessor {
   readonly displayFormat = input<Intl.DateTimeFormatOptions>(this.defaults.displayFormat);
 
   /** Shows the "Today" quick-jump button in the panel footer. */
-  readonly showTodayButton = input<boolean>(this.defaults.showTodayButton);
+  readonly showTodayButton = input(this.defaults.showTodayButton, { transform: booleanAttribute });
 
   /** Closes the panel right after a day is picked. */
-  readonly closeOnSelect = input<boolean>(true);
+  readonly closeOnSelect = input(true, { transform: booleanAttribute });
 
   /** Localised caption for the "Today" footer button. */
   readonly todayLabel = input<string>('Today');
+
+  /** Emitted whenever the calendar overlay opens (`true`) or closes (`false`). */
+  readonly openChange = output<boolean>();
 
   // ---- ARIA ids ------------------------------------------------------------
   protected readonly triggerId = `${this.uid}-trigger`;
@@ -422,6 +429,24 @@ export class DmDatePickerComponent implements ControlValueAccessor {
   private readonly triggerRef = viewChild.required<ElementRef<HTMLButtonElement>>('triggerEl');
   private readonly panelRef = viewChild<ElementRef<HTMLElement>>('panelEl');
 
+  // ---- Content templates ---------------------------------------------------
+  /** Optional projected `ng-template[dmDatePickerDay]` replacing each day number. */
+  private readonly dayDirective = contentChild(DmDatePickerDayDirective);
+
+  /** The custom day template, or `null` to render the plain Intl day digits. */
+  protected readonly dayTemplate = computed(() => this.dayDirective()?.templateRef ?? null);
+
+  /** Context builder for a templated day cell. */
+  protected dayContext(cell: DayCell): DmDatePickerDayContext {
+    return {
+      $implicit: cell.date,
+      selected: this.isDaySelected(cell.date),
+      disabled: this.dayDisabled(cell.date),
+      today: this.isToday(cell.date),
+      outside: !cell.inMonth,
+    };
+  }
+
   // ---- CVA -----------------------------------------------------------------
   private onChange: (value: Date | DmDateRange | null) => void = () => undefined;
   private onTouched: () => void = () => undefined;
@@ -566,6 +591,15 @@ export class DmDatePickerComponent implements ControlValueAccessor {
     }
   }
 
+  /** Central open-state setter that emits `openChange` on a real transition. */
+  private setOpen(next: boolean): void {
+    if (this.open() === next) {
+      return;
+    }
+    this.open.set(next);
+    this.openChange.emit(next);
+  }
+
   protected openPanel(): void {
     if (this.open() || this.isDisabled()) {
       return;
@@ -578,14 +612,14 @@ export class DmDatePickerComponent implements ControlValueAccessor {
     this.focusedDate.set(base);
     this.focusedMonth.set(base.getMonth());
     this.focusedYear.set(base.getFullYear());
-    this.open.set(true);
+    this.setOpen(true);
   }
 
   protected close(returnFocus = true): void {
     if (!this.open()) {
       return;
     }
-    this.open.set(false);
+    this.setOpen(false);
     this.hoverDate.set(null);
     this.onTouched();
     if (returnFocus) {

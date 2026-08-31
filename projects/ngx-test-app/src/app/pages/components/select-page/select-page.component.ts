@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmErrorComponent,
   DmSelectColor,
   DmSelectComponent,
   DmSelectItem,
   DmSelectLoadFn,
+  DmSelectOptionDirective,
   DmSelectOptionOrGroup,
   DmSelectRadius,
   DmSelectVariant,
@@ -79,6 +79,21 @@ const ROLES: DmSelectOptionOrGroup<string>[] = [
   },
 ];
 
+/** Status options for the custom option template demo (dot color per value). */
+const STATUSES: DmSelectItem<string>[] = [
+  { value: 'operational', label: 'Operational', description: 'All systems normal' },
+  { value: 'degraded', label: 'Degraded', description: 'Partial outage in one region' },
+  { value: 'maintenance', label: 'Maintenance', description: 'Planned downtime in progress' },
+  { value: 'offline', label: 'Offline', description: 'Major outage' },
+];
+
+const STATUS_COLORS: Record<string, string> = {
+  operational: 'var(--dm-success)',
+  degraded: 'var(--dm-warning)',
+  maintenance: 'var(--dm-primary)',
+  offline: 'var(--dm-danger)',
+};
+
 const TEAMS: DmSelectItem<string>[] = [
   { value: 'platform', label: 'Platform' },
   { value: 'design-system', label: 'Design System' },
@@ -107,6 +122,7 @@ const ALL_USERS: DmSelectItem<string>[] = Array.from({ length: 87 }, (_, i) => {
   selector: 'app-select-page',
   imports: [
     DmSelectComponent,
+    DmSelectOptionDirective,
     DmButtonComponent,
     DmCardComponent,
     DmErrorComponent,
@@ -130,6 +146,8 @@ export class SelectPageComponent {
   protected readonly teams = TEAMS;
   protected readonly variants = VARIANTS;
   protected readonly colors = COLORS;
+  protected readonly statuses = STATUSES;
+  protected readonly statusColors = STATUS_COLORS;
 
   // ---- Multiple / filter / groups demos ------------------------------------
   protected readonly multipleValues = signal<string[]>(['dog', 'rabbit']);
@@ -366,6 +384,54 @@ export class SelectPageComponent {
     }
     return `<dm-select\n  ${attrs.join('\n  ')}\n/>`;
   });
+
+  // ---- Custom option template demo -----------------------------------------
+  protected readonly optionTemplateValue = signal<string | null>('operational');
+
+  protected readonly optionTemplateCode = [
+    '<dm-select label="Status" placeholder="Pick a status" [items]="statuses" [(value)]="status">',
+    '  <ng-template dmSelectOption let-item>',
+    '    <span style="display: flex; align-items: center; gap: 0.5rem">',
+    '      <span',
+    '        style="width: 0.5rem; height: 0.5rem; border-radius: 999px; flex: none"',
+    '        [style.background]="dotColors[item.value]"',
+    '      ></span>',
+    '      <span style="display: grid; min-width: 0">',
+    '        <span>{{ item.label }}</span>',
+    '        <span style="font-size: 0.75rem; color: var(--dm-fg-muted)">',
+    '          {{ item.description }}',
+    '        </span>',
+    '      </span>',
+    '    </span>',
+    '  </ng-template>',
+    '</dm-select>',
+  ].join('\n');
+
+  protected readonly optionTemplateTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSelectComponent, DmSelectItem, DmSelectOptionDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-status-select',",
+    '  imports: [DmSelectComponent, DmSelectOptionDirective],',
+    "  templateUrl: './status-select.component.html',",
+    '})',
+    'export class StatusSelectComponent {',
+    '  protected readonly statuses: DmSelectItem<string>[] = [',
+    "    { value: 'operational', label: 'Operational', description: 'All systems normal' },",
+    "    { value: 'degraded', label: 'Degraded', description: 'Partial outage in one region' },",
+    "    { value: 'maintenance', label: 'Maintenance', description: 'Planned downtime in progress' },",
+    "    { value: 'offline', label: 'Offline', description: 'Major outage' },",
+    '  ];',
+    '  protected readonly dotColors: Record<string, string> = {',
+    "    operational: 'var(--dm-success)',",
+    "    degraded: 'var(--dm-warning)',",
+    "    maintenance: 'var(--dm-primary)',",
+    "    offline: 'var(--dm-danger)',",
+    '  };',
+    "  protected readonly status = signal<string | null>('operational');",
+    '}',
+  ].join('\n');
 
   // ---- Async (server-driven) demos -----------------------------------------
   protected readonly asyncValue = signal<string | null>(null);
@@ -618,23 +684,20 @@ export class SelectPageComponent {
     role: new FormControl<string | null>(null, Validators.required),
     teams: new FormControl<string[]>([], { nonNullable: true, validators: Validators.required }),
   });
-  protected readonly inviteState = signal<DmButtonState>('idle');
+  protected readonly inviting = signal(false);
 
   protected sendInvite(): void {
-    if (this.inviteState() !== 'idle') {
+    if (this.inviting()) {
       return;
     }
     this.inviteForm.markAllAsTouched();
     if (this.inviteForm.invalid) {
       return;
     }
-    this.inviteState.set('loading');
+    this.inviting.set(true);
     setTimeout(() => {
-      this.inviteState.set('success');
-      setTimeout(() => {
-        this.inviteState.set('idle');
-        this.inviteForm.reset({ role: null, teams: [] });
-      }, 1600);
+      this.inviting.set(false);
+      this.inviteForm.reset({ role: null, teams: [] });
     }, 1200);
   }
 
@@ -668,7 +731,7 @@ export class SelectPageComponent {
     '    </div>',
     '',
     '    <dm-button type="submit" color="primary" style="width: 100%"',
-    '               [state]="state()" loadingLabel="Sending…" successLabel="Invite sent">',
+    '               [loading]="loading()" loadingLabel="Sending…">',
     '      Send invite',
     '    </dm-button>',
     '  </form>',
@@ -680,7 +743,6 @@ export class SelectPageComponent {
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
     'import {',
     '  DmButtonComponent,',
-    '  DmButtonState,',
     '  DmCardComponent,',
     '  DmErrorComponent,',
     '  DmSelectComponent,',
@@ -713,15 +775,15 @@ export class SelectPageComponent {
     '    role: new FormControl<string | null>(null, Validators.required),',
     '    teams: new FormControl<string[]>([], { nonNullable: true, validators: Validators.required }),',
     '  });',
-    "  state = signal<DmButtonState>('idle');",
+    '  loading = signal(false);',
     '',
     '  send(): void {',
     '    this.form.markAllAsTouched();',
     '    if (this.form.invalid) return;',
-    "    this.state.set('loading');",
+    '    this.loading.set(true);',
     '    this.api.invite(this.form.getRawValue()).subscribe({',
-    "      next: () => this.state.set('success'),",
-    "      error: () => this.state.set('error'),",
+    '      next: () => this.loading.set(false),',
+    '      error: () => this.loading.set(false),',
     '    });',
     '  }',
     '}',
@@ -740,6 +802,12 @@ export class SelectPageComponent {
       { name: 'multiple', type: 'boolean', default: 'false', description: api['multiple'] },
       { name: 'value', type: 'model<T | null>', default: 'null', description: api['value'] },
       { name: 'values', type: 'model<T[]>', default: '[]', description: api['values'] },
+      {
+        name: 'compareWith',
+        type: '(a: T, b: T) => boolean',
+        default: '===',
+        description: api['compareWith'],
+      },
       { name: 'filterable', type: 'boolean', default: 'false', description: api['filterable'] },
       {
         name: 'filterPlaceholder',
@@ -788,6 +856,11 @@ export class SelectPageComponent {
         type: 'string',
         default: "'Clear'",
         description: api['filterClearAriaLabel'],
+      },
+      {
+        name: 'dmSelectOption',
+        type: 'TemplateRef<DmSelectOptionContext<T>>',
+        description: api['optionTemplate'],
       },
       {
         name: 'loadFn',

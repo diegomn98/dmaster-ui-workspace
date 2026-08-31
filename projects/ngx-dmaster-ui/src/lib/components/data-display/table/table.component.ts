@@ -1,20 +1,26 @@
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
+  contentChild,
+  contentChildren,
   effect,
   inject,
   input,
   model,
   output,
+  TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';
 
 import { DmCheckboxComponent } from '../../forms/checkbox';
 import { DmSkeletonComponent } from '../../primitives/skeleton';
+import { DmTableCellContext, DmTableCellDirective } from './table-cell.directive';
+import { DmTableEmptyDirective } from './table-empty.directive';
 import { TABLE_DEFAULTS } from './table.tokens';
 import {
   DmTableColumn,
@@ -56,7 +62,7 @@ let nextCaptionId = 0;
 
 @Component({
   selector: 'dm-table',
-  imports: [DmCheckboxComponent, DmSkeletonComponent, ScrollingModule],
+  imports: [DmCheckboxComponent, DmSkeletonComponent, NgTemplateOutlet, ScrollingModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -99,10 +105,10 @@ export class DmTableComponent<T = unknown> {
   readonly variant = input<DmTableVariant>(this.defaults.variant);
 
   /** Highlight the row under the pointer. */
-  readonly hover = input<boolean>(this.defaults.hover);
+  readonly hover = input(this.defaults.hover, { transform: booleanAttribute });
 
   /** Pin the header to the top of the container while scrolling. */
-  readonly sticky = input<boolean>(this.defaults.sticky);
+  readonly sticky = input(this.defaults.sticky, { transform: booleanAttribute });
 
   // ---- Virtual scroll ------------------------------------------------------
   /**
@@ -134,7 +140,7 @@ export class DmTableComponent<T = unknown> {
 
   // ---- Search --------------------------------------------------------------
   /** Show the search box in the toolbar and filter rows by the term. */
-  readonly searchable = input<boolean>(false);
+  readonly searchable = input(false, { transform: booleanAttribute });
 
   /** Placeholder for the search box. */
   readonly searchPlaceholder = input<string>('Search…');
@@ -167,7 +173,7 @@ export class DmTableComponent<T = unknown> {
 
   // ---- States --------------------------------------------------------------
   /** Show a skeleton loading state instead of rows. */
-  readonly loading = input<boolean>(false);
+  readonly loading = input(false, { transform: booleanAttribute });
 
   /** Number of skeleton rows rendered while loading. */
   readonly loadingRows = input<number>(5);
@@ -210,7 +216,7 @@ export class DmTableComponent<T = unknown> {
    * table only emits `searchChange`/`sortChange`/`pageChange` for you to react
    * to. Use `totalItems` to drive the footer counts.
    */
-  readonly manualProcessing = input<boolean>(false);
+  readonly manualProcessing = input(false, { transform: booleanAttribute });
 
   /** Total row count for the footer when `manualProcessing` is on. */
   readonly totalItems = input<number | null>(null);
@@ -247,6 +253,34 @@ export class DmTableComponent<T = unknown> {
       }
       untracked(() => this.page.set(1));
     });
+  }
+
+  // ---- Content templates ---------------------------------------------------
+  /** Projected `ng-template[dmTableCell]`s, one per templated column. */
+  private readonly cellTemplates = contentChildren<DmTableCellDirective<T>>(DmTableCellDirective);
+
+  /** Optional projected `ng-template[dmTableEmpty]` replacing the empty block. */
+  private readonly emptyDirective = contentChild(DmTableEmptyDirective);
+
+  /** Column key → custom cell template. */
+  private readonly cellTemplateMap = computed(() => {
+    const map = new Map<string, TemplateRef<DmTableCellContext<T>>>();
+    for (const tpl of this.cellTemplates()) {
+      map.set(tpl.dmTableCell(), tpl.templateRef);
+    }
+    return map;
+  });
+
+  /** The custom template for a column, or `null` to render the plain value. */
+  protected cellTemplateFor(col: DmTableColumn<T>): TemplateRef<DmTableCellContext<T>> | null {
+    return this.cellTemplateMap().get(col.key) ?? null;
+  }
+
+  protected readonly emptyTemplate = computed(() => this.emptyDirective()?.templateRef ?? null);
+
+  /** Context builder for a templated cell. */
+  protected cellContext(row: T, index: number, column: DmTableColumn<T>): DmTableCellContext<T> {
+    return { $implicit: row, index, column };
   }
 
   // ---- Derived columns -----------------------------------------------------

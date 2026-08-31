@@ -1,8 +1,24 @@
-import { provideZonelessChangeDetection } from '@angular/core';
+import { Component, provideZonelessChangeDetection, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { DmAvatarFallbackDirective } from './avatar-fallback.directive';
 import { DmAvatarComponent } from './avatar.component';
 import { AVATAR_DEFAULTS } from './avatar.tokens';
+
+@Component({
+  imports: [DmAvatarComponent, DmAvatarFallbackDirective],
+  template: `
+    <dm-avatar [src]="src()" [initials]="initials()">
+      <svg dmAvatarFallback class="custom-fallback" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 12h16" />
+      </svg>
+    </dm-avatar>
+  `,
+})
+class FallbackHostComponent {
+  readonly src = signal<string | null>(null);
+  readonly initials = signal('');
+}
 
 describe('DmAvatarComponent', () => {
   let fixture: ComponentFixture<DmAvatarComponent>;
@@ -85,11 +101,43 @@ describe('DmAvatarComponent', () => {
 
   it('honors defaults injected via AVATAR_DEFAULTS', () => {
     TestBed.overrideProvider(AVATAR_DEFAULTS, {
-      useValue: { size: 'sm', shape: 'square' },
+      useValue: { size: 'sm', shape: 'square', color: 'success' },
     });
     createComponent();
 
     expect(host().style.width).toBe('2rem');
     expect(host().getAttribute('data-shape')).toBe('square');
+    expect(host().getAttribute('data-color')).toBe('success');
+  });
+
+  it('reflects the color input as data-color', () => {
+    createComponent();
+    fixture.componentRef.setInput('color', 'danger');
+    fixture.detectChanges();
+    expect(host().getAttribute('data-color')).toBe('danger');
+  });
+
+  it('a projected [dmAvatarFallback] replaces the generic icon', () => {
+    const hostFixture = TestBed.createComponent(FallbackHostComponent);
+    hostFixture.detectChanges();
+
+    const avatar: HTMLElement = hostFixture.nativeElement.querySelector('dm-avatar');
+    expect(avatar.querySelector('.custom-fallback')).toBeTruthy();
+    expect(avatar.querySelector('.dm-avatar__icon')).toBeNull();
+  });
+
+  it('initials and image still win over the custom fallback', () => {
+    const hostFixture = TestBed.createComponent(FallbackHostComponent);
+    hostFixture.componentInstance.initials.set('DM');
+    hostFixture.detectChanges();
+
+    const avatar: HTMLElement = hostFixture.nativeElement.querySelector('dm-avatar');
+    expect(avatar.querySelector('.dm-avatar__initials')).toBeTruthy();
+    expect(avatar.querySelector('.custom-fallback')).toBeNull();
+
+    hostFixture.componentInstance.src.set('/avatar.png');
+    hostFixture.detectChanges();
+    expect(avatar.querySelector('.dm-avatar__img')).toBeTruthy();
+    expect(avatar.querySelector('.custom-fallback')).toBeNull();
   });
 });

@@ -5,6 +5,7 @@ import {
   DmButtonComponent,
   DmCardComponent,
   DmIconComponent,
+  DmTableCellDirective,
   DmTableColumn,
   DmTableComponent,
   DmTableDensity,
@@ -181,6 +182,7 @@ function generateMembers(count: number): Member[] {
   selector: 'app-table-page',
   imports: [
     DmTableComponent,
+    DmTableCellDirective,
     DmButtonComponent,
     DmCardComponent,
     DmAvatarComponent,
@@ -358,6 +360,82 @@ export class TablePageComponent {
     "      .map((m) => m.name.split(' ')[0])",
     "      .join(', ');",
     '  });',
+    '}',
+  ].join('\n');
+
+  // ---- Custom cells demo (dmTableCell templates) ---------------------------
+  protected statusColor(status: Member['status']): 'success' | 'warning' | 'default' {
+    if (status === 'Active') return 'success';
+    if (status === 'Away') return 'warning';
+    return 'default';
+  }
+
+  protected readonly customCellsCode = [
+    '<!-- One ng-template[dmTableCell] per column key; the rest render plain. -->',
+    '<dm-table [columns]="columns" [data]="members()" [rowKey]="byId" [pageSize]="5">',
+    '  <ng-template dmTableCell="name" let-row>',
+    '    <span style="display: inline-flex; align-items: center; gap: 0.5rem">',
+    '      <dm-avatar [initials]="initials(row.name)" [alt]="row.name" size="1.75rem" />',
+    '      {{ row.name }}',
+    '    </span>',
+    '  </ng-template>',
+    '',
+    '  <ng-template dmTableCell="status" let-row>',
+    '    <dm-badge [color]="statusColor(row.status)" variant="flat" size="sm">',
+    '      {{ row.status }}',
+    '    </dm-badge>',
+    '  </ng-template>',
+    '</dm-table>',
+  ].join('\n');
+
+  protected readonly customCellsTs = [
+    "import { Component, signal } from '@angular/core';",
+    'import {',
+    '  DmAvatarComponent,',
+    '  DmBadgeComponent,',
+    '  DmTableCellDirective,',
+    '  DmTableColumn,',
+    '  DmTableComponent,',
+    "} from '@dmaster/ui';",
+    '',
+    'interface Member {',
+    '  id: number;',
+    '  name: string;',
+    '  email: string;',
+    '  role: string;',
+    "  status: 'Active' | 'Away' | 'Invited';",
+    '  joined: string;',
+    '}',
+    '',
+    '@Component({',
+    "  selector: 'app-rich-cells-table',",
+    '  imports: [DmTableComponent, DmTableCellDirective, DmAvatarComponent, DmBadgeComponent],',
+    "  templateUrl: './rich-cells-table.component.html',",
+    '})',
+    'export class RichCellsTableComponent {',
+    '  protected readonly members = signal<Member[]>([...]);',
+    '  protected readonly byId = (row: Member) => row.id;',
+    '',
+    '  // Search and sort still read the column key — templates only change rendering.',
+    '  protected readonly columns: DmTableColumn<Member>[] = [',
+    "    { key: 'name', header: 'Name', sortable: true },",
+    "    { key: 'email', header: 'Email', sortable: true },",
+    "    { key: 'status', header: 'Status', sortable: true, align: 'center' },",
+    '  ];',
+    '',
+    "  protected statusColor(status: Member['status']): 'success' | 'warning' | 'default' {",
+    "    if (status === 'Active') return 'success';",
+    "    if (status === 'Away') return 'warning';",
+    "    return 'default';",
+    '  }',
+    '',
+    '  protected initials(name: string): string {',
+    '    return name',
+    "      .split(' ')",
+    '      .map((part) => part[0])',
+    "      .join('')",
+    '      .slice(0, 2);',
+    '  }',
     '}',
   ].join('\n');
 
@@ -935,6 +1013,18 @@ export class TablePageComponent {
         type: 'output<string>',
         default: '—',
         description: api['searchChange'],
+      },
+      {
+        name: 'dmTableCell',
+        type: 'ng-template[dmTableCell="key"]',
+        default: '—',
+        description: api['cellTemplate'],
+      },
+      {
+        name: 'dmTableEmpty',
+        type: 'ng-template[dmTableEmpty]',
+        default: '—',
+        description: api['emptyTemplate'],
       },
     ];
   });

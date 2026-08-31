@@ -49,7 +49,7 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['alphaHeading']" [code]="alphaCode" [ts]="alphaTs">
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-color-picker
           [label]="page().labels['pickLabel']"
@@ -57,7 +57,7 @@
           [showAlpha]="true"
         />
       </div>
-      <span class="demo-output">{{ page().labels['selected'] }}: {{ alphaValue() }}</span>
+      <span class="demo-output">{{ alphaValue() }}</span>
     </div>
   </app-demo-block>
 
@@ -84,11 +84,11 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" [ts]="formsTs">
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-color-picker [label]="page().labels['pickLabel']" [formControl]="formControl" />
       </div>
-      <span class="demo-output">{{ page().labels['formValue'] }}: {{ formValue() || '—' }}</span>
+      <span class="demo-output">{{ formValue() || '—' }}</span>
     </div>
   </app-demo-block>
 

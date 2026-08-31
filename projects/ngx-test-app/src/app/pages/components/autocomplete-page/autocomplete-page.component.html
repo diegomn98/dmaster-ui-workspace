@@ -68,7 +68,7 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['eventsHeading']" [code]="eventsCode" [ts]="eventsTs">
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-autocomplete
           [ariaLabel]="page().labels['fruit']"
@@ -79,12 +79,12 @@
           (optionSelected)="onSelected($event)"
         />
       </div>
-      <span class="demo-output">{{ page().labels['lastSelected'] }}: {{ lastSelected() }}</span>
+      <span class="demo-output">{{ lastSelected() }}</span>
     </div>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" [ts]="formsTs">
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-autocomplete
           [ariaLabel]="page().labels['fruit']"
@@ -93,7 +93,7 @@
           [formControl]="formControl"
         />
       </div>
-      <span class="demo-output">{{ page().labels['formValue'] }}: {{ formValue() || '—' }}</span>
+      <span class="demo-output">{{ formValue() || '—' }}</span>
     </div>
   </app-demo-block>
 
@@ -170,9 +170,8 @@
           type="submit"
           color="primary"
           style="width: 100%"
-          [state]="shipState()"
+          [loading]="continuing()"
           [loadingLabel]="page().labels['shipChecking']"
-          [successLabel]="page().labels['shipDone']"
         >
           {{ page().labels['continueLabel'] }}
         </dm-button>

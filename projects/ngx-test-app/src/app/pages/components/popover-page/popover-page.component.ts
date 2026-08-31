@@ -246,6 +246,7 @@ export class PopoverPageComponent {
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;
     return [
+      { name: 'open', type: 'boolean', default: 'false', description: api['open'] },
       {
         name: 'placement',
         type: "'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end'",
@@ -256,6 +257,7 @@ export class PopoverPageComponent {
       { name: 'offset', type: 'number', default: '8', description: api['offset'] },
       { name: 'trapFocus', type: 'boolean', default: 'false', description: api['trapFocus'] },
       { name: 'ariaLabel', type: 'string', default: '—', description: api['ariaLabel'] },
+      { name: 'openChange', type: 'output<boolean>', default: '—', description: api['openChange'] },
       { name: 'opened', type: 'output<void>', default: '—', description: api['opened'] },
       { name: 'closed', type: 'output<void>', default: '—', description: api['closed'] },
       {

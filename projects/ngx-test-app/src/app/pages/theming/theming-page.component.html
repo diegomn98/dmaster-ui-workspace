@@ -16,6 +16,37 @@
   <app-code-snippet [code]="overrideCode" language="css" />
 </section>
 
+<!-- Prebuilt themes -->
+<section class="page__section" aria-labelledby="prebuilt-themes">
+  <h2 class="page__section-title" id="prebuilt-themes">{{ page().sections.prebuilt }}</h2>
+  <p class="page__section-desc" [innerHTML]="page().prebuiltBody"></p>
+
+  <div class="theme-gallery" role="group" [attr.aria-label]="page().prebuiltGalleryAria">
+    @for (preset of presets; track preset.key) {
+      <button
+        type="button"
+        class="theme-swatch"
+        [class.theme-swatch--active]="palette.current() === preset.key"
+        [style.--dm-theme-swatch]="preset.primary"
+        [attr.aria-pressed]="palette.current() === preset.key"
+        (click)="palette.setPalette(preset.key)"
+      >
+        <span class="theme-swatch__chip" aria-hidden="true"></span>
+        <span class="theme-swatch__label">{{ preset.label }}</span>
+      </button>
+    }
+  </div>
+
+  <p class="page__section-desc">{{ page().prebuiltApply }}</p>
+  <app-code-snippet [code]="themeInstall()" language="bash" />
+
+  <p class="page__section-desc" [innerHTML]="page().prebuiltManual"></p>
+  <app-code-snippet [code]="themeStylesCode()" language="json" />
+
+  <p class="page__section-desc" [innerHTML]="page().prebuiltCustom"></p>
+  <app-code-snippet [code]="themeGenerateCode" language="bash" />
+</section>
+
 <!-- Semantic tokens -->
 <section class="page__section" aria-labelledby="semantic-tokens">
   <h2 class="page__section-title" id="semantic-tokens">{{ page().sections.semanticTokens }}</h2>

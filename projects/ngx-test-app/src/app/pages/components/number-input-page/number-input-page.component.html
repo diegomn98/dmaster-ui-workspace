@@ -55,8 +55,8 @@
         />
       </div>
       <div style="display: grid; gap: 0.375rem">
-        <span class="demo-output">{{ page().labels['value'] }}: {{ basicValue() ?? 'null' }}</span>
-        <span class="demo-output">{{ page().labels['lastCommit'] }}: {{ lastCommit() }}</span>
+        <span class="demo-output">{{ basicValue() ?? 'null' }}</span>
+        <span class="demo-output">{{ lastCommit() }}</span>
       </div>
     </div>
   </app-demo-block>
@@ -73,7 +73,7 @@
           [step]="5"
         />
       </div>
-      <span class="demo-output">{{ page().labels['value'] }}: {{ rangeValue() ?? 'null' }}</span>
+      <span class="demo-output">{{ rangeValue() ?? 'null' }}</span>
     </div>
   </app-demo-block>
 
@@ -355,10 +355,9 @@
         <dm-button
           color="primary"
           style="width: 100%"
-          [state]="checkoutState()"
+          [loading]="checkingOut()"
           [disabled]="qtyControls.invalid"
           [loadingLabel]="page().labels['processing']"
-          [successLabel]="page().labels['orderPlaced']"
           (clicked)="checkout()"
         >
           {{ page().labels['checkout'] }}

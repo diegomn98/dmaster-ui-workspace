@@ -268,6 +268,12 @@ export class BreadcrumbsPageComponent {
       },
       { name: 'href (item)', type: 'string', default: '—', description: api['href'] },
       { name: 'disabled (item)', type: 'boolean', default: 'false', description: api['disabled'] },
+      {
+        name: 'dmBreadcrumbSeparator',
+        type: 'ng-template[dmBreadcrumbSeparator]',
+        default: '—',
+        description: api['separatorTemplate'],
+      },
     ];
   });
 }

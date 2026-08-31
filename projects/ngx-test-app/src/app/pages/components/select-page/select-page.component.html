@@ -65,7 +65,7 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['formsHeading']" [code]="formsCode" [ts]="formsTs">
-    <div class="demo-row">
+    <div class="demo-row demo-io">
       <div style="width: 18rem">
         <dm-select
           [ariaLabel]="page().labels['pet']"
@@ -74,7 +74,7 @@
           [formControl]="formControl"
         />
       </div>
-      <span class="demo-output">{{ page().labels['formValue'] }}: {{ formValue() ?? '—' }}</span>
+      <span class="demo-output">{{ formValue() ?? '—' }}</span>
     </div>
   </app-demo-block>
 
@@ -103,7 +103,7 @@
     [code]="clearableCode"
     [ts]="clearableTs"
   >
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 18rem">
         <dm-select
           [ariaLabel]="page().labels['pet']"
@@ -113,9 +113,7 @@
           [clearable]="true"
         />
       </div>
-      <span class="demo-output"
-        >{{ page().labels['formValue'] }}: {{ clearableValue() ?? '—' }}</span
-      >
+      <span class="demo-output">{{ clearableValue() ?? '—' }}</span>
     </div>
   </app-demo-block>
 
@@ -124,7 +122,7 @@
     [code]="multipleCode"
     [ts]="multipleTs"
   >
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 20rem">
         <dm-select
           [label]="page().labels['pets']"
@@ -135,9 +133,7 @@
           [(values)]="multipleValues"
         />
       </div>
-      <span class="demo-output"
-        >{{ page().labels['formValue'] }}: {{ multipleValues().join(', ') || '—' }}</span
-      >
+      <span class="demo-output">{{ multipleValues().join(', ') || '—' }}</span>
     </div>
   </app-demo-block>
 
@@ -171,11 +167,41 @@
   </app-demo-block>
 
   <app-demo-block
+    [heading]="page().labels['optionTemplate']"
+    [code]="optionTemplateCode"
+    [ts]="optionTemplateTs"
+  >
+    <div style="width: 20rem">
+      <dm-select
+        [label]="page().labels['statusLabel']"
+        [placeholder]="page().labels['statusPlaceholder']"
+        [items]="statuses"
+        [(value)]="optionTemplateValue"
+      >
+        <ng-template dmSelectOption let-item>
+          <span style="display: flex; align-items: center; gap: 0.5rem">
+            <span
+              style="width: 0.5rem; height: 0.5rem; border-radius: 999px; flex: none"
+              [style.background]="statusColors[item.value]"
+            ></span>
+            <span style="display: grid; min-width: 0">
+              <span>{{ item.label }}</span>
+              <span style="font-size: 0.75rem; color: var(--dm-fg-muted)">
+                {{ item.description }}
+              </span>
+            </span>
+          </span>
+        </ng-template>
+      </dm-select>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
     [heading]="page().labels['multiFilterHeading']"
     [code]="multiFilterCode"
     [ts]="multiFilterTs"
   >
-    <div class="demo-row" style="flex-wrap: wrap; gap: var(--dm-space-4)">
+    <div class="demo-row demo-io" style="flex-wrap: wrap; gap: var(--dm-space-4)">
       <div style="width: 20rem">
         <dm-select
           [label]="page().labels['pets']"
@@ -191,9 +217,7 @@
           [(values)]="multiFilterValues"
         />
       </div>
-      <span class="demo-output"
-        >{{ page().labels['formValue'] }}: {{ multiFilterValues().join(', ') || '—' }}</span
-      >
+      <span class="demo-output">{{ multiFilterValues().join(', ') || '—' }}</span>
     </div>
   </app-demo-block>
 
@@ -287,9 +311,8 @@
           type="submit"
           color="primary"
           style="width: 100%"
-          [state]="inviteState()"
+          [loading]="inviting()"
           [loadingLabel]="page().labels['inviteSending']"
-          [successLabel]="page().labels['inviteSent']"
         >
           {{ page().labels['sendInvite'] }}
         </dm-button>

@@ -22,20 +22,36 @@ import { DmTabPanelComponent, DmTabComponent, DmTabsComponent } from '@dmaster/u
 
 If `selectedValue` is left undefined the first enabled tab becomes active on render — the component always has a resolved selection to drive its UI.
 
+### Lazy panels
+
+Add the bare `lazy` attribute to defer each panel's projected content until its tab is first activated. Once a panel has been visited it stays mounted (only hidden while inactive), so state inside it survives tab switches. The panel active on first render is instantiated immediately.
+
+```html
+<dm-tabs lazy ariaLabel="Sections">
+  <dm-tab value="overview">Overview</dm-tab>
+  <dm-tab value="reports">Reports</dm-tab>
+
+  <dm-tab-panel value="overview">…</dm-tab-panel>
+  <!-- Not created until the Reports tab is first opened. -->
+  <dm-tab-panel value="reports"><app-heavy-report /></dm-tab-panel>
+</dm-tabs>
+```
+
 ## API — `<dm-tabs>`
 
-| Input           | Type                                                                          | Default        | Description                                                 |
-| --------------- | ----------------------------------------------------------------------------- | -------------- | ----------------------------------------------------------- |
-| `selectedValue` | `string \| undefined`                                                         | first tab      | Value of the active tab. Two-way (`[(selectedValue)]`).     |
-| `color`         | `'default' \| 'primary' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'primary'`    | Semantic color.                                             |
-| `variant`       | `'solid' \| 'bordered' \| 'light' \| 'underlined'`                            | `'underlined'` | Visual variant.                                             |
-| `size`          | `'sm' \| 'md' \| 'lg'`                                                        | `'md'`         | Size scale (32/40/48px tabs).                               |
-| `radius`        | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                    | `'md'`         | Corner rounding. Ignored by the `underlined` variant.       |
-| `placement`     | `'top' \| 'start'`                                                            | `'top'`        | `start` renders the tablist vertically at the inline start. |
-| `fullWidth`     | `boolean`                                                                     | `true`         | Stretch tabs to share the row (horizontal) equally.         |
-| `divider`       | `boolean`                                                                     | `true`         | Separator rule under the tablist (`light` / `underlined`).  |
-| `disabled`      | `boolean`                                                                     | `false`        | Disables the whole tablist.                                 |
-| `ariaLabel`     | `string`                                                                      | `''`           | Accessible label for the tablist.                           |
+| Input           | Type                                                                          | Default        | Description                                                  |
+| --------------- | ----------------------------------------------------------------------------- | -------------- | ------------------------------------------------------------ |
+| `selectedValue` | `string \| undefined`                                                         | first tab      | Value of the active tab. Two-way (`[(selectedValue)]`).      |
+| `color`         | `'default' \| 'primary' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'primary'`    | Semantic color.                                              |
+| `variant`       | `'solid' \| 'bordered' \| 'light' \| 'underlined'`                            | `'underlined'` | Visual variant.                                              |
+| `size`          | `'sm' \| 'md' \| 'lg'`                                                        | `'md'`         | Size scale (32/40/48px tabs).                                |
+| `radius`        | `'none' \| 'sm' \| 'md' \| 'lg' \| 'full'`                                    | `'md'`         | Corner rounding. Ignored by the `underlined` variant.        |
+| `placement`     | `'top' \| 'start'`                                                            | `'top'`        | `start` renders the tablist vertically at the inline start.  |
+| `fullWidth`     | `boolean`                                                                     | `true`         | Stretch tabs to share the row (horizontal) equally.          |
+| `divider`       | `boolean`                                                                     | `true`         | Separator rule under the tablist (`light` / `underlined`).   |
+| `lazy`          | `boolean`                                                                     | `false`        | Defer each panel's content until its tab is first activated. |
+| `disabled`      | `boolean`                                                                     | `false`        | Disables the whole tablist.                                  |
+| `ariaLabel`     | `string`                                                                      | `''`           | Accessible label for the tablist.                            |
 
 ## API — `<dm-tab>`
 

@@ -4,7 +4,6 @@ import {
   DmAvatarComponent,
   DmBadgeComponent,
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmErrorComponent,
   DmKbdComponent,
@@ -452,7 +451,7 @@ export class NumberInputPageComponent {
   /** Mirror of the FormArray value as a signal, so the totals recompute in zoneless mode. */
   protected readonly quantities = signal<number[]>(CART_PRODUCTS.map((p) => p.initialQty));
 
-  protected readonly checkoutState = signal<DmButtonState>('idle');
+  protected readonly checkingOut = signal(false);
 
   constructor() {
     this.qtyControls.valueChanges.subscribe((values) =>
@@ -487,18 +486,15 @@ export class NumberInputPageComponent {
   }
 
   protected checkout(): void {
-    if (this.checkoutState() !== 'idle') {
+    if (this.checkingOut()) {
       return;
     }
     this.qtyControls.markAllAsTouched();
     if (this.qtyControls.invalid) {
       return;
     }
-    this.checkoutState.set('loading');
-    setTimeout(() => {
-      this.checkoutState.set('success');
-      setTimeout(() => this.checkoutState.set('idle'), 1600);
-    }, 1200);
+    this.checkingOut.set(true);
+    setTimeout(() => this.checkingOut.set(false), 1200);
   }
 
   protected readonly compositionCode = [
@@ -541,10 +537,9 @@ export class NumberInputPageComponent {
     '  <dm-button',
     '    color="primary"',
     '    style="width: 100%"',
-    '    [state]="state()"',
+    '    [loading]="loading()"',
     '    [disabled]="qty.invalid"',
     '    loadingLabel="Processing…"',
-    '    successLabel="Order placed"',
     '    (clicked)="checkout()"',
     '  >',
     '    Checkout',
@@ -559,7 +554,6 @@ export class NumberInputPageComponent {
     '  DmAvatarComponent,',
     '  DmBadgeComponent,',
     '  DmButtonComponent,',
-    '  DmButtonState,',
     '  DmCardComponent,',
     '  DmErrorComponent,',
     '  DmNumberInputComponent,',
@@ -607,7 +601,7 @@ export class NumberInputPageComponent {
     '  readonly subtotal = computed(() => this.lineTotals().reduce((a, b) => a + b, 0));',
     '  readonly shipping = computed(() => (this.subtotal() >= 100 ? 0 : 4.9));',
     '  readonly total = computed(() => this.subtotal() + this.shipping());',
-    "  readonly state = signal<DmButtonState>('idle');",
+    '  readonly loading = signal(false);',
     '',
     '  constructor() {',
     '    this.qty.valueChanges.subscribe((v) => this.quantities.set(v.map((n) => n ?? 0)));',
@@ -619,12 +613,9 @@ export class NumberInputPageComponent {
     '',
     '  checkout(): void {',
     '    this.qty.markAllAsTouched();',
-    "    if (this.qty.invalid || this.state() !== 'idle') return;",
-    "    this.state.set('loading');",
-    '    setTimeout(() => {',
-    "      this.state.set('success');",
-    "      setTimeout(() => this.state.set('idle'), 1600);",
-    '    }, 1200);',
+    '    if (this.qty.invalid || this.loading()) return;',
+    '    this.loading.set(true);',
+    '    setTimeout(() => this.loading.set(false), 1200);',
     '  }',
     '}',
   ].join('\n');

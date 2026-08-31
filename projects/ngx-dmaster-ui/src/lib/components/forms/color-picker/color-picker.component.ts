@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  booleanAttribute,
   computed,
   effect,
   forwardRef,
@@ -16,10 +17,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { DmSize } from '../../../core/types/common.types';
 import { dmUid } from '../../../core/utils/uid';
-import { HSVA, formatHex, formatRgb, parseColor } from './color-utils';
+import { HSVA, formatColor, formatHex, formatRgb, parseColor } from './color-utils';
 import { COLOR_PICKER_DEFAULTS } from './color-picker.tokens';
 import {
   DmColorPickerColor,
+  DmColorPickerFormat,
   DmColorPickerRadius,
   DmColorPickerVariant,
 } from './color-picker.types';
@@ -41,7 +43,9 @@ function clamp01(value: number): number {
  * <dm-color-picker label="Brand" [(value)]="brand" [showAlpha]="true" />
  * ```
  *
- * The value is a hex string (`#rrggbb`, or `#rrggbbaa` when `showAlpha` is on),
+ * The value is a hex string by default (`#rrggbb`, or `#rrggbbaa` when
+ * `showAlpha` is on) — `format` switches the committed serialization to
+ * `rgb(r g b)` or `hsl(h s% l%)` (with a ` / a` suffix when `showAlpha`) —
  * wired as a `ControlValueAccessor`. The panel opens in a CDK overlay anchored
  * to the trigger; nothing touches `window`/`document`, so it works under
  * SSR/prerender.
@@ -69,7 +73,7 @@ export class DmColorPickerComponent implements ControlValueAccessor {
   protected readonly uid = dmUid('dm-color-picker');
 
   // ---- Inputs (field family) ----------------------------------------------
-  /** Two-way hex value (`#rrggbb`, or `#rrggbbaa` when `showAlpha`). */
+  /** Two-way color value, serialized in the configured `format` (hex default). */
   readonly value = model<string | null>(null);
 
   /** Visible label above the trigger. */
@@ -85,10 +89,10 @@ export class DmColorPickerComponent implements ControlValueAccessor {
   readonly error = input<string>('');
 
   /** Disables the trigger. */
-  readonly disabled = input<boolean>(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
 
   /** Shows the required marker next to the label. */
-  readonly required = input<boolean>(false);
+  readonly required = input(false, { transform: booleanAttribute });
 
   /** Semantic color for the focus ring and the panel accent. */
   readonly color = input<DmColorPickerColor>(this.defaults.color);
@@ -106,14 +110,22 @@ export class DmColorPickerComponent implements ControlValueAccessor {
   readonly ariaLabel = input<string>('');
 
   /** Shows an × button to clear the selection. Keyboard: Delete / Backspace. */
-  readonly clearable = input<boolean>(false);
+  readonly clearable = input(false, { transform: booleanAttribute });
 
   /** ARIA label for the clear button. */
   readonly clearAriaLabel = input<string>('Clear');
 
   // ---- Inputs (color specific) --------------------------------------------
-  /** Adds an alpha rail and emits an 8-digit `#rrggbbaa` value. */
-  readonly showAlpha = input<boolean>(this.defaults.showAlpha);
+  /** Adds an alpha rail and appends the alpha part to the committed value. */
+  readonly showAlpha = input(this.defaults.showAlpha, { transform: booleanAttribute });
+
+  /**
+   * Serialization of the committed value: `hex` (`#rrggbb` / `#rrggbbaa`,
+   * default), `rgb` (`rgb(r g b)` / `rgb(r g b / a)`) or `hsl`
+   * (`hsl(h s% l%)` / `hsl(h s% l% / a)`). `writeValue` accepts any of the
+   * three regardless of `format` and re-serializes into the configured one.
+   */
+  readonly format = input<DmColorPickerFormat>(this.defaults.format);
 
   /** Preset color chips for the swatch grid (hex strings). */
   readonly swatches = input<string[]>(this.defaults.swatches);
@@ -227,7 +239,7 @@ export class DmColorPickerComponent implements ControlValueAccessor {
     }
     const parsed = parseColor(value) ?? { ...DEFAULT_HSVA };
     this.hsva.set(parsed);
-    this.value.set(formatHex(parsed, this.showAlpha()));
+    this.value.set(formatColor(parsed, this.format(), this.showAlpha()));
     this.syncHexText();
   }
 
@@ -257,13 +269,14 @@ export class DmColorPickerComponent implements ControlValueAccessor {
   // ---- Value pipeline ------------------------------------------------------
   /** Formats the working color, pushes it to the model and notifies forms. */
   private emit(): void {
-    const formatted = formatHex(this.hsva(), this.showAlpha());
+    const formatted = formatColor(this.hsva(), this.format(), this.showAlpha());
     this.value.set(formatted);
     this.onChange(formatted);
     this.syncHexText();
     this.liveMessage.set(formatted);
   }
 
+  /** The panel's text field always edits hex, whatever the output `format`. */
   private syncHexText(): void {
     if (this.value() === null) {
       this.hexText.set('');

@@ -47,24 +47,15 @@
       <div class="home__hero-install">
         <span class="home__hero-install-prompt" aria-hidden="true">$</span>
         <code>{{ installCode }}</code>
-        <button
-          type="button"
-          class="home__hero-copy-btn"
-          [class.home__hero-copy-btn--done]="copied()"
-          [attr.aria-label]="i18n.t().home.copyAria"
-          (click)="copyInstall()"
-        >
-          @if (copied()) {
-            <dm-icon name="check" size="0.875rem" />
-          } @else {
-            <dm-icon name="copy" size="0.875rem" />
-          }
-        </button>
-        <span class="home__hero-copied" role="status" aria-live="polite">
-          @if (copied()) {
-            {{ i18n.t().shared.copied }}
-          }
-        </span>
+        <dm-copy-button
+          class="home__hero-copy"
+          [value]="installCode"
+          variant="light"
+          size="sm"
+          radius="full"
+          [ariaLabel]="i18n.t().home.copyAria"
+          [copiedAriaLabel]="i18n.t().shared.copied"
+        />
       </div>
     </div>
 
@@ -127,7 +118,7 @@
       <span class="home__stat-label">{{ i18n.t().home.stats.components }}</span>
     </div>
     <div class="home__stat">
-      <span class="home__stat-value">600+</span>
+      <span class="home__stat-value">790+</span>
       <span class="home__stat-label">{{ i18n.t().home.stats.tests }}</span>
     </div>
     <div class="home__stat">
@@ -510,6 +501,9 @@
       </div>
 
       <p class="home__theming-hint">{{ i18n.t().home.themingHint }}</p>
+
+      <p class="home__theming-apply">{{ i18n.t().home.themingApply }}</p>
+      <app-code-snippet class="home__theming-snippet" [code]="themeInstall()" language="bash" />
     </div>
 
     <div class="home__theming-preview" inert>

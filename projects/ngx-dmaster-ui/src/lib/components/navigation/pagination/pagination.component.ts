@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  booleanAttribute,
+  computed,
+  inject,
+  input,
+  model,
+} from '@angular/core';
 
 import { DmSize } from '../../../core/types/common.types';
 import { PAGINATION_DEFAULTS } from './pagination.tokens';
@@ -12,6 +20,9 @@ import { DmPaginationColor, DmPaginationItem } from './pagination.types';
  *
  * ```html
  * <dm-pagination [totalPages]="10" [(page)]="page" />
+ *
+ * <!-- Material-paginator style: the page count is derived from length / pageSize -->
+ * <dm-pagination [length]="123" [pageSize]="10" [(page)]="page" />
  *
  * <dm-pagination
  *   [totalPages]="42"
@@ -35,8 +46,14 @@ export class DmPaginationComponent {
   /** Two-way bound current page, 1-based. Navigation clamps into `[1, totalPages]`. */
   readonly page = model<number>(1);
 
-  /** Total number of pages. */
-  readonly totalPages = input.required<number>();
+  /** Total number of pages. When set it wins over the `length`/`pageSize` derivation. */
+  readonly totalPages = input<number | null>(null);
+
+  /** Total number of items; combined with `pageSize` to derive the page count. */
+  readonly length = input<number | null>(null);
+
+  /** Items per page; combined with `length` to derive the page count. */
+  readonly pageSize = input<number | null>(null);
 
   /** Pages shown on each side of the current page. */
   readonly siblingCount = input<number>(this.defaults.siblingCount);
@@ -45,7 +62,7 @@ export class DmPaginationComponent {
   readonly boundaryCount = input<number>(this.defaults.boundaryCount);
 
   /** Show the previous/next chevron buttons. */
-  readonly showControls = input<boolean>(this.defaults.showControls);
+  readonly showControls = input(this.defaults.showControls, { transform: booleanAttribute });
 
   /** Item size; heights follow the 32/40/48px scale. */
   readonly size = input<DmSize>(this.defaults.size);
@@ -54,7 +71,7 @@ export class DmPaginationComponent {
   readonly color = input<DmPaginationColor>(this.defaults.color);
 
   /** Disables every control. */
-  readonly disabled = input<boolean>(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
 
   /** Accessible name of the `<nav>` landmark. */
   readonly ariaLabel = input<string>(this.defaults.ariaLabel);
@@ -69,7 +86,25 @@ export class DmPaginationComponent {
   readonly pageAriaLabel = input<(page: number) => string>(this.defaults.pageAriaLabel);
 
   // ---- Normalized state ------------------------------------------------------
-  private readonly safeTotal = computed(() => Math.max(1, Math.floor(this.totalPages()) || 1));
+  /**
+   * Page count actually used: an explicit `totalPages` wins; otherwise it is
+   * derived from `length` / `pageSize` (Material-paginator style), falling
+   * back to a single page when neither resolves.
+   */
+  private readonly resolvedTotalPages = computed(() => {
+    const explicit = this.totalPages();
+    if (explicit != null) return explicit;
+    const length = this.length();
+    const pageSize = this.pageSize();
+    if (length != null && pageSize != null && pageSize > 0) {
+      return Math.max(1, Math.ceil(length / pageSize));
+    }
+    return 1;
+  });
+
+  private readonly safeTotal = computed(() =>
+    Math.max(1, Math.floor(this.resolvedTotalPages()) || 1),
+  );
   private readonly safeSiblings = computed(() => Math.max(0, Math.floor(this.siblingCount()) || 0));
   private readonly safeBoundaries = computed(() =>
     Math.max(0, Math.floor(this.boundaryCount()) || 0),

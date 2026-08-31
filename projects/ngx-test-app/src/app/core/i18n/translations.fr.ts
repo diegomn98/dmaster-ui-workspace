@@ -148,6 +148,7 @@ export const FR: DashboardTranslations = {
     themingLead:
       'Chaque couleur est une variable CSS. Choisissez une palette — tout le site change de peau instantanément, sans rebuild ni configuration.',
     themingHint: 'Essayez : ce sélecteur pilote les vrais design tokens de cette page.',
+    themingApply: 'Adoptez ce thème — choisissez-le à l’installation, sans code :',
     themingSwatchesAria: 'Palettes de couleurs',
     featuresAria: 'Fonctionnalités',
     featuresEyebrow: 'Pourquoi @dmaster/ui',
@@ -268,6 +269,7 @@ export const FR: DashboardTranslations = {
     lead: 'Guide complet pour personnaliser @dmaster/ui — des overrides de couleur rapides aux thèmes de marque complets, échelles de densité et contrôle du motion.',
     sections: {
       overview: "Vue d'ensemble",
+      prebuilt: 'Thèmes prêts à l’emploi',
       semanticTokens: 'Tokens sémantiques',
       colorSystem: 'Système de couleurs',
       derivedCascade: 'Cascade dérivée',
@@ -286,6 +288,14 @@ export const FR: DashboardTranslations = {
       '<strong>~300 tokens par composant</strong> pour un contrôle granulaire — radius, hauteur, fond, espacement et plus pour chaque composant.',
       '<strong>Thèmes nommés avec changement au runtime</strong> — enregistrez des palettes alternatives avec <code>provideDmasterUI()</code> et changez avec des signals au runtime.',
     ],
+    prebuiltBody:
+      'Le chemin le plus rapide vers une identité de marque : neuf palettes soignées sont publiées comme de minuscules fichiers CSS sur le sous-chemin <code>@dmaster/ui/themes/*</code>. Chacune recolore l’app en <strong>clair ET sombre</strong> — le basculement clair/sombre continue de fonctionner — en surchargeant uniquement <code>--dm-primary</code>, et la couleur de chaque libellé est vérifiée en WCAG AA. Cliquez sur un swatch pour le prévisualiser en direct sur cette page.',
+    prebuiltGalleryAria: 'Palettes de thèmes prêts à l’emploi — cliquez pour prévisualiser',
+    prebuiltApply: 'Adoptez le thème prévisualisé — choisissez-le à l’installation, sans code :',
+    prebuiltManual:
+      'Vous préférez le brancher vous-même ? Ajoutez le CSS du thème à <code>angular.json</code>, juste après les styles de base pour qu’il l’emporte :',
+    prebuiltCustom:
+      'Besoin de sur-mesure ? Générez un thème personnalisé à partir d’une couleur — <code>ng generate</code> écrit le CSS (chaque réglage commenté) et le branche dans <code>angular.json</code> :',
     semanticBody:
       "La couche de fondation est un set d'environ 30 tokens sémantiques qui décrivent surfaces, texte, bordures et ombres. Ils sont définis une fois dans <code>:root</code> (thème clair) et redéfinis sous <code>[data-dm-theme='dark']</code>. Tous les composants de la librairie lisent ces tokens — jamais de couleurs en dur.",
     surfaceTokens:
@@ -456,9 +466,13 @@ export const FR: DashboardTranslations = {
         'Variante visuelle : solid, flat, faded, bordered, light, ghost, shadow (glow coloré).',
       radius: 'Arrondi des coins : none, sm, md, lg, full (pilule).',
       size: 'Taille du contrôle ; les hauteurs suivent les tokens globaux de densité.',
+      loading:
+        'Affiche le spinner et désactive le bouton — le raccourci pour un état async simple.',
       state:
-        'État courant. loading désactive le bouton et affiche le spinner ; success/error affichent une icône.',
+        'Machine à états complète ; success/error affichent une icône. Une valeur non-idle prime sur loading.',
       type: 'Type natif du bouton.',
+      iconOnly:
+        'Rend un carré compact (largeur = hauteur, sans min-width ni padding latéral) pour un bouton avec une icône seule. À associer à ariaLabel.',
       disabled: 'Désactive le bouton (désactivé aussi automatiquement pendant le chargement).',
       loadingLabel:
         'Texte annoncé aux lecteurs d’écran pendant le chargement (la librairie n’embarque aucun texte).',
@@ -764,6 +778,9 @@ export const FR: DashboardTranslations = {
         initials: 'Affichées sans image (valide).',
         size: 'Taille nommée (2 / 2.5 / 3rem), pixels (nombre) ou longueur CSS.',
         shape: 'Cercle ou carré.',
+        color: 'Couleur sémantique de la teinte des initiales.',
+        fallbackSlot:
+          'Repli personnalisé projeté : remplace l’icône générique de personne quand il n’y a ni image valide ni initiales (importez DmAvatarFallbackDirective).',
       },
       labels: {
         fallbackHeading: 'Chaîne de fallback',
@@ -784,6 +801,7 @@ export const FR: DashboardTranslations = {
       ],
       api: {
         checked: 'État two-way : [(checked)] / (checkedChange).',
+        color: 'Couleur sémantique du rail coché.',
         disabled: 'Combiné avec l’état disabled des forms.',
         size: 'Échelle de taille.',
         inputId: 'Id du bouton interne, pour label[for] externe.',
@@ -801,11 +819,12 @@ export const FR: DashboardTranslations = {
       apiCaption: 'Inputs de dm-checkbox',
       a11yItems: [
         'Input natif réel : clavier, focus et sémantique de formulaire gratuits ; le contenu projeté est un vrai label.',
-        'L’indéterminé expose <code>aria-checked="mixed"</code>.',
+        'L’indéterminé utilise la propriété native <code>indeterminate</code> (pas <code>aria-checked="mixed"</code>).',
         'Cible tactile ≥44px ; l’animation de la coche respecte reduced-motion.',
       ],
       api: {
         checked: 'État two-way : [(checked)] / (checkedChange).',
+        color: 'Couleur sémantique du remplissage coché / indéterminé.',
         indeterminate: 'État mixte visuel tant que non coché.',
         disabled: 'Combiné avec l’état disabled des forms.',
         inputId: 'Id de l’input natif, pour label[for] externe.',
@@ -879,7 +898,7 @@ export const FR: DashboardTranslations = {
         description: 'Texte d’aide sous le champ (masqué si error est défini).',
         error: 'Non vide active l’état invalide.',
         disabled: 'Désactive le champ ; combiné avec l’état disabled des forms.',
-        readOnly: 'Lecture seule : non éditable et sans bouton d’effacement.',
+        readonly: 'Lecture seule : non éditable et sans bouton d’effacement.',
         required: 'Affiche le marqueur * et pose aria-required.',
         clearable: 'Affiche le bouton × (et Escape-pour-effacer) dès qu’il y a du texte.',
         color: 'Couleur sémantique de l’anneau de focus et du curseur.',
@@ -980,6 +999,8 @@ export const FR: DashboardTranslations = {
         size: 'Hauteur du déclencheur (32 / 40 / 48px).',
         radius: 'Arrondi des coins (md par défaut ; full = pilule).',
         ariaLabel: 'Nom accessible en l’absence de libellé visible.',
+        format:
+          'Sérialisation de la valeur émise : hex, rgb() ou hsl() (la partie alpha suit showAlpha).',
       },
       labels: {
         pickLabel: 'Couleur de marque',
@@ -1024,6 +1045,8 @@ export const FR: DashboardTranslations = {
         weekdayFormat: 'Longueur de l’en-tête de jour : narrow ou short.',
         showTodayButton: 'Affiche le bouton « Aujourd’hui » dans le pied du panneau.',
         closeOnSelect: 'Ferme le panneau juste après le choix d’un jour.',
+        dayTemplate:
+          'Template projeté remplaçant le numéro du jour dans chaque cellule. Contexte : la date du jour plus les indicateurs selected / disabled / today / outside ; le bouton conserve ses attributs d’état et son interaction.',
         label: 'Libellé visible au-dessus du déclencheur.',
         placeholder: 'Affiché tant qu’aucune date n’est sélectionnée.',
         description: 'Texte d’aide sous le déclencheur (masqué si error est défini).',
@@ -1084,6 +1107,8 @@ export const FR: DashboardTranslations = {
           'Sélectionne plusieurs valeurs ; les chips remplacent le libellé de valeur unique.',
         value: 'État two-way en mode simple : [(value)] / (valueChange).',
         values: 'Tableau two-way en mode multiple : [(values)] / (valuesChange).',
+        compareWith:
+          'Compare une valeur aux options par identité (objets par champ), pas par référence.',
         filterable: 'Affiche un champ de recherche inline dans le panneau qui filtre les options.',
         filterPlaceholder: 'Placeholder du champ de filtre inline.',
         noResultsLabel: 'Message affiché quand le filtre ne trouve aucune option.',
@@ -1114,6 +1139,8 @@ export const FR: DashboardTranslations = {
         selectedItems:
           'Async : items connus pour résoudre les libellés quand la valeur sélectionnée n’est pas dans les pages chargées.',
         filterClearAriaLabel: 'Libellé ARIA du bouton × qui efface le filtre.',
+        optionTemplate:
+          "Template projeté remplaçant le corps de l'option (label + description) ; l'indicateur de sélection, les états et la sélection restent intégrés. Les chips du déclencheur gardent le label brut.",
       },
       labels: {
         pet: 'Animal',
@@ -1121,6 +1148,9 @@ export const FR: DashboardTranslations = {
         pickOne: 'Choisissez-en un',
         pickSome: 'Choisissez-en plusieurs',
         petHint: 'Seuls ces animaux sont couverts par l’assurance.',
+        optionTemplate: 'Template d’option personnalisé',
+        statusLabel: 'Statut',
+        statusPlaceholder: 'Choisissez un statut',
         formsHeading: 'Reactive Forms',
         formValue: 'Valeur du form',
         clearableHeading: 'Effaçable',
@@ -1174,6 +1204,9 @@ export const FR: DashboardTranslations = {
           'Valeur texte bidirectionnelle (le texte libre du champ) : [(value)] / (valueChange).',
         optionSelected:
           'Émet la DmAutocompleteOption choisie quand l’utilisateur sélectionne une suggestion.',
+        openChange: 'Émet quand l’overlay de suggestions s’ouvre (true) ou se ferme (false).',
+        optionTemplate:
+          'Template projeté remplaçant le contenu de la ligne d’option (contexte : option, index, active).',
         label: 'Libellé visible au-dessus du champ.',
         placeholder: 'Affiché tant que le champ est vide.',
         description: 'Texte d’aide sous le champ.',
@@ -1182,6 +1215,9 @@ export const FR: DashboardTranslations = {
         required: 'Affiche le marqueur * et fixe aria-required.',
         clearable: 'Affiche un bouton × pour effacer le texte.',
         openOnFocus: 'Ouvre les suggestions au focus, avant toute saisie.',
+        filter:
+          'Filtrage côté client. Mettez false pour des options server-driven affichées telles quelles.',
+        filterFn: 'Matcher personnalisé pour le filtre intégré (p. ex. sur une description).',
         noResultsLabel: 'Message quand aucune option ne correspond (masqué si vide).',
         color: 'Couleur sémantique de l’anneau de focus et du curseur.',
         variant: 'Surface du champ : flat, bordered, faded, underlined.',
@@ -1230,6 +1266,8 @@ export const FR: DashboardTranslations = {
         dmTooltipPosition: 'Position préférée ; bascule seule : top, bottom, left, right.',
         showDelay: 'Délai de survol avant affichage (300ms). Default global.',
         hideDelay: 'Délai avant masquage (100ms). Default global.',
+        disabled:
+          "Désactive l'infobulle : elle ne s'ouvre jamais, un panneau ouvert se ferme et aria-describedby est retiré.",
       },
       labels: {
         trigger: 'Survolez ou focalisez-moi',
@@ -1261,6 +1299,10 @@ export const FR: DashboardTranslations = {
         size: 'Largeur du panneau : sm 22rem, md 30rem, lg 42rem.',
         disableClose: 'Bloque backdrop et Escape.',
         ariaLabel: 'Nom accessible du dialogue.',
+        openTemplate:
+          "open() accepte aussi un TemplateRef : un dialogue ponctuel n'a pas besoin de composant de contenu dédié.",
+        confirm:
+          "Ouvre un dialogue de confirmation prêt à l'emploi et résout true à la confirmation, false à l'annulation, avec Échap ou un clic sur l'arrière-plan. title, confirmLabel et cancelLabel sont obligatoires : la bibliothèque n'embarque aucun texte.",
       },
       labels: {
         open: 'Ouvrir le dialogue',
@@ -1296,6 +1338,10 @@ export const FR: DashboardTranslations = {
         projectDeleteBody:
           'Le projet et son historique seront supprimés. Vous pouvez le restaurer depuis cette démo.',
         restore: 'Restaurer',
+        confirmDemo: 'Helper de confirmation',
+        confirmHelperOpen: 'Supprimer le fichier',
+        confirmHelperTitle: 'Supprimer ce fichier ?',
+        confirmHelperMessage: 'Cette action est irréversible.',
       },
     },
     toast: {
@@ -1312,6 +1358,11 @@ export const FR: DashboardTranslations = {
         variant: 'Couleur sémantique + icône : neutral, success, warning, danger.',
         duration: 'Fermeture auto en ms ; 0 la désactive.',
         dismissible: 'Affiche le bouton de fermeture.',
+        title: 'Titre optionnel en gras affiché au-dessus du message.',
+        action:
+          "Bouton d'action : exécute son handler puis ferme le toast ; afterDismissed se résout comme d'habitude.",
+        position:
+          'Défaut global (DmToastDefaults) : position dans le viewport de la pile de toasts, lue une seule fois quand le premier toast crée le conteneur.',
       },
       labels: {
         show: 'Afficher le toast',
@@ -1341,6 +1392,12 @@ export const FR: DashboardTranslations = {
         queueFirst: 'Synchronisation de la bibliothèque…',
         queueSecond: '3 fichiers importés',
         queueThird: '2 doublons ignorés',
+        actionDemo: "Bouton d'action",
+        archive: 'Archiver la conversation',
+        archivedTitle: 'Archivée',
+        archivedMessage: 'Conversation déplacée vers les archives',
+        undo: 'Annuler',
+        restoredMessage: 'Conversation restaurée',
       },
     },
     accordion: {
@@ -1382,7 +1439,7 @@ export const FR: DashboardTranslations = {
         'Un <code>&lt;input name&gt;</code> caché sérialise la valeur dans un <code>&lt;form&gt;</code> natif.',
       ],
       api: {
-        name: 'Nom du contrôle (requis pour la soumission native).',
+        name: 'Nom de l’input caché pour la soumission native. Optionnel (id auto-généré).',
         value: 'Valeur sélectionnée (two-way).',
         color: 'Couleur sémantique de l’état checked.',
         size: 'Taille du contrôle (sm, md, lg).',
@@ -1441,6 +1498,7 @@ export const FR: DashboardTranslations = {
         tabValue: 'Valeur du tab individuel (requis par tab).',
         panelValue: 'Valeur du panneau — doit correspondre au tab.',
         disabled: 'Désactive un tab.',
+        lazy: "Diffère le contenu de chaque panneau jusqu'à la première activation de son onglet.",
       },
       labels: {
         variants: 'Variantes',
@@ -1491,9 +1549,13 @@ export const FR: DashboardTranslations = {
         selectionChange: 'Émet avec les lignes sélectionnées.',
         pageChange: 'Émet quand la page ou la taille change.',
         searchChange: 'Émet quand le terme de recherche change.',
+        cellTemplate:
+          'Template projeté rendant des cellules riches pour une colonne (contexte : ligne, index, column).',
+        emptyTemplate: 'Template projeté remplaçant le bloc vide intégré (contexte : filtered).',
       },
       labels: {
         fullFeatured: 'Rechercher, sélectionner & paginer',
+        customCells: 'Cellules personnalisées (templates)',
         selection: 'Sélection de lignes',
         pagination: 'Pagination',
         virtualScroll: 'Virtual scroll (1000 lignes)',
@@ -1543,6 +1605,8 @@ export const FR: DashboardTranslations = {
         ariaLabelledby: 'Id d’un élément externe qui étiquette l’arbre.',
         nodeSelect: 'Émet le nœud lorsqu’il devient sélectionné (ou basculé en multiple).',
         nodeToggle: 'Émet le nœud lorsque son état de dépliage bascule.',
+        nodeTemplate:
+          'Template projeté remplaçant le libellé par défaut de chaque ligne (contexte : nœud, level, expanded, selected) ; chevron, ARIA et clavier sont conservés.',
         expandAll: 'Déplie tous les nœuds parents (à appeler sur une template ref / viewChild).',
         collapseAll: 'Replie tous les nœuds.',
       },
@@ -1722,6 +1786,8 @@ export const FR: DashboardTranslations = {
         labelPlacement: 'Où se place le libellé le long de la ligne : start, center, end.',
         content:
           'Libellé projeté. Avec du contenu la ligne se scinde autour ; vide, elle rend une règle continue.',
+        lineStyle:
+          "Style du trait de la ligne : solid, dashed ou dotted. Les lignes non pleines sont tracées via une bordure en réutilisant les tokens de couleur et d'épaisseur.",
       },
       labels: { vertical: 'Vertical' },
     },
@@ -1771,6 +1837,8 @@ export const FR: DashboardTranslations = {
         description: 'Texte de support sous le titre. Du contenu libre peut aussi être projeté.',
         hideIcon: 'Masque l’icône sémantique.',
         dismissible: 'Affiche le bouton de fermeture ; l’alerte se masque seule quand on l’active.',
+        iconSlot:
+          'Icône personnalisée projetée : remplace le glyphe intégré dans la boîte d’icône (importez DmAlertIconDirective). hideIcon la masque toujours.',
         dismissLabel: 'Libellé accessible du bouton de fermeture (localisez-le via les defaults).',
         closed: 'Émis après la fermeture de l’alerte.',
       },
@@ -1795,7 +1863,7 @@ export const FR: DashboardTranslations = {
       ],
       api: {
         page: 'Page courante two-way (1-based). La navigation borne dans la plage.',
-        totalPages: 'Nombre total de pages (requis).',
+        totalPages: 'Nombre total de pages. Prioritaire sur la dérivation length/pageSize.',
         siblingCount: 'Pages affichées de chaque côté de la page courante.',
         boundaryCount: 'Pages toujours visibles au début et à la fin.',
         showControls: 'Boutons précédent/suivant (désactivés aux extrémités).',
@@ -1807,6 +1875,8 @@ export const FR: DashboardTranslations = {
         nextLabel: 'Libellé ARIA du bouton page suivante.',
         pageAriaLabel: 'Construit le libellé ARIA de chaque bouton de page.',
         pageChange: 'Émis avec la nouvelle page (model).',
+        length: "Nombre total d'éléments ; combiné avec pageSize, il dérive le nombre de pages.",
+        pageSize: 'Éléments par page ; combiné avec length, il dérive le nombre de pages.',
       },
       labels: {
         currentPage: 'Page',
@@ -1920,6 +1990,8 @@ export const FR: DashboardTranslations = {
         itemsAfterCollapse: 'Items conservés à la fin lors du repli.',
         href: 'Lien de l’item. Avec href l’item est une ancre ; sans, du texte simple.',
         disabled: 'Désactive un item individuel.',
+        separatorTemplate:
+          "Template projeté qui remplace le chevron intégré (et toute chaîne separator) entre les éléments. $implicit est l'index (à partir de zéro) de l'élément précédent.",
       },
       labels: {
         separator: 'Séparateur custom',
@@ -1977,6 +2049,8 @@ export const FR: DashboardTranslations = {
         opened: 'Émis à l’ouverture du popover.',
         closed: 'Émis à la fermeture du popover.',
         dmPopoverTrigger: 'Directive qui relie le trigger à une référence de template #popover.',
+        open: "État d'ouverture du panneau. Bidirectionnel ([(open)]).",
+        openChange: "Émis quand l'état d'ouverture change (le modèle [(open)]).",
       },
       labels: {
         trigger: 'Détails du compte',
@@ -2151,6 +2225,8 @@ export const FR: DashboardTranslations = {
         items: 'Actions à afficher (DmCommandItem[]). Requis.',
         open: 'État ouvert/fermé bidirectionnel de la palette.',
         hotkey: "Combinaison globale de bascule ; 'mod' = ⌘/Ctrl. Une chaîne vide la désactive.",
+        itemTemplate:
+          'Template projeté remplaçant le contenu de chaque ligne — libellé + raccourci (contexte : item, active). Sélection, surbrillance et ARIA restent gérés par la palette.',
         placeholder: 'Placeholder affiché dans le champ de recherche.',
         emptyLabel: 'Message affiché quand la recherche ne trouve rien.',
         ariaLabel: 'Nom accessible de la fenêtre modale.',
@@ -2209,6 +2285,8 @@ export const FR: DashboardTranslations = {
         completed: 'Affiche la coche ; déverrouille les étapes suivantes en mode linear.',
         error: 'Signale l’étape en erreur (glyphe d’alerte, accent danger).',
         disabled: 'Non sélectionnable ; la navigation clavier l’ignore.',
+        indicatorTemplate:
+          "ng-template projeté remplaçant le contenu interne de l'indicateur (numéro / coche / glyphe d'erreur) dans chaque en-tête d'étape. Contexte : index, active, completed, error.",
       },
       labels: {
         vertical: 'Vertical',
@@ -2320,6 +2398,8 @@ export const FR: DashboardTranslations = {
         fileRemoved: 'Émis avec le fichier retiré via son bouton ×.',
         formatFileSize:
           'Helper pur exporté par le paquet — le même formateur d’octets que la liste ("820 Ko", "3,4 Mo").',
+        dropzoneSlot:
+          'Élément projeté ([dmDropzoneContent]) qui remplace le bloc intégré icône + label + hint de la zone de dépôt. Le glisser-déposer, le clic pour parcourir et le clavier restent inchangés.',
       },
       labels: {
         dropLabel: 'Glissez-déposez des fichiers ici, ou cliquez pour parcourir',
@@ -2671,6 +2751,11 @@ export const FR: DashboardTranslations = {
           'Émis lorsque l’écriture dans le presse-papiers échoue (refusée, contexte non sécurisé, SSR).',
         directive:
           'Directive compagnon [dmCopyToClipboard] : ajoute le comportement de copie à n’importe quel élément et expose un signal isCopied() via #ref="dmCopyToClipboard".',
+        disabled: "Désactive le bouton ; la copie est bloquée tant qu'il est désactivé.",
+        copyIconSlot:
+          'Élément projeté [dmCopyIcon] remplaçant le glyphe de copie intégré au repos.',
+        copiedIconSlot:
+          "Élément projeté [dmCopiedIcon] remplaçant le glyphe de coche intégré pendant l'état copié.",
       },
       labels: {
         variantsHeading: 'Couleurs et variantes',
@@ -2721,6 +2806,14 @@ export const FR: DashboardTranslations = {
         ariaLabel: 'Libellé accessible du groupe et préfixe par cellule.',
         completed:
           'Se déclenche une fois, avec le code complet, quand la dernière cellule vide est remplie.',
+        label:
+          'Libellé visible au-dessus des cellules ; nomme le groupe (role=group) via aria-labelledby.',
+        description: "Texte d'aide sous les cellules, masqué tant qu'une erreur est définie.",
+        error:
+          "Texte d'erreur ; une valeur non vide active l'état invalide et est annoncée avec role=alert.",
+        readonly:
+          'Lecture seule : le code reste visible et focusable, mais les modifications (saisie, collage) sont bloquées.',
+        required: 'Affiche le marqueur requis à côté du libellé.',
       },
       labels: {
         numeric: 'Numérique (par défaut)',

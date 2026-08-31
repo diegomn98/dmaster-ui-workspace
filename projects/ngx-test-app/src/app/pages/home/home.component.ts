@@ -7,6 +7,7 @@ import {
   DmButtonComponent,
   DmCardComponent,
   DmCheckboxComponent,
+  DmCopyButtonComponent,
   DmFormFieldComponent,
   DmIconComponent,
   DmInputDirective,
@@ -41,6 +42,7 @@ import { SiteTopbarComponent } from '../../shared/site-topbar/site-topbar.compon
     DmButtonComponent,
     DmCardComponent,
     DmCheckboxComponent,
+    DmCopyButtonComponent,
     DmFormFieldComponent,
     DmIconComponent,
     DmInputDirective,
@@ -176,21 +178,15 @@ export class HomeComponent {
 
   protected readonly demoCode = computed(() => this.demoCodeMap[this.activeDemo()]);
 
-  // "Copy install command" feedback in the hero.
-  protected readonly copied = signal(false);
-  private copyTimer: ReturnType<typeof setTimeout> | undefined;
-
-  protected copyInstall(): void {
-    navigator.clipboard?.writeText(this.installCode).then(() => {
-      this.copied.set(true);
-      clearTimeout(this.copyTimer);
-      this.copyTimer = setTimeout(() => this.copied.set(false), 2000);
-    });
-  }
-
   protected readonly activePreset = computed(
     () => this.presets.find((p) => p.key === this.palette.current()) ?? this.presets[0],
   );
 
   protected readonly presetInitial = computed(() => this.activePreset().label.charAt(0));
+
+  /** `ng add` line for the active preset — the prebuilt themes ship on a subpath. */
+  protected readonly themeInstall = computed(() => {
+    const key = this.palette.current();
+    return key === 'default' ? 'ng add @dmaster/ui' : `ng add @dmaster/ui --theme=${key}`;
+  });
 }

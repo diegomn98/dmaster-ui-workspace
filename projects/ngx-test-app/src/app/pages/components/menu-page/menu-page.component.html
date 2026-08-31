@@ -24,7 +24,7 @@
       <dm-menu-item (selected)="act('Duplicate')">Duplicate</dm-menu-item>
       <dm-menu-item (selected)="act('Archive')">Archive</dm-menu-item>
     </dm-menu>
-    <span class="demo-output">{{ page().labels['lastAction'] }}: {{ lastAction() }}</span>
+    <span class="demo-output">{{ lastAction() }}</span>
   </div>
 
   <app-prop-signal [controls]="controls" [(values)]="playground" />

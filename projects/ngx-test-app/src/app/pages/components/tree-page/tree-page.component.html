@@ -365,9 +365,8 @@
               <dm-button
                 color="primary"
                 size="sm"
-                [state]="saveState()"
+                [loading]="saving()"
                 [loadingLabel]="page().labels['saving']"
-                [successLabel]="page().labels['saved']"
                 (clicked)="save()"
               >
                 {{ page().labels['save'] }}

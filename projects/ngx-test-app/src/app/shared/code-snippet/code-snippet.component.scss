@@ -105,97 +105,22 @@ $bar-height: 2.75rem;
 }
 
 // ── Botón de copiar ───────────────────────────────────────────────────────────
-// Pill compacta con icono + texto. Mismo carácter que el resto de chips.
+// Dogfooding de `dm-copy-button`: el look (pill bordeada + icono→check) y la
+// escritura al portapapeles SSR-safe los da el propio componente. Aquí solo
+// posicionamos el host — a la derecha en la barra, flotando en modo flat.
 
 .snippet__copy {
-  position: relative; // ancla del ::after del mixin touch-target
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3125rem;
-  padding: 0.25rem 0.625rem;
-  border: 1px solid var(--dm-border);
-  border-radius: var(--dm-radius-full);
-  background: var(--dm-bg);
-  color: var(--dm-fg-muted);
-  font-size: var(--dm-text-xs);
-  font-family: var(--dm-font-sans);
-  font-weight: var(--dm-font-medium);
-  white-space: nowrap;
   flex-shrink: 0;
-  cursor: pointer;
-
-  @include mixins.transition(background-color, color, border-color, box-shadow, transform);
-  @include mixins.touch-target;
-
-  &:hover {
-    color: var(--dm-fg);
-    border-color: var(--dm-border-strong);
-    background: var(--dm-bg-elevated);
-    box-shadow: var(--dm-shadow-sm);
-  }
-
-  &:active {
-    transform: scale(0.94);
-  }
-
-  &:focus-visible {
-    outline-offset: 2px;
-
-    @include mixins.focus-ring;
-  }
-
-  &--done {
-    color: var(--dm-success);
-    border-color: color-mix(in srgb, var(--dm-success) 35%, transparent);
-    background: var(--dm-success-subtle);
-
-    &:hover {
-      color: var(--dm-success);
-      border-color: color-mix(in srgb, var(--dm-success) 35%, transparent);
-      background: var(--dm-success-subtle);
-      box-shadow: none;
-    }
-
-    svg {
-      animation: snippet-check-in var(--dm-duration-slow) var(--dm-ease-snappy);
-
-      @include mixins.reduced-motion {
-        animation: none;
-      }
-    }
-  }
-
-  // Botón flotante sobre el código en modo flat (icono solo, sin texto)
-  &--float {
-    position: absolute;
-    top: var(--dm-space-3);
-    right: var(--dm-space-3);
-    padding: 0.375rem;
-    border-radius: var(--dm-radius-md);
-    background: color-mix(in srgb, var(--dm-bg-subtle) 85%, transparent);
-    backdrop-filter: blur(6px);
-
-    &:hover {
-      background: var(--dm-bg-elevated);
-    }
-  }
+  margin-inline-start: auto; // empuja a la derecha aunque no haya badge de lenguaje
 }
 
-// Pop del check al copiar
-@keyframes snippet-check-in {
-  0% {
-    transform: scale(0.4);
-    opacity: 0;
-  }
-
-  60% {
-    transform: scale(1.15);
-  }
-
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+// Botón flotante sobre el código en modo flat (icono solo, sin barra).
+.snippet__copy--float {
+  position: absolute;
+  top: var(--dm-space-3);
+  right: var(--dm-space-3);
+  z-index: 1;
+  margin-inline-start: 0;
 }
 
 // ── Área de código ────────────────────────────────────────────────────────────

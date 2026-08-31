@@ -51,17 +51,45 @@ Drive progression from your own buttons with `next()` / `previous()`:
 </dm-stepper>
 ```
 
+### Custom indicator
+
+Project a single `ng-template[dmStepIndicator]` into the stepper to replace the
+indicator's inner content (the number / check / error glyph) in **every** step
+header. The indicator circle, its state styling and the header button semantics
+are kept — the template only swaps what is drawn inside.
+
+```ts
+import { DmStepIndicatorDirective } from '@dmaster/ui';
+```
+
+```html
+<dm-stepper [(activeStep)]="step">
+  <ng-template dmStepIndicator let-index="index" let-completed="completed" let-error="error">
+    @if (error) { ! } @else if (completed) {
+    <dm-icon size="1em">check_circle</dm-icon>
+    } @else { {{ index + 1 }} }
+  </ng-template>
+  <dm-step label="Account">…</dm-step>
+  <dm-step label="Shipping">…</dm-step>
+</dm-stepper>
+```
+
+The context (`DmStepIndicatorContext`) exposes `index`, `active`, `completed`
+and `error` for the step being rendered.
+
 ## API — `dm-stepper`
 
-| Input / Output          | Type                                                                          | Default        | Description                                            |
-| ----------------------- | ----------------------------------------------------------------------------- | -------------- | ------------------------------------------------------ |
-| `activeStep`            | `number` (two-way)                                                            | `0`            | Zero-based index of the active step. `[(activeStep)]`. |
-| `orientation`           | `'horizontal' \| 'vertical'`                                                  | `'horizontal'` | Layout direction.                                      |
-| `linear`                | `boolean` (attribute)                                                         | `false`        | Block jumping ahead past an incomplete step.           |
-| `color`                 | `'default' \| 'primary' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'primary'`    | Accent of the active / completed indicators.           |
-| `size`                  | `'sm' \| 'md' \| 'lg'`                                                        | `'md'`         | Indicator diameter + type scale.                       |
-| `ariaLabel`             | `string`                                                                      | `''`           | Accessible label for the step list.                    |
-| `next()` / `previous()` | method                                                                        | —              | Move to the next reachable / previous enabled step.    |
+| Input / Output                 | Type                                                                          | Default        | Description                                                                                     |
+| ------------------------------ | ----------------------------------------------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------- |
+| `activeStep`                   | `number` (two-way)                                                            | `0`            | Zero-based index of the active step. `[(activeStep)]`.                                          |
+| `orientation`                  | `'horizontal' \| 'vertical'`                                                  | `'horizontal'` | Layout direction.                                                                               |
+| `linear`                       | `boolean` (attribute)                                                         | `false`        | Block jumping ahead past an incomplete step.                                                    |
+| `color`                        | `'default' \| 'primary' \| 'secondary' \| 'success' \| 'warning' \| 'danger'` | `'primary'`    | Accent of the active / completed indicators.                                                    |
+| `size`                         | `'sm' \| 'md' \| 'lg'`                                                        | `'md'`         | Indicator diameter + type scale.                                                                |
+| `ariaLabel`                    | `string`                                                                      | `''`           | Accessible label for the step list.                                                             |
+| `completed`                    | `output<void>`                                                                | —              | Fires when `next()` runs on the last reachable step.                                            |
+| `ng-template[dmStepIndicator]` | projected template                                                            | —              | Custom indicator content for every step header. Context: `{ index, active, completed, error }`. |
+| `next()` / `previous()`        | method                                                                        | —              | Move to the next reachable / previous enabled step.                                             |
 
 ## API — `dm-step`
 

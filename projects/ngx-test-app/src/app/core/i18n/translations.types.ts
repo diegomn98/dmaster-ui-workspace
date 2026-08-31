@@ -173,6 +173,7 @@ export interface DashboardTranslations {
     themingTitle: string;
     themingLead: string;
     themingHint: string;
+    themingApply: string;
     themingSwatchesAria: string;
     featuresAria: string;
     featuresEyebrow: string;
@@ -247,6 +248,7 @@ export interface DashboardTranslations {
     lead: string;
     sections: {
       overview: string;
+      prebuilt: string;
       semanticTokens: string;
       colorSystem: string;
       derivedCascade: string;
@@ -259,6 +261,11 @@ export interface DashboardTranslations {
     };
     overviewBody: string;
     overviewHighlights: string[];
+    prebuiltBody: string;
+    prebuiltGalleryAria: string;
+    prebuiltApply: string;
+    prebuiltManual: string;
+    prebuiltCustom: string;
     semanticBody: string;
     surfaceTokens: string;
     textTokens: string;
@@ -357,8 +364,10 @@ export interface DashboardTranslations {
       variant: string;
       radius: string;
       size: string;
+      loading: string;
       state: string;
       type: string;
+      iconOnly: string;
       disabled: string;
       loadingLabel: string;
       successLabel: string;

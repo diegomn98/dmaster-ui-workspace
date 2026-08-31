@@ -409,7 +409,7 @@ export class RadioGroupPageComponent {
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;
     return [
-      { name: 'name', type: 'string', default: '—', description: api['name'] },
+      { name: 'name', type: 'string', default: 'auto id', description: api['name'] },
       { name: 'value', type: 'string | null', default: 'null', description: api['value'] },
       {
         name: 'color',

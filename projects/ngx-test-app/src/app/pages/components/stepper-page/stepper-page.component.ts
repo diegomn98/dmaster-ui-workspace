@@ -3,7 +3,6 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import {
   DmBadgeComponent,
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmCheckboxComponent,
   DmErrorComponent,
@@ -348,7 +347,7 @@ export class StepperPageComponent {
   // ---- Composition: checkout wizard (Reactive Forms + dm-error gating) ----
 
   protected readonly checkoutActive = signal(0);
-  protected readonly orderState = signal<DmButtonState>('idle');
+  protected readonly placingOrder = signal(false);
 
   protected readonly checkoutForm = new FormGroup({
     account: new FormGroup({
@@ -421,11 +420,11 @@ export class StepperPageComponent {
   }
 
   protected placeOrder(): void {
-    if (this.orderState() !== 'idle') {
+    if (this.placingOrder()) {
       return;
     }
-    this.orderState.set('loading');
-    setTimeout(() => this.orderState.set('success'), 1000);
+    this.placingOrder.set(true);
+    setTimeout(() => this.placingOrder.set(false), 1000);
   }
 
   protected readonly compositionCode = [
@@ -538,9 +537,8 @@ export class StepperPageComponent {
     '      @if (step() < 3) {',
     '        <dm-button color="primary" (clicked)="next(checkout)">Next</dm-button>',
     '      } @else {',
-    '        <dm-button color="primary" [state]="orderState()"',
-    '                   loadingLabel="Placing order…" successLabel="Order placed!"',
-    '                   (clicked)="placeOrder()">',
+    '        <dm-button color="primary" [loading]="loading()"',
+    '                   loadingLabel="Placing order…" (clicked)="placeOrder()">',
     '          Place order',
     '        </dm-button>',
     '      }',
@@ -553,7 +551,7 @@ export class StepperPageComponent {
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
     'import {',
-    '  DmBadgeComponent, DmButtonComponent, DmButtonState, DmCardComponent,',
+    '  DmBadgeComponent, DmButtonComponent, DmCardComponent,',
     '  DmCheckboxComponent, DmErrorComponent, DmFormFieldComponent, DmInputDirective,',
     '  DmSelectComponent, DmSelectItem, DmStepComponent, DmStepperComponent,',
     "} from '@dmaster/ui';",
@@ -571,7 +569,7 @@ export class StepperPageComponent {
     '})',
     'export class CheckoutWizardComponent {',
     '  protected readonly step = signal(0);',
-    "  protected readonly orderState = signal<DmButtonState>('idle');",
+    '  protected readonly loading = signal(false);',
     '',
     '  protected readonly countries: DmSelectItem<string>[] = [',
     "    { value: 'es', label: 'Spain' },",
@@ -628,8 +626,8 @@ export class StepperPageComponent {
     '  }',
     '',
     '  protected placeOrder(): void {',
-    "    this.orderState.set('loading');",
-    "    setTimeout(() => this.orderState.set('success'), 1000);",
+    '    this.loading.set(true);',
+    '    setTimeout(() => this.loading.set(false), 1000);',
     '  }',
     '}',
   ].join('\n');
@@ -655,6 +653,12 @@ export class StepperPageComponent {
       },
       { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: api['size'] },
       { name: 'ariaLabel', type: 'string', default: "''", description: api['ariaLabel'] },
+      {
+        name: 'ng-template[dmStepIndicator]',
+        type: 'projected template',
+        default: '—',
+        description: api['indicatorTemplate'],
+      },
       { name: 'stepCount', type: 'Signal<number>', description: api['stepCount'] },
       { name: 'next()', type: 'method', description: api['next'] },
       { name: 'previous()', type: 'method', description: api['previous'] },

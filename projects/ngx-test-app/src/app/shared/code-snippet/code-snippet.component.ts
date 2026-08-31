@@ -1,13 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  computed,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
-import { DmIconComponent } from '@dmaster/ui';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { DmCopyButtonComponent } from '@dmaster/ui';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { highlight } from './syntax-highlight';
@@ -15,19 +7,18 @@ import { highlight } from './syntax-highlight';
 /**
  * Bloque de código copiable. Syntax highlight naive por regex (cero deps):
  * strings, tags/attrs (HTML), keywords (TS/JS), comentarios.
- * Encaja en la paleta propia del resto de la librería.
+ * El botón de copiar dogfoodea `dm-copy-button` (escritura al portapapeles
+ * SSR-safe + feedback de check incluidos), en vez de reimplementarlo a mano.
  */
 @Component({
   selector: 'app-code-snippet',
-  imports: [DmIconComponent],
+  imports: [DmCopyButtonComponent],
   templateUrl: './code-snippet.component.html',
   styleUrl: './code-snippet.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CodeSnippetComponent {
   protected readonly i18n = inject(LocaleService);
-  private readonly destroyRef = inject(DestroyRef);
-  private resetTimer: ReturnType<typeof setTimeout> | undefined;
 
   /** Código a mostrar, tal cual (respeta saltos de línea e indentación). */
   readonly code = input.required<string>();
@@ -42,26 +33,9 @@ export class CodeSnippetComponent {
    */
   readonly flat = input(false);
 
-  protected readonly copied = signal(false);
-
   /** Clave de lenguaje normalizada para el atributo data-lang y el highlight. */
   protected readonly langKey = computed(() => this.language().toLowerCase());
 
   /** HTML resaltado (memoizado por firma código+lang). */
   protected readonly highlighted = computed(() => highlight(this.code(), this.langKey()));
-
-  constructor() {
-    this.destroyRef.onDestroy(() => clearTimeout(this.resetTimer));
-  }
-
-  protected async copy(): Promise<void> {
-    try {
-      await navigator.clipboard.writeText(this.code());
-      this.copied.set(true);
-      clearTimeout(this.resetTimer);
-      this.resetTimer = setTimeout(() => this.copied.set(false), 2000);
-    } catch {
-      // Clipboard no disponible (permisos/contexto inseguro): no-op.
-    }
-  }
 }

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import {
   DmButtonComponent,
-  DmButtonState,
   DmCardComponent,
   DmFormFieldComponent,
   DmInputDirective,
@@ -212,6 +211,50 @@ export class ToastPageComponent {
     '}',
   ].join('\n');
 
+  // Demo: action button (undo pattern) + title
+  protected showWithAction(): void {
+    const labels = this.page().labels;
+    this.toast.show(labels['archivedMessage'], {
+      title: labels['archivedTitle'],
+      action: {
+        label: labels['undo'],
+        handler: () => this.toast.success(labels['restoredMessage']),
+      },
+    });
+  }
+
+  protected readonly actionCode = [
+    '<dm-button variant="flat" (clicked)="archive()">Archive conversation</dm-button>',
+  ].join('\n');
+
+  protected readonly actionTs = [
+    "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
+    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-toast-action',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './toast-action.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class ToastActionComponent {',
+    '  private readonly toast = inject(DmToastService);',
+    '',
+    '  // The action button runs handler() and then dismisses that toast;',
+    '  // its afterDismissed promise resolves as usual.',
+    '  archive(): void {',
+    "    this.toast.show('Conversation moved to the archive', {",
+    "      title: 'Archived',",
+    "      action: { label: 'Undo', handler: () => this.restore() },",
+    '    });',
+    '  }',
+    '',
+    '  private restore(): void {',
+    "    this.toast.success('Conversation restored');",
+    '  }',
+    '}',
+  ].join('\n');
+
   // Demo: programmatic control (DmToastRef + dismissAll)
   private uploadRef: DmToastRef | null = null;
   protected readonly uploading = signal(false);
@@ -331,14 +374,14 @@ export class ToastPageComponent {
   // Composition: a settings card that saves and confirms via toast (with undo).
   protected readonly emailAlerts = signal(true);
   protected readonly weeklyDigest = signal(false);
-  protected readonly saveState = signal<DmButtonState>('idle');
+  protected readonly saving = signal(false);
   // Last committed values (what the "server" holds) and the snapshot Undo restores.
   private committed: SettingsSnapshot = { emailAlerts: true, weeklyDigest: false };
   private readonly lastSaved = signal<SettingsSnapshot | null>(null);
   protected readonly canUndo = computed(() => this.lastSaved() !== null);
 
   protected saveSettings(): void {
-    if (this.saveState() !== 'idle') {
+    if (this.saving()) {
       return;
     }
     const previous = this.committed;
@@ -346,13 +389,12 @@ export class ToastPageComponent {
       emailAlerts: this.emailAlerts(),
       weeklyDigest: this.weeklyDigest(),
     };
-    this.saveState.set('loading');
+    this.saving.set(true);
     setTimeout(() => {
       this.committed = next;
       this.lastSaved.set(previous);
-      this.saveState.set('success');
+      this.saving.set(false);
       this.toast.success('Settings saved');
-      setTimeout(() => this.saveState.set('idle'), 1500);
     }, 900);
   }
 
@@ -396,9 +438,8 @@ export class ToastPageComponent {
     '      }',
     '      <dm-button',
     '        size="sm"',
-    '        [state]="saveState()"',
+    '        [loading]="saving()"',
     '        loadingLabel="Saving settings"',
-    '        successLabel="Settings saved"',
     '        (clicked)="saveSettings()"',
     '      >',
     '        Save',
@@ -412,7 +453,6 @@ export class ToastPageComponent {
     "import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';",
     'import {',
     '  DmButtonComponent,',
-    '  DmButtonState,',
     '  DmCardComponent,',
     '  DmFormFieldComponent,',
     '  DmInputDirective,',
@@ -437,7 +477,7 @@ export class ToastPageComponent {
     '',
     '  protected readonly emailAlerts = signal(true);',
     '  protected readonly weeklyDigest = signal(false);',
-    "  protected readonly saveState = signal<DmButtonState>('idle');",
+    '  protected readonly saving = signal(false);',
     '',
     '  // Last committed values and the snapshot Undo restores.',
     '  private committed = { emailAlerts: true, weeklyDigest: false };',
@@ -445,18 +485,17 @@ export class ToastPageComponent {
     '  protected readonly canUndo = computed(() => this.lastSaved() !== null);',
     '',
     '  saveSettings(): void {',
-    "    if (this.saveState() !== 'idle') return;",
+    '    if (this.saving()) return;',
     '    const previous = this.committed;',
     '    const next = { emailAlerts: this.emailAlerts(), weeklyDigest: this.weeklyDigest() };',
-    "    this.saveState.set('loading');",
+    '    this.saving.set(true);',
     '',
     '    // Replace the timeout with your real request.',
     '    setTimeout(() => {',
     '      this.committed = next;',
     '      this.lastSaved.set(previous);',
-    "      this.saveState.set('success');",
     "      this.toast.success('Settings saved');",
-    "      setTimeout(() => this.saveState.set('idle'), 1500);",
+    '      this.saving.set(false);',
     '    }, 900);',
     '  }',
     '',
@@ -489,6 +528,18 @@ export class ToastPageComponent {
       },
       { name: 'duration', type: 'number', default: '4000', description: api['duration'] },
       { name: 'dismissible', type: 'boolean', default: 'true', description: api['dismissible'] },
+      { name: 'title', type: 'string', description: api['title'] },
+      {
+        name: 'action',
+        type: '{ label: string; handler: () => void }',
+        description: api['action'],
+      },
+      {
+        name: 'position',
+        type: "'bottom-right' | 'bottom-left' | 'top-right' | 'top-left' | 'bottom-center' | 'top-center'",
+        default: "'bottom-right'",
+        description: api['position'],
+      },
     ];
   });
 }

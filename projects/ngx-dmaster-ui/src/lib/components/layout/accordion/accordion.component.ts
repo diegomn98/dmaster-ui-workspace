@@ -1,14 +1,20 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
   input,
   model,
+  output,
 } from '@angular/core';
 
 import { ACCORDION_DEFAULTS } from './accordion.tokens';
-import { DmAccordionSelectionMode, DmAccordionVariant } from './accordion.types';
+import {
+  DmAccordionSelectionMode,
+  DmAccordionToggleEvent,
+  DmAccordionVariant,
+} from './accordion.types';
 
 /**
  * Container that groups collapsible `dm-accordion-item` panels and owns the
@@ -53,10 +59,13 @@ export class DmAccordionComponent {
   readonly variant = input<DmAccordionVariant>(this.defaults.variant);
 
   /** Disables every child item (overrides individual `disabled` inputs). */
-  readonly disabled = input<boolean>(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
 
   /** ARIA label for the region. */
   readonly ariaLabel = input<string>('');
+
+  /** Emitted when an item expands or collapses (carries its `value` + state). */
+  readonly itemToggled = output<DmAccordionToggleEvent>();
 
   /** Returns whether the given item is currently expanded. */
   isExpanded(value: string): boolean {
@@ -79,6 +88,7 @@ export class DmAccordionComponent {
     }
     const next = this.selectionMode() === 'single' ? [value] : [...this.expandedValues(), value];
     this.expandedValues.set(next);
+    this.itemToggled.emit({ value, expanded: true });
   }
 
   /** Closes the item. */
@@ -87,5 +97,6 @@ export class DmAccordionComponent {
       return;
     }
     this.expandedValues.set(this.expandedValues().filter((v) => v !== value));
+    this.itemToggled.emit({ value, expanded: false });
   }
 }

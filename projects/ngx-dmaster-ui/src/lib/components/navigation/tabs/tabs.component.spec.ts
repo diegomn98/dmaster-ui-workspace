@@ -9,7 +9,12 @@ import { TABS_DEFAULTS } from './tabs.tokens';
 @Component({
   imports: [DmTabsComponent, DmTabComponent, DmTabPanelComponent],
   template: `
-    <dm-tabs [(selectedValue)]="active" [placement]="placement()" ariaLabel="Sections">
+    <dm-tabs
+      [(selectedValue)]="active"
+      [placement]="placement()"
+      [disabled]="tabsDisabled()"
+      ariaLabel="Sections"
+    >
       <dm-tab value="one">One</dm-tab>
       <dm-tab value="two">Two</dm-tab>
       <dm-tab value="three" [disabled]="thirdDisabled()">Three</dm-tab>
@@ -23,6 +28,7 @@ import { TABS_DEFAULTS } from './tabs.tokens';
 class HostComponent {
   readonly active = signal<string | undefined>('one');
   readonly thirdDisabled = signal(true);
+  readonly tabsDisabled = signal(false);
   readonly placement = signal<'top' | 'start'>('top');
 }
 
@@ -89,6 +95,21 @@ describe('DmTabsComponent', () => {
     expect(tabs()[1].getAttribute('aria-selected')).toBe('true');
     expect(panels()[0].hasAttribute('hidden')).toBe(true);
     expect(panels()[1].hasAttribute('hidden')).toBe(false);
+  });
+
+  it('ignores click and keyboard activation when the whole tablist is disabled', () => {
+    fixture.componentInstance.tabsDisabled.set(true);
+    fixture.detectChanges();
+
+    // Pointer activation is blocked (guarded in select()).
+    tabs()[1].click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.active()).toBe('one');
+
+    // Keyboard roving/activation is blocked too (guarded in activateAndFocus()).
+    fireKey(tabs()[0], 'ArrowRight');
+    fixture.detectChanges();
+    expect(fixture.componentInstance.active()).toBe('one');
   });
 
   it('reflects external selectedValue changes back into the DOM', () => {
@@ -207,5 +228,66 @@ describe('DmTabsComponent', () => {
     expect(tablist().getAttribute('data-color')).toBe('success');
     expect(tablist().getAttribute('data-variant')).toBe('underlined');
     expect(tablist().getAttribute('data-size')).toBe('lg');
+  });
+
+  it('lazy is off by default — every panel renders its content immediately', () => {
+    // HostComponent never binds [lazy]; all panel bodies must be present.
+    expect(panels()[0].textContent).toContain('Panel 1');
+    expect(panels()[1].textContent).toContain('Panel 2');
+    expect(panels()[2].textContent).toContain('Panel 3');
+  });
+
+  describe('lazy panels', () => {
+    @Component({
+      imports: [DmTabsComponent, DmTabComponent, DmTabPanelComponent],
+      template: `
+        <dm-tabs [(selectedValue)]="active" [lazy]="lazy()" ariaLabel="Lazy">
+          <dm-tab value="one">One</dm-tab>
+          <dm-tab value="two">Two</dm-tab>
+
+          <dm-tab-panel value="one"><span class="c-one">Panel 1</span></dm-tab-panel>
+          <dm-tab-panel value="two"><span class="c-two">Panel 2</span></dm-tab-panel>
+        </dm-tabs>
+      `,
+    })
+    class LazyHostComponent {
+      readonly active = signal<string | undefined>('one');
+      readonly lazy = signal(true);
+    }
+
+    function panelEls(root: HTMLElement): HTMLElement[] {
+      return Array.from(root.querySelectorAll('dm-tab-panel'));
+    }
+
+    it('defers a lazy panel until first activation, then keeps it mounted', () => {
+      const f = TestBed.createComponent(LazyHostComponent);
+      f.detectChanges();
+      const root: HTMLElement = f.nativeElement;
+
+      // The initially active panel is instantiated; the unvisited one is not.
+      expect(root.querySelector('.c-one')).not.toBeNull();
+      expect(root.querySelector('.c-two')).toBeNull();
+
+      // Activate the second tab → its content mounts on first activation.
+      f.componentInstance.active.set('two');
+      f.detectChanges();
+      expect(root.querySelector('.c-two')).not.toBeNull();
+
+      // Switching back keeps the visited panel mounted (only hidden).
+      f.componentInstance.active.set('one');
+      f.detectChanges();
+      expect(root.querySelector('.c-two')).not.toBeNull();
+      expect(panelEls(root)[1].hasAttribute('hidden')).toBe(true);
+    });
+
+    it('instantiates every panel up front when lazy is off', () => {
+      const f = TestBed.createComponent(LazyHostComponent);
+      f.componentInstance.lazy.set(false);
+      f.detectChanges();
+      const root: HTMLElement = f.nativeElement;
+
+      expect(root.querySelector('.c-one')).not.toBeNull();
+      expect(root.querySelector('.c-two')).not.toBeNull();
+    });
   });
 });

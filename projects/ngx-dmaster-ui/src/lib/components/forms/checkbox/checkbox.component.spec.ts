@@ -74,6 +74,26 @@ describe('DmCheckboxComponent', () => {
     expect(nativeInput(fixture).disabled).toBe(true);
   });
 
+  it('reflects the color input as data-color (default primary)', () => {
+    const fixture = TestBed.createComponent(DmCheckboxComponent);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.getAttribute('data-color')).toBe('primary');
+
+    fixture.componentRef.setInput('color', 'success');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.getAttribute('data-color')).toBe('success');
+  });
+
+  it('reflects the size input as data-size (default md)', () => {
+    const fixture = TestBed.createComponent(DmCheckboxComponent);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.getAttribute('data-size')).toBe('md');
+
+    fixture.componentRef.setInput('size', 'lg');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.getAttribute('data-size')).toBe('lg');
+  });
+
   it('integrates with reactive forms (write, propagate, disable)', () => {
     const fixture = TestBed.createComponent(FormHostComponent);
     fixture.detectChanges();

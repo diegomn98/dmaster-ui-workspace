@@ -62,6 +62,7 @@ export class CheckboxPageComponent {
       options: [
         { label: 'sm', value: 'sm' },
         { label: 'md', value: 'md' },
+        { label: 'lg', value: 'lg' },
       ],
     },
   ];
@@ -69,7 +70,7 @@ export class CheckboxPageComponent {
   protected readonly pgChecked = computed(() => this.playground()['checked'] === true);
   protected readonly pgIndeterminate = computed(() => this.playground()['indeterminate'] === true);
   protected readonly pgDisabled = computed(() => this.playground()['disabled'] === true);
-  protected readonly pgSize = computed(() => this.playground()['size'] as 'sm' | 'md');
+  protected readonly pgSize = computed(() => this.playground()['size'] as 'sm' | 'md' | 'lg');
 
   protected patchChecked(checked: boolean): void {
     this.playground.update((values) => ({ ...values, checked }));
@@ -352,13 +353,19 @@ export class CheckboxPageComponent {
     return [
       { name: 'checked', type: 'model<boolean>', default: 'false', description: api['checked'] },
       {
+        name: 'color',
+        type: "'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'",
+        default: "'primary'",
+        description: api['color'],
+      },
+      {
         name: 'indeterminate',
         type: 'boolean',
         default: 'false',
         description: api['indeterminate'],
       },
       { name: 'disabled', type: 'boolean', default: 'false', description: api['disabled'] },
-      { name: 'size', type: "'sm' | 'md'", default: "'md'", description: api['size'] },
+      { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: api['size'] },
       { name: 'inputId', type: 'string', default: "''", description: api['inputId'] },
       { name: 'ariaLabel', type: 'string', default: "''", description: api['ariaLabel'] },
     ];

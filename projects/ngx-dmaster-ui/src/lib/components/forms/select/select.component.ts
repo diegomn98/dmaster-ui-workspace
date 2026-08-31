@@ -1,5 +1,5 @@
 import { OverlayModule, ScrollStrategyOptions } from '@angular/cdk/overlay';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,11 +7,13 @@ import {
   ElementRef,
   booleanAttribute,
   computed,
+  contentChild,
   effect,
   forwardRef,
   inject,
   input,
   model,
+  output,
   signal,
   untracked,
   viewChild,
@@ -23,6 +25,7 @@ import { DmBadgeComponent } from '../../primitives/badge';
 import { DmSpinnerComponent } from '../../primitives/spinner';
 import { DmSize } from '../../../core/types/common.types';
 import { dmUid } from '../../../core/utils/uid';
+import { DmSelectOptionContext, DmSelectOptionDirective } from './select-option.directive';
 import { SELECT_DEFAULTS } from './select.tokens';
 import {
   DmSelectColor,
@@ -83,7 +86,7 @@ type SelectRow<T> =
  */
 @Component({
   selector: 'dm-select',
-  imports: [OverlayModule, DmBadgeComponent, DmSpinnerComponent],
+  imports: [OverlayModule, DmBadgeComponent, DmSpinnerComponent, NgTemplateOutlet],
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -144,6 +147,14 @@ export class DmSelectComponent<T = unknown> implements ControlValueAccessor {
   /** Two-way values for multiple-select mode. */
   readonly values = model<T[]>([]);
 
+  /**
+   * Equality used to match a value against the options (single and multiple).
+   * Defaults to strict `===`. Provide it to select **objects by an identity
+   * field** so selection survives a form reset or a new-reference `writeValue`
+   * (e.g. `[compareWith]="(a, b) => a.id === b.id"`).
+   */
+  readonly compareWith = input<(a: T, b: T) => boolean>((a, b) => a === b);
+
   /** Shows an inline search box in the panel that filters the options. */
   readonly filterable = input(false, { transform: booleanAttribute });
 
@@ -203,6 +214,9 @@ export class DmSelectComponent<T = unknown> implements ControlValueAccessor {
 
   /** ARIA label prefix for per-chip remove buttons (localise in multilingual apps). */
   readonly removeAriaLabel = input<string>('Remove');
+
+  /** Emitted whenever the overlay opens (`true`) or closes (`false`). */
+  readonly openChange = output<boolean>();
 
   // ---- State ---------------------------------------------------------------
   protected readonly triggerId = `${this.uid}-trigger`;
@@ -409,7 +423,7 @@ export class DmSelectComponent<T = unknown> implements ControlValueAccessor {
     if (v === null || v === undefined) {
       return null;
     }
-    return this.knownItems().find((item) => item.value === v) ?? null;
+    return this.knownItems().find((item) => this.sameValue(item.value, v)) ?? null;
   });
 
   /** The multi-mode selected items (for the chips), in known-items order. */
@@ -498,12 +512,30 @@ export class DmSelectComponent<T = unknown> implements ControlValueAccessor {
   /** Pending infinite-scroll wire-up; cleared on re-run so observers can't leak. */
   private infiniteScrollTimer: ReturnType<typeof setTimeout> | undefined;
 
+  // ---- Content templates ---------------------------------------------------
+  /** Optional projected `ng-template[dmSelectOption]` replacing the option body. */
+  private readonly optionDirective =
+    contentChild<DmSelectOptionDirective<T>>(DmSelectOptionDirective);
+
+  /** The custom option template, or `null` to render the default label block. */
+  protected readonly optionTemplate = computed(() => this.optionDirective()?.templateRef ?? null);
+
+  /** Context builder for a templated option row. */
+  protected optionContext(item: DmSelectItem<T>, index: number): DmSelectOptionContext<T> {
+    return { $implicit: item, index, selected: this.isSelectedValue(item.value) };
+  }
+
   protected optionId(index: number): string {
     return `${this.uid}-option-${index}`;
   }
 
+  /** Value equality via `compareWith` (default strict `===`). */
+  private sameValue(a: T, b: T): boolean {
+    return this.compareWith()(a, b);
+  }
+
   protected isSelectedValue(value: T): boolean {
-    return this.selectedValues().includes(value);
+    return this.selectedValues().some((v) => this.sameValue(v, value));
   }
 
   // ---- CVA -----------------------------------------------------------------
@@ -705,7 +737,7 @@ export class DmSelectComponent<T = unknown> implements ControlValueAccessor {
     const options = this.visibleOptions();
     const selectedIdx = options.findIndex((o) => this.isSelectedValue(o.item.value) && !o.disabled);
     this.activeIndex.set(selectedIdx >= 0 ? selectedIdx : this.firstEnabledIndex());
-    this.open.set(true);
+    this.setOpen(true);
     // Focus del filtro: en onOverlayAttach() — aquí el overlay aún no existe
     // (en zoneless la CD que lo monta corre DESPUÉS de cualquier microtask).
   }
@@ -721,11 +753,20 @@ export class DmSelectComponent<T = unknown> implements ControlValueAccessor {
     }
   }
 
+  /** Central open-state setter that emits `openChange` on a real transition. */
+  private setOpen(next: boolean): void {
+    if (this.open() === next) {
+      return;
+    }
+    this.open.set(next);
+    this.openChange.emit(next);
+  }
+
   protected close(returnFocus = true): void {
     if (!this.open()) {
       return;
     }
-    this.open.set(false);
+    this.setOpen(false);
     this.activeIndex.set(-1);
     this.onTouched();
     if (returnFocus) {
@@ -750,7 +791,9 @@ export class DmSelectComponent<T = unknown> implements ControlValueAccessor {
 
   private toggleValue(value: T): void {
     const current = this.values();
-    const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
+    const next = current.some((v) => this.sameValue(v, value))
+      ? current.filter((v) => !this.sameValue(v, value))
+      : [...current, value];
     this.values.set(next);
     this.onChange(next);
   }
@@ -761,22 +804,21 @@ export class DmSelectComponent<T = unknown> implements ControlValueAccessor {
     if (this.isDisabled()) {
       return;
     }
-    const next = this.values().filter((v) => v !== value);
+    const next = this.values().filter((v) => !this.sameValue(v, value));
     this.values.set(next);
     this.onChange(next);
     this.onTouched();
   }
 
   protected onSelectAll(): void {
-    const next = new Set(this.values());
+    const next = [...this.values()];
     for (const option of this.visibleOptions()) {
-      if (!option.disabled) {
-        next.add(option.item.value);
+      if (!option.disabled && !next.some((v) => this.sameValue(v, option.item.value))) {
+        next.push(option.item.value);
       }
     }
-    const arr = [...next];
-    this.values.set(arr);
-    this.onChange(arr);
+    this.values.set(next);
+    this.onChange(next);
   }
 
   protected onClearAll(): void {

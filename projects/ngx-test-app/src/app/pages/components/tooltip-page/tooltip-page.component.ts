@@ -338,8 +338,24 @@ export class TooltipPageComponent {
         default: "'top'",
         description: api['dmTooltipPosition'],
       },
-      { name: 'showDelay', type: 'number', default: '300', description: api['showDelay'] },
-      { name: 'hideDelay', type: 'number', default: '100', description: api['hideDelay'] },
+      {
+        name: 'dmTooltipShowDelay',
+        type: 'number | null',
+        default: 'null → 300',
+        description: api['showDelay'],
+      },
+      {
+        name: 'dmTooltipHideDelay',
+        type: 'number | null',
+        default: 'null → 100',
+        description: api['hideDelay'],
+      },
+      {
+        name: 'dmTooltipDisabled',
+        type: 'boolean',
+        default: 'false',
+        description: api['disabled'],
+      },
     ];
   });
 }

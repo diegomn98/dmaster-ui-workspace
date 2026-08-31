@@ -5,9 +5,11 @@ import {
   ElementRef,
   afterNextRender,
   afterRenderEffect,
+  booleanAttribute,
   computed,
   inject,
   input,
+  linkedSignal,
   model,
   signal,
   viewChild,
@@ -68,16 +70,23 @@ export class DmTabsComponent {
   readonly radius = input<DmTabsRadius>(this.defaults.radius);
 
   /** Disables the whole tablist. */
-  readonly disabled = input<boolean>(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
 
   /** Where the tablist sits. `start` renders the tablist vertically. */
   readonly placement = input<DmTabsPlacement>(this.defaults.placement);
 
   /** Stretch tabs to share the full width equally. */
-  readonly fullWidth = input<boolean>(this.defaults.fullWidth);
+  readonly fullWidth = input(this.defaults.fullWidth, { transform: booleanAttribute });
 
   /** Draw a separator rule under the tablist (light / underlined variants). */
-  readonly divider = input<boolean>(this.defaults.divider);
+  readonly divider = input(this.defaults.divider, { transform: booleanAttribute });
+
+  /**
+   * Defer each panel's projected content until its tab is first activated.
+   * Once visited, a panel stays mounted (it is only hidden while inactive),
+   * so state inside it survives tab switches.
+   */
+  readonly lazy = input(false, { transform: booleanAttribute });
 
   /** Accessible label for the tablist. */
   readonly ariaLabel = input<string>('');
@@ -166,6 +175,23 @@ export class DmTabsComponent {
     return tabs.find((tab) => !tab.disabled())?.value();
   });
 
+  /**
+   * Panel values that have been active at least once. Accumulates from
+   * `effectiveSelectedValue`, so a lazy panel mounts on its first activation
+   * and stays mounted afterwards. Keeps the previous set instance when the
+   * value is already recorded to avoid spurious recomputes. @internal
+   */
+  readonly _activatedValues = linkedSignal<string | undefined, ReadonlySet<string>>({
+    source: this.effectiveSelectedValue,
+    computation: (value, previous) => {
+      const activated = previous?.value ?? new Set<string>();
+      if (value === undefined || activated.has(value)) {
+        return activated;
+      }
+      return new Set(activated).add(value);
+    },
+  });
+
   /** @internal */
   registerTab(tab: DmTabComponent): void {
     this._tabs.update((list) => [...list, tab]);
@@ -196,8 +222,11 @@ export class DmTabsComponent {
     return this._tabs().find((t) => t.value() === value)?.id ?? null;
   }
 
-  /** Activates the tab with the given value (no-op if it is disabled). */
+  /** Activates the tab with the given value (no-op if it — or the tablist — is disabled). */
   select(value: string): void {
+    if (this.disabled()) {
+      return;
+    }
     const tab = this._tabs().find((t) => t.value() === value);
     if (!tab || tab.disabled()) {
       return;
@@ -236,7 +265,7 @@ export class DmTabsComponent {
   }
 
   private activateAndFocus(tab: DmTabComponent | undefined): void {
-    if (!tab) {
+    if (!tab || this.disabled()) {
       return;
     }
     this.selectedValue.set(tab.value());

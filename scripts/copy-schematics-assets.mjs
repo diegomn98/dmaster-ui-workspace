@@ -1,9 +1,11 @@
 /**
- * Copies the schematics JSON assets (collection.json, ng-add/schema.json, …) from
- * `projects/ngx-dmaster-ui/schematics/` into `dist/dmaster-ui/schematics/`, preserving the
- * folder structure. The compiled factories (`*.js`) are emitted there directly by
- * `tsc -p projects/ngx-dmaster-ui/tsconfig.schematics.json`; this script ships the JSON
- * files that tsc does not copy.
+ * Copies the schematics assets (collection.json, the per-schematic schema.json
+ * files, and the theme scaffolds under theme/files) from
+ * `projects/ngx-dmaster-ui/schematics/` into `dist/dmaster-ui/schematics/`,
+ * preserving the folder structure. The
+ * compiled factories (`*.js`) are emitted there directly by
+ * `tsc -p projects/ngx-dmaster-ui/tsconfig.schematics.json`; this script ships the
+ * non-`.ts` files (JSON + templates) that tsc does not copy.
  *
  * Run from the workspace root (any cwd works — paths resolve from this file's location):
  *   node scripts/copy-schematics-assets.mjs
@@ -31,12 +33,12 @@ cpSync(sourceDir, targetDir, {
     if (statSync(src).isDirectory()) {
       return true;
     }
-    const isJson = src.endsWith('.json');
-    if (isJson) {
+    const keep = src.endsWith('.json') || src.endsWith('.template');
+    if (keep) {
       copied += 1;
     }
-    return isJson;
+    return keep;
   },
 });
 
-console.log(`[copy-schematics-assets] Copied ${copied} JSON file(s) to ${targetDir}`);
+console.log(`[copy-schematics-assets] Copied ${copied} asset file(s) to ${targetDir}`);

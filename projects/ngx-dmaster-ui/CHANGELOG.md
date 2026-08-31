@@ -7,6 +7,238 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### ⚠ BREAKING
+
+- **`dm-search-field` — `readOnly` input renamed to `readonly`**, matching
+  `dm-number-input` and the native attribute. Migration: replace
+  `[readOnly]="…"` / `readOnly` on `dm-search-field` with `[readonly]="…"` /
+  `readonly`. Behavior is unchanged (read-only field, no clear button).
+- **`dm-popover` — imperative `open()` / `close()` renamed to `openPopover()` /
+  `closePopover()`.** The `open` name is now the two-way `[(open)]` model.
+  Migration: replace `popover.open()` / `popover.close()` with
+  `popover.openPopover()` / `popover.closePopover()` (`toggle()` and `isOpen()`
+  are unchanged).
+
+### Added
+
+- **Prebuilt color themes + `ng add` theme picker.** Nine curated brand palettes
+  (Ocean, Cobalt, Iris, Grape, Rose, Ember, Sunset, Forest, Slate) ship as tiny
+  CSS files on the new `@dmaster/ui/themes/*` subpath. Each recolors the app in
+  **both** light and dark (the light/dark toggle keeps working) by overriding
+  only `--dm-primary`; every derived token re-computes through the OKLCH cascade.
+  `ng add @dmaster/ui` now prompts for a theme (or pass `--theme=<name>`) and
+  wires the chosen CSS into `angular.json`. Every palette's label colour is
+  gated at WCAG AA (>= 4.5:1) in both schemes by the build.
+- **`ng generate @dmaster/ui:theme <name>` — custom theme scaffold.** Generates
+  a plain-CSS theme seeded from a `--primary` color (with every other knob
+  commented in) and wires it into `angular.json` for you. Default is a **global
+  recolor** (`:root` + `[data-dm-theme='dark']`, so light/dark keeps working);
+  `--named` emits a switchable `[data-dm-theme='<name>']` block and prints the
+  `provideDmasterUI` registration. Both schematics now share `schematics/utils.ts`
+  and are covered by `npm run verify:schematics`.
+- **`dm-button` — `iconOnly` input (compact square shape).** A glyph-only button
+  no longer stretches to a text button's `min-width`: set `iconOnly` (pair it
+  with `ariaLabel`) and it renders as a compact square (width = height, no
+  horizontal padding) at every size and radius. **`dm-copy-button` applies it
+  automatically** whenever it has no visible `copyLabel`/`copiedLabel`, so
+  icon-only copy buttons are now tidy squares instead of wide pills; adding a
+  label opts back into the pill shape.
+- **`dm-table` — custom cell and empty-state templates.** Project
+  `ng-template[dmTableCell]="columnKey"` to render rich cells (badges, avatars,
+  buttons — context: row, `index`, `column`) instead of the `string | number`
+  the `cell` mapper allows, and `ng-template[dmTableEmpty]` (context flag
+  `filtered`) to replace the built-in empty block with e.g. `dm-empty-state`.
+  Both work in the native `<table>` mode **and** `virtualScroll`; search/sort
+  still read `cell` / `sortValue` / `key`.
+- **`dm-select` — custom option template.** Project `ng-template[dmSelectOption]`
+  to replace the label + description block of every option row — icons, avatars,
+  status dots, rich layouts (context: the `DmSelectItem` as `$implicit`, `index`,
+  `selected`). The check indicator, disabled state, active highlight,
+  `aria-selected` and click / keyboard handling stay built-in, and the template
+  applies to sync `items` **and** server-driven `loadFn` rows alike.
+  Multiple-mode trigger chips keep rendering the plain item `label`.
+- **`dm-autocomplete` — custom option template.** Project
+  `ng-template[dmAutocompleteOption]` to render rich suggestion rows (icons,
+  avatars, highlighted matches — context: option, `index`, `active`) instead of
+  the default label + description. The template replaces the row's inner
+  content only: active highlight, disabled options, `aria-activedescendant` and
+  mouse/keyboard selection keep working unchanged.
+- **`dm-date-picker` — custom day-cell template.** Project
+  `ng-template[dmDatePickerDay]` to replace the day number inside each day
+  button — event dots, prices, availability badges (context: the day `Date`
+  plus `selected` / `disabled` / `today` / `outside` flags). The button itself
+  keeps every state attribute, ARIA wiring and interaction (selection, range
+  preview, roving focus), it works in single **and** range mode, and the
+  default render is unchanged when no template is projected.
+- **`dm-tree` — custom node template.** Project `ng-template[dmTreeNode]` to
+  render rich rows — icons, badges, counters — in place of the default label
+  (context: the node, `level`, `expanded`, `selected`); the disclosure chevron,
+  per-level indentation and the full treeitem ARIA/keyboard model stay
+  untouched. `DmTreeNode.icon` is now honestly documented as data for this
+  template: the default row never rendered it, and its dead empty `<span>` is
+  gone from the default markup.
+- **`dm-command` — custom item template.** Project `ng-template[dmCommandItem]`
+  (context: the item as `$implicit` plus an `active` flag) to replace each
+  result row's default label + shortcut chip with rich content — the natural
+  place to render `DmCommandItem.icon`, descriptions or badges. The option
+  shell (active highlight, ARIA, pointer/keyboard selection) and the filtering
+  stay with the palette; without the template the default row is unchanged.
+- **`dm-alert` — custom icon slot (`[dmAlertIcon]`).** Project any element with
+  the `dmAlertIcon` attribute (import `DmAlertIconDirective`) to replace the
+  built-in tone glyph inside the icon box — the tinted circle of the
+  `flat`/`faded` variants is preserved, and `hideIcon` still hides everything.
+- **`dm-avatar` — custom fallback slot (`[dmAvatarFallback]`).** A projected
+  `dmAvatarFallback` element (import `DmAvatarFallbackDirective`) replaces the
+  generic person icon at the end of the fallback chain — image → initials →
+  custom fallback → default icon.
+- **New outputs for reacting to state changes:**
+  - **`dm-accordion` — `(itemToggled)`** emits `{ value, expanded }` on each
+    expand/collapse (previously you had to diff the `expandedValues` model).
+  - **`dm-stepper` — `(completed)`** fires when `next()` is called on the last
+    reachable step, so a wizard can wire its submit there.
+  - **`dm-slider` — `(changeEnd)`** fires on pointer release or after a keyboard
+    step (commit-on-release), carrying the committed value — for deferring
+    expensive work, unlike the continuous `valueChange`.
+  - **`dm-select`, `dm-autocomplete`, `dm-date-picker` — `(openChange)`** emits a
+    boolean when the overlay opens or closes.
+  - **`dm-toast` — `DmToastRef.afterDismissed`** (a `Promise<void>`) resolves
+    when the toast is gone (auto-dismiss, manual, or `dismissAll`).
+- **`dm-select` — `compareWith` input.** Match a value against the options by an
+  identity field instead of by reference, so object selections survive a form
+  reset or a new-reference `writeValue`
+  (`[compareWith]="(a, b) => a.id === b.id"`). Defaults to strict `===`.
+- **`color` input on `dm-checkbox`, `dm-switch` and `dm-avatar`.** Brings them
+  in line with the other selection controls (radio-group, rating, toggle-group):
+  a semantic `color` (`default` | `primary` | `secondary` | `success` |
+  `warning` | `danger`, default `primary`) tints the checked fill / track /
+  initials. Each color uses its on-solid or `-text` token so contrast stays
+  WCAG AA. Overridable per-app via the components' `*_DEFAULTS`.
+- **`dm-button` — boolean `loading` input.** The ergonomic shortcut for the
+  common async case: `<dm-button [loading]="saving()">` shows the spinner and
+  disables the button, no string state needed. It accepts a bare attribute
+  (`<dm-button loading>`). The full `state`
+  (`idle`/`loading`/`success`/`error`) machine still works, and an explicit
+  non-`idle` `state` takes precedence over `loading`.
+- **`dm-autocomplete` — `filter` and `filterFn` inputs.** `[filter]="false"`
+  turns off client-side filtering for server-driven suggestions (options are
+  shown verbatim instead of being re-filtered by the typed text, which
+  previously dropped async results whose label did not contain the query).
+  `filterFn` supplies a custom matcher (e.g. match on a description or fuzzy).
+- **`dm-file-upload` — custom dropzone content slot (`[dmDropzoneContent]`).**
+  Project any element with the `dmDropzoneContent` attribute (import
+  `DmDropzoneContentDirective`) to replace the built-in cloud icon + `label` +
+  `hint` block inside the dropzone — drag & drop, click-to-browse, keyboard
+  interaction and the focus ring stay untouched, and the default render is
+  unchanged when nothing is projected.
+- **`dm-breadcrumbs` — custom separator template.** Project
+  `ng-template[dmBreadcrumbSeparator]` (context: `$implicit` = zero-based index
+  of the preceding crumb) to replace the built-in chevron — and any `separator`
+  string — between items with arbitrary markup (e.g. a `dm-icon`). Separators
+  stay decorative (`aria-hidden`), the `separator` input remains the simple
+  text case, and the default chevron is unchanged without the template.
+- **`dm-stepper` — custom indicator template.** Project a single
+  `ng-template[dmStepIndicator]` on the stepper to replace the indicator's
+  inner content (number / check / error glyph) in **every** step header
+  (context: `index`, `active`, `completed`, `error`). The indicator circle, its
+  state styling hooks and the header button semantics stay untouched; without
+  the template the default render is unchanged.
+- **`dm-copy-button` — `disabled` input + custom icon slots.** A `disabled`
+  attribute input forwards to the inner `dm-button` and blocks copying while
+  set, and projected `[dmCopyIcon]` / `[dmCopiedIcon]` elements (import
+  `DmCopyIconDirective` / `DmCopiedIconDirective`) replace the built-in copy /
+  check glyphs — the `isCopied()` flip drives which slot shows, and a slot you
+  don't project keeps its built-in glyph.
+- **`dm-pagination` — derived page count (`length` + `pageSize`).** `totalPages`
+  is now optional (`number | null`): pass the total item count as `length` and
+  the items per page as `pageSize` (Material-paginator style) and the pager
+  derives `Math.max(1, Math.ceil(length / pageSize))` itself. An explicit
+  `totalPages` still wins, existing `[totalPages]` bindings keep working
+  unchanged, and when neither pair resolves the pager renders a single page.
+- **`DmDialogService` — `TemplateRef` support + `confirm()` helper.** `open()`
+  now accepts `ComponentType<C> | TemplateRef<C>` (parity with
+  `DmDrawerService`), so a one-off dialog needs no dedicated content component.
+  New `confirm(options): Promise<boolean>` opens a ready-made confirmation
+  dialog — title, optional message, cancel + confirm footer with a configurable
+  `color` (default `primary`) — and resolves `true` on confirm, `false` on
+  cancel, Escape or backdrop click. The library still ships no copy: `title`,
+  `confirmLabel` and `cancelLabel` are required (`DmConfirmOptions`, which also
+  passes `size` / `disableClose` / `panelClass` through); the content component
+  `DmConfirmDialogComponent` is exported for reference.
+- **`dm-toast` — title, action button and configurable position.**
+  `DmToastOptions` gains `title` (bold line above the message) and `action`
+  (`{ label, handler }` — a compact button that runs the handler and then
+  dismisses that toast; `afterDismissed` resolves as usual). New
+  `DmToastDefaults.position` (`'bottom-right' | 'bottom-left' | 'top-right' |
+'top-left' | 'bottom-center' | 'top-center'`, default `'bottom-right'`) places
+  the toast stack via `provideToastDefaults` — global by design: one container,
+  read once when the first toast creates it. Default render is unchanged when
+  the new options are not used.
+- **`dmTooltip` — per-instance delays and `dmTooltipDisabled`.** New inputs
+  `dmTooltipShowDelay` / `dmTooltipHideDelay` (`number | null`; `null` falls
+  back to `TOOLTIP_DEFAULTS`) override the global show/hide delays per trigger,
+  and `dmTooltipDisabled` (boolean attribute) suppresses the tooltip entirely —
+  while `true` it never opens on hover or focus, an already-open panel closes
+  and the `aria-describedby` wiring is removed.
+- **`dm-checkbox` / `dm-switch` — new `lg` size.** `size` now accepts
+  `'sm' | 'md' | 'lg'` on both controls: a 1.375rem checkbox box with a
+  proportionally larger glyph and label, and a 3rem × 1.75rem switch track with
+  a 1.375rem thumb. The `sm`/`md` scales and the `md` default are untouched.
+- **`dm-badge` — `lg` size step.** `size` now accepts `'sm' | 'md' | 'lg'`: the
+  new step scales padding and label font up proportionally (`--dm-text-sm`);
+  `sm`/`md` render exactly as before and `md` stays the default.
+- **`dm-divider` — `lineStyle` input (`'solid' | 'dashed' | 'dotted'`).** The
+  default `solid` keeps the current background-fill rendering untouched;
+  `dashed`/`dotted` draw the rule as a border (`border-top` horizontal,
+  `border-left` vertical) reusing `--dm-divider-color` / `--dm-divider-thickness`,
+  exposed as `data-line-style` on the host with a new `--dm-divider-style` token
+  to override the border style.
+- **`dm-color-picker` — output format.** New `format` input (`'hex'` default,
+  `'rgb'`, `'hsl'`) picks how the committed value (model, CVA `onChange`, trigger
+  text) is serialized: hex as before, `rgb(r g b)` / `rgb(r g b / a)`, or
+  `hsl(h s% l%)` / `hsl(h s% l% / a)` (the alpha part follows `showAlpha`).
+  `writeValue` accepts any of the three notations — hex, `rgb()`/`rgba()`,
+  `hsl()`/`hsla()`, in legacy-comma or modern space/slash syntax — and
+  re-serializes into the configured format; the in-panel hex field always edits
+  hex.
+- **`dm-otp` — field-family label / description / error scaffold.** New `label`
+  (renders above the cells and names the `role="group"` wrapper via
+  `aria-labelledby`), `description` (help text below, hidden while an `error` is
+  set), `error` (`role="alert"`, flips the cells to the invalid/danger state and
+  sets `aria-invalid`), `required` (marker on the label) and `readonly` (code
+  stays visible and focusable, edits — typing, Backspace/Delete, paste — blocked)
+  inputs, mirroring `dm-search-field` and `dm-number-input`. Default render is
+  unchanged when none are set.
+- **`dm-tabs` — lazy panels.** Add the bare `lazy` attribute to defer each
+  panel's projected content until its tab is first activated; once visited a
+  panel stays mounted (only hidden while inactive), so its state survives tab
+  switches. The initially-active panel renders immediately and the default
+  render is unchanged when `lazy` is off.
+- **`dm-popover` — two-way `[(open)]`.** The open state is now a `model`, so you
+  can drive and read the panel with `[(open)]` alongside the imperative
+  `toggle()` / `openPopover()` / `closePopover()` methods (`isOpen()` still reads
+  it); `opened` / `closed` fire exactly once per transition, including external
+  open/close.
+
+### Changed
+
+- **`dm-radio-group` — `name` is now optional.** It defaults to a generated
+  unique id; set it only when you rely on native `<form>` serialization.
+  Backward compatible — groups that already pass `name` are unaffected.
+
+### Fixed
+
+- **Bare boolean attributes now work consistently across the library.** ~22
+  components (slider, date-picker, color-picker, search-field, checkbox,
+  switch, radio, tabs, pagination, accordion, alert, progress, icon, card,
+  popover, menu, table, …) declared boolean inputs without `booleanAttribute`,
+  so `<dm-slider disabled>` / `<dm-icon spin>` silently resolved to `false`.
+  Every boolean input now coerces a bare attribute.
+- **`dm-tabs` — a disabled tablist no longer activates via the keyboard.**
+  `select()` and roving-focus navigation now honor the container `disabled`
+  (previously only pointer events were blocked).
+- **SSR — `dm-radio-group` / `dm-toggle-group`** now read the focused element
+  through the injected `DOCUMENT` instead of the global `document`.
+
 ## [0.9.0] - 2026-08-27
 
 ### Added

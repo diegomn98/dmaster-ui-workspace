@@ -526,6 +526,12 @@ export class DatePickerPageComponent {
         description: api['radius'],
       },
       { name: 'ariaLabel', type: 'string', default: "''", description: api['ariaLabel'] },
+      {
+        name: 'dmDatePickerDay',
+        type: 'ng-template[dmDatePickerDay]',
+        default: '—',
+        description: api['dayTemplate'],
+      },
     ];
   });
 }

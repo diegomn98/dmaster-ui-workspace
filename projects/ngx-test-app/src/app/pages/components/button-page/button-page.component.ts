@@ -371,6 +371,7 @@ export class ButtonPageComponent {
         description: api.radius,
       },
       { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: api.size },
+      { name: 'loading', type: 'boolean', default: 'false', description: api.loading },
       {
         name: 'state',
         type: "'idle' | 'loading' | 'success' | 'error'",
@@ -384,6 +385,7 @@ export class ButtonPageComponent {
         default: "'button'",
         description: api.type,
       },
+      { name: 'iconOnly', type: 'boolean', default: 'false', description: api.iconOnly },
       { name: 'loadingLabel', type: 'string', default: "''", description: api.loadingLabel },
       { name: 'successLabel', type: 'string', default: "''", description: api.successLabel },
       { name: 'errorLabel', type: 'string', default: "''", description: api.errorLabel },

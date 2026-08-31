@@ -4,6 +4,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  booleanAttribute,
   computed,
   forwardRef,
   inject,
@@ -11,6 +12,7 @@ import {
 } from '@angular/core';
 
 import { DmBreadcrumbsComponent } from './breadcrumbs.component';
+import type { DmBreadcrumbSeparatorContext } from './breadcrumb-separator.directive';
 
 /**
  * A single crumb inside a `<dm-breadcrumbs>`. Projected into the parent, it
@@ -49,7 +51,7 @@ export class DmBreadcrumbItemComponent implements OnInit, OnDestroy {
   readonly href = input<string>();
 
   /** Renders the crumb as muted, non-interactive text. */
-  readonly disabled = input<boolean>(false);
+  readonly disabled = input(false, { transform: booleanAttribute });
 
   /** Index of this crumb among its siblings. */
   protected readonly index = computed(() => this.parent.indexOf(this));
@@ -68,6 +70,11 @@ export class DmBreadcrumbItemComponent implements OnInit, OnDestroy {
 
   /** Anchor only when navigable: has an href, is not the current page, not disabled. */
   protected readonly isLink = computed(() => !!this.href() && !this.current() && !this.disabled());
+
+  /** Context handed to a projected `dmBreadcrumbSeparator` template. */
+  protected readonly separatorContext = computed<DmBreadcrumbSeparatorContext>(() => ({
+    $implicit: this.index(),
+  }));
 
   ngOnInit(): void {
     this.parent.registerItem(this);

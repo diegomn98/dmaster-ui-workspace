@@ -67,6 +67,35 @@
     </div>
   </app-demo-block>
 
+  <!-- Custom cells: dmTableCell templates (avatar + badge) -->
+  <app-demo-block
+    [heading]="page().labels['customCells']"
+    [code]="customCellsCode"
+    [ts]="customCellsTs"
+  >
+    <div style="width: 100%">
+      <dm-table
+        [columns]="columns"
+        [data]="members()"
+        [rowKey]="byId"
+        [pageSize]="5"
+        [rowsPerPageLabel]="page().labels['rowsPerPage']"
+      >
+        <ng-template dmTableCell="name" let-row>
+          <span style="display: inline-flex; align-items: center; gap: 0.5rem">
+            <dm-avatar [initials]="initials(row.name)" [alt]="row.name" size="1.75rem" />
+            {{ row.name }}
+          </span>
+        </ng-template>
+        <ng-template dmTableCell="status" let-row>
+          <dm-badge [color]="statusColor(row.status)" variant="flat" size="sm">
+            {{ row.status }}
+          </dm-badge>
+        </ng-template>
+      </dm-table>
+    </div>
+  </app-demo-block>
+
   <!-- Selection (single) -->
   <app-demo-block [heading]="page().labels['selection']" [code]="selectionCode" [ts]="selectionTs">
     <div style="width: 100%">
