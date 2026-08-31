@@ -371,7 +371,7 @@ export class SearchFieldPageComponent {
       { name: 'description', type: 'string', default: "''", description: api['description'] },
       { name: 'error', type: 'string', default: "''", description: api['error'] },
       { name: 'disabled', type: 'boolean', default: 'false', description: api['disabled'] },
-      { name: 'readOnly', type: 'boolean', default: 'false', description: api['readOnly'] },
+      { name: 'readonly', type: 'boolean', default: 'false', description: api['readonly'] },
       { name: 'required', type: 'boolean', default: 'false', description: api['required'] },
       { name: 'clearable', type: 'boolean', default: 'true', description: api['clearable'] },
       {

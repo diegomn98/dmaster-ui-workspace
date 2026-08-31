@@ -565,6 +565,7 @@ export class TabsPageComponent {
       },
       { name: 'fullWidth', type: 'boolean', default: 'true', description: api['fullWidth'] },
       { name: 'divider', type: 'boolean', default: 'true', description: api['divider'] },
+      { name: 'lazy', type: 'boolean', default: 'false', description: api['lazy'] },
       { name: 'value (tab)', type: 'string', default: '—', description: api['tabValue'] },
       { name: 'value (panel)', type: 'string', default: '—', description: api['panelValue'] },
       { name: 'disabled', type: 'boolean', default: 'false', description: api['disabled'] },

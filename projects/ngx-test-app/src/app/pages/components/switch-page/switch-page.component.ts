@@ -65,7 +65,7 @@ export class SwitchPageComponent {
       key: 'size',
       label: 'size',
       type: 'select',
-      options: ['sm', 'md'].map((value) => ({ label: value, value })),
+      options: ['sm', 'md', 'lg'].map((value) => ({ label: value, value })),
     },
   ];
 
@@ -387,7 +387,7 @@ export class SwitchPageComponent {
         description: api['color'],
       },
       { name: 'disabled', type: 'boolean', default: 'false', description: api['disabled'] },
-      { name: 'size', type: "'sm' | 'md'", default: "'md'", description: api['size'] },
+      { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: api['size'] },
       { name: 'inputId', type: 'string', default: "''", description: api['inputId'] },
       { name: 'ariaLabel', type: 'string', default: "''", description: api['ariaLabel'] },
     ];

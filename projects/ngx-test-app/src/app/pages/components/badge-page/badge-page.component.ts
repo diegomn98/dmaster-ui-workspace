@@ -69,7 +69,7 @@ export class BadgePageComponent {
       key: 'size',
       label: 'size',
       type: 'select',
-      options: ['sm', 'md'].map((value) => ({ label: value, value })),
+      options: ['sm', 'md', 'lg'].map((value) => ({ label: value, value })),
     },
     {
       key: 'radius',
@@ -293,7 +293,7 @@ export class BadgePageComponent {
         default: "'flat'",
         description: api['variant'],
       },
-      { name: 'size', type: "'sm' | 'md'", default: "'md'", description: api['size'] },
+      { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: api['size'] },
       {
         name: 'radius',
         type: "'sm' | 'md' | 'lg' | 'full'",

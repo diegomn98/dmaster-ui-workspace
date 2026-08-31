@@ -766,6 +766,8 @@ export const ES: DashboardTranslations = {
         size: 'Tamaño con nombre (2 / 2.5 / 3rem), píxeles (número) o longitud CSS.',
         shape: 'Círculo o cuadrado.',
         color: 'Color semántico del tinte de las iniciales.',
+        fallbackSlot:
+          'Fallback personalizado proyectado: sustituye al icono genérico de persona cuando no hay imagen válida ni iniciales (importa DmAvatarFallbackDirective).',
       },
       labels: {
         fallbackHeading: 'Cadena de fallback',
@@ -883,7 +885,7 @@ export const ES: DashboardTranslations = {
         description: 'Texto de ayuda bajo el campo (oculto si hay error).',
         error: 'No vacío activa el estado inválido.',
         disabled: 'Deshabilita el campo; se combina con el estado disabled de forms.',
-        readOnly: 'Solo lectura: no editable y sin botón de limpiar.',
+        readonly: 'Solo lectura: no editable y sin botón de limpiar.',
         required: 'Muestra el marcador * y pone aria-required.',
         clearable: 'Muestra el botón × (y Escape-para-limpiar) cuando hay texto.',
         color: 'Color semántico del ring de foco y el cursor.',
@@ -984,6 +986,8 @@ export const ES: DashboardTranslations = {
         size: 'Altura del trigger (32 / 40 / 48px).',
         radius: 'Redondeo de esquinas (md por defecto; full = píldora).',
         ariaLabel: 'Nombre accesible cuando no hay etiqueta visible.',
+        format:
+          'Serialización del valor emitido: hex, rgb() o hsl() (la parte alfa sigue a showAlpha).',
       },
       labels: {
         pickLabel: 'Color de marca',
@@ -1028,6 +1032,8 @@ export const ES: DashboardTranslations = {
         weekdayFormat: 'Longitud de la cabecera de día: narrow o short.',
         showTodayButton: 'Muestra el botón «Hoy» en el pie del panel.',
         closeOnSelect: 'Cierra el panel justo tras elegir un día.',
+        dayTemplate:
+          'Plantilla proyectada que sustituye el número del día dentro de cada celda. Contexto: la fecha del día más los flags selected / disabled / today / outside; el botón conserva sus atributos de estado y su interacción.',
         label: 'Etiqueta visible sobre el disparador.',
         placeholder: 'Se muestra mientras no hay fecha seleccionada.',
         description: 'Texto de ayuda bajo el disparador (oculto si hay error).',
@@ -1119,6 +1125,8 @@ export const ES: DashboardTranslations = {
         selectedItems:
           'Async: items conocidos para resolver labels cuando el valor seleccionado no está en las páginas cargadas.',
         filterClearAriaLabel: 'Etiqueta ARIA del botón × que limpia el filtro.',
+        optionTemplate:
+          'Plantilla proyectada que sustituye el cuerpo de la opción (label + descripción); el check, los estados y la selección siguen integrados. Los chips del trigger conservan el label plano.',
       },
       labels: {
         pet: 'Mascota',
@@ -1126,6 +1134,9 @@ export const ES: DashboardTranslations = {
         pickOne: 'Elige una',
         pickSome: 'Elige varias',
         petHint: 'Solo estas mascotas están cubiertas por el seguro.',
+        optionTemplate: 'Plantilla de opción personalizada',
+        statusLabel: 'Estado',
+        statusPlaceholder: 'Elige un estado',
         formsHeading: 'Reactive Forms',
         formValue: 'Valor del form',
         clearableHeading: 'Borrar selección',
@@ -1180,6 +1191,8 @@ export const ES: DashboardTranslations = {
         optionSelected:
           'Emite la DmAutocompleteOption elegida cuando el usuario selecciona una sugerencia.',
         openChange: 'Emite cuando el overlay de sugerencias se abre (true) o cierra (false).',
+        optionTemplate:
+          'Plantilla proyectada que sustituye el contenido de la fila de opción (contexto: option, index, active).',
         label: 'Etiqueta visible sobre el campo.',
         placeholder: 'Se muestra mientras el campo está vacío.',
         description: 'Texto de ayuda bajo el campo.',
@@ -1238,6 +1251,8 @@ export const ES: DashboardTranslations = {
         dmTooltipPosition: 'Posición preferida; se voltea sola: top, bottom, left, right.',
         showDelay: 'Delay de hover antes de mostrar (300ms). Default global.',
         hideDelay: 'Delay antes de ocultar (100ms). Default global.',
+        disabled:
+          'Desactiva el tooltip: nunca se abre, un panel abierto se cierra y se elimina aria-describedby.',
       },
       labels: {
         trigger: 'Pasa el ratón o enfócame',
@@ -1269,6 +1284,10 @@ export const ES: DashboardTranslations = {
         size: 'Ancho del panel: sm 22rem, md 30rem, lg 42rem.',
         disableClose: 'Bloquea backdrop y Escape.',
         ariaLabel: 'Nombre accesible del diálogo.',
+        openTemplate:
+          'open() también acepta un TemplateRef: un diálogo puntual no necesita componente de contenido propio.',
+        confirm:
+          'Abre un diálogo de confirmación listo para usar y resuelve true al confirmar y false al cancelar, con Escape o clic en el backdrop. title, confirmLabel y cancelLabel son obligatorios: la librería no incluye textos.',
       },
       labels: {
         open: 'Abrir diálogo',
@@ -1304,6 +1323,10 @@ export const ES: DashboardTranslations = {
         projectDeleteBody:
           'Se eliminará el proyecto y su historial. Puedes restaurarlo desde esta demo.',
         restore: 'Restaurar',
+        confirmDemo: 'Helper de confirmación',
+        confirmHelperOpen: 'Eliminar archivo',
+        confirmHelperTitle: '¿Eliminar este archivo?',
+        confirmHelperMessage: 'Esta acción no se puede deshacer.',
       },
     },
     toast: {
@@ -1320,6 +1343,11 @@ export const ES: DashboardTranslations = {
         variant: 'Color semántico + icono: neutral, success, warning, danger.',
         duration: 'Auto-descarte en ms; 0 lo desactiva.',
         dismissible: 'Muestra el botón de cierre.',
+        title: 'Título opcional en negrita que se muestra sobre el mensaje.',
+        action:
+          'Botón de acción: ejecuta su handler y después descarta el toast; afterDismissed se resuelve como siempre.',
+        position:
+          'Default global (DmToastDefaults): posición en el viewport de la pila de toasts, se lee una vez cuando el primer toast crea el contenedor.',
       },
       labels: {
         show: 'Mostrar toast',
@@ -1349,6 +1377,12 @@ export const ES: DashboardTranslations = {
         queueFirst: 'Sincronizando biblioteca…',
         queueSecond: '3 archivos importados',
         queueThird: '2 duplicados omitidos',
+        actionDemo: 'Botón de acción',
+        archive: 'Archivar conversación',
+        archivedTitle: 'Archivada',
+        archivedMessage: 'Conversación movida al archivo',
+        undo: 'Deshacer',
+        restoredMessage: 'Conversación restaurada',
       },
     },
     accordion: {
@@ -1449,6 +1483,7 @@ export const ES: DashboardTranslations = {
         tabValue: 'Valor del tab individual (obligatorio por tab).',
         panelValue: 'Valor del panel — debe coincidir con su tab.',
         disabled: 'Inhabilita un tab.',
+        lazy: 'Aplaza el contenido de cada panel hasta que su pestaña se activa por primera vez.',
       },
       labels: {
         variants: 'Variantes',
@@ -1555,6 +1590,8 @@ export const ES: DashboardTranslations = {
         ariaLabelledby: 'Id de un elemento externo que etiqueta el árbol.',
         nodeSelect: 'Emite el nodo cuando pasa a estar seleccionado (o se alterna en múltiple).',
         nodeToggle: 'Emite el nodo cuando se alterna su estado de expansión.',
+        nodeTemplate:
+          'Plantilla proyectada que sustituye la etiqueta por defecto de cada fila (contexto: nodo, level, expanded, selected); se conservan chevron, ARIA y teclado.',
         expandAll: 'Expande todos los nodos padre (llámalo sobre una template ref / viewChild).',
         collapseAll: 'Colapsa todos los nodos.',
       },
@@ -1735,6 +1772,8 @@ export const ES: DashboardTranslations = {
         labelPlacement: 'Dónde se sitúa la etiqueta a lo largo de la línea: start, center, end.',
         content:
           'Etiqueta proyectada. Con contenido la línea se parte a su alrededor; vacía renderiza una regla continua.',
+        lineStyle:
+          'Estilo del trazo de la línea: solid, dashed o dotted. Las líneas no sólidas se dibujan como borde reutilizando los tokens de color y grosor.',
       },
       labels: { vertical: 'Vertical' },
     },
@@ -1784,6 +1823,8 @@ export const ES: DashboardTranslations = {
         description: 'Texto de apoyo bajo el título. También puedes proyectar contenido libre.',
         hideIcon: 'Oculta el icono semántico.',
         dismissible: 'Muestra el botón de cierre; la alerta se oculta sola al pulsarlo.',
+        iconSlot:
+          'Icono personalizado proyectado: sustituye al glifo integrado dentro de la caja del icono (importa DmAlertIconDirective). hideIcon sigue ocultándolo.',
         dismissLabel: 'Etiqueta accesible del botón de cierre (localízala vía los defaults).',
         closed: 'Se emite tras descartar la alerta.',
       },
@@ -1808,7 +1849,8 @@ export const ES: DashboardTranslations = {
       ],
       api: {
         page: 'Página actual two-way (1-based). La navegación acota al rango.',
-        totalPages: 'Número total de páginas (requerido).',
+        totalPages:
+          'Número total de páginas. Tiene prioridad sobre la derivación de length/pageSize.',
         siblingCount: 'Páginas mostradas a cada lado de la actual.',
         boundaryCount: 'Páginas siempre visibles al inicio y al final.',
         showControls: 'Botones de anterior/siguiente (deshabilitados en los extremos).',
@@ -1820,6 +1862,8 @@ export const ES: DashboardTranslations = {
         nextLabel: 'Etiqueta ARIA del botón de página siguiente.',
         pageAriaLabel: 'Construye la etiqueta ARIA de cada botón de página.',
         pageChange: 'Se emite con la nueva página (model).',
+        length: 'Número total de elementos; combinado con pageSize deriva el número de páginas.',
+        pageSize: 'Elementos por página; combinado con length deriva el número de páginas.',
       },
       labels: {
         currentPage: 'Página',
@@ -1933,6 +1977,8 @@ export const ES: DashboardTranslations = {
         itemsAfterCollapse: 'Items conservados al final al colapsar.',
         href: 'Enlace del item. Con href el item es un ancla; sin él, texto plano.',
         disabled: 'Deshabilita un item individual.',
+        separatorTemplate:
+          'Plantilla proyectada que sustituye el chevrón integrado (y cualquier cadena separator) entre elementos. $implicit es el índice (desde cero) de la miga anterior.',
       },
       labels: {
         separator: 'Separador custom',
@@ -1990,6 +2036,8 @@ export const ES: DashboardTranslations = {
         opened: 'Se emite al abrir el popover.',
         closed: 'Se emite al cerrar el popover.',
         dmPopoverTrigger: 'Directiva que enlaza el trigger a una referencia de plantilla #popover.',
+        open: 'Estado de apertura del panel. Bidireccional ([(open)]).',
+        openChange: 'Se emite cuando cambia el estado de apertura (el modelo [(open)]).',
       },
       labels: {
         trigger: 'Detalles de la cuenta',
@@ -2164,6 +2212,8 @@ export const ES: DashboardTranslations = {
         items: 'Acciones a renderizar (DmCommandItem[]). Requerido.',
         open: 'Estado abierto/cerrado bidireccional de la paleta.',
         hotkey: "Combinación global de toggle; 'mod' = ⌘/Ctrl. Cadena vacía lo desactiva.",
+        itemTemplate:
+          'Plantilla proyectada que sustituye el contenido de cada fila — etiqueta + atajo (contexto: item, active). Selección, resaltado y ARIA siguen en la paleta.',
         placeholder: 'Placeholder del input de búsqueda.',
         emptyLabel: 'Mensaje cuando la búsqueda no encuentra nada.',
         ariaLabel: 'Nombre accesible del diálogo modal.',
@@ -2222,6 +2272,8 @@ export const ES: DashboardTranslations = {
         completed: 'Muestra el check; desbloquea los pasos posteriores en modo linear.',
         error: 'Marca el paso con error (glifo de aviso, acento danger).',
         disabled: 'No seleccionable; la navegación por teclado lo salta.',
+        indicatorTemplate:
+          'ng-template proyectado que sustituye el contenido interno del indicador (número / check / glifo de error) en todas las cabeceras de paso. Contexto: index, active, completed, error.',
       },
       labels: {
         vertical: 'Vertical',
@@ -2331,6 +2383,8 @@ export const ES: DashboardTranslations = {
         fileRemoved: 'Se emite con el archivo quitado mediante su botón ×.',
         formatFileSize:
           'Helper puro exportado por el paquete: el mismo formateador de bytes que usa la lista ("820 KB", "3.4 MB").',
+        dropzoneSlot:
+          'Elemento proyectado ([dmDropzoneContent]) que sustituye el bloque integrado de icono + label + hint del dropzone. Arrastrar y soltar, el clic para explorar y el teclado no cambian.',
       },
       labels: {
         dropLabel: 'Arrastra archivos aquí o haz clic para explorar',
@@ -2682,6 +2736,11 @@ export const ES: DashboardTranslations = {
           'Se emite cuando la escritura en el portapapeles falla (denegada, contexto no seguro, SSR).',
         directive:
           'Directiva compañera [dmCopyToClipboard]: añade el comportamiento de copia a cualquier elemento y expone una señal isCopied() vía #ref="dmCopyToClipboard".',
+        disabled: 'Deshabilita el botón; mientras está deshabilitado no se puede copiar.',
+        copyIconSlot:
+          'Elemento proyectado [dmCopyIcon] que sustituye el glifo de copiar integrado en reposo.',
+        copiedIconSlot:
+          'Elemento proyectado [dmCopiedIcon] que sustituye el glifo de check integrado mientras está copiado.',
       },
       labels: {
         variantsHeading: 'Colores y variantes',
@@ -2731,6 +2790,14 @@ export const ES: DashboardTranslations = {
         autoFocus: 'Enfoca la primera celda al iniciar.',
         ariaLabel: 'Etiqueta accesible del grupo y prefijo por celda.',
         completed: 'Se emite una vez, con el código completo, al llenar la última celda vacía.',
+        label:
+          'Etiqueta visible sobre las celdas; nombra el grupo (role=group) mediante aria-labelledby.',
+        description: 'Texto de ayuda bajo las celdas, oculto mientras hay un error.',
+        error:
+          'Texto de error; un valor no vacío activa el estado inválido y se anuncia con role=alert.',
+        readonly:
+          'Solo lectura: el código sigue visible y enfocable, pero se bloquean las ediciones (escritura, pegado).',
+        required: 'Muestra el marcador de obligatorio junto a la etiqueta.',
       },
       labels: {
         numeric: 'Numérico (por defecto)',

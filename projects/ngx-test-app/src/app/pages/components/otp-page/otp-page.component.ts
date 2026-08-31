@@ -386,6 +386,9 @@ export class OtpPageComponent {
     return [
       { name: 'length', type: 'number', default: '6', description: api['length'] },
       { name: 'value', type: 'string', default: "''", description: api['value'] },
+      { name: 'label', type: 'string', default: "''", description: api['label'] },
+      { name: 'description', type: 'string', default: "''", description: api['description'] },
+      { name: 'error', type: 'string', default: "''", description: api['error'] },
       {
         name: 'mode',
         type: "'numeric' | 'alphanumeric' | 'text'",
@@ -408,6 +411,8 @@ export class OtpPageComponent {
         description: api['color'],
       },
       { name: 'disabled', type: 'boolean', default: 'false', description: api['disabled'] },
+      { name: 'readonly', type: 'boolean', default: 'false', description: api['readonly'] },
+      { name: 'required', type: 'boolean', default: 'false', description: api['required'] },
       { name: 'autoFocus', type: 'boolean', default: 'false', description: api['autoFocus'] },
       { name: 'ariaLabel', type: 'string', default: "''", description: api['ariaLabel'] },
       {

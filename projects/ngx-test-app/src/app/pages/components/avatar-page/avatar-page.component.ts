@@ -294,6 +294,12 @@ export class AvatarPageComponent {
         default: "'primary'",
         description: api['color'],
       },
+      {
+        name: '[dmAvatarFallback]',
+        type: 'content slot',
+        default: '—',
+        description: api['fallbackSlot'],
+      },
     ];
   });
 }

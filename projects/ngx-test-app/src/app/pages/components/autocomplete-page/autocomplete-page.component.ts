@@ -528,6 +528,12 @@ export class AutocompletePageComponent {
         default: "'Clear'",
         description: api['clearAriaLabel'],
       },
+      {
+        name: 'dmAutocompleteOption',
+        type: 'ng-template[dmAutocompleteOption]',
+        default: '—',
+        description: api['optionTemplate'],
+      },
     ];
   });
 }

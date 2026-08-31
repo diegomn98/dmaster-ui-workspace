@@ -9,6 +9,7 @@ import {
   DmSelectComponent,
   DmSelectItem,
   DmSelectLoadFn,
+  DmSelectOptionDirective,
   DmSelectOptionOrGroup,
   DmSelectRadius,
   DmSelectVariant,
@@ -79,6 +80,21 @@ const ROLES: DmSelectOptionOrGroup<string>[] = [
   },
 ];
 
+/** Status options for the custom option template demo (dot color per value). */
+const STATUSES: DmSelectItem<string>[] = [
+  { value: 'operational', label: 'Operational', description: 'All systems normal' },
+  { value: 'degraded', label: 'Degraded', description: 'Partial outage in one region' },
+  { value: 'maintenance', label: 'Maintenance', description: 'Planned downtime in progress' },
+  { value: 'offline', label: 'Offline', description: 'Major outage' },
+];
+
+const STATUS_COLORS: Record<string, string> = {
+  operational: 'var(--dm-success)',
+  degraded: 'var(--dm-warning)',
+  maintenance: 'var(--dm-primary)',
+  offline: 'var(--dm-danger)',
+};
+
 const TEAMS: DmSelectItem<string>[] = [
   { value: 'platform', label: 'Platform' },
   { value: 'design-system', label: 'Design System' },
@@ -107,6 +123,7 @@ const ALL_USERS: DmSelectItem<string>[] = Array.from({ length: 87 }, (_, i) => {
   selector: 'app-select-page',
   imports: [
     DmSelectComponent,
+    DmSelectOptionDirective,
     DmButtonComponent,
     DmCardComponent,
     DmErrorComponent,
@@ -130,6 +147,8 @@ export class SelectPageComponent {
   protected readonly teams = TEAMS;
   protected readonly variants = VARIANTS;
   protected readonly colors = COLORS;
+  protected readonly statuses = STATUSES;
+  protected readonly statusColors = STATUS_COLORS;
 
   // ---- Multiple / filter / groups demos ------------------------------------
   protected readonly multipleValues = signal<string[]>(['dog', 'rabbit']);
@@ -366,6 +385,54 @@ export class SelectPageComponent {
     }
     return `<dm-select\n  ${attrs.join('\n  ')}\n/>`;
   });
+
+  // ---- Custom option template demo -----------------------------------------
+  protected readonly optionTemplateValue = signal<string | null>('operational');
+
+  protected readonly optionTemplateCode = [
+    '<dm-select label="Status" placeholder="Pick a status" [items]="statuses" [(value)]="status">',
+    '  <ng-template dmSelectOption let-item>',
+    '    <span style="display: flex; align-items: center; gap: 0.5rem">',
+    '      <span',
+    '        style="width: 0.5rem; height: 0.5rem; border-radius: 999px; flex: none"',
+    '        [style.background]="dotColors[item.value]"',
+    '      ></span>',
+    '      <span style="display: grid; min-width: 0">',
+    '        <span>{{ item.label }}</span>',
+    '        <span style="font-size: 0.75rem; color: var(--dm-fg-muted)">',
+    '          {{ item.description }}',
+    '        </span>',
+    '      </span>',
+    '    </span>',
+    '  </ng-template>',
+    '</dm-select>',
+  ].join('\n');
+
+  protected readonly optionTemplateTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmSelectComponent, DmSelectItem, DmSelectOptionDirective } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-status-select',",
+    '  imports: [DmSelectComponent, DmSelectOptionDirective],',
+    "  templateUrl: './status-select.component.html',",
+    '})',
+    'export class StatusSelectComponent {',
+    '  protected readonly statuses: DmSelectItem<string>[] = [',
+    "    { value: 'operational', label: 'Operational', description: 'All systems normal' },",
+    "    { value: 'degraded', label: 'Degraded', description: 'Partial outage in one region' },",
+    "    { value: 'maintenance', label: 'Maintenance', description: 'Planned downtime in progress' },",
+    "    { value: 'offline', label: 'Offline', description: 'Major outage' },",
+    '  ];',
+    '  protected readonly dotColors: Record<string, string> = {',
+    "    operational: 'var(--dm-success)',",
+    "    degraded: 'var(--dm-warning)',",
+    "    maintenance: 'var(--dm-primary)',",
+    "    offline: 'var(--dm-danger)',",
+    '  };',
+    "  protected readonly status = signal<string | null>('operational');",
+    '}',
+  ].join('\n');
 
   // ---- Async (server-driven) demos -----------------------------------------
   protected readonly asyncValue = signal<string | null>(null);
@@ -794,6 +861,11 @@ export class SelectPageComponent {
         type: 'string',
         default: "'Clear'",
         description: api['filterClearAriaLabel'],
+      },
+      {
+        name: 'dmSelectOption',
+        type: 'TemplateRef<DmSelectOptionContext<T>>',
+        description: api['optionTemplate'],
       },
       {
         name: 'loadFn',

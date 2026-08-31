@@ -44,6 +44,21 @@
     </div>
   </app-demo-block>
 
+  <app-demo-block
+    [heading]="page().labels['confirmDemo']"
+    [code]="confirmHelperCode"
+    [ts]="confirmHelperTs"
+  >
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem">
+      <dm-button color="danger" variant="flat" (clicked)="openConfirmHelper()">
+        {{ page().labels['confirmHelperOpen'] }}
+      </dm-button>
+      <span style="font-size: 0.875rem; color: var(--dm-fg-muted)">
+        {{ page().labels['result'] }}: <code>{{ confirmHelperResult() }}</code>
+      </span>
+    </div>
+  </app-demo-block>
+
   <app-demo-block [heading]="page().labels['formDialog']" [code]="formCode" [ts]="formTs">
     <div class="demo-row">
       <dm-button color="primary" variant="flat" (clicked)="openForm()">

@@ -242,6 +242,7 @@ export class DialogPageComponent {
 
   protected readonly lastResult = signal<string>('—');
   protected readonly confirmResult = signal<string>('—');
+  protected readonly confirmHelperResult = signal<string>('—');
   protected readonly formResult = signal<string>('—');
   protected readonly projectDeleted = signal(false);
 
@@ -291,6 +292,20 @@ export class DialogPageComponent {
       { ariaLabel: this.page().labels['demoTitle'], data: this.confirmData() },
     );
     ref.closed.subscribe((result) => this.confirmResult.set(result ?? 'dismissed'));
+  }
+
+  /* Confirm helper */
+  protected async openConfirmHelper(): Promise<void> {
+    const labels = this.page().labels;
+    const confirmed = await this.dialog.confirm({
+      title: labels['confirmHelperTitle'],
+      message: labels['confirmHelperMessage'],
+      confirmLabel: labels['confirm'],
+      cancelLabel: labels['cancel'],
+      color: 'danger',
+      size: 'sm',
+    });
+    this.confirmHelperResult.set(String(confirmed));
   }
 
   /* Form */
@@ -444,6 +459,39 @@ export class DialogPageComponent {
     "    data: { title: 'Delete component?', body: '…', cancel: 'Cancel', confirm: 'Delete' },",
     '  });',
     "  ref.closed.subscribe((result) => this.confirmResult.set(result ?? 'dismissed'));",
+    '}',
+  ].join('\n');
+
+  protected readonly confirmHelperCode = [
+    '<dm-button color="danger" variant="flat" (clicked)="deleteFile()">Delete file</dm-button>',
+    '<span>Result: {{ lastResult() }}</span>',
+  ].join('\n');
+
+  protected readonly confirmHelperTs = [
+    "import { Component, inject, signal } from '@angular/core';",
+    "import { DmButtonComponent, DmDialogService } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-confirm-helper',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './confirm-helper.component.html',",
+    '})',
+    'export class ConfirmHelperComponent {',
+    '  private readonly dialog = inject(DmDialogService);',
+    "  readonly lastResult = signal('—');",
+    '',
+    '  async deleteFile(): Promise<void> {',
+    '    // No content component to write: confirm() resolves true on confirm,',
+    '    // false on cancel, Escape or backdrop click. All labels are yours.',
+    '    const confirmed = await this.dialog.confirm({',
+    "      title: 'Delete this file?',",
+    "      message: 'This action cannot be undone.',",
+    "      confirmLabel: 'Delete',",
+    "      cancelLabel: 'Cancel',",
+    "      color: 'danger',",
+    '    });',
+    '    this.lastResult.set(String(confirmed));',
+    '  }',
     '}',
   ].join('\n');
 
@@ -617,6 +665,16 @@ export class DialogPageComponent {
   protected readonly apiRows = computed<ApiTableRow[]>(() => {
     const api = this.page().api;
     return [
+      {
+        name: 'open()',
+        type: 'ComponentType<C> | TemplateRef<C>',
+        description: api['openTemplate'],
+      },
+      {
+        name: 'confirm()',
+        type: 'DmConfirmOptions → Promise<boolean>',
+        description: api['confirm'],
+      },
       { name: 'data', type: 'D', description: api['data'] },
       { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: api['size'] },
       { name: 'disableClose', type: 'boolean', default: 'false', description: api['disableClose'] },

@@ -224,6 +224,12 @@ export class DividerPageComponent {
         default: "'center'",
         description: api['labelPlacement'],
       },
+      {
+        name: 'lineStyle',
+        type: "'solid' | 'dashed' | 'dotted'",
+        default: "'solid'",
+        description: api['lineStyle'],
+      },
       { name: 'ng-content', type: '—', default: '—', description: api['content'] },
     ];
   });

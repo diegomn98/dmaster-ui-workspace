@@ -655,6 +655,12 @@ export class StepperPageComponent {
       },
       { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: api['size'] },
       { name: 'ariaLabel', type: 'string', default: "''", description: api['ariaLabel'] },
+      {
+        name: 'ng-template[dmStepIndicator]',
+        type: 'projected template',
+        default: '—',
+        description: api['indicatorTemplate'],
+      },
       { name: 'stepCount', type: 'Signal<number>', description: api['stepCount'] },
       { name: 'next()', type: 'method', description: api['next'] },
       { name: 'previous()', type: 'method', description: api['previous'] },

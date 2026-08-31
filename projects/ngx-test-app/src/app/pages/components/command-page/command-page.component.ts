@@ -328,6 +328,12 @@ export class CommandPageComponent {
         default: '—',
         description: api['selected'],
       },
+      {
+        name: 'dmCommandItem',
+        type: 'ng-template[dmCommandItem]',
+        default: '—',
+        description: api['itemTemplate'],
+      },
       { name: 'shortcut (item)', type: 'string', default: '—', description: api['shortcut'] },
       { name: 'group (item)', type: 'string', default: '—', description: api['group'] },
       { name: 'keywords (item)', type: 'string[]', default: '—', description: api['keywords'] },

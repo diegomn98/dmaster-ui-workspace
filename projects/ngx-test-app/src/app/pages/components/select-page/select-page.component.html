@@ -171,6 +171,36 @@
   </app-demo-block>
 
   <app-demo-block
+    [heading]="page().labels['optionTemplate']"
+    [code]="optionTemplateCode"
+    [ts]="optionTemplateTs"
+  >
+    <div style="width: 20rem">
+      <dm-select
+        [label]="page().labels['statusLabel']"
+        [placeholder]="page().labels['statusPlaceholder']"
+        [items]="statuses"
+        [(value)]="optionTemplateValue"
+      >
+        <ng-template dmSelectOption let-item>
+          <span style="display: flex; align-items: center; gap: 0.5rem">
+            <span
+              style="width: 0.5rem; height: 0.5rem; border-radius: 999px; flex: none"
+              [style.background]="statusColors[item.value]"
+            ></span>
+            <span style="display: grid; min-width: 0">
+              <span>{{ item.label }}</span>
+              <span style="font-size: 0.75rem; color: var(--dm-fg-muted)">
+                {{ item.description }}
+              </span>
+            </span>
+          </span>
+        </ng-template>
+      </dm-select>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
     [heading]="page().labels['multiFilterHeading']"
     [code]="multiFilterCode"
     [ts]="multiFilterTs"

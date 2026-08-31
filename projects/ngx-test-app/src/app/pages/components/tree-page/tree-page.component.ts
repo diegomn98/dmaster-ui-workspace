@@ -784,6 +784,12 @@ export class TreePageComponent {
         default: '—',
         description: api['nodeToggle'],
       },
+      {
+        name: 'dmTreeNode',
+        type: 'ng-template[dmTreeNode]',
+        default: '—',
+        description: api['nodeTemplate'],
+      },
       { name: 'expandAll()', type: 'method', default: '—', description: api['expandAll'] },
       { name: 'collapseAll()', type: 'method', default: '—', description: api['collapseAll'] },
     ];

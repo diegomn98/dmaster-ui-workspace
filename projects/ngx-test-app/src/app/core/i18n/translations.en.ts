@@ -764,6 +764,8 @@ export const EN: DashboardTranslations = {
         size: 'Named size (2 / 2.5 / 3rem), pixels (number) or CSS length.',
         shape: 'Circle or square.',
         color: 'Semantic color of the initials tint.',
+        fallbackSlot:
+          'Projected custom fallback: replaces the generic person icon when there is no working image and no initials (import DmAvatarFallbackDirective).',
       },
       labels: {
         fallbackHeading: 'Fallback chain',
@@ -881,7 +883,7 @@ export const EN: DashboardTranslations = {
         description: 'Help text below the field (hidden while error is set).',
         error: 'Non-empty activates the invalid state.',
         disabled: 'Disables the field; combined with the forms disabled state.',
-        readOnly: 'Read-only: not editable and no clear button.',
+        readonly: 'Read-only: not editable and no clear button.',
         required: 'Shows the * marker and sets aria-required.',
         clearable: 'Shows the × button (and Escape-to-clear) once there is text.',
         color: 'Semantic color for the focus ring and caret.',
@@ -982,6 +984,8 @@ export const EN: DashboardTranslations = {
         size: 'Trigger height (32 / 40 / 48px).',
         radius: 'Corner rounding (md default; full = pill).',
         ariaLabel: 'Accessible name when no visible label.',
+        format:
+          'Serialization of the emitted value: hex, rgb() or hsl() (the alpha part follows showAlpha).',
       },
       labels: {
         pickLabel: 'Brand color',
@@ -1026,6 +1030,8 @@ export const EN: DashboardTranslations = {
         weekdayFormat: 'Weekday header length: narrow or short.',
         showTodayButton: 'Shows the “Today” quick-jump in the panel footer.',
         closeOnSelect: 'Close the panel right after a day is picked.',
+        dayTemplate:
+          'Projected template replacing the day number inside each day cell. Context: the day Date plus selected / disabled / today / outside flags; the button keeps its state attributes and interaction.',
         label: 'Visible label above the trigger.',
         placeholder: 'Shown while no date is selected.',
         description: 'Help text below the trigger (hidden while error is set).',
@@ -1115,6 +1121,8 @@ export const EN: DashboardTranslations = {
         selectedItems:
           'Async: known items to resolve labels when the selected value is not in the loaded pages.',
         filterClearAriaLabel: 'ARIA label for the filter clear (×) button.',
+        optionTemplate:
+          'Projected template replacing the option body (label + description); the check indicator, states and selection handling stay built-in. Trigger chips keep the plain label.',
       },
       labels: {
         pet: 'Pet',
@@ -1122,6 +1130,9 @@ export const EN: DashboardTranslations = {
         pickOne: 'Pick a pet',
         pickSome: 'Pick some pets',
         petHint: 'Only these pets are covered by the insurance.',
+        optionTemplate: 'Custom option template',
+        statusLabel: 'Status',
+        statusPlaceholder: 'Pick a status',
         formsHeading: 'Reactive Forms',
         formValue: 'Form value',
         clearableHeading: 'Clearable',
@@ -1174,6 +1185,8 @@ export const EN: DashboardTranslations = {
         value: 'Two-way text value (the free text in the field): [(value)] / (valueChange).',
         optionSelected: 'Emits the chosen DmAutocompleteOption when the user picks a suggestion.',
         openChange: 'Emits when the suggestions overlay opens (true) or closes (false).',
+        optionTemplate:
+          'Projected template replacing the option row content (context: option, index, active).',
         label: 'Visible label above the field.',
         placeholder: 'Shown while the field is empty.',
         description: 'Help text below the field.',
@@ -1231,6 +1244,8 @@ export const EN: DashboardTranslations = {
         dmTooltipPosition: 'Preferred placement; auto-flips: top, bottom, left, right.',
         showDelay: 'Default hover delay before showing (300ms). Global default.',
         hideDelay: 'Default delay before hiding (100ms). Global default.',
+        disabled:
+          'Disables the tooltip: it never opens, an open panel closes, and aria-describedby is removed.',
       },
       labels: {
         trigger: 'Hover or focus me',
@@ -1262,6 +1277,10 @@ export const EN: DashboardTranslations = {
         size: 'Panel width: sm 22rem, md 30rem, lg 42rem.',
         disableClose: 'Blocks backdrop click and Escape.',
         ariaLabel: 'Accessible name of the dialog.',
+        openTemplate:
+          'open() also accepts a TemplateRef, so a one-off dialog needs no dedicated content component.',
+        confirm:
+          'Opens a ready-made confirmation dialog and resolves true on confirm, false on cancel, Escape or backdrop click. title, confirmLabel and cancelLabel are required — the library ships no copy.',
       },
       labels: {
         open: 'Open dialog',
@@ -1297,6 +1316,10 @@ export const EN: DashboardTranslations = {
         projectDeleteBody:
           'The project and its history will be removed. You can restore it from this demo.',
         restore: 'Restore',
+        confirmDemo: 'Confirm helper',
+        confirmHelperOpen: 'Delete file',
+        confirmHelperTitle: 'Delete this file?',
+        confirmHelperMessage: 'This action cannot be undone.',
       },
     },
     toast: {
@@ -1313,6 +1336,11 @@ export const EN: DashboardTranslations = {
         variant: 'Semantic color + icon: neutral, success, warning, danger.',
         duration: 'Auto-dismiss in ms; 0 disables it.',
         dismissible: 'Shows the dismiss button.',
+        title: 'Optional bold title rendered above the message.',
+        action:
+          'Action button: runs its handler and then dismisses the toast; afterDismissed resolves as usual.',
+        position:
+          'Global default (DmToastDefaults): viewport placement of the toast stack, read once when the first toast creates the container.',
       },
       labels: {
         show: 'Show toast',
@@ -1342,6 +1370,12 @@ export const EN: DashboardTranslations = {
         queueFirst: 'Syncing library…',
         queueSecond: '3 files imported',
         queueThird: '2 duplicates skipped',
+        actionDemo: 'Action button',
+        archive: 'Archive conversation',
+        archivedTitle: 'Archived',
+        archivedMessage: 'Conversation moved to the archive',
+        undo: 'Undo',
+        restoredMessage: 'Conversation restored',
       },
     },
     accordion: {
@@ -1442,6 +1476,7 @@ export const EN: DashboardTranslations = {
         tabValue: 'Value of the individual tab (required per tab).',
         panelValue: 'Value of the panel — must match its tab.',
         disabled: 'Disables a tab.',
+        lazy: "Defer each panel's content until its tab is first activated.",
       },
       labels: {
         variants: 'Variants',
@@ -1546,6 +1581,8 @@ export const EN: DashboardTranslations = {
         ariaLabelledby: 'Id of an external element that labels the tree.',
         nodeSelect: 'Emits the node whenever it becomes selected (or toggled in multiple).',
         nodeToggle: 'Emits the node whenever its expanded state is toggled.',
+        nodeTemplate:
+          'Projected template replacing the default label of every row (context: node, level, expanded, selected); chevron, ARIA and keyboard are kept.',
         expandAll: 'Expands every parent node (call it on a template ref / viewChild).',
         collapseAll: 'Collapses every node.',
       },
@@ -1723,6 +1760,8 @@ export const EN: DashboardTranslations = {
         labelPlacement: 'Where the projected label sits along the line: start, center, end.',
         content:
           'Projected label. With content the line splits around it; empty renders a single continuous rule.',
+        lineStyle:
+          'Stroke style of the line: solid, dashed or dotted. Non-solid lines are drawn as a border reusing the color and thickness tokens.',
       },
       labels: { vertical: 'Vertical' },
     },
@@ -1771,6 +1810,8 @@ export const EN: DashboardTranslations = {
         description: 'Supporting text under the title. Free content can also be projected.',
         hideIcon: 'Hides the semantic icon.',
         dismissible: 'Shows the dismiss button; the alert hides itself when pressed.',
+        iconSlot:
+          'Projected custom icon: replaces the built-in tone glyph inside the icon box (import DmAlertIconDirective). hideIcon still hides it.',
         dismissLabel: 'Accessible label of the dismiss button (localize it via the defaults).',
         closed: 'Emitted after the alert is dismissed.',
       },
@@ -1795,7 +1836,7 @@ export const EN: DashboardTranslations = {
       ],
       api: {
         page: 'Two-way current page (1-based). Navigation clamps into range.',
-        totalPages: 'Total number of pages (required).',
+        totalPages: 'Total number of pages. Wins over the length/pageSize derivation.',
         siblingCount: 'Pages shown on each side of the current page.',
         boundaryCount: 'Pages always shown at the start and end.',
         showControls: 'Previous/next chevron buttons (disabled at the extremes).',
@@ -1807,6 +1848,8 @@ export const EN: DashboardTranslations = {
         nextLabel: 'ARIA label of the next-page button.',
         pageAriaLabel: 'Builds the ARIA label of each page button.',
         pageChange: 'Emitted with the new page (model).',
+        length: 'Total item count; combined with pageSize it derives the page count.',
+        pageSize: 'Items per page; combined with length it derives the page count.',
       },
       labels: {
         currentPage: 'Page',
@@ -1920,6 +1963,8 @@ export const EN: DashboardTranslations = {
         itemsAfterCollapse: 'Items kept at the end when collapsed.',
         href: 'Item link. With href the item is an anchor; without it, plain text.',
         disabled: 'Disables an individual item.',
+        separatorTemplate:
+          'Projected template replacing the built-in chevron (and any separator string) between items. $implicit is the zero-based index of the preceding crumb.',
       },
       labels: {
         separator: 'Custom separator',
@@ -1978,6 +2023,8 @@ export const EN: DashboardTranslations = {
         opened: 'Emitted when the popover opens.',
         closed: 'Emitted when the popover closes.',
         dmPopoverTrigger: 'Directive that wires the trigger to a #popover template reference.',
+        open: 'Open state of the panel. Two-way ([(open)]).',
+        openChange: 'Emitted when the open state changes (the [(open)] model).',
       },
       labels: {
         trigger: 'Account details',
@@ -2151,6 +2198,8 @@ export const EN: DashboardTranslations = {
         items: 'Actions to render (DmCommandItem[]). Required.',
         open: 'Two-way open state of the palette.',
         hotkey: "Global toggle combo; 'mod' = ⌘/Ctrl. Empty string disables it.",
+        itemTemplate:
+          'Projected template replacing each row’s content — label + shortcut chip (context: item, active). Selection, highlight and ARIA stay with the palette.',
         placeholder: 'Placeholder shown in the search input.',
         emptyLabel: 'Message shown when the query matches nothing.',
         ariaLabel: 'Accessible name for the modal dialog.',
@@ -2209,6 +2258,8 @@ export const EN: DashboardTranslations = {
         completed: 'Shows the check glyph; unlocks later steps in linear mode.',
         error: 'Flags the step as errored (warning glyph, danger accent).',
         disabled: 'Not selectable; keyboard navigation skips it.',
+        indicatorTemplate:
+          "Projected ng-template replacing the indicator's inner content (number / check / error glyph) in every step header. Context: index, active, completed, error.",
       },
       labels: {
         vertical: 'Vertical',
@@ -2316,6 +2367,8 @@ export const EN: DashboardTranslations = {
         fileRemoved: 'Emitted with the file removed through its × button.',
         formatFileSize:
           'Pure helper exported from the package — the same byte formatter the list uses ("820 KB", "3.4 MB").',
+        dropzoneSlot:
+          "Projected element ([dmDropzoneContent]) that replaces the dropzone's built-in icon + label + hint block. Drag & drop, click-to-browse and keyboard behaviour are untouched.",
       },
       labels: {
         dropLabel: 'Drag & drop files here, or click to browse',
@@ -2659,6 +2712,11 @@ export const EN: DashboardTranslations = {
         copyError: 'Emitted when the clipboard write fails (denied, insecure context, SSR).',
         directive:
           'Companion [dmCopyToClipboard] directive: adds copy behaviour to any element and exposes an isCopied() signal via #ref="dmCopyToClipboard".',
+        disabled: 'Disables the button; copying is blocked while disabled.',
+        copyIconSlot:
+          'Projected [dmCopyIcon] element replacing the built-in copy glyph while idle.',
+        copiedIconSlot:
+          'Projected [dmCopiedIcon] element replacing the built-in check glyph while copied.',
       },
       labels: {
         variantsHeading: 'Colors and variants',
@@ -2706,6 +2764,13 @@ export const EN: DashboardTranslations = {
         autoFocus: 'Focus the first cell on init.',
         ariaLabel: 'Accessible label of the group and the per-cell prefix.',
         completed: 'Fires once, with the full code, when the last empty cell is filled.',
+        label: 'Visible label above the cells; names the role=group wrapper via aria-labelledby.',
+        description: 'Help text under the cells, hidden while an error is set.',
+        error:
+          'Error text; a non-empty value activates the invalid state and is announced with role=alert.',
+        readonly:
+          'Read-only: the code stays visible and focusable, but edits (typing, paste) are blocked.',
+        required: 'Shows the required marker next to the label.',
       },
       labels: {
         numeric: 'Numeric (default)',

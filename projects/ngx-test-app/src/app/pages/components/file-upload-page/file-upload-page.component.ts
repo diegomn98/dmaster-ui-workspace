@@ -751,6 +751,12 @@ export class FileUploadPageComponent {
       },
       { name: 'fileRemoved', type: 'output<File>', default: '—', description: api['fileRemoved'] },
       {
+        name: 'dmDropzoneContent',
+        type: 'directive',
+        default: '—',
+        description: api['dropzoneSlot'],
+      },
+      {
         name: 'formatFileSize()',
         type: '(bytes: number) => string',
         default: '—',

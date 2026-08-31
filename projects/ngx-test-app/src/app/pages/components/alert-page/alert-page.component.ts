@@ -341,6 +341,12 @@ export class AlertPageComponent {
         default: '—',
         description: api['closed'],
       },
+      {
+        name: '[dmAlertIcon]',
+        type: 'content slot',
+        default: '—',
+        description: api['iconSlot'],
+      },
     ];
   });
 }

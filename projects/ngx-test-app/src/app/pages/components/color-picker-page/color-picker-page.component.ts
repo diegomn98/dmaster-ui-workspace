@@ -331,6 +331,12 @@ export class ColorPickerPageComponent {
     return [
       { name: 'value', type: 'model<string | null>', default: 'null', description: api['value'] },
       { name: 'showAlpha', type: 'boolean', default: 'false', description: api['showAlpha'] },
+      {
+        name: 'format',
+        type: "'hex' | 'rgb' | 'hsl'",
+        default: "'hex'",
+        description: api['format'],
+      },
       { name: 'swatches', type: 'string[]', default: '(palette)', description: api['swatches'] },
       { name: 'label', type: 'string', default: "''", description: api['label'] },
       { name: 'placeholder', type: 'string', default: "''", description: api['placeholder'] },
