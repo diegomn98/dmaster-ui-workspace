@@ -27,6 +27,7 @@
     "format:check": "prettier --check .",
     "size": "node scripts/size-audit.mjs",
     "verify:package": "node scripts/verify-package.mjs",
+    "verify:schematics": "node scripts/verify-schematics.mjs",
     "e2e": "playwright test",
     "test:a11y": "playwright test a11y",
     "test:visual": "playwright test visual",
