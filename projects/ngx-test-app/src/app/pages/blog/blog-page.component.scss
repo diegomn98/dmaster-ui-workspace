@@ -89,7 +89,9 @@
 }
 
 .bp__filter--active .bp__filter-count {
-  color: color-mix(in srgb, var(--dm-primary-fg) 65%, transparent);
+  // Full primary-fg at full opacity: white on the primary chip is already
+  // ~4.6:1, so any translucency (mix or opacity) pushes the count below AA (axe).
+  color: var(--dm-primary-fg);
 }
 
 // =============================================================================

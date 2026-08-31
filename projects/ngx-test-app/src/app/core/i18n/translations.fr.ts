@@ -502,6 +502,7 @@ export const FR: DashboardTranslations = {
       current: 'Rampe de surfaces · OTP',
       theming: 'Thèmes nommés et tokens',
       copy: 'Copier dans le presse-papiers',
+      themes: 'Thèmes prêts et templates',
     },
     focusItems: {
       freezeTitle: 'Gel de la surface d’API',
@@ -569,6 +570,19 @@ export const FR: DashboardTranslations = {
     articleNewer: 'Plus récent',
     articleOlder: 'Précédent',
     articles: {
+      v010: {
+        title: 'Thèmes prêts à l’emploi, un générateur de thèmes et des templates partout',
+        lead: '0.10 fait du theming une affaire de deux minutes et ouvre presque chaque composant à du contenu personnalisé. Neuf palettes soignées sont publiées comme de minuscules fichiers CSS sur <code>@dmaster/ui/themes/*</code> — choisissez-en une pendant <code>ng add</code> et votre app se recolore en clair et sombre ; besoin de sur-mesure ? <code>ng generate @dmaster/ui:theme</code> l’échafaude. En prime : les boutons à icône seule deviennent des carrés compacts, et une douzaine de composants gagnent des templates projetés pour leurs lignes, cellules et slots.',
+        bullets: [
+          'Thèmes prêts à l’emploi sur @dmaster/ui/themes/* — neuf palettes (Ocean … Slate) choisies à l’installation (invite ng add, ou --theme), recolorant clair ET sombre en surchargeant seulement --dm-primary ; la couleur de chaque libellé est vérifiée en WCAG AA par le build',
+          'ng generate @dmaster/ui:theme <name> — échafaude un thème personnalisé (recolor global, ou --named pour un bloc data-dm-theme commutable) et le branche dans angular.json',
+          'dm-button iconOnly — un bouton à glyphe seul se rend en carré compact au lieu d’un pill large ; dm-copy-button l’applique automatiquement sans libellé',
+          'Templates projetés presque partout — cellules / empty-state (table), lignes d’option (select, autocomplete, command), cellules de jour (date-picker), nœuds de tree, séparateurs de breadcrumbs, indicateurs de stepper et slots d’icône / fallback / dropzone (alert, avatar, file-upload)',
+          'Nouveaux outputs et ergonomie — accordion (itemToggled), stepper (completed), slider (changeEnd), openChange, toast afterDismissed ; plus dm-select compareWith, color sur checkbox/switch/avatar, un raccourci booléen loading, DmDialogService.confirm(), toast title/action/position et tabs lazy',
+          'Breaking — dm-search-field readOnly → readonly, et dm-popover open()/close() → openPopover()/closePopover() (open est maintenant le modèle [(open)])',
+          '45 composants dans 8 catégories — toujours vérifiés par axe (WCAG 2.1 AA) en clair et sombre',
+        ],
+      },
       v09: {
         title: 'Un bouton et une directive de copie dans le presse-papiers',
         lead: '0.9 ajoute deux façons petites et ciblées de copier du texte : le composant <code>dm-copy-button</code> et la directive <code>dmCopyToClipboard</code>. Le bouton enveloppe <code>dm-button</code> et change son icône de copie en une coche pour confirmer ; la directive ajoute le même comportement à n’importe quel bouton que vous avez déjà. Les deux sont SSR-safe et n’embarquent aucun texte.',

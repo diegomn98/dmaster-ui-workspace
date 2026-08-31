@@ -501,6 +501,7 @@ export const ES: DashboardTranslations = {
       current: 'Rampa de superficies · OTP',
       theming: 'Temas con nombre y tokens',
       copy: 'Copiar al portapapeles',
+      themes: 'Temas prediseñados y plantillas',
     },
     focusItems: {
       freezeTitle: 'Congelación de la API',
@@ -568,6 +569,19 @@ export const ES: DashboardTranslations = {
     articleNewer: 'Más reciente',
     articleOlder: 'Anterior',
     articles: {
+      v010: {
+        title: 'Temas prediseñados, un generador de temas y plantillas para todo',
+        lead: '0.10 convierte el theming en cosa de dos minutos y abre casi todos los componentes a contenido propio. Nueve paletas curadas se publican como archivos CSS diminutos en <code>@dmaster/ui/themes/*</code> — elige una durante <code>ng add</code> y tu app se recolorea en claro y oscuro; ¿la quieres a medida? <code>ng generate @dmaster/ui:theme</code> te la genera. Además: los botones de solo icono pasan a ser cuadrados compactos, y una docena de componentes ganan plantillas proyectables para sus filas, celdas y slots.',
+        bullets: [
+          'Temas prediseñados en @dmaster/ui/themes/* — nueve paletas (Ocean … Slate) elegibles al instalar (prompt de ng add, o --theme), que recolorean claro Y oscuro sobreescribiendo solo --dm-primary; el color de cada etiqueta está verificado en WCAG AA por el build',
+          'ng generate @dmaster/ui:theme <name> — genera un tema custom (recolor global, o --named para un bloque data-dm-theme conmutable) y lo cablea en angular.json',
+          'dm-button iconOnly — un botón de solo glifo se renderiza como cuadrado compacto en vez de un pill ancho; dm-copy-button lo aplica solo cuando no tiene etiqueta',
+          'Plantillas proyectables casi en todo — celdas / empty-state (table), filas de opción (select, autocomplete, command), celdas de día (date-picker), nodos de tree, separadores de breadcrumbs, indicadores de stepper y slots de icono / fallback / dropzone (alert, avatar, file-upload)',
+          'Nuevos outputs y ergonomía — accordion (itemToggled), stepper (completed), slider (changeEnd), openChange, toast afterDismissed; además dm-select compareWith, color en checkbox/switch/avatar, atajo booleano loading, DmDialogService.confirm(), toast title/action/position y tabs lazy',
+          'Breaking — dm-search-field readOnly → readonly, y dm-popover open()/close() → openPopover()/closePopover() (open es ahora el modelo [(open)])',
+          '45 componentes en 8 categorías — siguen verificados por axe (WCAG 2.1 AA) en claro y oscuro',
+        ],
+      },
       v09: {
         title: 'Un botón y una directiva de copiar al portapapeles',
         lead: '0.9 añade dos formas pequeñas y enfocadas de copiar texto: el componente <code>dm-copy-button</code> y la directiva <code>dmCopyToClipboard</code>. El botón envuelve <code>dm-button</code> y cambia su icono de copiar a un check como confirmación; la directiva añade el mismo comportamiento a cualquier botón que ya tengas. Ambos son SSR-safe y no traen copy propio.',

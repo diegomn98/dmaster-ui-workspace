@@ -500,6 +500,7 @@ export const EN: DashboardTranslations = {
       current: 'Surface ramp · OTP',
       theming: 'Named themes & tokens',
       copy: 'Copy to clipboard',
+      themes: 'Prebuilt themes & templates',
     },
     focusItems: {
       freezeTitle: 'API surface freeze',
@@ -566,6 +567,19 @@ export const EN: DashboardTranslations = {
     articleNewer: 'Newer',
     articleOlder: 'Older',
     articles: {
+      v010: {
+        title: 'Prebuilt themes, a theme generator, and templates for everything',
+        lead: '0.10 makes theming a two-minute job and opens nearly every component to custom content. Nine curated palettes ship as tiny CSS files on <code>@dmaster/ui/themes/*</code> — pick one during <code>ng add</code> and your app recolors in light and dark; need a bespoke one, <code>ng generate @dmaster/ui:theme</code> scaffolds it. Alongside: icon-only buttons become compact squares, and a dozen components gain projected templates for their rows, cells and slots.',
+        bullets: [
+          'Prebuilt color themes on @dmaster/ui/themes/* — nine palettes (Ocean … Slate) picked at install (ng add prompt, or --theme), recoloring light AND dark by overriding only --dm-primary; every label colour is gated at WCAG AA by the build',
+          'ng generate @dmaster/ui:theme <name> — scaffolds a custom theme (global recolor, or --named for a switchable data-dm-theme block) and wires it into angular.json',
+          'dm-button iconOnly — a glyph-only button renders as a compact square instead of a wide pill; dm-copy-button applies it automatically when it has no label',
+          'Projected templates almost everywhere — custom cells / empty-state (table), option rows (select, autocomplete, command), day cells (date-picker), tree nodes, breadcrumb separators, stepper indicators, and icon / fallback / dropzone slots (alert, avatar, file-upload)',
+          'New outputs & ergonomics — accordion (itemToggled), stepper (completed), slider (changeEnd), openChange, toast afterDismissed; plus dm-select compareWith, color on checkbox/switch/avatar, a boolean loading shortcut, DmDialogService.confirm(), toast title/action/position, and lazy tabs',
+          'Breaking — dm-search-field readOnly → readonly, and dm-popover open()/close() → openPopover()/closePopover() (open is now the [(open)] model)',
+          '45 components across 8 categories — still verified by axe (WCAG 2.1 AA) in light and dark',
+        ],
+      },
       v09: {
         title: 'A copy-to-clipboard button and directive',
         lead: '0.9 adds two small, focused ways to copy text: the <code>dm-copy-button</code> component and the <code>dmCopyToClipboard</code> directive. The button wraps <code>dm-button</code> and flips its icon from copy to a check as confirmation; the directive drops the same behaviour onto any button you already have. Both are SSR-safe and ship no built-in copy.',
