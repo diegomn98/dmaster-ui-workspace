@@ -46,7 +46,7 @@ export const RELEASES: ReleaseEntry[] = [
   {
     slug: 'v0-10',
     version: 'v0.10',
-    tag: 'v0.10.1',
+    tag: 'v0.10.2',
     date: '2026-08-31',
     minutes: 4,
     category: 'release',
