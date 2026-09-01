@@ -6,8 +6,9 @@ on:
       - 'v*'
 
 permissions:
-  contents: write
-  id-token: write # npm provenance (Sigstore attestation) needs OIDC
+  contents: write # create the GitHub Release + push the source mirror
+  # The signed npm publish (and its OIDC/id-token) now runs in the dmaster-ui
+  # repo — see projects/ngx-dmaster-ui/.github/workflows/publish.yml.
 
 jobs:
   release:
@@ -22,7 +23,6 @@ jobs:
         with:
           node-version: '24'
           cache: npm
-          registry-url: 'https://registry.npmjs.org'
 
       # The tag must match the library version — refuse to publish a mismatch.
       - name: Verify tag matches package version
@@ -44,11 +44,6 @@ jobs:
       - run: npm run format:check
       - run: npx publint dist/dmaster-ui
 
-      - name: Publish to npm (with signed provenance)
-        run: cd dist/dmaster-ui && npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Create GitHub Release
         run: gh release create "$GITHUB_REF_NAME" --title "@dmaster/ui $GITHUB_REF_NAME" --generate-notes
         env:
@@ -60,3 +55,16 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote add lib-origin https://x-access-token:${{ secrets.GH_PAT }}@github.com/diegomn98/dmaster-ui.git
           git subtree push --prefix=projects/ngx-dmaster-ui lib-origin main
+
+      # npm provenance ties the published repository.url to the repo whose OIDC
+      # identity runs `npm publish`. Publishing from dmaster-ui is what lets
+      # @dmaster/ui declare repository.url = dmaster-ui while keeping a signed,
+      # transparent attestation. The subtree push above has just delivered the
+      # publish workflow to dmaster-ui; this dispatch triggers it for this tag.
+      - name: Trigger the signed npm publish from the dmaster-ui repo
+        run: |
+          curl -fsS -X POST \
+            -H "Authorization: Bearer ${{ secrets.GH_PAT }}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/diegomn98/dmaster-ui/dispatches \
+            -d "{\"event_type\":\"publish\",\"client_payload\":{\"ref\":\"${GITHUB_REF_NAME}\"}}"
