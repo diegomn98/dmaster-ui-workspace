@@ -5,7 +5,7 @@
 [![WCAG 2.1 AA](https://img.shields.io/badge/a11y-WCAG_2.1_AA-0F6E56?style=flat-square)](projects/ngx-dmaster-ui/README.md#accessibility)
 [![license](https://img.shields.io/badge/license-MIT-7EE7FC?style=flat-square)](LICENSE)
 
-Angular 20 workspace for **[@dmaster/ui](https://www.npmjs.com/package/@dmaster/ui)**, a premium, signals-based, zoneless-ready Angular component library — **45 components**, `input()`/`model()` throughout, no NgModules — and its living documentation site, **[dmasterui.com](https://dmasterui.com)**.
+Angular workspace for **[@dmaster/ui](https://www.npmjs.com/package/@dmaster/ui)**, a premium, signals-based, zoneless-ready Angular component library — **45 components**, `input()`/`model()` throughout, no NgModules — and its living documentation site, **[dmasterui.com](https://dmasterui.com)**.
 
 **Contributing:** see [CONTRIBUTING.md](CONTRIBUTING.md) · [Code of Conduct](CODE_OF_CONDUCT.md) · [Security policy](SECURITY.md).
 
@@ -72,7 +72,7 @@ docker run --rm -v "$PWD:/work" -w /work mcr.microsoft.com/playwright:v1.62.1-no
 
 Then commit the updated `*-linux.png` files under `e2e/`. Only the container's Linux baselines are versioned; per-platform snapshots from a local `macOS`/`Windows` run are git-ignored.
 
-**Consumer check.** [`examples/starter`](examples/starter) is a standalone, zoneless Angular 20 app that lives outside the workspace and installs `@dmaster/ui` like any external project. `npm run verify:package` packs the freshly built library and builds the starter against that tarball, so packaging/exports/peer-dep/type-resolution regressions surface here — inside the monorepo, `@dmaster/ui` resolves to source and never exercises the real package. The same app is the [StackBlitz starter](https://stackblitz.com/github/diegomn98/dmaster-ui-workspace/tree/main/examples/starter) linked from the library README, and CI runs the check on every PR.
+**Consumer check.** [`examples/starter`](examples/starter) is a standalone, zoneless Angular app that lives outside the workspace and installs `@dmaster/ui` like any external project. `npm run verify:package` packs the freshly built library and builds the starter against that tarball, so packaging/exports/peer-dep/type-resolution regressions surface here — inside the monorepo, `@dmaster/ui` resolves to source and never exercises the real package. The same app is the [StackBlitz starter](https://stackblitz.com/github/diegomn98/dmaster-ui-workspace/tree/main/examples/starter) linked from the library README, and CI runs the check on every PR.
 
 ## Releasing
 

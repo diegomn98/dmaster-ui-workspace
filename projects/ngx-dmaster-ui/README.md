@@ -6,7 +6,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/@dmaster/ui?color=338EF7&style=flat-square)](https://www.npmjs.com/package/@dmaster/ui)
 [![CI](https://img.shields.io/github/actions/workflow/status/diegomn98/dmaster-ui-workspace/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/diegomn98/dmaster-ui-workspace/actions/workflows/ci.yml)
 [![license](https://img.shields.io/npm/l/@dmaster/ui?color=7EE7FC&style=flat-square)](https://github.com/diegomn98/dmaster-ui/blob/main/LICENSE)
-[![Angular](https://img.shields.io/badge/Angular-20-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
+[![Angular](https://img.shields.io/badge/Angular-20%20%7C%2021%20%7C%2022-DD0031?style=flat-square&logo=angular&logoColor=white)](https://angular.dev)
 [![WCAG 2.1 AA](https://img.shields.io/badge/a11y-WCAG_2.1_AA-0F6E56?style=flat-square)](https://dmasterui.com)
 [![docs](https://img.shields.io/badge/docs-dmasterui.com-7c3aed?style=flat-square)](https://dmasterui.com)
 
@@ -14,7 +14,7 @@
 
 **[→ Browse every component live at dmasterui.com/components](https://dmasterui.com/components)** — each tile is the real, interactive component, not a screenshot.
 
-**[▶ Try it now on StackBlitz](https://stackblitz.com/github/diegomn98/dmaster-ui-workspace/tree/main/examples/starter)** — a minimal zoneless Angular 20 app already wired up with the library; no install needed. (Source: [`examples/starter`](https://github.com/diegomn98/dmaster-ui-workspace/tree/main/examples/starter).)
+**[▶ Try it now on StackBlitz](https://stackblitz.com/github/diegomn98/dmaster-ui-workspace/tree/main/examples/starter)** — a minimal zoneless Angular app already wired up with the library; no install needed. (Source: [`examples/starter`](https://github.com/diegomn98/dmaster-ui-workspace/tree/main/examples/starter).)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs-assets/overview-dark.png">
@@ -33,7 +33,7 @@
 - **Accessible by default** — ARIA attributes on host elements, `:focus-visible` focus rings, touch targets ≥ 44px, `prefers-reduced-motion` support
 - **CDK-powered overlays** — tooltip, popover, menu, dialog, drawer, toast and command palette built on `@angular/cdk`, no third-party overlay dependencies
 - **Three density levels** — `compact`, `comfortable`, `spacious` via `data-dm-density`
-- **Pay only for what you import** — fully tree-shakeable: a button costs ~3.8 kB gzip, a card ~1.3 kB, the entire 45-component library ~92 kB (see [Bundle size](#bundle-size))
+- **Pay only for what you import** — fully tree-shakeable: a button costs ~4.0 kB gzip, a card ~1.4 kB, the entire 45-component library ~102 kB (see [Bundle size](#bundle-size))
 
 ---
 
@@ -49,7 +49,7 @@ ng add @dmaster/ui
 npm install @dmaster/ui @angular/cdk
 ```
 
-> **Peer dependencies:** `@angular/core`, `@angular/common`, `@angular/forms`, `@angular/cdk` (^20) and `rxjs`
+> **Peer dependencies:** `@angular/core`, `@angular/common`, `@angular/forms`, `@angular/cdk` (^20 || ^21 || ^22) and `rxjs`
 
 ---
 
@@ -406,13 +406,13 @@ Fully tree-shakeable — your app only pays for the components it imports. Measu
 
 | Import                    | Gzip     |
 | ------------------------- | -------- |
-| `DmCardComponent`         | ~1.3 kB  |
-| `DmBadgeComponent`        | ~1.8 kB  |
-| `DmButtonComponent`       | ~3.8 kB  |
-| `DmSelectComponent`       | ~10.1 kB |
-| `DmTableComponent`        | ~11.8 kB |
-| **Entire library** (45)   | ~92 kB   |
-| Global CSS (tokens+reset) | ~4.7 kB  |
+| `DmCardComponent`         | ~1.4 kB  |
+| `DmBadgeComponent`        | ~1.9 kB  |
+| `DmButtonComponent`       | ~4.0 kB  |
+| `DmSelectComponent`       | ~10.9 kB |
+| `DmTableComponent`        | ~12.8 kB |
+| **Entire library** (45)   | ~102 kB  |
+| Global CSS (tokens+reset) | ~4.9 kB  |
 
 Reproduce the full per-component table from the repo with `npm run size`.
 
@@ -438,7 +438,7 @@ There's no shortage of component libraries in the Angular ecosystem. Here's how 
 | **API style**       | `input()`/`output()`/`model()` signals, standalone, no NgModules | Mix of legacy + newer APIs, NgModule-based         | NgModule + standalone hybrid                 | Signals, standalone                      | Signals, standalone                                                      |
 | **What you get**    | Pre-styled components, own flat/pill design language             | Pre-styled components (Material Design)            | Pre-styled components, several theme presets | Pre-styled components, own design system | **Unstyled primitives** — copy-paste styled blocks you own, shadcn-style |
 | **Theming**         | CSS custom properties only, no runtime engine                    | Sass theming API + Material 3 design tokens        | Runtime theme switcher + design tokens       | CSS custom properties                    | Tailwind-based, per-component                                            |
-| **Component count** | 45                                                               | Comprehensive Material Design set (CDK + Material) | Very large, kitchen-sink surface area        | 130+ (their own count)                   | 55+ primitives (their own count)                                         |
+| **Component count** | 45                                                               | Comprehensive Material Design set (CDK + Material) | Very large surface area                      | 130+ (their own count)                   | 55+ primitives (their own count)                                         |
 | **Zoneless**        | Built for it from day one                                        | Supported                                          | Supported                                    | Supported                                | Supported                                                                |
 | **Install model**   | `ng add`, then import & use                                      | `ng add`, then import & use                        | Install & import                             | Install & import                         | CLI **copies component source into your repo**                           |
 

@@ -117,7 +117,7 @@ export const FR: DashboardTranslations = {
     heroLine1: 'La bibliothèque de composants',
     heroLine2: 'qu’Angular mérite.',
     subtitle:
-      'Librairie de composants Angular 20 moderne. Standalone, basée sur les signals, avec un langage visuel propre, plat et très arrondi — avec dark mode, theming réel et accessibilité intégrés dès le premier composant.',
+      'Librairie de composants Angular moderne. Standalone, basée sur les signals, avec un langage visuel propre, plat et très arrondi — avec dark mode, theming réel et accessibilité intégrés dès le premier composant.',
     ctaPrimary: 'Démarrer',
     ctaSecondary: 'Voir les composants',
     copyAria: 'Copier la commande d’installation',
@@ -647,7 +647,7 @@ export const FR: DashboardTranslations = {
         bullets: [
           'dm-date-picker : calcul de calendrier sans fuseau, semaines CLDR, DM_DATE_LOCALE réactif',
           'dm-color-picker : zones saturation/teinte/alpha, hex éditable et échantillons — un champ CVA',
-          'dm-error : l’équivalent de mat-error ; dm-form-field câble aria-invalid/aria-describedby tout seul',
+          'dm-error : une ligne d’erreur de validation projetée ; dm-form-field câble aria-invalid/aria-describedby tout seul',
           'dm-search-field : loupe, bouton d’effacement, Échap efface, Entrée envoie',
           'dm-icon : ligatures Material Symbols, SVG enregistrés ou <svg> projeté — un primitif, trois modes',
           '@dmaster/ui/icons : un set organisé d’environ 53 icônes outline originales, tree-shakeable',
@@ -941,7 +941,7 @@ export const FR: DashboardTranslations = {
       },
     },
     errorMessage: {
-      lead: 'Une ligne d’erreur de validation pour les champs de formulaire — l’équivalent Angular natif de <code>mat-error</code>. Couleur de danger, entrée subtile et <code>role="alert"</code> pour être annoncée dès son apparition. <code>dm-error</code> ne porte pas d’icône propre — son contenu est entièrement projeté, ajoutez-en une (p. ex. <code>&lt;dm-icon&gt;</code>) si vous en voulez une. Placez-la dans <code>dm-form-field</code> et elle est positionnée et reliée à <code>aria-describedby</code> automatiquement.',
+      lead: 'Une ligne d’erreur de validation pour les champs de formulaire. Couleur de danger, entrée subtile et <code>role="alert"</code> pour être annoncée dès son apparition. <code>dm-error</code> ne porte pas d’icône propre — son contenu est entièrement projeté, ajoutez-en une (p. ex. <code>&lt;dm-icon&gt;</code>) si vous en voulez une. Placez-la dans <code>dm-form-field</code> et elle est positionnée et reliée à <code>aria-describedby</code> automatiquement.',
       apiCaption: 'Entrées de dm-error',
       defaultsDesc:
         'Modifiez les valeurs par défaut de chaque <code>dm-error</code> avec le jeton <code>ERROR_DEFAULTS</code> ou l’assistant <code>provideErrorDefaults</code> :',
@@ -1595,7 +1595,7 @@ export const FR: DashboardTranslations = {
       },
     },
     tree: {
-      lead: 'Arborescence hiérarchique pilotée par les données, qui implémente intégralement le pattern WAI-ARIA Tree View : roving tabindex, modèle clavier complet et métadonnées ARIA correctes sur chaque nœud. Passez toute la hiérarchie dans <code>nodes</code> ; la sélection et le dépliage sont des modèles two-way que vous pouvez piloter ou observer. Aucune dépendance à Angular Material.',
+      lead: 'Arborescence hiérarchique pilotée par les données, qui implémente intégralement le pattern WAI-ARIA Tree View : roving tabindex, modèle clavier complet et métadonnées ARIA correctes sur chaque nœud. Passez toute la hiérarchie dans <code>nodes</code> ; la sélection et le dépliage sont des modèles two-way que vous pouvez piloter ou observer. Aucune dépendance UI tierce.',
       apiCaption: 'Inputs, modèles, outputs et méthodes de dm-tree',
       defaultsDesc:
         'Modifiez les valeurs par défaut de tous les <code>dm-tree</code> avec le token <code>TREE_DEFAULTS</code> ou le helper <code>provideTreeDefaults</code>.',
@@ -1669,7 +1669,7 @@ export const FR: DashboardTranslations = {
       },
     },
     timeline: {
-      lead: 'Séquence chronologique d’événements le long d’un rail : un marqueur par événement (point, glyphe ou tout élément projeté), un connecteur vers le suivant et un bloc titre / heure / corps. Verticale par défaut, layout <code>alternate</code> en zigzag et mode horizontal. Sémantiquement une simple liste — marqueurs et connecteurs sont décoratifs. Aucune dépendance à Angular Material.',
+      lead: 'Séquence chronologique d’événements le long d’un rail : un marqueur par événement (point, glyphe ou tout élément projeté), un connecteur vers le suivant et un bloc titre / heure / corps. Verticale par défaut, layout <code>alternate</code> en zigzag et mode horizontal. Sémantiquement une simple liste — marqueurs et connecteurs sont décoratifs. Aucune dépendance UI tierce.',
       apiCaption: 'Inputs de dm-timeline / dm-timeline-item et directive dmTimelineMarker',
       defaultsDesc:
         'Changez les défauts de toutes les timelines avec le token <code>TIMELINE_DEFAULTS</code> ou le helper <code>provideTimelineDefaults</code> : <code>orientation</code>, <code>align</code>, <code>size</code>, <code>color</code> et la <code>variant</code> des items.',
@@ -2270,7 +2270,7 @@ export const FR: DashboardTranslations = {
       },
     },
     stepper: {
-      lead: 'Guide l’utilisateur à travers une séquence ordonnée d’étapes, un panneau à la fois. Horizontal ou vertical, verrouillage <code>linear</code> optionnel, états par étape <code>completed</code> / <code>error</code> / <code>optional</code> / <code>disabled</code> et couleurs sémantiques. C’est une liste d’étapes navigable — pas une tablist — avec prise en charge complète du clavier et zéro Angular Material.',
+      lead: 'Guide l’utilisateur à travers une séquence ordonnée d’étapes, un panneau à la fois. Horizontal ou vertical, verrouillage <code>linear</code> optionnel, états par étape <code>completed</code> / <code>error</code> / <code>optional</code> / <code>disabled</code> et couleurs sémantiques. C’est une liste d’étapes navigable — pas une tablist — avec prise en charge complète du clavier et zéro dépendance UI tierce.',
       apiCaption: 'Inputs, outputs et méthodes de dm-stepper / dm-step',
       defaultsDesc:
         'Modifiez les valeurs par défaut avec le token <code>STEPPER_DEFAULTS</code> ou le helper <code>provideStepperDefaults</code>.',
@@ -2376,7 +2376,7 @@ export const FR: DashboardTranslations = {
       },
     },
     fileUpload: {
-      lead: 'Une zone de dépôt glisser-déposer adossée à un <code>&lt;input type="file"&gt;</code> natif masqué : liste des fichiers sélectionnés, miniatures d’images, barres de progression par fichier optionnelles et validation intégrée contre <code>accept</code>, <code>maxSize</code> et <code>maxFiles</code>. Le composant est <strong>contrôlé</strong> via un modèle bidirectionnel <code>[(files)]</code> (les objets File se prêtent mal à <code>ControlValueAccessor</code>) — reliez-le à un <code>FormControl&lt;File[]&gt;</code> en deux lignes pour les Reactive Forms. Aucune dépendance à Angular Material.',
+      lead: 'Une zone de dépôt glisser-déposer adossée à un <code>&lt;input type="file"&gt;</code> natif masqué : liste des fichiers sélectionnés, miniatures d’images, barres de progression par fichier optionnelles et validation intégrée contre <code>accept</code>, <code>maxSize</code> et <code>maxFiles</code>. Le composant est <strong>contrôlé</strong> via un modèle bidirectionnel <code>[(files)]</code> (les objets File se prêtent mal à <code>ControlValueAccessor</code>) — reliez-le à un <code>FormControl&lt;File[]&gt;</code> en deux lignes pour les Reactive Forms. Aucune dépendance UI tierce.',
       apiCaption: 'Entrées, sorties et helpers de dm-file-upload',
       defaultsDesc:
         'Modifiez les valeurs par défaut de chaque <code>dm-file-upload</code> (<code>multiple</code>, <code>maxSize</code>, <code>maxFiles</code>) avec le jeton <code>FILE_UPLOAD_DEFAULTS</code> ou le helper <code>provideFileUploadDefaults</code> :',
