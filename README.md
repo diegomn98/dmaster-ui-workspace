@@ -5,7 +5,7 @@
 [![WCAG 2.1 AA](https://img.shields.io/badge/a11y-WCAG_2.1_AA-0F6E56?style=flat-square)](projects/ngx-dmaster-ui/README.md#accessibility)
 [![license](https://img.shields.io/badge/license-MIT-7EE7FC?style=flat-square)](LICENSE)
 
-Angular workspace for **[@dmaster/ui](https://www.npmjs.com/package/@dmaster/ui)**, a premium, signals-based, zoneless-ready Angular component library — **45 components**, `input()`/`model()` throughout, no NgModules — and its living documentation site, **[dmasterui.com](https://dmasterui.com)**.
+Angular workspace for **[@dmaster/ui](https://www.npmjs.com/package/@dmaster/ui)**, a modern, signals-based, zoneless-ready Angular component library — **45 components**, `input()`/`model()` throughout, no NgModules — and its living documentation site, **[dmasterui.com](https://dmasterui.com)**.
 
 **Contributing:** see [CONTRIBUTING.md](CONTRIBUTING.md) · [Code of Conduct](CODE_OF_CONDUCT.md) · [Security policy](SECURITY.md).
 
