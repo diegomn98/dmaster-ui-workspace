@@ -18,6 +18,19 @@
   }
 }
 
+// Ritmo vertical entre las secciones de la landing. Sin esto, las secciones
+// se apilaban a ras (gap 0) y las cajas con borde (features / install / CTA)
+// se leían como un único bloque comprimido ("todo junto").
+.home__main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--dm-space-10);
+
+  @include mixins.respond-to(md) {
+    row-gap: var(--dm-space-16, 4rem);
+  }
+}
+
 // =============================================================================
 // HERO — full-bleed wrapper: las decoraciones ocupan TODO el ancho del
 // viewport y se funden antes de cualquier borde, así no se percibe ningún
@@ -1170,8 +1183,15 @@
 // FOOTER
 // =============================================================================
 .home__footer {
+  // The footer lives outside .home__main, so the section row-gap doesn't reach
+  // it — separate the full-bleed strip from the (same-coloured) CTA box above.
+  margin-top: var(--dm-space-10);
   border-top: 1px solid var(--dm-border);
   background: var(--dm-bg-subtle);
+
+  @include mixins.respond-to(md) {
+    margin-top: var(--dm-space-16, 4rem);
+  }
 }
 
 .home__footer-inner {
