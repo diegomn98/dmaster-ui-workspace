@@ -45,29 +45,53 @@
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['alignment']" [code]="alignmentCode" [ts]="alignmentTs">
-    <dm-button-group variant="bordered" [ariaLabel]="page().labels['alignLabel']">
-      <dm-button [ariaLabel]="page().labels['left']">
-        <dm-icon>format_align_left</dm-icon>
-      </dm-button>
-      <dm-button [ariaLabel]="page().labels['center']">
-        <dm-icon>format_align_center</dm-icon>
-      </dm-button>
-      <dm-button [ariaLabel]="page().labels['right']">
-        <dm-icon>format_align_right</dm-icon>
-      </dm-button>
-      <dm-button [ariaLabel]="page().labels['justify']">
-        <dm-icon>format_align_justify</dm-icon>
-      </dm-button>
-    </dm-button-group>
+    <div style="display: grid; gap: 1rem; justify-items: center; width: 100%; max-width: 26rem">
+      <dm-button-group variant="bordered" [ariaLabel]="page().labels['alignLabel']">
+        <dm-button iconOnly [ariaLabel]="page().labels['left']" (clicked)="align.set('left')">
+          <dm-icon>format_align_left</dm-icon>
+        </dm-button>
+        <dm-button iconOnly [ariaLabel]="page().labels['center']" (clicked)="align.set('center')">
+          <dm-icon>format_align_center</dm-icon>
+        </dm-button>
+        <dm-button iconOnly [ariaLabel]="page().labels['right']" (clicked)="align.set('right')">
+          <dm-icon>format_align_right</dm-icon>
+        </dm-button>
+        <dm-button iconOnly [ariaLabel]="page().labels['justify']" (clicked)="align.set('justify')">
+          <dm-icon>format_align_justify</dm-icon>
+        </dm-button>
+      </dm-button-group>
+      <p
+        style="
+          margin: 0;
+          width: 100%;
+          color: var(--dm-fg-muted);
+          font-size: var(--dm-text-sm);
+          line-height: 1.6;
+        "
+        [style.text-align]="align()"
+      >
+        {{ page().labels['sampleText'] }}
+      </p>
+    </div>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['pagination']" [code]="solidCode" [ts]="solidTs">
     <dm-button-group color="primary" [ariaLabel]="page().labels['pagination']">
-      <dm-button [ariaLabel]="page().labels['prev']">
+      <dm-button
+        iconOnly
+        [ariaLabel]="page().labels['prev']"
+        [disabled]="pagerPage() === 1"
+        (clicked)="pagerGo(-1)"
+      >
         <dm-icon>chevron_left</dm-icon>
       </dm-button>
-      <dm-button>{{ page().labels['page'] }} 3</dm-button>
-      <dm-button [ariaLabel]="page().labels['next']">
+      <dm-button>{{ page().labels['page'] }} {{ pagerPage() }}</dm-button>
+      <dm-button
+        iconOnly
+        [ariaLabel]="page().labels['next']"
+        [disabled]="pagerPage() === pagerTotal"
+        (clicked)="pagerGo(1)"
+      >
         <dm-icon>chevron_right</dm-icon>
       </dm-button>
     </dm-button-group>
@@ -75,51 +99,115 @@
 
   <app-demo-block [heading]="page().labels['override']" [code]="overrideCode" [ts]="overrideTs">
     <dm-button-group variant="flat" [ariaLabel]="page().labels['fileActions']">
-      <dm-button>{{ page().labels['rename'] }}</dm-button>
-      <dm-button>{{ page().labels['duplicate'] }}</dm-button>
-      <dm-button color="danger">{{ page().labels['delete'] }}</dm-button>
+      <dm-button (clicked)="notify('rename')">{{ page().labels['rename'] }}</dm-button>
+      <dm-button (clicked)="notify('duplicate')">{{ page().labels['duplicate'] }}</dm-button>
+      <dm-button color="danger" (clicked)="notify('delete')">{{
+        page().labels['delete']
+      }}</dm-button>
     </dm-button-group>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['vertical']" [code]="verticalCode" [ts]="verticalTs">
-    <dm-button-group orientation="vertical" variant="bordered" ariaLabel="Zoom">
-      <dm-button [ariaLabel]="page().labels['zoomIn']">
-        <dm-icon>add</dm-icon>
-      </dm-button>
-      <dm-button [ariaLabel]="page().labels['reset']">100%</dm-button>
-      <dm-button [ariaLabel]="page().labels['zoomOut']">
-        <dm-icon>remove</dm-icon>
-      </dm-button>
-    </dm-button-group>
+    <div style="display: flex; align-items: center; gap: 1.5rem">
+      <dm-button-group
+        orientation="vertical"
+        variant="bordered"
+        [ariaLabel]="page().labels['zoomLabel']"
+      >
+        <dm-button
+          iconOnly
+          [ariaLabel]="page().labels['zoomIn']"
+          [disabled]="zoom() >= 200"
+          (clicked)="zoomBy(25)"
+        >
+          <dm-icon>add</dm-icon>
+        </dm-button>
+        <dm-button
+          [ariaLabel]="page().labels['reset'] + ' (' + zoom() + '%)'"
+          (clicked)="zoom.set(100)"
+        >
+          {{ zoom() }}%
+        </dm-button>
+        <dm-button
+          iconOnly
+          [ariaLabel]="page().labels['zoomOut']"
+          [disabled]="zoom() <= 50"
+          (clicked)="zoomBy(-25)"
+        >
+          <dm-icon>remove</dm-icon>
+        </dm-button>
+      </dm-button-group>
+      <div
+        aria-hidden="true"
+        style="
+          display: grid;
+          place-items: center;
+          width: 7rem;
+          height: 7rem;
+          border-radius: var(--dm-radius-lg);
+          background: var(--dm-bg-muted);
+          overflow: hidden;
+          font-size: 1.75rem;
+          font-weight: var(--dm-font-semibold);
+          color: var(--dm-fg);
+        "
+      >
+        <span
+          style="transition: transform var(--dm-duration-slow) var(--dm-ease-snappy)"
+          [style.transform]="'scale(' + zoom() / 100 + ')'"
+        >
+          Aa
+        </span>
+      </div>
+    </div>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode" [ts]="fullWidthTs">
-    <dm-button-group
-      fullWidth
-      variant="flat"
-      [ariaLabel]="page().labels['pagination']"
-      style="width: 100%"
-    >
-      <dm-button>{{ page().labels['prev'] }}</dm-button>
-      <dm-button>{{ page().labels['next'] }}</dm-button>
-    </dm-button-group>
+    <div style="display: grid; gap: 0.625rem; width: 100%; max-width: 24rem">
+      <dm-button-group fullWidth variant="flat" [ariaLabel]="page().labels['pagination']">
+        <dm-button [disabled]="fwPage() === 1" (clicked)="fwGo(-1)">
+          {{ page().labels['prev'] }}
+        </dm-button>
+        <dm-button [disabled]="fwPage() === fwTotal" (clicked)="fwGo(1)">
+          {{ page().labels['next'] }}
+        </dm-button>
+      </dm-button-group>
+      <p
+        style="
+          margin: 0;
+          text-align: center;
+          font-size: var(--dm-text-sm);
+          color: var(--dm-fg-muted);
+          font-variant-numeric: tabular-nums;
+        "
+      >
+        {{ page().labels['page'] }} {{ fwPage() }} / {{ fwTotal }}
+      </p>
+    </div>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['split']" [code]="splitCode" [ts]="splitTs">
-    <dm-button-group color="primary" [ariaLabel]="page().labels['moreOptions']">
-      <dm-button (clicked)="save()">{{ page().labels['save'] }}</dm-button>
-      <dm-button [ariaLabel]="page().labels['moreOptions']" [dmMenuTrigger]="saveMenu">
+    <dm-button-group color="primary" [ariaLabel]="page().labels['saveOptions']">
+      <dm-button
+        [state]="saveState()"
+        [loadingLabel]="page().labels['saving']"
+        [successLabel]="page().labels['savedToast']"
+        (clicked)="save()"
+      >
+        {{ page().labels['save'] }}
+      </dm-button>
+      <dm-button iconOnly [ariaLabel]="page().labels['moreOptions']" [dmMenuTrigger]="saveMenu">
         <dm-icon>expand_more</dm-icon>
       </dm-button>
     </dm-button-group>
-    <dm-menu #saveMenu [ariaLabel]="page().labels['moreOptions']">
-      <dm-menu-item (selected)="menuAction('saveClose')">{{
+    <dm-menu #saveMenu [ariaLabel]="page().labels['saveOptions']">
+      <dm-menu-item (selected)="notify('saveClose')">{{
         page().labels['saveClose']
       }}</dm-menu-item>
-      <dm-menu-item (selected)="menuAction('saveCopy')">{{
+      <dm-menu-item (selected)="notify('saveCopy')">{{
         page().labels['saveCopy']
       }}</dm-menu-item>
-      <dm-menu-item (selected)="menuAction('saveTemplate')">
+      <dm-menu-item (selected)="notify('saveTemplate')">
         {{ page().labels['saveTemplate'] }}
       </dm-menu-item>
     </dm-menu>
@@ -131,29 +219,81 @@
     [ts]="compositionTs"
   >
     <dm-card style="width: 100%; max-width: 30rem">
-      <strong>{{ page().labels['editorTitle'] }}</strong>
-      <p style="color: var(--dm-fg-muted); margin: 0.25rem 0 0.875rem">
-        {{ page().labels['editorHint'] }}
-      </p>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem">
+        <div>
+          <strong>{{ page().labels['photoTitle'] }}</strong>
+          <p style="margin: 0.125rem 0 0; color: var(--dm-fg-muted); font-size: var(--dm-text-sm)">
+            {{ page().labels['photoHint'] }}
+          </p>
+        </div>
+        <dm-badge variant="flat" size="sm" style="font-variant-numeric: tabular-nums">
+          {{ rotationLabel() }}° · {{ photoScale() }}%
+        </dm-badge>
+      </div>
 
-      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap">
-        <dm-button-group variant="flat" size="sm" [ariaLabel]="page().labels['formatLabel']">
-          <dm-button [ariaLabel]="page().labels['bold']"><strong>B</strong></dm-button>
-          <dm-button [ariaLabel]="page().labels['italic']"><em>I</em></dm-button>
-          <dm-button [ariaLabel]="page().labels['underline']">
-            <span style="text-decoration: underline">U</span>
+      <div
+        aria-hidden="true"
+        style="
+          display: grid;
+          place-items: center;
+          height: 11rem;
+          margin-block: 0.875rem;
+          border-radius: var(--dm-radius-lg);
+          background: var(--dm-bg-muted);
+          overflow: hidden;
+        "
+      >
+        <dm-icon
+          size="5rem"
+          color="primary"
+          style="transition: transform var(--dm-duration-slow) var(--dm-ease-snappy)"
+          [style.transform]="photoTransform()"
+        >
+          landscape
+        </dm-icon>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center">
+        <dm-button-group variant="flat" size="sm" [ariaLabel]="page().labels['rotateLabel']">
+          <dm-button iconOnly [ariaLabel]="page().labels['rotateLeft']" (clicked)="rotate(-90)">
+            <dm-icon>rotate_left</dm-icon>
+          </dm-button>
+          <dm-button iconOnly [ariaLabel]="page().labels['rotateRight']" (clicked)="rotate(90)">
+            <dm-icon>rotate_right</dm-icon>
           </dm-button>
         </dm-button-group>
 
-        <dm-button-group variant="flat" size="sm" [ariaLabel]="page().labels['alignLabel']">
-          <dm-button [ariaLabel]="page().labels['left']">
-            <dm-icon>format_align_left</dm-icon>
+        <dm-button-group variant="flat" size="sm" [ariaLabel]="page().labels['zoomLabel']">
+          <dm-button
+            iconOnly
+            [ariaLabel]="page().labels['zoomOut']"
+            [disabled]="photoScale() <= 50"
+            (clicked)="photoZoom(-25)"
+          >
+            <dm-icon>remove</dm-icon>
           </dm-button>
-          <dm-button [ariaLabel]="page().labels['center']">
-            <dm-icon>format_align_center</dm-icon>
+          <dm-button
+            [ariaLabel]="page().labels['reset'] + ' (' + photoScale() + '%)'"
+            (clicked)="resetPhoto()"
+          >
+            {{ photoScale() }}%
           </dm-button>
-          <dm-button [ariaLabel]="page().labels['right']">
-            <dm-icon>format_align_right</dm-icon>
+          <dm-button
+            iconOnly
+            [ariaLabel]="page().labels['zoomIn']"
+            [disabled]="photoScale() >= 200"
+            (clicked)="photoZoom(25)"
+          >
+            <dm-icon>add</dm-icon>
+          </dm-button>
+        </dm-button-group>
+
+        <dm-button-group variant="flat" size="sm" [ariaLabel]="page().labels['flipLabel']">
+          <dm-button iconOnly [ariaLabel]="page().labels['flipH']" (clicked)="flip('x')">
+            <dm-icon>flip</dm-icon>
+          </dm-button>
+          <dm-button iconOnly [ariaLabel]="page().labels['flipV']" (clicked)="flip('y')">
+            <dm-icon style="transform: rotate(90deg)">flip</dm-icon>
           </dm-button>
         </dm-button-group>
       </div>
