@@ -79,6 +79,13 @@
                     <dm-badge color="secondary" variant="flat">Pro</dm-badge>
                   </div>
                 }
+                @case ('chip') {
+                  <div class="ov__ex-badges">
+                    <dm-chip color="primary" selectable [selected]="true">Signals</dm-chip>
+                    <dm-chip variant="flat">Zoneless</dm-chip>
+                    <dm-chip color="success" variant="flat">a11y</dm-chip>
+                  </div>
+                }
                 @case ('avatar') {
                   <div class="ov__avatars">
                     <dm-avatar initials="AL" />

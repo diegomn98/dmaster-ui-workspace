@@ -46,6 +46,7 @@ export const COMPONENT_REGISTRY: ComponentRegistryEntry[] = [
   { id: 'skeleton', categoryKey: 'primitives', navKey: 'skeleton' },
   { id: 'spinner', categoryKey: 'primitives', navKey: 'spinner' },
   { id: 'badge', categoryKey: 'primitives', navKey: 'badge' },
+  { id: 'chip', categoryKey: 'primitives', navKey: 'chip' },
   { id: 'avatar', categoryKey: 'primitives', navKey: 'avatar' },
   { id: 'kbd', categoryKey: 'primitives', navKey: 'kbd' },
   { id: 'icon', categoryKey: 'primitives', navKey: 'icon' },

@@ -65,6 +65,7 @@ const ENTRIES = {
   skeleton: ['DmSkeletonComponent'],
   spinner: ['DmSpinnerComponent'],
   badge: ['DmBadgeComponent'],
+  chip: ['DmChipComponent', 'DmChipSetComponent'],
   avatar: ['DmAvatarComponent'],
   kbd: ['DmKbdComponent'],
   icon: ['DmIconComponent'],

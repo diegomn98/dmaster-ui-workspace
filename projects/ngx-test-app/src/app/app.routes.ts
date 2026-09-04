@@ -101,6 +101,14 @@ export const routes: Routes = [
         title: 'Badge · @dmaster/ui',
       },
       {
+        path: 'components/chip',
+        loadComponent: () =>
+          import('./pages/components/chip-page/chip-page.component').then(
+            (m) => m.ChipPageComponent,
+          ),
+        title: 'Chip · @dmaster/ui',
+      },
+      {
         path: 'components/card',
         loadComponent: () =>
           import('./pages/components/card-page/card-page.component').then(

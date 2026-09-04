@@ -59,6 +59,7 @@ export interface DashboardTranslations {
       skeleton: string;
       spinner: string;
       badge: string;
+      chip: string;
       avatar: string;
       icon: string;
       card: string;
@@ -482,6 +483,7 @@ export interface DashboardTranslations {
     overview: SimplePageTranslations;
     spinner: SimplePageTranslations;
     badge: SimplePageTranslations;
+    chip: SimplePageTranslations;
     card: SimplePageTranslations;
     avatar: SimplePageTranslations;
     accordion: SimplePageTranslations;
