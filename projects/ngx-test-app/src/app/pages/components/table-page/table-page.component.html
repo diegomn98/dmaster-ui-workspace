@@ -54,7 +54,15 @@
         [rowsPerPageLabel]="page().labels['rowsPerPage']"
         caption="Team members"
       >
-        <dm-button dmTableActions size="sm" variant="flat" color="primary">Invite</dm-button>
+        <dm-button
+          dmTableActions
+          size="sm"
+          variant="flat"
+          color="primary"
+          (clicked)="inviteFromToolbar()"
+        >
+          {{ page().labels['invite'] }}
+        </dm-button>
       </dm-table>
 
       <p class="table-readout">
@@ -123,6 +131,21 @@
         [pageSize]="5"
         [pageSizeOptions]="[5, 10, 25]"
         [rowsPerPageLabel]="page().labels['rowsPerPage']"
+      />
+    </div>
+  </app-demo-block>
+
+  <!-- Sticky header: all rows on one page inside a bounded scroll container -->
+  <app-demo-block [heading]="page().labels['stickyHeader']" [code]="stickyCode" [ts]="stickyTs">
+    <div style="width: 100%">
+      <dm-table
+        sticky
+        [pageSize]="0"
+        style="--dm-table-max-height: 16rem"
+        [columns]="columns"
+        [data]="members()"
+        [rowKey]="byId"
+        caption="Team members"
       />
     </div>
   </app-demo-block>
@@ -292,8 +315,8 @@
   <!-- Loading & empty states -->
   <app-demo-block [heading]="page().labels['states']" [code]="statesCode" [ts]="statesTs">
     <div class="demo-stack" style="width: 100%">
-      <dm-button size="sm" variant="bordered" (clicked)="toggleLoading()">
-        {{ page().labels['toggleLoading'] }}
+      <dm-button size="sm" variant="bordered" [disabled]="loadingDemo()" (clicked)="reload()">
+        {{ page().labels['reload'] }}
       </dm-button>
       <dm-table
         [columns]="fewColumns"

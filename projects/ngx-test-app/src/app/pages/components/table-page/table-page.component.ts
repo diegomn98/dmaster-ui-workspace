@@ -12,6 +12,7 @@ import {
   DmTableKey,
   DmTableSelectionMode,
   DmTableVariant,
+  DmToastService,
 } from '@dmaster/ui';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
@@ -199,6 +200,7 @@ function generateMembers(count: number): Member[] {
 })
 export class TablePageComponent {
   protected readonly i18n = inject(LocaleService);
+  private readonly toast = inject(DmToastService);
   protected readonly page = computed(() => this.i18n.t().pages.table);
 
   protected readonly members = signal<Member[]>(MEMBERS);
@@ -210,7 +212,7 @@ export class TablePageComponent {
     { key: 'email', header: 'Email', sortable: true },
     { key: 'role', header: 'Role', sortable: true },
     { key: 'status', header: 'Status', sortable: true, align: 'center' },
-    { key: 'joined', header: 'Joined', sortable: true, align: 'end' },
+    { key: 'joined', header: 'Joined', sortable: true, align: 'end', nowrap: true },
   ];
 
   // ---- Playground ----------------------------------------------------------
@@ -293,6 +295,10 @@ export class TablePageComponent {
       .join(', ');
   });
 
+  protected inviteFromToolbar(): void {
+    this.toast.success(this.page().labels['inviteSent']);
+  }
+
   protected readonly fullCode = [
     '<dm-table',
     '  [columns]="columns"',
@@ -304,7 +310,10 @@ export class TablePageComponent {
     '  [(selectedKeys)]="selected"',
     '  caption="Team members"',
     '>',
-    '  <dm-button dmTableActions size="sm" variant="flat" color="primary">Invite</dm-button>',
+    '  <!-- Anything with dmTableActions lands on the right of the toolbar -->',
+    '  <dm-button dmTableActions size="sm" variant="flat" color="primary" (clicked)="invite()">',
+    '    Invite',
+    '  </dm-button>',
     '</dm-table>',
     '',
     '<p>',
@@ -317,12 +326,13 @@ export class TablePageComponent {
   ].join('\n');
 
   protected readonly fullTs = [
-    "import { Component, computed, signal } from '@angular/core';",
+    "import { Component, computed, inject, signal } from '@angular/core';",
     'import {',
     '  DmButtonComponent,',
     '  DmTableColumn,',
     '  DmTableComponent,',
     '  DmTableKey,',
+    '  DmToastService,',
     "} from '@dmaster/ui';",
     '',
     'interface Member {',
@@ -340,6 +350,7 @@ export class TablePageComponent {
     "  templateUrl: './members-table.component.html',",
     '})',
     'export class MembersTableComponent {',
+    '  private readonly toast = inject(DmToastService);',
     '  protected readonly members = signal<Member[]>([...]);',
     '  protected readonly selected = signal<DmTableKey[]>([]);',
     '  protected readonly byId = (row: Member) => row.id;',
@@ -349,7 +360,7 @@ export class TablePageComponent {
     "    { key: 'email', header: 'Email', sortable: true },",
     "    { key: 'role', header: 'Role', sortable: true },",
     "    { key: 'status', header: 'Status', sortable: true, align: 'center' },",
-    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end' },",
+    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end', nowrap: true },",
     '  ];',
     '',
     '  // First names of the currently selected rows, for the readout.',
@@ -360,6 +371,10 @@ export class TablePageComponent {
     "      .map((m) => m.name.split(' ')[0])",
     "      .join(', ');",
     '  });',
+    '',
+    '  protected invite(): void {',
+    "    this.toast.success('Invitation sent');",
+    '  }',
     '}',
   ].join('\n');
 
@@ -524,7 +539,53 @@ export class TablePageComponent {
     "    { key: 'email', header: 'Email', sortable: true },",
     "    { key: 'role', header: 'Role', sortable: true },",
     "    { key: 'status', header: 'Status', sortable: true, align: 'center' },",
-    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end' },",
+    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end', nowrap: true },",
+    '  ];',
+    '}',
+  ].join('\n');
+
+  // ---- Sticky header demo --------------------------------------------------
+  protected readonly stickyCode = [
+    '<!-- sticky pins the header inside a scroll container whose height is',
+    '     --dm-table-max-height (28rem by default). All rows on one page. -->',
+    '<dm-table',
+    '  sticky',
+    '  [pageSize]="0"',
+    '  style="--dm-table-max-height: 16rem"',
+    '  [columns]="columns"',
+    '  [data]="members()"',
+    '  [rowKey]="byId"',
+    '  caption="Team members" />',
+  ].join('\n');
+
+  protected readonly stickyTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui';",
+    '',
+    'interface Member {',
+    '  id: number;',
+    '  name: string;',
+    '  email: string;',
+    '  role: string;',
+    "  status: 'Active' | 'Away' | 'Invited';",
+    '  joined: string;',
+    '}',
+    '',
+    '@Component({',
+    "  selector: 'app-sticky-table',",
+    '  imports: [DmTableComponent],',
+    "  templateUrl: './sticky-table.component.html',",
+    '})',
+    'export class StickyTableComponent {',
+    '  protected readonly members = signal<Member[]>([...]);',
+    '  protected readonly byId = (row: Member) => row.id;',
+    '',
+    '  protected readonly columns: DmTableColumn<Member>[] = [',
+    "    { key: 'name', header: 'Name', sortable: true },",
+    "    { key: 'email', header: 'Email', sortable: true },",
+    "    { key: 'role', header: 'Role', sortable: true },",
+    "    { key: 'status', header: 'Status', sortable: true, align: 'center' },",
+    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end', nowrap: true },",
     '  ];',
     '}',
   ].join('\n');
@@ -589,7 +650,7 @@ export class TablePageComponent {
     "    { key: 'email', header: 'Email', sortable: true },",
     "    { key: 'role', header: 'Role', sortable: true },",
     "    { key: 'status', header: 'Status', sortable: true, align: 'center' },",
-    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end' },",
+    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end', nowrap: true },",
     '  ];',
     '}',
   ].join('\n');
@@ -672,14 +733,18 @@ export class TablePageComponent {
   // ---- States demo ---------------------------------------------------------
   protected readonly loadingDemo = signal(false);
   protected readonly statesCode = [
-    '// loading shows skeleton rows; empty data shows the empty state.',
+    '<!-- loading shows skeleton rows; when it clears, the rows rise in with a',
+    '     short stagger. Empty data shows the empty state. -->',
+    '<dm-button size="sm" variant="bordered" [disabled]="loading()" (clicked)="reload()">',
+    '  Reload',
+    '</dm-button>',
     '<dm-table [columns]="cols" [data]="rows" [loading]="loading()" />',
     '<dm-table [columns]="cols" [data]="[]" emptyText="No members yet" />',
   ].join('\n');
 
   protected readonly statesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent, DmTableColumn, DmTableComponent } from '@dmaster/ui';",
     '',
     'interface Member {',
     '  id: number;',
@@ -690,7 +755,7 @@ export class TablePageComponent {
     '',
     '@Component({',
     "  selector: 'app-table-states',",
-    '  imports: [DmTableComponent],',
+    '  imports: [DmTableComponent, DmButtonComponent],',
     "  templateUrl: './table-states.component.html',",
     '})',
     'export class TableStatesComponent {',
@@ -707,14 +772,20 @@ export class TablePageComponent {
     "    { id: 3, name: 'Grace Hopper', role: 'Manager',   status: 'Invited' },",
     '  ];',
     '',
-    '  protected toggleLoading(): void {',
-    '    this.loading.update((v) => !v);',
+    '  reload(): void {',
+    '    this.loading.set(true);',
+    '    this.api.load().subscribe((rows) => {',
+    '      this.rows = rows;',
+    '      this.loading.set(false);',
+    '    });',
     '  }',
     '}',
   ].join('\n');
 
-  protected toggleLoading(): void {
-    this.loadingDemo.update((v) => !v);
+  protected reload(): void {
+    if (this.loadingDemo()) return;
+    this.loadingDemo.set(true);
+    setTimeout(() => this.loadingDemo.set(false), 1200);
   }
 
   // ---- Composition: team members admin panel -------------------------------
@@ -745,21 +816,32 @@ export class TablePageComponent {
       .join('');
   }
 
+  private readonly invitePool = [
+    'Jean Bartik',
+    'Frances Allen',
+    'Ken Thompson',
+    'Bjarne Stroustrup',
+    'Guido van Rossum',
+    'Brendan Eich',
+  ];
+
   protected invite(): void {
     this.teamMembers.update((rows) => {
       const id = rows.reduce((max, r) => Math.max(max, r.id), 0) + 1;
+      const name = this.invitePool[(id - 1) % this.invitePool.length];
       return [
         ...rows,
         {
           id,
-          name: `New teammate #${id}`,
-          email: `member${id}@dmaster.io`,
+          name,
+          email: `${name.split(' ')[0].toLowerCase()}@dmaster.io`,
           role: 'Viewer',
           status: 'Invited',
           joined: new Date().toISOString().slice(0, 10),
         },
       ];
     });
+    this.toast.success(this.page().labels['inviteSent']);
   }
 
   protected removeSelected(): void {
@@ -862,7 +944,7 @@ export class TablePageComponent {
     "    { key: 'email', header: 'Email', sortable: true },",
     "    { key: 'role', header: 'Role', sortable: true },",
     "    { key: 'status', header: 'Status', sortable: true, align: 'center' },",
-    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end' },",
+    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end', nowrap: true },",
     '  ];',
     '',
     '  // Selected ROWS derived from the two-way selectedKeys model.',
