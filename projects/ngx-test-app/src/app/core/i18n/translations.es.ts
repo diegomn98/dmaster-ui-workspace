@@ -1579,7 +1579,8 @@ export const ES: DashboardTranslations = {
         variant: 'default, striped o bordered.',
         hover: 'Resalta filas en hover.',
         sticky: 'El header queda pegado al scroll del contenedor.',
-        caption: 'Caption de la tabla (screen-reader friendly).',
+        caption:
+          'Título de la tabla: se pinta en la toolbar y se expone como <caption> para lectores de pantalla.',
         searchable: 'Muestra el buscador y filtra las filas por el término.',
         searchTerm: 'Término de búsqueda (two-way).',
         selectionMode: 'Selección de filas: none, single o multiple.',
@@ -1628,8 +1629,6 @@ export const ES: DashboardTranslations = {
         statusAway: 'ausentes',
         statusInvited: 'invitados',
         invite: 'Invitar',
-        selectedSuffix: 'seleccionados',
-        clearSelection: 'Limpiar',
         remove: 'Eliminar',
       },
     },

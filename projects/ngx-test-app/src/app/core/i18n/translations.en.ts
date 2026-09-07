@@ -1572,7 +1572,8 @@ export const EN: DashboardTranslations = {
         variant: 'default, striped or bordered.',
         hover: 'Highlight rows on hover.',
         sticky: 'Header sticks to the top of a scrolling container.',
-        caption: 'Table caption (screen-reader friendly).',
+        caption:
+          'Table title: drawn in the toolbar and exposed as the <caption> for screen readers.',
         searchable: 'Show the search box and filter rows by the term.',
         searchTerm: 'Two-way bound search term.',
         selectionMode: 'none, single or multiple row selection.',
@@ -1620,8 +1621,6 @@ export const EN: DashboardTranslations = {
         statusAway: 'away',
         statusInvited: 'invited',
         invite: 'Invite',
-        selectedSuffix: 'selected',
-        clearSelection: 'Clear',
         remove: 'Remove',
       },
     },
