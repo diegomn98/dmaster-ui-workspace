@@ -135,6 +135,51 @@
     </div>
   </app-demo-block>
 
+  <!-- Server-side pagination: loadFn fetches one page at a time -->
+  <app-demo-block [heading]="page().labels['serverSide']" [code]="serverCode" [ts]="serverTs">
+    <div class="demo-stack" style="width: 100%">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem">
+        <dm-button size="sm" variant="bordered" (clicked)="serverTable.reload()">
+          {{ page().labels['reload'] }}
+        </dm-button>
+        <dm-button
+          size="sm"
+          variant="bordered"
+          color="danger"
+          (clicked)="failNext(); serverTable.reload()"
+        >
+          {{ page().labels['failNext'] }}
+        </dm-button>
+        <span
+          style="
+            font-size: 0.8125rem;
+            color: var(--dm-fg-muted);
+            font-variant-numeric: tabular-nums;
+          "
+        >
+          {{ page().labels['lastRequest'] }}: <code>{{ lastRequest() }}</code>
+        </span>
+      </div>
+      <dm-table
+        #serverTable
+        [loadFn]="loadMembers"
+        [columns]="columns"
+        [rowKey]="byId"
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        [searchable]="true"
+        selectionMode="multiple"
+        [(selectedKeys)]="serverSelected"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        [rowsPerPageLabel]="page().labels['rowsPerPage']"
+        [loadErrorText]="page().labels['loadError']"
+        [retryLabel]="page().labels['retry']"
+        (loadError)="onLoadError()"
+        caption="1,000 members"
+      />
+    </div>
+  </app-demo-block>
+
   <!-- Sticky header: all rows on one page inside a bounded scroll container -->
   <app-demo-block [heading]="page().labels['stickyHeader']" [code]="stickyCode" [ts]="stickyTs">
     <div style="width: 100%">

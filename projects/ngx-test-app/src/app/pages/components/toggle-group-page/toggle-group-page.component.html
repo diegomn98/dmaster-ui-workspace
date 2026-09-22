@@ -35,17 +35,81 @@
 <section class="page__section" aria-labelledby="examples-title">
   <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
 
+  <!-- Single: a view switcher that actually switches the view -->
   <app-demo-block [heading]="page().labels['single']" [code]="singleCode" [ts]="singleTs">
-    <div class="demo-stack">
+    <div class="demo-stack" style="width: 100%">
       <dm-toggle-group [(value)]="view" ariaLabel="Layout">
         <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
         <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
         <dm-toggle value="table">{{ page().labels['table'] }}</dm-toggle>
       </dm-toggle-group>
-      <span class="demo-output">{{ view() }}</span>
+
+      @switch (view()) {
+        @case ('grid') {
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+              gap: 0.5rem;
+              width: 100%;
+            "
+          >
+            @for (p of people; track p.name) {
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  gap: 0.5rem;
+                  padding: 0.875rem 0.5rem;
+                  text-align: center;
+                  border: 1px solid var(--dm-border);
+                  border-radius: var(--dm-radius-md);
+                "
+              >
+                <dm-avatar [initials]="p.initials" [alt]="p.name" size="2rem" />
+                <span style="font-size: 0.8125rem; font-weight: 500">{{ p.name }}</span>
+                <span style="font-size: 0.75rem; color: var(--dm-fg-muted)">{{ p.role }}</span>
+              </div>
+            }
+          </div>
+        }
+        @case ('table') {
+          <dm-table
+            style="width: 100%"
+            density="compact"
+            [columns]="peopleColumns()"
+            [data]="people"
+            [rowKey]="byName"
+          />
+        }
+        @default {
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              width: 100%;
+              border: 1px solid var(--dm-border);
+              border-radius: var(--dm-radius-md);
+            "
+          >
+            @for (p of people; track p.name; let last = $last) {
+              <div
+                style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem"
+                [style.border-bottom]="last ? null : '1px solid var(--dm-border)'"
+              >
+                <dm-avatar [initials]="p.initials" [alt]="p.name" size="1.5rem" />
+                <span style="flex: 1; font-size: 0.875rem">{{ p.name }}</span>
+                <span style="font-size: 0.8125rem; color: var(--dm-fg-muted)">{{ p.role }}</span>
+              </div>
+            }
+          </div>
+        }
+      }
     </div>
   </app-demo-block>
 
+  <!-- Multiple: a formatting toolbar that formats live -->
   <app-demo-block [heading]="page().labels['multiple']" [code]="multipleCode" [ts]="multipleTs">
     <div class="demo-stack">
       <dm-toggle-group multiple [(values)]="format" color="primary" ariaLabel="Text format">
@@ -55,12 +119,51 @@
           <span style="text-decoration: underline">U</span>
         </dm-toggle>
       </dm-toggle-group>
-      <span class="demo-output">{{ format().join(', ') || page().labels['none'] }}</span>
+      <p
+        style="max-width: 32rem; margin: 0; font-size: 1rem; line-height: 1.6"
+        [style.font-weight]="bold() ? 700 : 400"
+        [style.font-style]="italic() ? 'italic' : 'normal'"
+        [style.text-decoration]="underline() ? 'underline' : 'none'"
+      >
+        {{ page().labels['sampleText'] }}
+      </p>
+    </div>
+  </app-demo-block>
+
+  <!-- With icons: icon + label, and icon-only with ariaLabel -->
+  <app-demo-block [heading]="page().labels['withIcons']" [code]="iconsCode" [ts]="iconsTs">
+    <div class="demo-row" style="align-items: center; gap: 1rem">
+      <dm-toggle-group [(value)]="iconView" ariaLabel="Layout">
+        <dm-toggle value="list">
+          <dm-icon size="1.125rem">view_list</dm-icon>
+          {{ page().labels['list'] }}
+        </dm-toggle>
+        <dm-toggle value="grid">
+          <dm-icon size="1.125rem">grid_view</dm-icon>
+          {{ page().labels['grid'] }}
+        </dm-toggle>
+        <dm-toggle value="board">
+          <dm-icon size="1.125rem">view_kanban</dm-icon>
+          {{ page().labels['board'] }}
+        </dm-toggle>
+      </dm-toggle-group>
+
+      <dm-toggle-group color="primary" [(value)]="align" ariaLabel="Text align">
+        <dm-toggle value="left" [ariaLabel]="page().labels['alignLeft']">
+          <dm-icon size="1.125rem">format_align_left</dm-icon>
+        </dm-toggle>
+        <dm-toggle value="center" [ariaLabel]="page().labels['alignCenter']">
+          <dm-icon size="1.125rem">format_align_center</dm-icon>
+        </dm-toggle>
+        <dm-toggle value="right" [ariaLabel]="page().labels['alignRight']">
+          <dm-icon size="1.125rem">format_align_right</dm-icon>
+        </dm-toggle>
+      </dm-toggle-group>
     </div>
   </app-demo-block>
 
   <app-demo-block [heading]="page().labels['colors']" [code]="colorsCode" [ts]="colorsTs">
-    <div class="demo-stack">
+    <div class="demo-row" style="align-items: center; gap: 1rem">
       <dm-toggle-group color="primary" [(value)]="colorView" ariaLabel="Primary">
         <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
         <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
@@ -76,69 +179,137 @@
     </div>
   </app-demo-block>
 
+  <!-- Sizes: 32 / 40 / 48px outer, flush with a button of the same size -->
   <app-demo-block [heading]="page().labels['sizes']" [code]="sizesCode" [ts]="sizesTs">
-    <div class="demo-stack" style="align-items: center">
-      <dm-toggle-group size="sm" [(value)]="sizeView" ariaLabel="Small">
-        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
-        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+    <div class="demo-stack">
+      @for (s of ['sm', 'md', 'lg']; track s) {
+        <div class="demo-row" style="align-items: center">
+          <dm-toggle-group [size]="$any(s)" [(value)]="sizeView" [ariaLabel]="'Layout ' + s">
+            <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
+            <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+          </dm-toggle-group>
+          <dm-button [size]="$any(s)" variant="bordered">{{ page().labels['export'] }}</dm-button>
+        </div>
+      }
+    </div>
+  </app-demo-block>
+
+  <!-- Full width & vertical -->
+  <app-demo-block
+    [heading]="page().labels['fullWidthVertical']"
+    [code]="layoutCode"
+    [ts]="layoutTs"
+  >
+    <div class="demo-row" style="align-items: flex-start; gap: 1.5rem; width: 100%">
+      <dm-toggle-group
+        fullWidth
+        [(value)]="fullView"
+        ariaLabel="Range"
+        style="flex: 1 1 18rem; min-width: 14rem"
+      >
+        <dm-toggle value="day">{{ page().labels['day'] }}</dm-toggle>
+        <dm-toggle value="week">{{ page().labels['week'] }}</dm-toggle>
+        <dm-toggle value="month">{{ page().labels['month'] }}</dm-toggle>
       </dm-toggle-group>
-      <dm-toggle-group size="md" [(value)]="sizeView" ariaLabel="Medium">
-        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
-        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
-      </dm-toggle-group>
-      <dm-toggle-group size="lg" [(value)]="sizeView" ariaLabel="Large">
-        <dm-toggle value="list">{{ page().labels['list'] }}</dm-toggle>
-        <dm-toggle value="grid">{{ page().labels['grid'] }}</dm-toggle>
+
+      <dm-toggle-group
+        orientation="vertical"
+        [(value)]="sortView"
+        [ariaLabel]="page().labels['sortBy']"
+      >
+        <dm-toggle value="newest">{{ page().labels['newest'] }}</dm-toggle>
+        <dm-toggle value="oldest">{{ page().labels['oldest'] }}</dm-toggle>
+        <dm-toggle value="popular">{{ page().labels['popular'] }}</dm-toggle>
       </dm-toggle-group>
     </div>
   </app-demo-block>
 
-  <app-demo-block [heading]="page().labels['fullWidth']" [code]="fullWidthCode" [ts]="fullWidthTs">
-    <dm-toggle-group fullWidth [(value)]="fullView" ariaLabel="Range" style="width: 100%">
-      <dm-toggle value="day">{{ page().labels['day'] }}</dm-toggle>
-      <dm-toggle value="week">{{ page().labels['week'] }}</dm-toggle>
-      <dm-toggle value="month">{{ page().labels['month'] }}</dm-toggle>
-    </dm-toggle-group>
-  </app-demo-block>
-
+  <!-- Composition: pricing with a billing-period switch -->
   <app-demo-block
     [heading]="i18n.t().common.demos.composition"
     [code]="compositionCode"
     [ts]="compositionTs"
   >
-    <dm-card style="width: 100%; max-width: 30rem">
+    <dm-card style="width: 100%">
       <div
         style="
           display: flex;
+          flex-wrap: wrap;
           align-items: center;
           justify-content: space-between;
-          gap: 1rem;
-          flex-wrap: wrap;
+          gap: 0.75rem 1rem;
         "
       >
-        <strong>{{ page().labels['dashboardTitle'] }}</strong>
-        <dm-toggle-group size="sm" [(value)]="dashRange" [ariaLabel]="page().labels['rangeLabel']">
-          <dm-toggle value="day">{{ page().labels['day'] }}</dm-toggle>
-          <dm-toggle value="week">{{ page().labels['week'] }}</dm-toggle>
-          <dm-toggle value="month">{{ page().labels['month'] }}</dm-toggle>
+        <strong style="font-size: 1.0625rem">{{ page().labels['choosePlan'] }}</strong>
+        <dm-toggle-group size="sm" [(value)]="billing" [ariaLabel]="page().labels['billing']">
+          <dm-toggle value="monthly">{{ page().labels['monthly'] }}</dm-toggle>
+          <dm-toggle value="yearly">
+            {{ page().labels['yearly'] }}
+            <span style="font-size: 0.6875rem; font-weight: 600; color: var(--dm-success-text)">
+              −20%
+            </span>
+          </dm-toggle>
         </dm-toggle-group>
       </div>
 
-      <p style="color: var(--dm-fg-muted); margin: 0.75rem 0">
-        {{ page().labels['chartHint'] }} ({{ rangeCaption() }})
-      </p>
-
-      <dm-toggle-group size="sm" color="primary" [(value)]="dashAlign" ariaLabel="Text align">
-        <dm-toggle value="left" [ariaLabel]="page().labels['alignLeft']">
-          <dm-icon>format_align_left</dm-icon>
-        </dm-toggle>
-        <dm-toggle value="center" [ariaLabel]="page().labels['alignCenter']">
-          <dm-icon>format_align_center</dm-icon>
-        </dm-toggle>
-        <dm-toggle value="right" [ariaLabel]="page().labels['alignRight']">
-          <dm-icon>format_align_right</dm-icon>
-        </dm-toggle>
-      </dm-toggle-group>
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+          gap: 0.75rem;
+          margin-top: 1rem;
+        "
+      >
+        @for (p of plans; track p.key) {
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              padding: 1rem;
+              border: 1px solid var(--dm-border);
+              border-radius: var(--dm-radius-lg);
+            "
+            [style.border-color]="p.popular ? 'var(--dm-primary)' : 'var(--dm-border)'"
+          >
+            <div style="display: flex; align-items: center; justify-content: space-between">
+              <strong>{{ page().labels[p.nameKey] }}</strong>
+              @if (p.popular) {
+                <dm-badge color="primary" variant="flat" size="sm">
+                  {{ page().labels['mostPopular'] }}
+                </dm-badge>
+              }
+            </div>
+            <p style="margin: 0.75rem 0 0; font-size: 1.75rem; font-weight: 700; line-height: 1">
+              {{ price(p.monthly) }}
+              <span style="font-size: 0.875rem; font-weight: 500; color: var(--dm-fg-muted)">
+                {{ page().labels['perMonth'] }}
+              </span>
+            </p>
+            <p style="margin: 0.25rem 0 0; font-size: 0.8125rem; color: var(--dm-fg-muted)">
+              {{
+                billing() === 'yearly'
+                  ? page().labels['billedYearly']
+                  : page().labels['billedMonthly']
+              }}
+            </p>
+            <p style="flex: 1; margin: 0.75rem 0 0; font-size: 0.875rem; color: var(--dm-fg-muted)">
+              {{ page().labels[p.descKey] }}
+            </p>
+            <div style="display: grid; margin-top: 1rem">
+              <dm-button
+                size="sm"
+                [color]="p.popular ? 'primary' : 'default'"
+                [variant]="p.popular ? 'solid' : 'bordered'"
+                [disabled]="p.key === currentPlan"
+              >
+                {{
+                  p.key === currentPlan ? page().labels['currentPlan'] : page().labels['upgrade']
+                }}
+              </dm-button>
+            </div>
+          </div>
+        }
+      </div>
     </dm-card>
   </app-demo-block>
 </section>

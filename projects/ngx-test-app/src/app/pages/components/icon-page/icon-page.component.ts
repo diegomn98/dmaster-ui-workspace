@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import {
+  DmButtonComponent,
   DmCardComponent,
   DmIconColor,
   DmIconComponent,
@@ -105,6 +106,7 @@ const MODE_CONTROL: PropControl = {
   selector: 'app-icon-page',
   imports: [
     DmIconComponent,
+    DmButtonComponent,
     DmCardComponent,
     DmInputDirective,
     DemoBlockComponent,
@@ -395,6 +397,100 @@ export class IconPageComponent {
     '  changeDetection: ChangeDetectionStrategy.OnPush,',
     '})',
     'export class IconProjectedComponent {}',
+  ].join('\n');
+
+  // ---- Inline / fill toggle / in buttons --------------------------------------
+  protected readonly liked = signal(false);
+  protected readonly likes = signal(128);
+  protected readonly saved = signal(true);
+
+  protected toggleLike(): void {
+    const next = !this.liked();
+    this.liked.set(next);
+    this.likes.update((n) => n + (next ? 1 : -1));
+  }
+
+  protected readonly inlineCode = [
+    '<!-- size="1em" follows the text; the icon sits on the x-height, not the baseline -->',
+    '<p>',
+    '  Deployments <dm-icon size="1em" color="warning" [fill]="true">bolt</dm-icon>',
+    '  run in <dm-icon size="1em" name="globe" /> 12 regions and',
+    '  <dm-icon size="1em" color="success" name="check-circle" /> pass every check.',
+    '</p>',
+  ].join('\n');
+
+  protected readonly inlineTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-inline',",
+    '  imports: [DmIconComponent],',
+    "  templateUrl: './icon-inline.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class IconInlineComponent {}',
+  ].join('\n');
+
+  protected readonly fillCode = [
+    '<!-- The FILL axis interpolates: the heart fills in instead of snapping -->',
+    '<dm-button',
+    '  variant="bordered"',
+    "  [color]=\"liked() ? 'danger' : 'default'\"",
+    '  [attr.aria-pressed]="liked()"',
+    '  (clicked)="toggleLike()"',
+    '>',
+    '  <dm-icon size="1.25em" [fill]="liked()" [color]="liked() ? \'danger\' : \'\'">favorite</dm-icon>',
+    "  {{ liked() ? 'Liked' : 'Like' }} · {{ likes() }}",
+    '</dm-button>',
+  ].join('\n');
+
+  protected readonly fillTs = [
+    "import { ChangeDetectionStrategy, Component, signal } from '@angular/core';",
+    "import { DmButtonComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-like-button',",
+    '  imports: [DmButtonComponent, DmIconComponent],',
+    "  templateUrl: './like-button.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class LikeButtonComponent {',
+    '  protected readonly liked = signal(false);',
+    '  protected readonly likes = signal(128);',
+    '',
+    '  protected toggleLike(): void {',
+    '    const next = !this.liked();',
+    '    this.liked.set(next);',
+    '    this.likes.update((n) => n + (next ? 1 : -1));',
+    '  }',
+    '}',
+  ].join('\n');
+
+  protected readonly buttonsCode = [
+    '<!-- Leading, trailing, and icon-only (needs ariaLabel) -->',
+    '<dm-button color="primary">',
+    '  <dm-icon name="plus" size="1.15em" /> New project',
+    '</dm-button>',
+    '<dm-button variant="bordered">',
+    '  Open <dm-icon name="external-link" size="1.05em" />',
+    '</dm-button>',
+    '<dm-button variant="light" iconOnly ariaLabel="More options">',
+    '  <dm-icon name="more-horizontal" size="1.25em" />',
+    '</dm-button>',
+  ].join('\n');
+
+  protected readonly buttonsTs = [
+    "import { ChangeDetectionStrategy, Component } from '@angular/core';",
+    "import { DmButtonComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-buttons',",
+    '  imports: [DmButtonComponent, DmIconComponent],',
+    "  templateUrl: './icon-buttons.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class IconButtonsComponent {}',
   ].join('\n');
 
   protected readonly fontSetupCode = [

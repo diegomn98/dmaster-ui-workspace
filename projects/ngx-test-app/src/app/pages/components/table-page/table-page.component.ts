@@ -10,10 +10,12 @@ import {
   DmTableComponent,
   DmTableDensity,
   DmTableKey,
+  DmTableLoadFn,
   DmTableSelectionMode,
   DmTableVariant,
   DmToastService,
 } from '@dmaster/ui';
+import { delay, of, switchMap, throwError, timer } from 'rxjs';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -544,6 +546,129 @@ export class TablePageComponent {
     '}',
   ].join('\n');
 
+  // ---- Server-side pagination demo -----------------------------------------
+  protected readonly serverSelected = signal<DmTableKey[]>([]);
+  protected readonly lastRequest = signal('—');
+  private failNextRequest = false;
+
+  protected failNext(): void {
+    this.failNextRequest = true;
+  }
+
+  protected onLoadError(): void {
+    this.toast.danger(this.page().labels['loadFailed']);
+  }
+
+  /** Fake API over the 1,000-member dataset: filters, sorts and slices "server-side". */
+  protected readonly loadMembers: DmTableLoadFn<Member> = ({ page, pageSize, query, sort }) => {
+    const order = sort ? `${sort.column} ${sort.direction}` : 'unsorted';
+    this.lastRequest.set(`page ${page} · ${pageSize}/page · q="${query}" · ${order}`);
+    if (this.failNextRequest) {
+      this.failNextRequest = false;
+      return timer(450).pipe(
+        switchMap(() => throwError(() => new Error('503 Service Unavailable'))),
+      );
+    }
+    const q = query.trim().toLowerCase();
+    let rows = this.bigData();
+    if (q) {
+      rows = rows.filter((m) =>
+        [m.name, m.email, m.role, m.status].some((v) => v.toLowerCase().includes(q)),
+      );
+    }
+    if (sort) {
+      const key = sort.column as keyof Member;
+      const dir = sort.direction === 'asc' ? 1 : -1;
+      rows = [...rows].sort(
+        (a, b) => String(a[key]).localeCompare(String(b[key]), undefined, { numeric: true }) * dir,
+      );
+    }
+    const start = (page - 1) * pageSize;
+    return of({ items: rows.slice(start, start + pageSize), total: rows.length }).pipe(delay(450));
+  };
+
+  protected readonly serverCode = [
+    '<!-- loadFn fetches one page; search, sort, page and page size all round-trip. -->',
+    '<dm-table',
+    '  #members',
+    '  [loadFn]="loadMembers"',
+    '  [columns]="columns"',
+    '  [rowKey]="byId"',
+    '  [pageSize]="10"',
+    '  [pageSizeOptions]="[10, 25, 50]"',
+    '  [searchable]="true"',
+    '  selectionMode="multiple"',
+    '  [(selectedKeys)]="selected"',
+    '  loadErrorText="Could not load members"',
+    '  retryLabel="Retry"',
+    '  (loadError)="onLoadError()"',
+    '  caption="Members"',
+    '/>',
+    '',
+    '<!-- Re-fetch the current page after a mutation -->',
+    '<dm-button size="sm" variant="bordered" (clicked)="members.reload()">Reload</dm-button>',
+  ].join('\n');
+
+  protected readonly serverTs = [
+    "import { Component, inject, signal } from '@angular/core';",
+    "import { HttpClient } from '@angular/common/http';",
+    "import { map } from 'rxjs';",
+    'import {',
+    '  DmButtonComponent,',
+    '  DmTableColumn,',
+    '  DmTableComponent,',
+    '  DmTableKey,',
+    '  DmTableLoadFn,',
+    '  DmToastService,',
+    "} from '@dmaster/ui';",
+    '',
+    'interface Member {',
+    '  id: number;',
+    '  name: string;',
+    '  email: string;',
+    '  role: string;',
+    '  joined: string;',
+    '}',
+    '',
+    '@Component({',
+    "  selector: 'app-members-table',",
+    '  imports: [DmTableComponent, DmButtonComponent],',
+    "  templateUrl: './members-table.component.html',",
+    '})',
+    'export class MembersTableComponent {',
+    '  private readonly http = inject(HttpClient);',
+    '  private readonly toast = inject(DmToastService);',
+    '  protected readonly selected = signal<DmTableKey[]>([]);',
+    '  protected readonly byId = (row: Member) => row.id;',
+    '',
+    '  protected readonly columns: DmTableColumn<Member>[] = [',
+    "    { key: 'name', header: 'Name', sortable: true, nowrap: true },",
+    "    { key: 'email', header: 'Email', sortable: true },",
+    "    { key: 'role', header: 'Role', sortable: true },",
+    "    { key: 'joined', header: 'Joined', sortable: true, align: 'end', nowrap: true },",
+    '  ];',
+    '',
+    '  // Works directly with HttpClient. rxResource cancels a superseded request',
+    '  // (typing, paging, sorting); the table keeps the current rows on screen,',
+    '  // dimmed, until the next page lands. `page` is 1-indexed.',
+    '  protected readonly loadMembers: DmTableLoadFn<Member> = ({ page, pageSize, query, sort }) =>',
+    '    this.http',
+    "      .get<{ data: Member[]; total: number }>('/api/members', {",
+    '        params: {',
+    '          page,',
+    '          pageSize,',
+    '          q: query,',
+    "          sort: sort ? `${sort.column}:${sort.direction}` : '',",
+    '        },',
+    '      })',
+    '      .pipe(map((res) => ({ items: res.data, total: res.total })));',
+    '',
+    '  protected onLoadError(): void {',
+    "    this.toast.danger('Could not load members');",
+    '  }',
+    '}',
+  ].join('\n');
+
   // ---- Sticky header demo --------------------------------------------------
   protected readonly stickyCode = [
     '<!-- sticky pins the header inside a scroll container whose height is',
@@ -1068,6 +1193,32 @@ export class TablePageComponent {
         default: 'false',
         description: api['manualProcessing'],
       },
+      {
+        name: 'loadFn',
+        type: 'DmTableLoadFn<T> | null',
+        default: 'null',
+        description: api['loadFn'],
+      },
+      {
+        name: 'searchDebounceMs',
+        type: 'number',
+        default: '250',
+        description: api['searchDebounceMs'],
+      },
+      {
+        name: 'loadErrorText',
+        type: 'string',
+        default: "'Could not load rows'",
+        description: api['loadErrorText'],
+      },
+      { name: 'retryLabel', type: 'string', default: "'Retry'", description: api['retryLabel'] },
+      {
+        name: 'loadError',
+        type: 'output<unknown>',
+        default: '—',
+        description: api['loadErrorOut'],
+      },
+      { name: 'reload()', type: 'method', default: '—', description: api['reloadMethod'] },
       {
         name: 'rowClick',
         type: 'output<{row, index}>',

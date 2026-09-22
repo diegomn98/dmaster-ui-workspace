@@ -255,6 +255,64 @@ export class ToastPageComponent {
     '}',
   ].join('\n');
 
+  // Demo: promise() — one toast tracks an async op (loading → success / danger)
+  protected readonly savingPromise = signal(false);
+
+  protected saveWithPromise(succeed: boolean): void {
+    if (this.savingPromise()) {
+      return;
+    }
+    this.savingPromise.set(true);
+    const labels = this.page().labels;
+    const request = new Promise<number>((resolve, reject) => {
+      setTimeout(() => {
+        this.savingPromise.set(false);
+        if (succeed) {
+          resolve(3);
+        } else {
+          reject(new Error(labels['promiseErrorReason']));
+        }
+      }, 1600);
+    });
+    this.toast.promise(request, {
+      loading: labels['promiseLoading'],
+      success: (count) => `${count} ${labels['promiseSuccess']}`,
+      error: (err) => `${labels['promiseError']}: ${(err as Error).message}`,
+    });
+  }
+
+  protected readonly promiseCode = [
+    '<dm-button variant="flat" (clicked)="save(true)">Save (succeeds)</dm-button>',
+    '<dm-button variant="flat" color="danger" (clicked)="save(false)">Save (fails)</dm-button>',
+  ].join('\n');
+
+  protected readonly promiseTs = [
+    "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
+    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-toast-promise',",
+    '  imports: [DmButtonComponent],',
+    "  templateUrl: './toast-promise.component.html',",
+    '  changeDetection: ChangeDetectionStrategy.OnPush,',
+    '})',
+    'export class ToastPromiseComponent {',
+    '  private readonly toast = inject(DmToastService);',
+    '',
+    '  // ONE toast: a sticky spinner while the promise runs, then it updates in',
+    '  // place to success / danger with the normal auto-dismiss. Works with an',
+    '  // Observable too (its first value). success/error may be functions of the',
+    '  // resolved value / error.',
+    '  save(succeed: boolean): void {',
+    '    this.toast.promise(this.api.save(succeed), {',
+    "      loading: 'Saving changes…',",
+    '      success: (count) => `${count} changes saved`,',
+    '      error: (err) => `Could not save: ${err.message}`,',
+    '    });',
+    '  }',
+    '}',
+  ].join('\n');
+
   // Demo: programmatic control (DmToastRef + dismissAll)
   private uploadRef: DmToastRef | null = null;
   protected readonly uploading = signal(false);
@@ -540,6 +598,7 @@ export class ToastPageComponent {
         default: "'bottom-right'",
         description: api['position'],
       },
+      { name: 'maxVisible', type: 'number', default: '4', description: api['maxVisible'] },
     ];
   });
 }

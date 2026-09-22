@@ -216,6 +216,62 @@
     </div>
   </app-demo-block>
 
+  <!-- Inline: 1em icons sit on the x-height of running text -->
+  <app-demo-block [heading]="page().labels['inline']" [code]="inlineCode" [ts]="inlineTs">
+    <p style="max-width: 36rem; margin: 0; font-size: 1.0625rem; line-height: 1.6">
+      {{ page().labels['inline1'] }}
+      <dm-icon size="1em" color="warning" [fill]="true">bolt</dm-icon>
+      {{ page().labels['inline2'] }}
+      <dm-icon size="1em" name="globe" />
+      {{ page().labels['inline3'] }}
+      <dm-icon size="1em" color="success" name="check-circle" />
+      {{ page().labels['inline4'] }}
+    </p>
+  </app-demo-block>
+
+  <!-- Fill toggles morph: the FILL axis interpolates instead of snapping -->
+  <app-demo-block [heading]="page().labels['toggleFill']" [code]="fillCode" [ts]="fillTs">
+    <div class="demo-row" style="align-items: center">
+      <dm-button
+        variant="bordered"
+        [color]="liked() ? 'danger' : 'default'"
+        [attr.aria-pressed]="liked()"
+        (clicked)="toggleLike()"
+      >
+        <dm-icon size="1.25em" [fill]="liked()" [color]="liked() ? 'danger' : ''">favorite</dm-icon>
+        {{ liked() ? page().labels['liked'] : page().labels['like'] }} · {{ likes() }}
+      </dm-button>
+      <dm-button
+        variant="bordered"
+        [color]="saved() ? 'primary' : 'default'"
+        [attr.aria-pressed]="saved()"
+        (clicked)="saved.set(!saved())"
+      >
+        <dm-icon size="1.25em" [fill]="saved()" [color]="saved() ? 'primary' : ''"
+          >bookmark</dm-icon
+        >
+        {{ saved() ? page().labels['saved'] : page().labels['save'] }}
+      </dm-button>
+    </div>
+  </app-demo-block>
+
+  <!-- In buttons: the most common home for an icon -->
+  <app-demo-block [heading]="page().labels['inButtons']" [code]="buttonsCode" [ts]="buttonsTs">
+    <div class="demo-row" style="align-items: center">
+      <dm-button color="primary">
+        <dm-icon name="plus" size="1.15em" />
+        {{ page().labels['newProject'] }}
+      </dm-button>
+      <dm-button variant="bordered">
+        {{ page().labels['open'] }}
+        <dm-icon name="external-link" size="1.05em" />
+      </dm-button>
+      <dm-button variant="light" iconOnly [ariaLabel]="page().labels['more']">
+        <dm-icon name="more-horizontal" size="1.25em" />
+      </dm-button>
+    </div>
+  </app-demo-block>
+
   <app-demo-block
     [heading]="i18n.t().common.demos.composition"
     [code]="compositionCode"
