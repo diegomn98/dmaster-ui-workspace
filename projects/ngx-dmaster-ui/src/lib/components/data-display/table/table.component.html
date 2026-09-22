@@ -1,3 +1,22 @@
+<!-- One arrow: points up for asc, rotates to point down for desc (see SCSS). -->
+<ng-template #sortIcon>
+  <svg
+    class="dm-table__sort-icon"
+    viewBox="0 0 16 16"
+    width="14"
+    height="14"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.75"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <path d="M8 13V3M4.5 6.5 8 3l3.5 3.5" />
+  </svg>
+</ng-template>
+
 <div
   class="dm-table"
   [attr.data-density]="density()"
@@ -5,9 +24,14 @@
   [attr.data-hover]="hover() ? '' : null"
 >
   <!-- ---- Toolbar ---------------------------------------------------------- -->
-  @if (searchable() || selectedCount() > 0) {
+  @if (searchable() || selectedCount() > 0 || caption()) {
     <div class="dm-table__toolbar">
       <div class="dm-table__toolbar-start">
+        <!-- Presentational: the <caption> below is the accessible name. -->
+        @if (caption()) {
+          <span class="dm-table__title" aria-hidden="true">{{ caption() }}</span>
+        }
+
         @if (searchable()) {
           <div class="dm-table__search" [class.dm-table__search--filled]="searchTerm().length > 0">
             <svg
@@ -58,8 +82,23 @@
         @if (selectedCount() > 0) {
           <div class="dm-table__selection" role="status">
             <span class="dm-table__selection-count">{{ selectedLabel()(selectedCount()) }}</span>
-            <button type="button" class="dm-table__selection-clear" (click)="clearSelection()">
-              {{ clearSelectionLabel() }}
+            <button
+              type="button"
+              class="dm-table__selection-clear"
+              [attr.aria-label]="clearSelectionLabel()"
+              (click)="clearSelection()"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M18 6 6 18M6 6l12 12" />
+              </svg>
             </button>
           </div>
         }
@@ -79,7 +118,7 @@
       [style.--dm-table-cols]="gridTemplate()"
       [attr.aria-label]="ariaLabel() || null"
       [attr.aria-labelledby]="!ariaLabel() && caption() ? captionId : null"
-      [attr.aria-busy]="loading() ? 'true' : null"
+      [attr.aria-busy]="isBusy() ? 'true' : null"
     >
       @if (caption()) {
         <div [id]="captionId" class="dm-table__caption dm-table__caption--grid">
@@ -122,23 +161,7 @@
                   (click)="onSort(col)"
                 >
                   <span class="dm-table__sort-label">{{ col.header }}</span>
-                  <svg
-                    class="dm-table__sort-icon"
-                    viewBox="0 0 8 12"
-                    width="8"
-                    height="12"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path
-                      class="dm-table__sort-arrow dm-table__sort-arrow--up"
-                      d="M4 0 L8 4 L0 4 Z"
-                    />
-                    <path
-                      class="dm-table__sort-arrow dm-table__sort-arrow--down"
-                      d="M4 12 L0 8 L8 8 Z"
-                    />
-                  </svg>
+                  <ng-container [ngTemplateOutlet]="sortIcon" />
                 </button>
               } @else {
                 <span class="dm-table__label">{{ col.header }}</span>
@@ -148,7 +171,7 @@
         </div>
       </div>
 
-      @if (loading()) {
+      @if (showSkeleton()) {
         <div class="dm-table__vbody" role="rowgroup">
           @for (r of skeletonRows(); track r) {
             <div
@@ -168,6 +191,32 @@
               }
             </div>
           }
+        </div>
+      } @else if (hasLoadError()) {
+        <div class="dm-table__vbody" role="rowgroup">
+          <div class="dm-table__vrow dm-table__vrow--empty" role="row">
+            <div class="dm-table__empty-cell" role="cell">
+              <div class="dm-table__empty dm-table__empty--error" role="alert">
+                <svg
+                  class="dm-table__empty-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 8v4M12 16h.01" />
+                </svg>
+                <p class="dm-table__empty-text">{{ loadErrorText() }}</p>
+                <dm-button size="sm" variant="bordered" (clicked)="reload()">
+                  {{ retryLabel() }}
+                </dm-button>
+              </div>
+            </div>
+          </div>
         </div>
       } @else if (isEmpty()) {
         <div class="dm-table__vbody" role="rowgroup">
@@ -211,7 +260,10 @@
           role="rowgroup"
           [itemSize]="rowHeight()"
           [style.height]="viewportHeight()"
+          [attr.data-revealing]="revealing() ? '' : null"
+          [attr.data-refreshing]="refreshing() ? '' : null"
           (scroll)="onViewportScroll()"
+          (animationend)="onRowsAnimationEnd($event)"
         >
           <!-- Row click is a mouse convenience mirroring the native <tr (click)> path
                (this is role="table", a static table — not an interactive role="grid").
@@ -222,7 +274,9 @@
             *cdkVirtualFor="let row of pagedRows(); let idx = index; trackBy: vTrackBy"
             class="dm-table__vrow"
             role="row"
+            data-row
             [style.height.px]="rowHeight()"
+            [style.--dm-table-row-i]="idx"
             [attr.data-even]="idx % 2 === 1 ? '' : null"
             [attr.data-selected]="isSelected(row, idx) ? '' : null"
             [attr.aria-selected]="hasSelection() ? isSelected(row, idx) : null"
@@ -250,6 +304,7 @@
                 role="cell"
                 [attr.data-align]="col.align || 'start'"
                 [attr.data-sorted]="sortState()?.column === col.key ? '' : null"
+                [attr.data-nowrap]="col.nowrap ? '' : null"
               >
                 @if (cellTemplateFor(col); as tpl) {
                   <ng-container
@@ -257,7 +312,8 @@
                     [ngTemplateOutletContext]="cellContext(row, idx, col)"
                   />
                 } @else {
-                  {{ getCellValue(row, col) }}
+                  <!-- Ellipsis needs a block: bare text in a flex cell never truncates. -->
+                  <span class="dm-table__vcell-text">{{ getCellValue(row, col) }}</span>
                 }
               </div>
             }
@@ -271,7 +327,7 @@
       <table
         class="dm-table__table"
         [attr.aria-label]="ariaLabel() || null"
-        [attr.aria-busy]="loading() ? 'true' : null"
+        [attr.aria-busy]="isBusy() ? 'true' : null"
       >
         @if (caption()) {
           <caption class="dm-table__caption">
@@ -313,23 +369,7 @@
                     (click)="onSort(col)"
                   >
                     <span class="dm-table__sort-label">{{ col.header }}</span>
-                    <svg
-                      class="dm-table__sort-icon"
-                      viewBox="0 0 8 12"
-                      width="8"
-                      height="12"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path
-                        class="dm-table__sort-arrow dm-table__sort-arrow--up"
-                        d="M4 0 L8 4 L0 4 Z"
-                      />
-                      <path
-                        class="dm-table__sort-arrow dm-table__sort-arrow--down"
-                        d="M4 12 L0 8 L8 8 Z"
-                      />
-                    </svg>
+                    <ng-container [ngTemplateOutlet]="sortIcon" />
                   </button>
                 } @else {
                   <span class="dm-table__label">{{ col.header }}</span>
@@ -339,8 +379,13 @@
           </tr>
         </thead>
 
-        <tbody class="dm-table__body">
-          @if (loading()) {
+        <tbody
+          class="dm-table__body"
+          [attr.data-revealing]="revealing() ? '' : null"
+          [attr.data-refreshing]="refreshing() ? '' : null"
+          (animationend)="onRowsAnimationEnd($event)"
+        >
+          @if (showSkeleton()) {
             @for (r of skeletonRows(); track r) {
               <tr class="dm-table__tr dm-table__tr--skeleton">
                 @if (hasSelection()) {
@@ -355,6 +400,30 @@
                 }
               </tr>
             }
+          } @else if (hasLoadError()) {
+            <tr>
+              <td [attr.colspan]="colspan()" class="dm-table__empty-cell">
+                <div class="dm-table__empty dm-table__empty--error" role="alert">
+                  <svg
+                    class="dm-table__empty-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 8v4M12 16h.01" />
+                  </svg>
+                  <p class="dm-table__empty-text">{{ loadErrorText() }}</p>
+                  <dm-button size="sm" variant="bordered" (clicked)="reload()">
+                    {{ retryLabel() }}
+                  </dm-button>
+                </div>
+              </td>
+            </tr>
           } @else if (isEmpty()) {
             <tr>
               <td [attr.colspan]="colspan()" class="dm-table__empty-cell">
@@ -393,6 +462,8 @@
             @for (row of pagedRows(); track trackFn(row, $index); let idx = $index) {
               <tr
                 class="dm-table__tr"
+                data-row
+                [style.--dm-table-row-i]="idx"
                 [attr.data-selected]="isSelected(row, idx) ? '' : null"
                 [attr.aria-selected]="hasSelection() ? isSelected(row, idx) : null"
                 (click)="onRowClick(row, idx)"
@@ -411,6 +482,7 @@
                     class="dm-table__td"
                     [attr.data-align]="col.align || 'start'"
                     [attr.data-sorted]="sortState()?.column === col.key ? '' : null"
+                    [attr.data-nowrap]="col.nowrap ? '' : null"
                   >
                     @if (cellTemplateFor(col); as tpl) {
                       <ng-container
@@ -468,64 +540,16 @@
           </label>
         }
 
-        <nav class="dm-table__pager" [attr.aria-label]="pageLabel()(safePage(), pageCount())">
-          <button
-            type="button"
-            class="dm-table__pager-arrow"
-            [attr.aria-label]="prevPageLabel()"
-            [disabled]="safePage() <= 1"
-            (click)="prevPage()"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m15 18-6-6 6-6" />
-            </svg>
-          </button>
-
-          @for (item of pageItems(); track item.kind === 'page' ? 'p' + item.page : item.id) {
-            @if (item.kind === 'page') {
-              <button
-                type="button"
-                class="dm-table__page"
-                [class.dm-table__page--active]="item.page === safePage()"
-                [attr.aria-current]="item.page === safePage() ? 'page' : null"
-                [attr.aria-label]="'Page ' + item.page"
-                (click)="setPage(item.page)"
-              >
-                {{ item.page }}
-              </button>
-            } @else {
-              <span class="dm-table__page-gap" aria-hidden="true">…</span>
-            }
-          }
-
-          <button
-            type="button"
-            class="dm-table__pager-arrow"
-            [attr.aria-label]="nextPageLabel()"
-            [disabled]="safePage() >= pageCount()"
-            (click)="nextPage()"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </button>
-        </nav>
+        <dm-pagination
+          class="dm-table__pager"
+          size="sm"
+          [totalPages]="pageCount()"
+          [page]="safePage()"
+          [ariaLabel]="pageLabel()(safePage(), pageCount())"
+          [prevLabel]="prevPageLabel()"
+          [nextLabel]="nextPageLabel()"
+          (pageChange)="setPage($event)"
+        />
       </div>
     </div>
   }

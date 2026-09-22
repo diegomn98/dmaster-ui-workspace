@@ -1,0 +1,175 @@
+<header class="page__header">
+  <p class="page__category">{{ i18n.t().shell.nav.primitives }}</p>
+  <h1 class="page__title">Chip</h1>
+  <p class="page__lead" [innerHTML]="page().lead"></p>
+  <app-code-snippet
+    language="ts"
+    code="import &#123; DmChipComponent, DmChipSetComponent &#125; from '@dmaster/ui';"
+  />
+</header>
+
+<section class="page__section" aria-labelledby="playground-title">
+  <h2 class="page__section-title" id="playground-title">{{ i18n.t().common.playgroundTitle }}</h2>
+  <p class="page__section-desc">{{ i18n.t().common.playgroundDesc }}</p>
+
+  <div class="page__playground-preview">
+    @if (pgAlive()) {
+      <dm-chip
+        [color]="pgColor()"
+        [variant]="pgVariant()"
+        [size]="pgSize()"
+        [removable]="pgRemovable()"
+        [selectable]="pgSelectable()"
+        [disabled]="pgDisabled()"
+        [(selected)]="pgSelected"
+        (removed)="onPlaygroundRemoved()"
+      >
+        Chip
+      </dm-chip>
+    }
+  </div>
+
+  <app-prop-signal [controls]="controls" [(values)]="playground" />
+  <app-code-snippet [code]="playgroundCode()" language="html" />
+</section>
+
+<section class="page__section" aria-labelledby="examples-title">
+  <h2 class="page__section-title" id="examples-title">{{ i18n.t().common.examplesTitle }}</h2>
+
+  <app-demo-block [heading]="page().labels['inputHeading']" [code]="inputCode" [ts]="inputTs">
+    <div class="demo-stack">
+      <dm-chip-set [ariaLabel]="page().labels['inputHeading']">
+        @for (tag of tags(); track tag) {
+          <dm-chip removable (removed)="removeTag(tag)">{{ tag }}</dm-chip>
+        }
+      </dm-chip-set>
+      @if (tags().length === 0) {
+        <dm-button size="sm" variant="bordered" (clicked)="resetTags()">
+          {{ page().labels['addTag'] }}
+        </dm-button>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['filterHeading']" [code]="filterCode" [ts]="filterTs">
+    <div class="demo-stack">
+      <dm-chip-set
+        selection="multiple"
+        [(values)]="filters"
+        [ariaLabel]="page().labels['filtersAria']"
+      >
+        <dm-chip selectable value="new" color="primary">New</dm-chip>
+        <dm-chip selectable value="sale" color="primary">On sale</dm-chip>
+        <dm-chip selectable value="stock" color="primary">In stock</dm-chip>
+        <dm-chip selectable value="free" color="primary">Free shipping</dm-chip>
+      </dm-chip-set>
+      <span class="demo-output">{{ selectedFiltersText() }}</span>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['actionHeading']" [code]="actionCode" [ts]="actionTs">
+    <div class="demo-stack">
+      <dm-chip-set [ariaLabel]="page().labels['actionHeading']">
+        <dm-chip clickable color="primary" [disabled]="pool().length === 0" (chipClick)="addTag()">
+          <dm-icon dm-chip-leading name="plus" size="sm" />{{ page().labels['addTag'] }}
+        </dm-chip>
+        <dm-chip clickable [disabled]="added().length === 0" (chipClick)="clearTags()">
+          <dm-icon dm-chip-leading name="trash" size="sm" />{{ page().labels['clearAll'] }}
+        </dm-chip>
+      </dm-chip-set>
+      <dm-chip-set [ariaLabel]="page().labels['inputHeading']" style="min-height: 1.75rem">
+        @for (tag of added(); track tag) {
+          <dm-chip removable color="secondary" (removed)="dropAdded(tag)">{{ tag }}</dm-chip>
+        }
+      </dm-chip-set>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['colorsHeading']" [code]="colorsCode" [ts]="colorsTs">
+    <div class="demo-row">
+      @for (c of colors; track c) {
+        <dm-chip [color]="c">{{ c }}</dm-chip>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="page().labels['variantsHeading']"
+    [code]="variantsCode"
+    [ts]="variantsTs"
+  >
+    <div class="demo-row">
+      @for (v of variants; track v) {
+        <dm-chip color="primary" [variant]="v">{{ v }}</dm-chip>
+      }
+    </div>
+  </app-demo-block>
+
+  <app-demo-block [heading]="page().labels['sizesHeading']" [code]="sizesCode" [ts]="sizesTs">
+    <div style="display: flex; flex-direction: column; gap: 1rem">
+      <div class="demo-row" style="align-items: center">
+        <dm-chip color="primary" size="sm">sm</dm-chip>
+        <dm-chip color="primary" size="md">md</dm-chip>
+        <dm-chip color="primary" size="lg">lg</dm-chip>
+      </div>
+      <div class="demo-row" style="align-items: center">
+        <dm-chip color="primary" radius="sm">sm</dm-chip>
+        <dm-chip color="primary" radius="md">md</dm-chip>
+        <dm-chip color="primary" radius="lg">lg</dm-chip>
+        <dm-chip color="primary" radius="full">full</dm-chip>
+      </div>
+    </div>
+  </app-demo-block>
+
+  <app-demo-block
+    [heading]="i18n.t().common.demos.composition"
+    [code]="compositionCode"
+    [ts]="compositionTs"
+  >
+    <dm-card style="width: 100%; max-width: 26rem">
+      <div style="display: flex; flex-direction: column; gap: 1rem">
+        <div style="display: flex; align-items: center; gap: 0.75rem">
+          <dm-avatar initials="DM" color="primary" />
+          <div style="flex: 1; min-width: 0">
+            <strong>Diego Maestro</strong>
+            <p style="margin: 0.1rem 0 0; color: var(--dm-fg-muted); font-size: 0.875rem">
+              {{ page().labels['compRole'] }}
+            </p>
+          </div>
+          <dm-button size="sm" variant="bordered">Follow</dm-button>
+        </div>
+
+        <div>
+          <p style="margin: 0 0 0.5rem; color: var(--dm-fg-muted); font-size: 0.8125rem">
+            {{ page().labels['compSkills'] }}
+          </p>
+          <dm-chip-set [ariaLabel]="page().labels['compSkills']">
+            <dm-chip size="sm" color="primary">Angular</dm-chip>
+            <dm-chip size="sm">TypeScript</dm-chip>
+            <dm-chip size="sm">RxJS</dm-chip>
+            <dm-chip size="sm">CSS</dm-chip>
+            <dm-chip size="sm">a11y</dm-chip>
+          </dm-chip-set>
+        </div>
+      </div>
+    </dm-card>
+  </app-demo-block>
+</section>
+
+<section class="page__section" aria-labelledby="api-title">
+  <h2 class="page__section-title" id="api-title">{{ i18n.t().common.apiTitle }}</h2>
+  <app-api-table [rows]="apiRows()" [caption]="page().apiCaption" />
+
+  <h3 class="page__subsection-title">{{ i18n.t().common.defaultsTitle }}</h3>
+  <p class="page__section-desc" [innerHTML]="page().defaultsDesc"></p>
+  <app-code-snippet [code]="defaultsCode" language="ts" />
+</section>
+
+<section class="page__section" aria-labelledby="a11y-title">
+  <h2 class="page__section-title" id="a11y-title">{{ i18n.t().common.a11yTitle }}</h2>
+  <ul class="page__list">
+    @for (item of page().a11yItems; track $index) {
+      <li [innerHTML]="item"></li>
+    }
+  </ul>
+</section>

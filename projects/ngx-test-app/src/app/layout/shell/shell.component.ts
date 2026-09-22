@@ -92,6 +92,7 @@ export class ShellComponent implements OnInit {
           { label: t.shell.nav.skeleton, path: '/components/skeleton' },
           { label: t.shell.nav.spinner, path: '/components/spinner' },
           { label: t.shell.nav.badge, path: '/components/badge' },
+          { label: t.shell.nav.chip, path: '/components/chip' },
           { label: t.shell.nav.avatar, path: '/components/avatar' },
           { label: t.shell.nav.icon, path: '/components/icon' },
           { label: t.shell.nav.kbd, path: '/components/kbd' },

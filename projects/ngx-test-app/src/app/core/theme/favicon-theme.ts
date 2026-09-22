@@ -71,13 +71,17 @@ export class FaviconThemeService {
       'font-size="31" font-weight="700" letter-spacing="-2.5" fill="#ffffff">dm</text>' +
       '</svg>';
 
-    let link = this.document.querySelector<HTMLLinkElement>('link[rel="icon"]');
+    // Target ONLY the SVG favicon link (modern browser tabs) so the static
+    // .ico / PNG links stay intact for Google Search and older browsers.
+    let link = this.document.querySelector<HTMLLinkElement>(
+      'link[rel="icon"][type="image/svg+xml"]',
+    );
     if (!link) {
       link = this.document.createElement('link');
       link.rel = 'icon';
+      link.type = 'image/svg+xml';
       this.document.head.appendChild(link);
     }
-    link.type = 'image/svg+xml';
     link.href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
   }
 }

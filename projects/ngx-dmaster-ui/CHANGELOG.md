@@ -7,6 +7,124 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-09-22
+
+### Added
+
+- **`dm-chip` + `dm-chip-set`** — interactive chips (the interactive sibling of
+  `dm-badge`). One `dm-chip` covers input/tag (`removable`, with `Delete`/
+  `Backspace` removal), filter/choice (`selectable` + `[(selected)]`) and
+  action (`clickable` + `(chipClick)`) chips, across the full `color` ×
+  `variant` × `size` × `radius` system, with per-variant hover, elastic press
+  and a focus ring that follows the pill. Motion with intent: chips added to a
+  live set grow in, removed chips fold their width so neighbours slide (the
+  initial render never animates; all off under reduced motion). `dm-chip-set`
+  groups them with wrapping layout, roving-tabindex keyboard and optional
+  `single`/`multiple` selection (CVA). Fully token-pure and WCAG-2.1-AA
+  accessible (`role="group"` + `aria-pressed`, no nested buttons).
+- **`dm-table` — server-side pagination via `loadFn`.** Pass
+  `[loadFn]="({ page, pageSize, query, sort }) => Observable<{ items, total }>"`
+  instead of `data` and the table becomes server-driven — the same contract as
+  `dm-select`'s async mode: search (debounced by `searchDebounceMs`), sort,
+  page and page size all round-trip to the API one page at a time through
+  `rxResource`, so a superseded request is cancelled. The skeleton shows only
+  for the first fetch; later pages keep the current rows on screen, dimmed
+  after a 150 ms grace period, until the new page lands. A failed request shows
+  an error state (`loadErrorText`, `role="alert"`) with a retry button
+  (`retryLabel`), emits `(loadError)` and never auto-retries. Selection works
+  across pages (`selectionChange` resolves rows loaded earlier). New public
+  `reload()` re-fetches the current page after a mutation; `data` is no longer
+  required. Types: `DmTableLoadFn`, `DmTableLoadParams`, `DmTableLoadResult`.
+  Docs: a live "Server-side pagination" demo with a request readout, a Reload
+  button and a "fail next request" button that shows the error state.
+
+### Changed
+
+- **`dm-toast` — queue, pause-on-hover, swipe, `promise()` and animated exit.**
+  The service now owns a real queue: at most `maxVisible` toasts (default 4)
+  show at once and the rest wait, each timer starting only when its toast
+  appears. Hovering or focusing the stack **pauses** every auto-dismiss timer
+  (`pause()` / `resume()`) so a toast never vanishes mid-read, and a toast can
+  be **swiped away** with the pointer. Dismissed toasts now play an **exit
+  animation** and the stack folds its row instead of jumping. New
+  `loading(message)` (a spinner variant), `promise(input, { loading, success,
+error })` that tracks a Promise **or** Observable in one toast (updating it in
+  place from spinner to success/danger), and `DmToastRef.update(patch)` to
+  change a live toast (a new `duration` restarts its timer). Danger toasts are
+  announced as `role="alert"`; the surface gains a hairline ring
+  (`--dm-toast-border`) so a light toast reads over a light page. Position-aware
+  motion (the stack enters from and leaves toward its anchored edge). Docs page:
+  a `promise()` demo and hints for the pause/swipe behaviour.
+- **`dm-toggle-group`** — the selection now moves. In single mode one sliding
+  thumb glides and resizes between segments (`--dm-ease-snappy`, both
+  orientations, `fullWidth`, re-measured on resize / font load via
+  `ResizeObserver`); the segment fills itself only while there is no thumb —
+  server render, before hydration, multiple mode — so the prerendered HTML
+  already shows the selection and nothing flashes, and the first paint never
+  slides in. Pressed segments dip their label and spring back. Outer heights
+  are now **32 / 40 / 48 px** (were 36 / 42 / 50) so a group sits flush next
+  to a button or a field of the same size. Docs page reworked: a view switcher
+  that switches a live list / grid / table, a formatting toolbar that formats
+  a sentence, icon + icon-only segments, sizes next to matching buttons,
+  full-width + vertical, and a pricing composition with a monthly / yearly
+  switch.
+- **`dm-icon`** — optical precision and motion with intent. The Material
+  Symbols `opsz` axis now follows the rendered size (16px → 20 … capped at 48)
+  so small icons keep legible strokes; `fill`, `weight` and `color` transition
+  on the motion tokens (a heart fills in instead of snapping); and the host is
+  `vertical-align: middle`, so a `size="1em"` icon sits on the x-height of
+  running text. Docs page: inline-with-text, a like / save button that morphs
+  its fill, and icons in buttons (leading, trailing, icon-only).
+- **`dm-button-group`** — segment states designed for a rigid bar. Inside a
+  group the standalone button's opacity dim (near-invisible on flat fills) and
+  elastic scale (would deform the bar) are replaced by fill-based feedback:
+  hover deepens the segment one step per variant, press deepens it one more and
+  dips only the label (`--dm-button-group-press-scale`), springing back on
+  release. The focus ring is now drawn _inside_ the focused segment
+  (`--dm-button-group-ring`, `currentColor`) instead of an outer ring that
+  overlapped both neighbours. A lone `dm-icon` in a `dmMenuTrigger` segment
+  (the split-button caret) rotates while its menu is open. All on the motion
+  tokens, so reduced motion collapses it to an instant change. Docs page
+  reworked: glyph-only segments use `iconOnly`, and every demo now does
+  something (bounded pager, live zoom, `loading → success` split button, a
+  photo-editor composition with rotate / zoom / flip).
+- **`dm-table`** — redesigned as one quiet card instead of three stacked
+  bands. The caption is drawn as the **toolbar title** (the `<caption>` stays
+  in the DOM, visually hidden, as the accessible name); column headers are
+  sentence case, medium weight and muted with no fill (`--dm-table-header-bg`
+  now defaults to `transparent`; sticky headers stay opaque); rows sit on a
+  fixed rhythm — 44px comfortable / 36 compact / 52 spacious
+  (`--dm-table-row-height`, `--dm-table-header-height`) — with 12px inner and
+  16px edge cell padding, so text rows and rows holding avatars or badges
+  align. Hover and zebra fills are ink washes (`color-mix` of `--dm-fg`) that
+  read in light _and_ dark; the old `--dm-bg-subtle` was invisible on white.
+  The toolbar search and the rows-per-page field follow the field-family
+  contract (flat muted surface, elevate + primary ring on focus, 32px); the
+  selection chip is a dismissible pill (its × carries `clearSelectionLabel`);
+  the footer pager **is `dm-pagination`** (size `sm`) instead of a private
+  copy. Motion with intent: one sort arrow that previews ascending on hover,
+  turns solid when sorted and flips for descending, with an accent underline
+  that grows from the centre and moves between columns; rows that replace the
+  loading skeleton rise in with a short stagger (only on a `loading → data`
+  transition — never on the initial render, paging, sorting or searching;
+  skipped under reduced motion); the chip and the clear button pop in, the
+  empty state fades in. New: `--dm-table-frame-border` (set `0` to embed the
+  table flush inside a card) and the column option `nowrap` for dates / ids.
+  Docs page: sticky-header demo, a `Reload` that shows the reveal, a toolbar
+  `Invite` that answers, and a single-frame admin-panel composition with rich
+  cells and a bulk `Remove` in the toolbar.
+
+### Fixed
+
+- **`dm-table`** — `sticky` never engaged: the scroll wrapper inherited
+  `max-height: none`, so it grew with the table and never scrolled. Sticky mode
+  now bounds the body to `--dm-table-max-height` (`28rem` by default) and
+  scrolls inside it.
+- **`dm-table`** — the selection chip wrapped under the search box even with a
+  full row of free space (the search's percentage width resolved cyclically
+  inside an auto-sized flex item). The toolbar's start group now takes the
+  available width.
+
 ## [0.10.3] - 2026-09-01
 
 ### Changed
@@ -708,6 +826,7 @@ Initial public surface.
 - Per-component injectable defaults (`provideXxxDefaults()`), global `provideDmasterUI()`.
 - Flat, pill-radius design language: flat fills, pill radii, elastic press, color × variant tokens.
 
+[0.11.0]: https://github.com/diegomn98/dmaster-ui-workspace/compare/v0.10.3...v0.11.0
 [0.10.3]: https://github.com/diegomn98/dmaster-ui-workspace/compare/v0.10.2...v0.10.3
 [0.10.2]: https://github.com/diegomn98/dmaster-ui-workspace/compare/v0.10.1...v0.10.2
 [0.10.1]: https://github.com/diegomn98/dmaster-ui-workspace/compare/v0.10.0...v0.10.1

@@ -1,8 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
+  DmAvatarComponent,
+  DmBadgeComponent,
+  DmButtonComponent,
   DmCardComponent,
   DmIconComponent,
+  DmTableColumn,
+  DmTableComponent,
   DmToggleComponent,
   DmToggleGroupColor,
   DmToggleGroupComponent,
@@ -23,8 +28,12 @@ import { PropControl, PropValues } from '../../../shared/prop-signal/prop-signal
   imports: [
     DmToggleGroupComponent,
     DmToggleComponent,
+    DmAvatarComponent,
+    DmBadgeComponent,
+    DmButtonComponent,
     DmCardComponent,
     DmIconComponent,
+    DmTableComponent,
     DemoBlockComponent,
     ApiTableComponent,
     CodeSnippetComponent,
@@ -112,23 +121,51 @@ export class ToggleGroupPageComponent {
     ].join('\n');
   });
 
-  // Demo signals
+  // ---- Demo state ----------------------------------------------------------
   protected readonly view = signal<unknown>('list');
-  protected readonly range = signal<unknown>('week');
   protected readonly format = signal<unknown[]>(['bold']);
+  protected readonly iconView = signal<unknown>('grid');
   protected readonly align = signal<unknown>('left');
   protected readonly colorView = signal<unknown>('grid');
   protected readonly sizeView = signal<unknown>('grid');
-  protected readonly fullView = signal<unknown>('day');
-  protected readonly vertView = signal<unknown>('list');
+  protected readonly fullView = signal<unknown>('week');
+  protected readonly sortView = signal<unknown>('newest');
 
-  // Demo code
+  /** People rendered by the live view switcher. */
+  protected readonly people = [
+    { name: 'Ada Lovelace', role: 'Owner', initials: 'AL' },
+    { name: 'Alan Turing', role: 'Admin', initials: 'AT' },
+    { name: 'Grace Hopper', role: 'Editor', initials: 'GH' },
+    { name: 'Katherine Johnson', role: 'Editor', initials: 'KJ' },
+    { name: 'Linus Torvalds', role: 'Viewer', initials: 'LT' },
+    { name: 'Margaret Hamilton', role: 'Admin', initials: 'MH' },
+  ];
+  protected readonly byName = (p: { name: string }) => p.name;
+  protected readonly peopleColumns = computed<DmTableColumn<{ name: string; role: string }>[]>(
+    () => [
+      { key: 'name', header: this.page().labels['name'], nowrap: true },
+      { key: 'role', header: this.page().labels['role'] },
+    ],
+  );
+
+  protected readonly bold = computed(() => this.format().includes('bold'));
+  protected readonly italic = computed(() => this.format().includes('italic'));
+  protected readonly underline = computed(() => this.format().includes('underline'));
+
+  // ---- Demo code -------------------------------------------------------------
   protected readonly singleCode = [
+    '<!-- One thumb glides between segments; arrows move AND select -->',
     '<dm-toggle-group [(value)]="view" ariaLabel="Layout">',
     '  <dm-toggle value="list">List</dm-toggle>',
     '  <dm-toggle value="grid">Grid</dm-toggle>',
     '  <dm-toggle value="table">Table</dm-toggle>',
     '</dm-toggle-group>',
+    '',
+    '@switch (view()) {',
+    '  @case (\'grid\') { <app-people-grid [people]="people" /> }',
+    '  @case (\'table\') { <dm-table density="compact" [columns]="columns" [data]="people" /> }',
+    '  @default { <app-people-list [people]="people" /> }',
+    '}',
   ].join('\n');
 
   protected readonly singleTs = [
@@ -136,42 +173,85 @@ export class ToggleGroupPageComponent {
     "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
     '',
     '@Component({',
-    "  selector: 'app-view-toggle',",
+    "  selector: 'app-view-switcher',",
     '  imports: [DmToggleGroupComponent, DmToggleComponent],',
-    "  templateUrl: './view-toggle.component.html',",
+    "  templateUrl: './view-switcher.component.html',",
     '})',
-    'export class ViewToggleComponent {',
-    "  protected readonly view = signal('list');",
+    'export class ViewSwitcherComponent {',
+    "  protected readonly view = signal<'list' | 'grid' | 'table'>('list');",
+    '  protected readonly people = [/* … */];',
     '}',
   ].join('\n');
 
   protected readonly multipleCode = [
-    '<!-- multiple → independent aria-pressed toggles, [(values)] is an array -->',
+    '<!-- multiple: independent aria-pressed toggles, [(values)] is an array -->',
     '<dm-toggle-group multiple [(values)]="format" color="primary" ariaLabel="Text format">',
     '  <dm-toggle value="bold" ariaLabel="Bold"><strong>B</strong></dm-toggle>',
     '  <dm-toggle value="italic" ariaLabel="Italic"><em>I</em></dm-toggle>',
     '  <dm-toggle value="underline" ariaLabel="Underline"><u>U</u></dm-toggle>',
     '</dm-toggle-group>',
+    '',
+    '<p',
+    '  [style.font-weight]="bold() ? 700 : 400"',
+    "  [style.font-style]=\"italic() ? 'italic' : 'normal'\"",
+    "  [style.text-decoration]=\"underline() ? 'underline' : 'none'\"",
+    '>',
+    '  The quick brown fox jumps over the lazy dog.',
+    '</p>',
   ].join('\n');
 
   protected readonly multipleTs = [
-    "import { Component, signal } from '@angular/core';",
+    "import { Component, computed, signal } from '@angular/core';",
     "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
     '',
     '@Component({',
-    "  selector: 'app-format-toggle',",
+    "  selector: 'app-format-toolbar',",
     '  imports: [DmToggleGroupComponent, DmToggleComponent],',
-    "  templateUrl: './format-toggle.component.html',",
+    "  templateUrl: './format-toolbar.component.html',",
     '})',
-    'export class FormatToggleComponent {',
-    "  protected readonly format = signal(['bold']);",
+    'export class FormatToolbarComponent {',
+    "  protected readonly format = signal<string[]>(['bold']);",
+    "  protected readonly bold = computed(() => this.format().includes('bold'));",
+    "  protected readonly italic = computed(() => this.format().includes('italic'));",
+    "  protected readonly underline = computed(() => this.format().includes('underline'));",
+    '}',
+  ].join('\n');
+
+  protected readonly iconsCode = [
+    '<!-- Icon + label: the icon inherits the segment color -->',
+    '<dm-toggle-group [(value)]="view" ariaLabel="Layout">',
+    '  <dm-toggle value="list"><dm-icon size="1.125rem">view_list</dm-icon> List</dm-toggle>',
+    '  <dm-toggle value="grid"><dm-icon size="1.125rem">grid_view</dm-icon> Grid</dm-toggle>',
+    '  <dm-toggle value="board"><dm-icon size="1.125rem">view_kanban</dm-icon> Board</dm-toggle>',
+    '</dm-toggle-group>',
+    '',
+    '<!-- Icon-only: every segment needs an ariaLabel -->',
+    '<dm-toggle-group color="primary" [(value)]="align" ariaLabel="Text align">',
+    '  <dm-toggle value="left" ariaLabel="Align left"><dm-icon size="1.125rem">format_align_left</dm-icon></dm-toggle>',
+    '  <dm-toggle value="center" ariaLabel="Align center"><dm-icon size="1.125rem">format_align_center</dm-icon></dm-toggle>',
+    '  <dm-toggle value="right" ariaLabel="Align right"><dm-icon size="1.125rem">format_align_right</dm-icon></dm-toggle>',
+    '</dm-toggle-group>',
+  ].join('\n');
+
+  protected readonly iconsTs = [
+    "import { Component, signal } from '@angular/core';",
+    "import { DmToggleGroupComponent, DmToggleComponent, DmIconComponent } from '@dmaster/ui';",
+    '',
+    '@Component({',
+    "  selector: 'app-icon-toggles',",
+    '  imports: [DmToggleGroupComponent, DmToggleComponent, DmIconComponent],',
+    "  templateUrl: './icon-toggles.component.html',",
+    '})',
+    'export class IconTogglesComponent {',
+    "  protected readonly view = signal('grid');",
+    "  protected readonly align = signal('left');",
     '}',
   ].join('\n');
 
   protected readonly colorsCode = [
-    '<dm-toggle-group color="primary" [(value)]="view">…</dm-toggle-group>',
-    '<dm-toggle-group color="success" [(value)]="view">…</dm-toggle-group>',
-    '<dm-toggle-group color="danger" [(value)]="view">…</dm-toggle-group>',
+    '<dm-toggle-group color="primary" [(value)]="view" ariaLabel="Primary">…</dm-toggle-group>',
+    '<dm-toggle-group color="success" [(value)]="view" ariaLabel="Success">…</dm-toggle-group>',
+    '<dm-toggle-group color="danger" [(value)]="view" ariaLabel="Danger">…</dm-toggle-group>',
   ].join('\n');
 
   protected readonly colorsTs = [
@@ -179,102 +259,160 @@ export class ToggleGroupPageComponent {
     "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
     '',
     '@Component({',
-    "  selector: 'app-colors-demo',",
+    "  selector: 'app-toggle-colors',",
     '  imports: [DmToggleGroupComponent, DmToggleComponent],',
-    "  templateUrl: './colors-demo.component.html',",
+    "  templateUrl: './toggle-colors.component.html',",
     '})',
-    'export class ColorsDemoComponent {',
+    'export class ToggleColorsComponent {',
     "  protected readonly view = signal('grid');",
     '}',
   ].join('\n');
 
   protected readonly sizesCode = [
-    '<dm-toggle-group size="sm" [(value)]="view">…</dm-toggle-group>',
-    '<dm-toggle-group size="md" [(value)]="view">…</dm-toggle-group>',
-    '<dm-toggle-group size="lg" [(value)]="view">…</dm-toggle-group>',
+    '<!-- 32 / 40 / 48px outer — flush with a button or a field of the same size -->',
+    '<dm-toggle-group size="sm" [(value)]="view" ariaLabel="Layout">…</dm-toggle-group>',
+    '<dm-button size="sm" variant="bordered">Export</dm-button>',
+    '',
+    '<dm-toggle-group size="md" [(value)]="view" ariaLabel="Layout">…</dm-toggle-group>',
+    '<dm-button size="md" variant="bordered">Export</dm-button>',
+    '',
+    '<dm-toggle-group size="lg" [(value)]="view" ariaLabel="Layout">…</dm-toggle-group>',
+    '<dm-button size="lg" variant="bordered">Export</dm-button>',
   ].join('\n');
 
   protected readonly sizesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
+    "import { DmToggleGroupComponent, DmToggleComponent, DmButtonComponent } from '@dmaster/ui';",
     '',
     '@Component({',
-    "  selector: 'app-sizes-demo',",
-    '  imports: [DmToggleGroupComponent, DmToggleComponent],',
-    "  templateUrl: './sizes-demo.component.html',",
+    "  selector: 'app-toggle-sizes',",
+    '  imports: [DmToggleGroupComponent, DmToggleComponent, DmButtonComponent],',
+    "  templateUrl: './toggle-sizes.component.html',",
     '})',
-    'export class SizesDemoComponent {',
+    'export class ToggleSizesComponent {',
     "  protected readonly view = signal('grid');",
     '}',
   ].join('\n');
 
-  protected readonly fullWidthCode = [
-    '<!-- fullWidth stretches the group; segments share the width equally -->',
+  protected readonly layoutCode = [
+    '<!-- fullWidth: the group fills its container, segments share the width -->',
     '<dm-toggle-group fullWidth [(value)]="range" ariaLabel="Range">',
     '  <dm-toggle value="day">Day</dm-toggle>',
     '  <dm-toggle value="week">Week</dm-toggle>',
     '  <dm-toggle value="month">Month</dm-toggle>',
     '</dm-toggle-group>',
+    '',
+    '<!-- vertical: the thumb slides up and down instead -->',
+    '<dm-toggle-group orientation="vertical" [(value)]="sort" ariaLabel="Sort by">',
+    '  <dm-toggle value="newest">Newest</dm-toggle>',
+    '  <dm-toggle value="oldest">Oldest</dm-toggle>',
+    '  <dm-toggle value="popular">Popular</dm-toggle>',
+    '</dm-toggle-group>',
   ].join('\n');
 
-  protected readonly fullWidthTs = [
+  protected readonly layoutTs = [
     "import { Component, signal } from '@angular/core';",
     "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
     '',
     '@Component({',
-    "  selector: 'app-range-toggle',",
+    "  selector: 'app-toggle-layouts',",
     '  imports: [DmToggleGroupComponent, DmToggleComponent],',
-    "  templateUrl: './range-toggle.component.html',",
+    "  templateUrl: './toggle-layouts.component.html',",
     '})',
-    'export class RangeToggleComponent {',
-    "  protected readonly range = signal('day');",
+    'export class ToggleLayoutsComponent {',
+    "  protected readonly range = signal('week');",
+    "  protected readonly sort = signal('newest');",
     '}',
   ].join('\n');
 
-  // Composition — dashboard header whose range switcher (single) and a
-  // toolbar of alignment toggles (single, icon-only) drive a live caption.
-  protected readonly dashRange = signal<unknown>('week');
-  protected readonly dashAlign = signal<unknown>('left');
+  // ---- Composition: pricing with a billing-period switch ------------------
+  protected readonly billing = signal<unknown>('monthly');
+  protected readonly currentPlan = 'starter';
+  protected readonly plans = [
+    {
+      key: 'starter',
+      nameKey: 'planStarter',
+      descKey: 'planStarterDesc',
+      monthly: 9,
+      popular: false,
+    },
+    { key: 'pro', nameKey: 'planPro', descKey: 'planProDesc', monthly: 19, popular: true },
+    { key: 'team', nameKey: 'planTeam', descKey: 'planTeamDesc', monthly: 39, popular: false },
+  ];
 
-  protected readonly rangeCaption = computed(() => {
-    const labels = this.page().labels;
-    const key = this.dashRange();
-    return typeof key === 'string' ? labels[key] : '';
-  });
+  /** Yearly billing takes 20% off the monthly price. */
+  protected price(monthly: number): string {
+    return `$${this.billing() === 'yearly' ? Math.round(monthly * 0.8) : monthly}`;
+  }
 
   protected readonly compositionCode = [
-    '<dm-card style="width: 100%; max-width: 30rem">',
-    '  <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem">',
-    '    <strong>Analytics</strong>',
-    '    <dm-toggle-group size="sm" [(value)]="range" ariaLabel="Range">',
-    '      <dm-toggle value="day">Day</dm-toggle>',
-    '      <dm-toggle value="week">Week</dm-toggle>',
-    '      <dm-toggle value="month">Month</dm-toggle>',
+    '<dm-card>',
+    '  <div class="pricing__head">',
+    '    <strong>Choose a plan</strong>',
+    '    <dm-toggle-group size="sm" [(value)]="billing" ariaLabel="Billing">',
+    '      <dm-toggle value="monthly">Monthly</dm-toggle>',
+    '      <dm-toggle value="yearly">Yearly <span class="pricing__save">−20%</span></dm-toggle>',
     '    </dm-toggle-group>',
     '  </div>',
     '',
-    '  <p style="color: var(--dm-fg-muted)">Showing data for {{ range() }}.</p>',
-    '',
-    '  <dm-toggle-group size="sm" color="primary" [(value)]="align" ariaLabel="Text align">',
-    '    <dm-toggle value="left" ariaLabel="Align left"><dm-icon>format_align_left</dm-icon></dm-toggle>',
-    '    <dm-toggle value="center" ariaLabel="Align center"><dm-icon>format_align_center</dm-icon></dm-toggle>',
-    '    <dm-toggle value="right" ariaLabel="Align right"><dm-icon>format_align_right</dm-icon></dm-toggle>',
-    '  </dm-toggle-group>',
+    '  <div class="pricing__grid">',
+    '    @for (p of plans; track p.key) {',
+    '      <div class="pricing__plan" [class.pricing__plan--popular]="p.popular">',
+    '        <strong>{{ p.name }}</strong>',
+    '        @if (p.popular) {',
+    '          <dm-badge color="primary" variant="flat" size="sm">Most popular</dm-badge>',
+    '        }',
+    '        <p class="pricing__price">{{ price(p.monthly) }}<span>/mo</span></p>',
+    "        <p class=\"muted\">{{ billing() === 'yearly' ? 'billed yearly' : 'billed monthly' }}</p>",
+    '        <p class="muted">{{ p.description }}</p>',
+    '        <dm-button',
+    '          size="sm"',
+    "          [color]=\"p.popular ? 'primary' : 'default'\"",
+    "          [variant]=\"p.popular ? 'solid' : 'bordered'\"",
+    '          [disabled]="p.key === currentPlan"',
+    '        >',
+    "          {{ p.key === currentPlan ? 'Current plan' : 'Upgrade' }}",
+    '        </dm-button>',
+    '      </div>',
+    '    }',
+    '  </div>',
     '</dm-card>',
   ].join('\n');
 
   protected readonly compositionTs = [
-    "import { Component, computed, signal } from '@angular/core';",
-    "import { DmCardComponent, DmIconComponent, DmToggleComponent, DmToggleGroupComponent } from '@dmaster/ui';",
+    "import { Component, signal } from '@angular/core';",
+    'import {',
+    '  DmBadgeComponent,',
+    '  DmButtonComponent,',
+    '  DmCardComponent,',
+    '  DmToggleComponent,',
+    '  DmToggleGroupComponent,',
+    "} from '@dmaster/ui';",
     '',
     '@Component({',
-    "  selector: 'app-analytics-header',",
-    '  imports: [DmCardComponent, DmToggleGroupComponent, DmToggleComponent, DmIconComponent],',
-    "  templateUrl: './analytics-header.component.html',",
+    "  selector: 'app-pricing',",
+    '  imports: [',
+    '    DmCardComponent,',
+    '    DmToggleGroupComponent,',
+    '    DmToggleComponent,',
+    '    DmBadgeComponent,',
+    '    DmButtonComponent,',
+    '  ],',
+    "  templateUrl: './pricing.component.html',",
     '})',
-    'export class AnalyticsHeaderComponent {',
-    "  protected readonly range = signal('week');",
-    "  protected readonly align = signal('left');",
+    'export class PricingComponent {',
+    "  protected readonly billing = signal<'monthly' | 'yearly'>('monthly');",
+    "  protected readonly currentPlan = 'starter';",
+    '  protected readonly plans = [',
+    "    { key: 'starter', name: 'Starter', description: 'For side projects', monthly: 9, popular: false },",
+    "    { key: 'pro', name: 'Pro', description: 'For growing teams', monthly: 19, popular: true },",
+    "    { key: 'team', name: 'Team', description: 'For whole companies', monthly: 39, popular: false },",
+    '  ];',
+    '',
+    '  // Yearly billing takes 20% off the monthly price.',
+    '  protected price(monthly: number): string {',
+    "    return `$${this.billing() === 'yearly' ? Math.round(monthly * 0.8) : monthly}`;",
+    '  }',
     '}',
   ].join('\n');
 

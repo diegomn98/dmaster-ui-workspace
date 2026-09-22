@@ -78,6 +78,25 @@
     </div>
   </app-demo-block>
 
+  <app-demo-block [heading]="page().labels['promiseDemo']" [code]="promiseCode" [ts]="promiseTs">
+    <div class="demo-row">
+      <dm-button variant="flat" [disabled]="savingPromise()" (clicked)="saveWithPromise(true)">
+        {{ page().labels['promiseSucceed'] }}
+      </dm-button>
+      <dm-button
+        variant="flat"
+        color="danger"
+        [disabled]="savingPromise()"
+        (clicked)="saveWithPromise(false)"
+      >
+        {{ page().labels['promiseFail'] }}
+      </dm-button>
+    </div>
+    <p class="page__section-desc" style="margin-top: 0.75rem">
+      {{ page().labels['promiseHint'] }}
+    </p>
+  </app-demo-block>
+
   <app-demo-block
     [heading]="page().labels['programmatic']"
     [code]="programmaticCode"
@@ -108,6 +127,9 @@
         {{ page().labels['dismissAll'] }}
       </dm-button>
     </div>
+    <p class="page__section-desc" style="margin-top: 0.75rem">
+      {{ page().labels['queueHint'] }}
+    </p>
   </app-demo-block>
 
   <app-demo-block

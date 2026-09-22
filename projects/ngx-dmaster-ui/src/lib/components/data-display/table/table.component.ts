@@ -7,17 +7,23 @@ import {
   computed,
   contentChild,
   contentChildren,
+  DestroyRef,
   effect,
   inject,
   input,
   model,
   output,
+  signal,
   TemplateRef,
   untracked,
   viewChild,
 } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 
+import { ReducedMotionService } from '../../../core/services/reduced-motion.service';
+import { DmButtonComponent } from '../../buttons/button';
 import { DmCheckboxComponent } from '../../forms/checkbox';
+import { DmPaginationComponent } from '../../navigation/pagination';
 import { DmSkeletonComponent } from '../../primitives/skeleton';
 import { DmTableCellContext, DmTableCellDirective } from './table-cell.directive';
 import { DmTableEmptyDirective } from './table-empty.directive';
@@ -26,6 +32,9 @@ import {
   DmTableColumn,
   DmTableDensity,
   DmTableKey,
+  DmTableLoadFn,
+  DmTableLoadParams,
+  DmTableLoadResult,
   DmTablePageState,
   DmTableRowClickEvent,
   DmTableRowKey,
@@ -55,20 +64,30 @@ import {
  * ```
  *
  * The `data` input is always the FULL dataset — the table derives the visible
- * rows. For server-side data set `[manualProcessing]="true"` and feed already
- * filtered/sorted/paged rows in; the table then only renders and emits events.
+ * rows. For server-side data pass a `loadFn` instead: the table then fetches
+ * one page at a time (search, sort, page and page size all round-trip). The
+ * lower-level `[manualProcessing]="true"` is still there for feeding already
+ * filtered/sorted/paged rows in yourself.
  */
 let nextCaptionId = 0;
 
 @Component({
   selector: 'dm-table',
-  imports: [DmCheckboxComponent, DmSkeletonComponent, NgTemplateOutlet, ScrollingModule],
+  imports: [
+    DmButtonComponent,
+    DmCheckboxComponent,
+    DmPaginationComponent,
+    DmSkeletonComponent,
+    NgTemplateOutlet,
+    ScrollingModule,
+  ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DmTableComponent<T = unknown> {
   private readonly defaults = inject(TABLE_DEFAULTS);
+  private readonly reducedMotion = inject(ReducedMotionService);
 
   /** The CDK viewport instance (present only in virtual-scroll mode). */
   private readonly viewport = viewChild(CdkVirtualScrollViewport);
@@ -91,8 +110,8 @@ export class DmTableComponent<T = unknown> {
   /** Column definitions. */
   readonly columns = input.required<DmTableColumn<T>[]>();
 
-  /** The full dataset. The table filters/sorts/paginates it internally. */
-  readonly data = input.required<T[]>();
+  /** The full dataset. The table filters/sorts/paginates it internally. Ignored with `loadFn`. */
+  readonly data = input<T[]>([]);
 
   /** Row identity function used as `trackBy` and for selection. */
   readonly rowKey = input<DmTableRowKey<T>>((_row, index) => index);
@@ -221,6 +240,29 @@ export class DmTableComponent<T = unknown> {
   /** Total row count for the footer when `manualProcessing` is on. */
   readonly totalItems = input<number | null>(null);
 
+  // ---- Server-driven (async) ------------------------------------------------
+  /**
+   * Fetch one page from the server instead of passing `data`. The table asks
+   * for `{ page, pageSize, query, sort }` whenever any of them changes (the
+   * search term debounced by `searchDebounceMs`), keeps the current rows on
+   * screen — dimmed — while the next page is in flight, and shows an error
+   * state with a retry button when a request fails. Runs on `rxResource`, so
+   * a superseded request is cancelled. `data` is ignored in this mode.
+   */
+  readonly loadFn = input<DmTableLoadFn<T> | null>(null);
+
+  /** Async mode: quiet milliseconds before the search term is sent to the server. */
+  readonly searchDebounceMs = input<number>(this.defaults.searchDebounceMs);
+
+  /** Async mode: message of the error state. */
+  readonly loadErrorText = input<string>('Could not load rows');
+
+  /** Async mode: label of the retry button in the error state. */
+  readonly retryLabel = input<string>('Retry');
+
+  /** Async mode: fires with the error whenever a page request fails. */
+  readonly loadError = output<unknown>();
+
   // ---- Outputs -------------------------------------------------------------
   /** Fires whenever the sort state changes (asc → desc → null). */
   readonly sortChange = output<DmTableSortState | null>();
@@ -241,18 +283,143 @@ export class DmTableComponent<T = unknown> {
   /** Two-way bound sort state. `null` means unsorted. */
   readonly sortState = model<DmTableSortState | null>(null);
 
-  constructor() {
-    // Searching resets to the first page — otherwise you can land on an empty
-    // page. Only reacts to term changes, never clobbers an initial `[page]`.
-    let firstRun = true;
-    effect(() => {
-      this.searchTerm();
-      if (firstRun) {
-        firstRun = false;
+  /**
+   * True right after a `loading` → data transition: the rows rise in with a
+   * short stagger to mark that content arrived. The initial render and every
+   * later re-render (paging, sorting, searching) stay still.
+   */
+  protected readonly revealing = signal(false);
+  private lastLoading = false;
+
+  // ---- Async (server-driven) state ----------------------------------------
+  protected readonly isAsync = computed(() => !!this.loadFn());
+
+  /** The search term the server has been asked for; the box debounces into it. */
+  private readonly committedQuery = signal('');
+  private searchTimer: ReturnType<typeof setTimeout> | undefined;
+
+  /**
+   * Searching resets to the first page — otherwise you can land on an empty
+   * page. Never clobbers an initial `[page]`. In async mode the reset travels
+   * with the debounced query in the SAME request, so a keystroke never fires a
+   * fetch for the old query. Declared before the resource so an initial
+   * `[searchTerm]` is committed before the first request is built.
+   */
+  private readonly searchSync = effect(() => {
+    const term = this.searchTerm();
+    untracked(() => {
+      if (this.firstSearchRun) {
+        this.firstSearchRun = false;
+        this.committedQuery.set(term);
         return;
       }
-      untracked(() => this.page.set(1));
+      if (this.isAsync()) this.scheduleServerSearch(term);
+      else this.page.set(1);
     });
+  });
+  private firstSearchRun = true;
+
+  private readonly loadParams = computed<DmTableLoadParams | undefined>(() => {
+    if (!this.loadFn()) return undefined;
+    return {
+      page: Math.max(1, this.page()),
+      pageSize: this.pageSize(),
+      query: this.committedQuery(),
+      sort: this.sortState(),
+    };
+  });
+
+  /** Re-subscribes to `loadFn` whenever the params change, cancelling the previous request. */
+  private readonly pageResource = rxResource<DmTableLoadResult<T>, DmTableLoadParams | undefined>({
+    params: () => this.loadParams(),
+    stream: ({ params }) => this.loadFn()!(params),
+  });
+
+  private readonly loadedRows = signal<T[]>([]);
+  private readonly loadedTotal = signal(0);
+  protected readonly hasLoadError = signal(false);
+
+  /** Every row loaded so far, by key, so `selectionChange` can resolve rows from earlier pages. */
+  private readonly seenRows = signal<Map<DmTableKey, T>>(new Map());
+
+  private readonly fetching = computed(() => this.isAsync() && this.pageResource.isLoading());
+
+  /** Skeleton: an explicit `loading`, or a fetch with nothing on screen to keep. */
+  protected readonly showSkeleton = computed(
+    () => this.loading() || (this.fetching() && this.loadedRows().length === 0),
+  );
+
+  /** A later fetch: the current rows stay visible, dimmed, until the new page lands. */
+  protected readonly refreshing = computed(() => this.fetching() && !this.showSkeleton());
+
+  protected readonly isBusy = computed(() => this.loading() || this.fetching());
+
+  constructor() {
+    effect(() => {
+      const loading = this.showSkeleton();
+      const wasLoading = this.lastLoading;
+      this.lastLoading = loading;
+      if (wasLoading && !loading && !this.reducedMotion.reducedMotion()) {
+        untracked(() => this.revealing.set(true));
+      }
+    });
+
+    // Async: mirror the resource into plain signals. The error signal is read
+    // first and `value()` is never touched in the error state (it throws).
+    effect(() => {
+      if (!this.isAsync()) return;
+      const loading = this.pageResource.isLoading();
+      const error = this.pageResource.error();
+      const hasValue = this.pageResource.hasValue();
+      untracked(() => {
+        if (loading) {
+          this.hasLoadError.set(false);
+          return;
+        }
+        if (error !== undefined) {
+          this.hasLoadError.set(true);
+          this.loadedRows.set([]);
+          this.loadError.emit(error);
+          return;
+        }
+        if (!hasValue) return;
+        const result = this.pageResource.value();
+        this.loadedRows.set(result.items);
+        this.loadedTotal.set(result.total);
+        if (this.hasSelection() && result.items.length) {
+          const seen = new Map(this.seenRows());
+          result.items.forEach((row, i) => seen.set(this.rowKey()(row, i), row));
+          this.seenRows.set(seen);
+        }
+      });
+    });
+
+    inject(DestroyRef).onDestroy(() => clearTimeout(this.searchTimer));
+  }
+
+  private scheduleServerSearch(term: string): void {
+    clearTimeout(this.searchTimer);
+    if (term === this.committedQuery()) return;
+    this.searchTimer = setTimeout(() => {
+      this.page.set(1);
+      this.committedQuery.set(term);
+    }, this.searchDebounceMs());
+  }
+
+  /**
+   * Async mode: fetches the current page again — after a mutation, or to retry
+   * a failed request. No-op without `loadFn`.
+   */
+  reload(): void {
+    if (this.isAsync()) this.pageResource.reload();
+  }
+
+  /** Clears the reveal once the LAST row's entrance finished (rows are staggered). */
+  protected onRowsAnimationEnd(event: AnimationEvent): void {
+    // Emulated encapsulation prefixes keyframe names — match the tail.
+    if (!this.revealing() || !event.animationName.endsWith('dm-table-row-in')) return;
+    const rows = (event.currentTarget as Element).querySelectorAll('[data-row]');
+    if (event.target === rows[rows.length - 1]) this.revealing.set(false);
   }
 
   // ---- Content templates ---------------------------------------------------
@@ -325,6 +492,7 @@ export class DmTableComponent<T = unknown> {
   });
 
   protected readonly totalRows = computed(() => {
+    if (this.isAsync()) return this.loadedTotal();
     if (this.manualProcessing()) {
       return this.totalItems() ?? this.data().length;
     }
@@ -343,6 +511,7 @@ export class DmTableComponent<T = unknown> {
 
   /** Rows actually rendered in the current page. */
   protected readonly pagedRows = computed<T[]>(() => {
+    if (this.isAsync()) return this.loadedRows();
     if (this.manualProcessing()) return this.data();
     const size = this.pageSize();
     const rows = this.processedRows();
@@ -367,38 +536,13 @@ export class DmTableComponent<T = unknown> {
     return Math.min(this.safePage() * this.pageSize(), this.totalRows());
   });
 
-  /**
-   * Windowed page list for the numbered pager: first, last, the current page
-   * ±1, and `…` gaps in between. Collapses to a plain sequence at ≤7 pages.
-   */
-  protected readonly pageItems = computed<
-    ({ kind: 'page'; page: number } | { kind: 'gap'; id: string })[]
-  >(() => {
-    const count = this.pageCount();
-    const current = this.safePage();
-    const items: ({ kind: 'page'; page: number } | { kind: 'gap'; id: string })[] = [];
-    const page = (p: number) => items.push({ kind: 'page', page: p });
-    if (count <= 7) {
-      for (let p = 1; p <= count; p++) page(p);
-      return items;
-    }
-    page(1);
-    const left = Math.max(2, current - 1);
-    const right = Math.min(count - 1, current + 1);
-    if (left > 2) items.push({ kind: 'gap', id: 'gap-left' });
-    for (let p = left; p <= right; p++) page(p);
-    if (right < count - 1) items.push({ kind: 'gap', id: 'gap-right' });
-    page(count);
-    return items;
-  });
-
   // ---- Selection state -----------------------------------------------------
   protected readonly selectedSet = computed<Set<DmTableKey>>(() => new Set(this.selectedKeys()));
 
   /** Keys of all rows in the current filtered result (all pages). */
   private readonly selectableKeys = computed<DmTableKey[]>(() =>
-    (this.manualProcessing() ? this.data() : this.processedRows()).map((row, index) =>
-      this.rowKey()(row, index),
+    (this.isAsync() || this.manualProcessing() ? this.pagedRows() : this.processedRows()).map(
+      (row, index) => this.rowKey()(row, index),
     ),
   );
 
@@ -418,10 +562,14 @@ export class DmTableComponent<T = unknown> {
   protected readonly selectedCount = computed(() => this.selectedKeys().length);
 
   // ---- State flags ---------------------------------------------------------
-  protected readonly isEmpty = computed(() => !this.loading() && this.totalRows() === 0);
-  protected readonly isFilteredEmpty = computed(
-    () => this.isEmpty() && !this.manualProcessing() && this.searchTerm().trim().length > 0,
+  protected readonly isEmpty = computed(
+    () => !this.isBusy() && !this.hasLoadError() && this.totalRows() === 0,
   );
+  protected readonly isFilteredEmpty = computed(() => {
+    if (!this.isEmpty() || this.manualProcessing()) return false;
+    const term = this.isAsync() ? this.committedQuery() : this.searchTerm();
+    return term.trim().length > 0;
+  });
 
   protected readonly skeletonRows = computed(() =>
     Array.from({ length: Math.max(1, this.loadingRows()) }, (_v, i) => i),
@@ -462,6 +610,14 @@ export class DmTableComponent<T = unknown> {
 
   protected clearSearch(): void {
     this.onSearchInput('');
+    // Async: a clear is a deliberate act — refetch now, don't wait the debounce.
+    if (this.isAsync()) {
+      clearTimeout(this.searchTimer);
+      if (this.committedQuery() !== '') {
+        this.page.set(1);
+        this.committedQuery.set('');
+      }
+    }
   }
 
   // ---- Sort ----------------------------------------------------------------
@@ -493,6 +649,8 @@ export class DmTableComponent<T = unknown> {
     } else {
       next = null;
     }
+    // Server-side: a new order starts from the first page (same request).
+    if (this.isAsync()) this.page.set(1);
     this.sortState.set(next);
     this.sortChange.emit(next);
   }
@@ -542,6 +700,13 @@ export class DmTableComponent<T = unknown> {
   private commitSelection(keys: DmTableKey[]): void {
     this.selectedKeys.set(keys);
     const set = new Set(keys);
+    if (this.isAsync()) {
+      // Rows selected on earlier pages are no longer rendered — resolve them
+      // from everything loaded so far.
+      const seen = this.seenRows();
+      this.selectionChange.emit(keys.flatMap((k) => (seen.has(k) ? [seen.get(k)!] : [])));
+      return;
+    }
     const rows = this.data().filter((row, index) => set.has(this.rowKey()(row, index)));
     this.selectionChange.emit(rows);
   }

@@ -59,6 +59,7 @@ export interface DashboardTranslations {
       skeleton: string;
       spinner: string;
       badge: string;
+      chip: string;
       avatar: string;
       icon: string;
       card: string;
@@ -399,6 +400,7 @@ export interface DashboardTranslations {
       theming: string;
       copy: string;
       themes: string;
+      motion: string;
     };
     focusItems: {
       freezeTitle: string;
@@ -466,6 +468,7 @@ export interface DashboardTranslations {
     articleNewer: string;
     articleOlder: string;
     articles: {
+      v011: BlogArticleTranslations;
       v010: BlogArticleTranslations;
       v09: BlogArticleTranslations;
       v08: BlogArticleTranslations;
@@ -482,6 +485,7 @@ export interface DashboardTranslations {
     overview: SimplePageTranslations;
     spinner: SimplePageTranslations;
     badge: SimplePageTranslations;
+    chip: SimplePageTranslations;
     card: SimplePageTranslations;
     avatar: SimplePageTranslations;
     accordion: SimplePageTranslations;

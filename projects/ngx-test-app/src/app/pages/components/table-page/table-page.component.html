@@ -54,7 +54,15 @@
         [rowsPerPageLabel]="page().labels['rowsPerPage']"
         caption="Team members"
       >
-        <dm-button dmTableActions size="sm" variant="flat" color="primary">Invite</dm-button>
+        <dm-button
+          dmTableActions
+          size="sm"
+          variant="flat"
+          color="primary"
+          (clicked)="inviteFromToolbar()"
+        >
+          {{ page().labels['invite'] }}
+        </dm-button>
       </dm-table>
 
       <p class="table-readout">
@@ -123,6 +131,66 @@
         [pageSize]="5"
         [pageSizeOptions]="[5, 10, 25]"
         [rowsPerPageLabel]="page().labels['rowsPerPage']"
+      />
+    </div>
+  </app-demo-block>
+
+  <!-- Server-side pagination: loadFn fetches one page at a time -->
+  <app-demo-block [heading]="page().labels['serverSide']" [code]="serverCode" [ts]="serverTs">
+    <div class="demo-stack" style="width: 100%">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.75rem">
+        <dm-button size="sm" variant="bordered" (clicked)="serverTable.reload()">
+          {{ page().labels['reload'] }}
+        </dm-button>
+        <dm-button
+          size="sm"
+          variant="bordered"
+          color="danger"
+          (clicked)="failNext(); serverTable.reload()"
+        >
+          {{ page().labels['failNext'] }}
+        </dm-button>
+        <span
+          style="
+            font-size: 0.8125rem;
+            color: var(--dm-fg-muted);
+            font-variant-numeric: tabular-nums;
+          "
+        >
+          {{ page().labels['lastRequest'] }}: <code>{{ lastRequest() }}</code>
+        </span>
+      </div>
+      <dm-table
+        #serverTable
+        [loadFn]="loadMembers"
+        [columns]="columns"
+        [rowKey]="byId"
+        [pageSize]="10"
+        [pageSizeOptions]="[10, 25, 50]"
+        [searchable]="true"
+        selectionMode="multiple"
+        [(selectedKeys)]="serverSelected"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        [rowsPerPageLabel]="page().labels['rowsPerPage']"
+        [loadErrorText]="page().labels['loadError']"
+        [retryLabel]="page().labels['retry']"
+        (loadError)="onLoadError()"
+        caption="1,000 members"
+      />
+    </div>
+  </app-demo-block>
+
+  <!-- Sticky header: all rows on one page inside a bounded scroll container -->
+  <app-demo-block [heading]="page().labels['stickyHeader']" [code]="stickyCode" [ts]="stickyTs">
+    <div style="width: 100%">
+      <dm-table
+        sticky
+        [pageSize]="0"
+        style="--dm-table-max-height: 16rem"
+        [columns]="columns"
+        [data]="members()"
+        [rowKey]="byId"
+        caption="Team members"
       />
     </div>
   </app-demo-block>
@@ -221,79 +289,53 @@
         </dm-button>
       </div>
 
-      <!-- Table -->
-      <div style="padding: 1rem 1.25rem">
-        <dm-table
-          [columns]="columns"
-          [data]="teamMembers()"
-          [rowKey]="byId"
-          selectionMode="multiple"
-          [searchable]="true"
-          [pageSize]="5"
-          [(selectedKeys)]="teamSelected"
-          [searchPlaceholder]="page().labels['searchPlaceholder']"
-          [rowsPerPageLabel]="page().labels['rowsPerPage']"
-          [emptyText]="page().labels['empty']"
-          caption="Team members"
-        />
-      </div>
-
-      <!-- Selection tray: avatar chips + bulk actions -->
-      <div
-        style="
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 0.5rem;
-          min-height: 3.5rem;
-          padding: 0.75rem 1.25rem;
-          border-top: 1px solid var(--dm-border);
-          background: var(--dm-bg-subtle);
-        "
+      <!-- Table, flush: the card is the only frame -->
+      <dm-table
+        style="--dm-table-frame-border: 0; --dm-table-radius: 0"
+        [columns]="columns"
+        [data]="teamMembers()"
+        [rowKey]="byId"
+        selectionMode="multiple"
+        [searchable]="true"
+        [pageSize]="5"
+        [(selectedKeys)]="teamSelected"
+        [searchPlaceholder]="page().labels['searchPlaceholder']"
+        [rowsPerPageLabel]="page().labels['rowsPerPage']"
+        [emptyText]="page().labels['empty']"
+        ariaLabel="Team members"
       >
-        @if (teamSelectedRows().length > 0) {
-          <span style="font-size: 0.875rem; font-weight: 600">
-            {{ teamSelectedRows().length }} {{ page().labels['selectedSuffix'] }}
+        <ng-template dmTableCell="name" let-row>
+          <span style="display: inline-flex; align-items: center; gap: 0.625rem">
+            <dm-avatar [initials]="initials(row.name)" [alt]="row.name" size="1.5rem" />
+            {{ row.name }}
           </span>
-          @for (m of teamSelectedRows(); track m.id) {
-            <span
-              style="
-                display: inline-flex;
-                align-items: center;
-                gap: 0.375rem;
-                padding: 0.125rem 0.625rem 0.125rem 0.125rem;
-                font-size: 0.8125rem;
-                background: var(--dm-bg-elevated);
-                border: 1px solid var(--dm-border);
-                border-radius: 9999px;
-              "
-            >
-              <dm-avatar [initials]="initials(m.name)" [alt]="m.name" size="1.5rem" />
-              {{ m.name.split(' ')[0] }}
-            </span>
-          }
-          <span style="flex: 1"></span>
-          <dm-button size="sm" variant="light" (clicked)="teamSelected.set([])">
-            {{ page().labels['clearSelection'] }}
-          </dm-button>
-          <dm-button size="sm" color="danger" variant="flat" (clicked)="removeSelected()">
-            <dm-icon name="trash" size="1.15em" />
-            {{ page().labels['remove'] }}
-          </dm-button>
-        } @else {
-          <span style="color: var(--dm-fg-muted); font-size: 0.875rem">
-            {{ page().labels['nothingSelected'] }}
-          </span>
-        }
-      </div>
+        </ng-template>
+        <ng-template dmTableCell="status" let-row>
+          <dm-badge [color]="statusColor(row.status)" variant="flat" size="sm">
+            {{ row.status }}
+          </dm-badge>
+        </ng-template>
+
+        <dm-button
+          dmTableActions
+          size="sm"
+          color="danger"
+          variant="flat"
+          [disabled]="teamSelected().length === 0"
+          (clicked)="removeSelected()"
+        >
+          <dm-icon name="trash" size="1.15em" />
+          {{ page().labels['remove'] }}
+        </dm-button>
+      </dm-table>
     </dm-card>
   </app-demo-block>
 
   <!-- Loading & empty states -->
   <app-demo-block [heading]="page().labels['states']" [code]="statesCode" [ts]="statesTs">
     <div class="demo-stack" style="width: 100%">
-      <dm-button size="sm" variant="bordered" (clicked)="toggleLoading()">
-        {{ page().labels['toggleLoading'] }}
+      <dm-button size="sm" variant="bordered" [disabled]="loadingDemo()" (clicked)="reload()">
+        {{ page().labels['reload'] }}
       </dm-button>
       <dm-table
         [columns]="fewColumns"
