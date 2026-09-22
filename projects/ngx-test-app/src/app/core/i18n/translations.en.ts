@@ -502,6 +502,7 @@ export const EN: DashboardTranslations = {
       theming: 'Named themes & tokens',
       copy: 'Copy to clipboard',
       themes: 'Prebuilt themes & templates',
+      motion: 'Server-side table & motion',
     },
     focusItems: {
       freezeTitle: 'API surface freeze',
@@ -568,6 +569,20 @@ export const EN: DashboardTranslations = {
     articleNewer: 'Newer',
     articleOlder: 'Older',
     articles: {
+      v011: {
+        title: 'Server-side tables, toasts that wait for you, and a motion pass',
+        lead: '0.11 teaches dm-table to talk to your API one page at a time, gives DmToastService a real queue that pauses while you read, and runs a design-and-motion pass across six components — chips, button groups, tables, toggle groups, icons and toasts — so state changes are felt, not noticed. One new component: dm-chip.',
+        bullets: [
+          'dm-table server-side pagination — pass a loadFn ({ page, pageSize, query, sort } → Observable<{ items, total }>) instead of data and search, sort, page and page size round-trip to your API through rxResource; rows stay dimmed while the next page loads, a failed request shows an error state with retry, selection survives across pages, and reload() re-fetches after a mutation',
+          'dm-table redesign — one quiet card: the caption is the toolbar title, headers are sentence case with no band, rows sit on a 44 / 36 / 52 px rhythm and the footer pager is dm-pagination itself; a single sort arrow with a sliding underline and a staggered row reveal after loading. Fixes sticky headers (which never engaged) and the selection chip wrapping under the search',
+          'dm-toast — at most maxVisible toasts at once (the rest queue), timers pause while the stack is hovered or focused, swipe to dismiss, an animated exit, and loading() / promise() / update() to track an async operation in one toast; danger toasts are announced as role="alert"',
+          'dm-chip + dm-chip-set (new) — removable, filter/choice and action chips across the full color × variant × size × radius system, roving keyboard, single/multiple selection (CVA), chips that grow in and fold out',
+          'dm-toggle-group — one sliding thumb glides between segments (never flashes on hydration); outer heights now 32 / 40 / 48 px, flush with buttons and fields',
+          'dm-icon — the Material Symbols optical-size axis follows the rendered size, fill / weight / color transition instead of snapping, and a 1em icon sits on the x-height of running text',
+          'dm-button-group — rigid-bar segment states: fill-based hover and press, an inset focus ring, and a split-button caret that rotates while its menu is open',
+          '46 components across 8 categories — still verified by axe (WCAG 2.1 AA) in light and dark, 840+ tests',
+        ],
+      },
       v010: {
         title: 'Prebuilt themes, a theme generator, and templates for everything',
         lead: '0.10 makes theming a two-minute job and opens nearly every component to custom content. Nine curated palettes ship as tiny CSS files on <code>@dmaster/ui/themes/*</code> — pick one during <code>ng add</code> and your app recolors in light and dark; need a bespoke one, <code>ng generate @dmaster/ui:theme</code> scaffolds it. Alongside: icon-only buttons become compact squares, and a dozen components gain projected templates for their rows, cells and slots.',

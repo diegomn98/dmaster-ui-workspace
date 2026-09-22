@@ -503,6 +503,7 @@ export const ES: DashboardTranslations = {
       theming: 'Temas con nombre y tokens',
       copy: 'Copiar al portapapeles',
       themes: 'Temas prediseñados y plantillas',
+      motion: 'Tabla server-side y motion',
     },
     focusItems: {
       freezeTitle: 'Congelación de la API',
@@ -570,6 +571,20 @@ export const ES: DashboardTranslations = {
     articleNewer: 'Más reciente',
     articleOlder: 'Anterior',
     articles: {
+      v011: {
+        title: 'Tablas server-side, toasts que te esperan y una pasada de motion',
+        lead: '0.11 enseña a dm-table a hablar con tu API página a página, da a DmToastService una cola real que se pausa mientras lees, y hace una pasada de diseño y motion por seis componentes — chips, grupos de botones, tablas, toggle groups, iconos y toasts — para que los cambios de estado se sientan, no se noten. Un componente nuevo: dm-chip.',
+        bullets: [
+          'Paginación server-side en dm-table — pasa un loadFn ({ page, pageSize, query, sort } → Observable<{ items, total }>) en lugar de data y la búsqueda, el orden, la página y el tamaño viajan a tu API vía rxResource; las filas se quedan atenuadas mientras carga la siguiente, una petición fallida muestra un estado de error con reintento, la selección sobrevive entre páginas y reload() vuelve a pedir tras una mutación',
+          'Rediseño de dm-table — una sola tarjeta silenciosa: el caption es el título de la toolbar, cabeceras en sentence case sin banda, filas a ritmo 44 / 36 / 52 px y el pager del pie es dm-pagination; una única flecha de orden con subrayado deslizante y reveal escalonado de filas tras cargar. Corrige la cabecera fija (que nunca se activaba) y el chip de selección que saltaba bajo el buscador',
+          'dm-toast — como mucho maxVisible toasts a la vez (el resto espera en cola), los timers se pausan al pasar el ratón o enfocar la pila, swipe para descartar, salida animada, y loading() / promise() / update() para seguir una operación async en un solo toast; los toasts danger se anuncian como role="alert"',
+          'dm-chip + dm-chip-set (nuevo) — chips removibles, de filtro/elección y de acción en todo el sistema color × variante × tamaño × radio, teclado roving, selección single/multiple (CVA), chips que crecen al entrar y se pliegan al salir',
+          'dm-toggle-group — un pulgar deslizante se mueve entre segmentos (nunca parpadea al hidratar); alturas exteriores ahora 32 / 40 / 48 px, a ras de botones y campos',
+          'dm-icon — el eje óptico de Material Symbols sigue al tamaño renderizado, fill / weight / color transicionan en vez de saltar, y un icono de 1em se sienta en la x-height del texto',
+          'dm-button-group — estados de barra rígida: hover y press por relleno, anillo de foco interior, y caret de split que gira mientras su menú está abierto',
+          '46 componentes en 8 categorías — verificados con axe (WCAG 2.1 AA) en claro y oscuro, 840+ tests',
+        ],
+      },
       v010: {
         title: 'Temas prediseñados, un generador de temas y plantillas para todo',
         lead: '0.10 convierte el theming en cosa de dos minutos y abre casi todos los componentes a contenido propio. Nueve paletas curadas se publican como archivos CSS diminutos en <code>@dmaster/ui/themes/*</code> — elige una durante <code>ng add</code> y tu app se recolorea en claro y oscuro; ¿la quieres a medida? <code>ng generate @dmaster/ui:theme</code> te la genera. Además: los botones de solo icono pasan a ser cuadrados compactos, y una docena de componentes ganan plantillas proyectables para sus filas, celdas y slots.',

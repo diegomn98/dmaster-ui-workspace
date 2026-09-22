@@ -504,6 +504,7 @@ export const FR: DashboardTranslations = {
       theming: 'Thèmes nommés et tokens',
       copy: 'Copier dans le presse-papiers',
       themes: 'Thèmes prêts et templates',
+      motion: 'Tableau server-side & motion',
     },
     focusItems: {
       freezeTitle: 'Gel de la surface d’API',
@@ -571,6 +572,20 @@ export const FR: DashboardTranslations = {
     articleNewer: 'Plus récent',
     articleOlder: 'Précédent',
     articles: {
+      v011: {
+        title: 'Tableaux server-side, toasts qui vous attendent et une passe de motion',
+        lead: '0.11 apprend à dm-table à dialoguer avec votre API page par page, donne à DmToastService une vraie file qui se met en pause pendant que vous lisez, et fait une passe de design et de motion sur six composants — chips, groupes de boutons, tableaux, toggle groups, icônes et toasts — pour que les changements d’état se ressentent sans se remarquer. Un nouveau composant : dm-chip.',
+        bullets: [
+          'Pagination server-side de dm-table — passez un loadFn ({ page, pageSize, query, sort } → Observable<{ items, total }>) au lieu de data et la recherche, le tri, la page et la taille de page font l’aller-retour vers votre API via rxResource ; les lignes restent atténuées pendant le chargement de la suivante, une requête échouée affiche un état d’erreur avec réessai, la sélection survit d’une page à l’autre et reload() recharge après une mutation',
+          'Refonte de dm-table — une seule carte discrète : le caption devient le titre de la barre d’outils, en-têtes en sentence case sans bandeau, lignes sur un rythme 44 / 36 / 52 px et le pager du pied est dm-pagination ; une seule flèche de tri avec soulignement glissant et une révélation échelonnée des lignes après chargement. Corrige l’en-tête fixe (qui ne s’activait jamais) et la puce de sélection qui passait sous la recherche',
+          'dm-toast — au plus maxVisible toasts à la fois (les autres attendent), les minuteries se mettent en pause au survol ou au focus de la pile, swipe pour fermer, sortie animée, et loading() / promise() / update() pour suivre une opération async dans un seul toast ; les toasts danger sont annoncés en role="alert"',
+          'dm-chip + dm-chip-set (nouveau) — chips supprimables, filtre/choix et action sur tout le système couleur × variante × taille × rayon, clavier roving, sélection single/multiple (CVA), chips qui grandissent à l’entrée et se replient à la sortie',
+          'dm-toggle-group — un curseur glissant passe d’un segment à l’autre (jamais de flash à l’hydratation) ; hauteurs extérieures désormais 32 / 40 / 48 px, alignées sur boutons et champs',
+          'dm-icon — l’axe optique de Material Symbols suit la taille rendue, fill / weight / color transitionnent au lieu de sauter, et une icône de 1em s’assoit sur la x-height du texte',
+          'dm-button-group — états de barre rigide : survol et pression par remplissage, anneau de focus intérieur, et caret de split qui tourne tant que son menu est ouvert',
+          '46 composants en 8 catégories — toujours vérifiés par axe (WCAG 2.1 AA) en clair et en sombre, 840+ tests',
+        ],
+      },
       v010: {
         title: 'Thèmes prêts à l’emploi, un générateur de thèmes et des templates partout',
         lead: '0.10 fait du theming une affaire de deux minutes et ouvre presque chaque composant à du contenu personnalisé. Neuf palettes soignées sont publiées comme de minuscules fichiers CSS sur <code>@dmaster/ui/themes/*</code> — choisissez-en une pendant <code>ng add</code> et votre app se recolore en clair et sombre ; besoin de sur-mesure ? <code>ng generate @dmaster/ui:theme</code> l’échafaude. En prime : les boutons à icône seule deviennent des carrés compacts, et une douzaine de composants gagnent des templates projetés pour leurs lignes, cellules et slots.',

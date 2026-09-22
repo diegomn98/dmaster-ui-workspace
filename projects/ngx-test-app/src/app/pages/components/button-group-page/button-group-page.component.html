@@ -201,12 +201,8 @@
       </dm-button>
     </dm-button-group>
     <dm-menu #saveMenu [ariaLabel]="page().labels['saveOptions']">
-      <dm-menu-item (selected)="notify('saveClose')">{{
-        page().labels['saveClose']
-      }}</dm-menu-item>
-      <dm-menu-item (selected)="notify('saveCopy')">{{
-        page().labels['saveCopy']
-      }}</dm-menu-item>
+      <dm-menu-item (selected)="notify('saveClose')">{{ page().labels['saveClose'] }}</dm-menu-item>
+      <dm-menu-item (selected)="notify('saveCopy')">{{ page().labels['saveCopy'] }}</dm-menu-item>
       <dm-menu-item (selected)="notify('saveTemplate')">
         {{ page().labels['saveTemplate'] }}
       </dm-menu-item>

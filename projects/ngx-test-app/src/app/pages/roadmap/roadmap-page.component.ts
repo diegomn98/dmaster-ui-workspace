@@ -64,7 +64,8 @@ export class RoadmapPageComponent {
   protected readonly shipped = computed<ShippedCard[]>(() => {
     const t = this.i18n.t().roadmap;
     const rows: Omit<ShippedCard, 'date'>[] = [
-      { version: this.currentVersion, slug: 'v0-10', caption: t.rail.themes, isNow: true },
+      { version: this.currentVersion, slug: 'v0-11', caption: t.rail.motion, isNow: true },
+      { version: 'v0.10', slug: 'v0-10', caption: t.rail.themes, isNow: false },
       { version: 'v0.9', slug: 'v0-9', caption: t.rail.copy, isNow: false },
       { version: 'v0.8', slug: 'v0-8', caption: t.rail.theming, isNow: false },
       { version: 'v0.7', slug: 'v0-7', caption: t.rail.current, isNow: false },
