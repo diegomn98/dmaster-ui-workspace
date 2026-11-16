@@ -19,6 +19,11 @@ import { DashboardLocale } from '../../core/i18n/translations.types';
   styleUrl: './lang-switch.component.scss',
   host: {
     '(keydown.escape)': 'close()',
+    // Los diccionarios es/fr se cargan en diferido: en cuanto el puntero o el
+    // foco llegan al selector, se descargan los otros idiomas para que el
+    // cambio sea instantáneo al elegir.
+    '(pointerenter)': 'preloadOthers()',
+    '(focusin)': 'preloadOthers()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,6 +38,12 @@ export class LangSwitchComponent {
     { value: 'es', label: 'Español' },
     { value: 'fr', label: 'Français' },
   ];
+
+  protected preloadOthers(): void {
+    for (const { value } of this.locales) {
+      if (value !== this.i18n.locale()) this.i18n.preload(value);
+    }
+  }
 
   protected toggle(): void {
     this.open.update((o) => !o);
