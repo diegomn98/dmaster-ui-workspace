@@ -239,7 +239,7 @@ export const ES: DashboardTranslations = {
     ],
     migrationTitle: 'Si vienes de la 0.11 o anterior',
     migrationBody:
-      "El import raíz <code>import { … } from '@dmaster/ui'</code> sigue funcionando — reexporta todos los puntos de entrada, así que actualizar no rompe nada. Está <strong>obsoleto</strong> y se retirará en una versión futura: cambia cada import raíz por un import por punto de entrada.",
+      "El import raíz <code>import { … } from '@dmaster/ui'</code> sigue funcionando — reexporta todos los puntos de entrada, así que actualizar no rompe nada. Pero no reparte en chunks — los componentes de rutas diferidas siguen cayendo en el bundle inicial, como antes — y está <strong>obsoleto</strong>: se retirará en una versión futura. Cambia cada import raíz por un import por punto de entrada.",
     migrationNote:
       'Evita que vuelvan a colarse imports raíz con ESLint: una regla <code>no-restricted-imports</code> sobre <code>@dmaster/ui</code>. La guía de migración completa está en el README de la librería.',
     darkModeBody:

@@ -239,7 +239,7 @@ export const EN: DashboardTranslations = {
     ],
     migrationTitle: 'Upgrading from 0.11 or earlier',
     migrationBody:
-      "The root import <code>import { … } from '@dmaster/ui'</code> still works — it re-exports every entry point, so upgrading breaks nothing. It is <strong>deprecated</strong> and will be removed in a future version: replace each root import with one import per entry point.",
+      "The root import <code>import { … } from '@dmaster/ui'</code> still works — it re-exports every entry point, so upgrading breaks nothing. But it doesn’t code-split — components behind lazy routes still land in your initial bundle, as before — and it is <strong>deprecated</strong>: it will be removed in a future version. Replace each root import with one import per entry point.",
     migrationNote:
       'Stop root imports from creeping back with ESLint: a <code>no-restricted-imports</code> rule on <code>@dmaster/ui</code>. The full migration guide lives in the library README.',
     darkModeBody:

@@ -239,7 +239,7 @@ export const FR: DashboardTranslations = {
     ],
     migrationTitle: 'Mise à niveau depuis la 0.11 ou antérieure',
     migrationBody:
-      "L’import racine <code>import { … } from '@dmaster/ui'</code> fonctionne toujours — il réexporte tous les points d’entrée, la mise à niveau ne casse donc rien. Il est <strong>obsolète</strong> et sera retiré dans une version future : remplacez chaque import racine par un import par point d’entrée.",
+      "L’import racine <code>import { … } from '@dmaster/ui'</code> fonctionne toujours — il réexporte tous les points d’entrée, la mise à niveau ne casse donc rien. Mais il ne découpe pas le code — les composants des routes chargées à la demande restent dans le bundle initial, comme avant — et il est <strong>obsolète</strong> : il sera retiré dans une version future. Remplacez chaque import racine par un import par point d’entrée.",
     migrationNote:
       'Empêchez les imports racine de revenir avec ESLint : une règle <code>no-restricted-imports</code> sur <code>@dmaster/ui</code>. Le guide de migration complet se trouve dans le README de la bibliothèque.',
     darkModeBody:
