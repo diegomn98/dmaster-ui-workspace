@@ -239,7 +239,7 @@ export const EN: DashboardTranslations = {
     ],
     migrationTitle: 'Upgrading from 0.11 or earlier',
     migrationBody:
-      "The root import <code>import { … } from '@dmaster/ui'</code> still works — it re-exports every entry point, so upgrading breaks nothing. But it doesn’t code-split — components behind lazy routes still land in your initial bundle, as before — and it is <strong>deprecated</strong>: it will be removed in a future version. Replace each root import with one import per entry point.",
+      "The root import <code>import { … } from '@dmaster/ui'</code> still works — it re-exports every entry point, so upgrading breaks nothing — and it already code-splits like the subpaths. But it is <strong>deprecated</strong> and will be removed in a future version: replace each root import with one import per entry point.",
     migrationNote:
       'Stop root imports from creeping back with ESLint: a <code>no-restricted-imports</code> rule on <code>@dmaster/ui</code>. The full migration guide lives in the library README.',
     darkModeBody:
@@ -588,11 +588,11 @@ export const EN: DashboardTranslations = {
     articles: {
       v012: {
         title: 'One entry point per component',
-        lead: '0.12 publishes every component as its own entry point — @dmaster/ui/button, @dmaster/ui/menu, @dmaster/ui/toggle-group… — so bundlers can finally code-split the library: a component that only a lazy route uses now ships with that route instead of your initial bundle. The root @dmaster/ui import keeps working but is deprecated, does not code-split, and will be removed in a future version. No new components this time: this release is about what your app pays at startup.',
+        lead: '0.12 publishes every component as its own entry point — @dmaster/ui/button, @dmaster/ui/menu, @dmaster/ui/toggle-group… — so bundlers can finally code-split the library: a component that only a lazy route uses now ships with that route instead of your initial bundle. The root @dmaster/ui import keeps working, and splits too, but it is deprecated and will be removed in a future version. No new components this time: this release is about what your app pays at startup.',
         bullets: [
           'Per-component entry points — 46 components plus @dmaster/ui/core (provideDmasterUI, ThemeService, DensityService and the shared types), each its own module in the package; @dmaster/ui/styles, @dmaster/ui/themes and @dmaster/ui/icons are unchanged',
-          'Why it matters — bundlers split code by module, and until 0.11 the whole library was a single module, so anything a lazy route imported landed in the initial bundle, even with sideEffects: false. In a synthetic app with dm-button at startup and dm-checkbox behind a lazy route, the checkbox now stays lazy and the initial chunk drops from 4.9 to 3.5 kB gzip',
-          'The root @dmaster/ui import is deprecated — it still re-exports every entry point (same classes, same tokens), but it does not code-split and it will be removed in a future version; the README and Getting Started carry a migration guide and an ESLint rule that keeps root imports out',
+          'Why it matters — bundlers split code by module, and until 0.11 the whole library was a single module, so anything a lazy route imported landed in the initial bundle, even with sideEffects: false. In a real Angular 22 app that uses 18 of the components, 10 of them (toggle group, checkbox, switch, progress, search field, form field…) moved out of the initial bundle into the lazy routes that use them: −72 kB raw, −6.6 kB transferred',
+          'The root @dmaster/ui import is deprecated — it still re-exports every entry point (same classes, same tokens) and code-splits like the subpaths, but it will be removed in a future version; the README and Getting Started carry a migration guide and an ESLint rule that keeps root imports out',
           'icon vs icons — @dmaster/ui/icon is the dm-icon component, its registry and provideDmasterIcons(); @dmaster/ui/icons stays the optional set of curated SVG drawings',
           'Per-component cost unchanged or lower — button ~3.6 kB gzip, card ~0.9 kB, select ~10.7 kB; npm run size now finds every entry point by itself and fails if the subpaths stop code-splitting',
           'Docs, snippets, READMEs, the ng add messages and the StackBlitz starter (now on ^0.12 — it was stuck on 0.5) all import per component',

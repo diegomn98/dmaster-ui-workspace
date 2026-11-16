@@ -14,13 +14,11 @@
  *      resolve to the other linked FESMs) and gzip the result — i.e. the most
  *      that importing anything from that entry point can cost.
  *   4. Code-splitting check: a synthetic app imports dm-button eagerly and
- *      dm-checkbox only from a lazy chunk (esbuild `splitting`), once through
- *      the subpaths and once through the deprecated root `@dmaster/ui`. Fails
- *      (exit 1) if, through the SUBPATHS, checkbox code lands in the initial
- *      chunks — the regression the per-component entry points exist to
- *      prevent. The root import is expected to leak (its `export *` puts every
- *      entry point in the static graph; esbuild splits by reachable module, not
- *      by used symbol) and is only reported.
+ *      dm-checkbox only from a lazy chunk (esbuild `splitting`, Angular
+ *      bundled like in a real app), once through the subpaths and once through
+ *      the deprecated root `@dmaster/ui`. Fails (exit 1) if checkbox code lands
+ *      in the initial chunks — the regression the per-component entry points
+ *      exist to prevent (with 0.11's single FESM it always did).
  *
  * Entry points are discovered from dist/dmaster-ui/package.json `exports`
  * (no manual list: a new component is measured automatically).
@@ -94,13 +92,11 @@ const gz = (buf) => gzipSync(buf, { level: 9 }).length;
 const kb = (n) => (n / 1024).toFixed(1).padStart(6) + ' kB';
 
 /**
- * Drop the `import … from "<external>"` statements before measuring. @angular/*
- * and rxjs are external here, so esbuild keeps one import header per source
- * module that reaches the bundle — ~49 of them for the whole library, and one
- * per entry point re-exported by the root. In a real app Angular is bundled and
- * those headers don't exist, so counting them would inflate exactly the
- * numbers this audit compares (they cost ~2.8 kB gzip on the full library and
- * made the root-import split check look 2 kB heavier than it is).
+ * Drop the `import … from "<external>"` statements before measuring the
+ * per-entry and full-library sizes. @angular/* and rxjs are external there, so
+ * esbuild keeps one import header per source module in the bundle — ~49 of
+ * them for the whole library (~2.8 kB gzip). In a real app Angular is bundled
+ * and those headers don't exist. (The split check bundles Angular instead.)
  */
 const EXTERNAL_IMPORT =
   /import\s*(?:[\w$]+\s*,?\s*)?(?:\*\s*as\s*[\w$]+|\{[^}]*\})?\s*(?:from\s*)?"[^"]+";?/g;
@@ -126,13 +122,23 @@ function linkFesm(fesmPath, outPath) {
   writeFileSync(outPath, out.code);
 }
 
-/** esbuild plugin: `@dmaster/ui` / `@dmaster/ui/<entry>` -> the linked FESM in tmp. */
+/**
+ * esbuild plugin: `@dmaster/ui` / `@dmaster/ui/<entry>` -> the linked FESM in tmp.
+ *
+ * `sideEffects: false` is REQUIRED here: esbuild only reads package.json's
+ * `sideEffects` for paths ITS resolver finds, never for paths a plugin returns.
+ * Without it every linked module counts as side-effectful, so everything the
+ * root's `export *` reaches gets force-included in the initial chunk — the root
+ * import looked like it couldn't code-split, while a real Angular build (which
+ * resolves the package through node_modules and honours `"sideEffects": false`)
+ * splits it fine. That artifact misled the first 0.12 analysis.
+ */
 const resolveLinked = (tmp) => ({
   name: 'dmaster-ui-linked',
   setup(build) {
     build.onResolve({ filter: /^@dmaster\/ui(\/[^/]+)?$/ }, (args) => {
       const entry = args.path === '@dmaster/ui' ? 'index' : args.path.slice('@dmaster/ui/'.length);
-      return { path: join(tmp, entry + '.mjs') };
+      return { path: join(tmp, entry + '.mjs'), sideEffects: false };
     });
   },
 });
@@ -154,8 +160,17 @@ async function bundleSize(tmp, source) {
 
 /**
  * Synthetic app: dm-button in the initial chunk, dm-checkbox only behind a
- * dynamic import. Returns the initial chunks' gzip size and whether any of
- * them contains checkbox code (its `"dm-checkbox"` selector).
+ * dynamic import. Returns how many minified bytes of @dmaster/ui code end up in
+ * the initial chunks and whether checkbox code is among them.
+ *
+ * Angular (and rxjs) are BUNDLED here, like in a real app — NOT external. esbuild
+ * assumes importing an external module has side effects, so with Angular
+ * external every library module reachable through the root's `export *` would
+ * be force-included in the initial chunk (each keeping its `import … from
+ * "@angular/core"`), and the root import would look like it can't code-split.
+ * With Angular bundled (`@angular/*` declare `"sideEffects": false`), unused
+ * re-exported modules are dropped, exactly as in an Angular CLI build — checked
+ * against a real app (Angular 22.2, with and without NG_BUILD_OPTIMIZE_CHUNKS).
  */
 async function splitCheck(tmp, mode) {
   const dir = mkdtempSync(join(tmp, `split-${mode}-`));
@@ -181,12 +196,13 @@ async function splitCheck(tmp, mode) {
     write: false,
     metafile: true,
     logLevel: 'silent',
-    external: EXTERNAL,
+    nodePaths: [join(root, 'node_modules')], // resolve the bundled @angular/* and rxjs
     plugins: [resolveLinked(tmp)],
   });
-  // metafile output keys are relative to absWorkingDir; output files carry absolute paths.
+  // metafile keys are relative to absWorkingDir (= dir): the linked library
+  // files sit one level up, in tmp, as `../<entry>.mjs`.
   const outputs = result.metafile.outputs;
-  const text = new Map(result.outputFiles.map((o) => [resolve(o.path), o.contents]));
+  const libraryInput = /^\.\.[\\/]([\w-]+)\.mjs$/;
   const initial = new Set();
   const visit = (key) => {
     if (initial.has(key)) return;
@@ -196,16 +212,23 @@ async function splitCheck(tmp, mode) {
     }
   };
   visit(Object.keys(outputs).find((key) => outputs[key].entryPoint));
-  let gzip = 0;
+  // Checkbox detection by module name AND by its selector in the emitted code —
+  // the content check still catches it if the library ever ships as one module
+  // again (with 0.11's single FESM there's no `checkbox.mjs` input to see).
+  const code = new Map(result.outputFiles.map((o) => [resolve(o.path), o.text]));
+  const CHECKBOX_SELECTOR = /selectors:\[\[["'`]dm-checkbox["'`]/;
+  let libraryBytes = 0;
   let checkboxInInitial = false;
   for (const key of initial) {
-    const contents = text.get(resolve(dir, key));
-    if (!contents) throw new Error(`split check: no output for ${key}`);
-    const code = libraryCode(contents);
-    gzip += gz(code);
-    if (code.toString('utf8').includes('"dm-checkbox"')) checkboxInInitial = true;
+    if (CHECKBOX_SELECTOR.test(code.get(resolve(dir, key)) ?? '')) checkboxInInitial = true;
+    for (const [input, { bytesInOutput }] of Object.entries(outputs[key].inputs)) {
+      const m = input.match(libraryInput);
+      if (!m || bytesInOutput === 0) continue;
+      libraryBytes += bytesInOutput;
+      if (m[1] === 'checkbox') checkboxInInitial = true;
+    }
   }
-  return { initialChunks: initial.size, gzip, checkboxInInitial };
+  return { initialChunks: initial.size, libraryBytes, checkboxInInitial };
 }
 
 const tmp = mkdtempSync(join(tmpdir(), 'dmui-size-'));
@@ -231,10 +254,10 @@ try {
     subpath: await splitCheck(tmp, 'subpath'),
     root: await splitCheck(tmp, 'root'),
   };
-  // Only the subpaths must code-split. The deprecated root import is EXPECTED to
-  // leak: its `export *` puts every entry point in the app's static graph, and
-  // esbuild splits by reachable module, not by used symbol. Reported, not failed.
-  const splitOk = !split.subpath.checkboxInInitial;
+  // Both must code-split: the subpaths by construction, and the deprecated root
+  // because its `export *` re-exports side-effect-free modules that the bundler
+  // drops when unused (0.11's single FESM could not be split at all).
+  const splitOk = !split.subpath.checkboxInInitial && !split.root.checkboxInInitial;
 
   if (process.argv.includes('--json')) {
     const css = { raw: cssBuf.length, gzip: gz(cssBuf) };
@@ -260,17 +283,17 @@ try {
       const label =
         mode === 'root' ? "root '@dmaster/ui' (deprecated)" : "subpaths '@dmaster/ui/<entry>'";
       const verdict = r.checkboxInInitial
-        ? 'checkbox IN the initial chunks' +
-          (mode === 'root' ? ' (expected — migrate to subpaths)' : '')
+        ? 'checkbox IN the initial chunks'
         : 'checkbox stays lazy';
-      const mark = !r.checkboxInInitial ? '✔' : mode === 'root' ? '•' : '✖';
-      console.log(`  ${mark} ${label.padEnd(34)} initial ${kb(r.gzip)} gzip — ${verdict}`);
+      console.log(
+        `  ${r.checkboxInInitial ? '✖' : '✔'} ${label.padEnd(34)} library code at startup ${kb(r.libraryBytes)} (minified) — ${verdict}`,
+      );
     }
     console.log('');
   }
   if (!splitOk) {
     console.error(
-      '✖ dm-checkbox leaked into the initial chunks through the subpaths — the per-component entry points are not code-splitting.',
+      '✖ dm-checkbox leaked into the initial chunks — the per-component entry points are not code-splitting.',
     );
     process.exitCode = 1;
   }
