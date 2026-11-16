@@ -617,7 +617,7 @@ export const ES: DashboardTranslations = {
       },
       v010: {
         title: 'Temas prediseñados, un generador de temas y plantillas para todo',
-        lead: '0.10 convierte el theming en cosa de dos minutos y abre casi todos los componentes a contenido propio. Nueve paletas curadas se publican como archivos CSS diminutos en <code>@dmaster/ui/themes/*</code> — elige una durante <code>ng add</code> y tu app se recolorea en claro y oscuro; ¿la quieres a medida? <code>ng generate @dmaster/ui:theme</code> te la genera. Además: los botones de solo icono pasan a ser cuadrados compactos, y una docena de componentes ganan plantillas proyectables para sus filas, celdas y slots.',
+        lead: '0.10 convierte el theming en cosa de dos minutos y abre casi todos los componentes a contenido propio. Nueve paletas curadas se publican como archivos CSS diminutos en @dmaster/ui/themes/* — elige una durante ng add y tu app se recolorea en claro y oscuro; ¿la quieres a medida? ng generate @dmaster/ui:theme te la genera. Además: los botones de solo icono pasan a ser cuadrados compactos, y una docena de componentes ganan plantillas proyectables para sus filas, celdas y slots.',
         bullets: [
           'Temas prediseñados en @dmaster/ui/themes/* — nueve paletas (Ocean … Slate) elegibles al instalar (prompt de ng add, o --theme), que recolorean claro Y oscuro sobreescribiendo solo --dm-primary; el color de cada etiqueta está verificado en WCAG AA por el build',
           'ng generate @dmaster/ui:theme <name> — genera un tema custom (recolor global, o --named para un bloque data-dm-theme conmutable) y lo cablea en angular.json',
@@ -630,7 +630,7 @@ export const ES: DashboardTranslations = {
       },
       v09: {
         title: 'Un botón y una directiva de copiar al portapapeles',
-        lead: '0.9 añade dos formas pequeñas y enfocadas de copiar texto: el componente <code>dm-copy-button</code> y la directiva <code>dmCopyToClipboard</code>. El botón envuelve <code>dm-button</code> y cambia su icono de copiar a un check como confirmación; la directiva añade el mismo comportamiento a cualquier botón que ya tengas. Ambos son SSR-safe y no traen copy propio.',
+        lead: '0.9 añade dos formas pequeñas y enfocadas de copiar texto: el componente dm-copy-button y la directiva dmCopyToClipboard. El botón envuelve dm-button y cambia su icono de copiar a un check como confirmación; la directiva añade el mismo comportamiento a cualquier botón que ya tengas. Ambos son SSR-safe y no traen copy propio.',
         bullets: [
           'dm-copy-button — un botón de icono que copia su value y cambia a un check un momento; envuelve dm-button, así que se presiona, enfoca y tematiza como cualquier botón',
           'directiva dmCopyToClipboard — ponla en cualquier botón que ya tengas; exportAs da una señal isCopied() para tu propio feedback',
@@ -1036,8 +1036,7 @@ export const ES: DashboardTranslations = {
       ],
       api: {
         size: 'Escala de texto: sm (xs) o md (sm).',
-        content:
-          'El mensaje proyectado — texto, markup o un icono (p. ej. <code>&lt;dm-icon&gt;</code>).',
+        content: 'El mensaje proyectado — texto, markup o un icono (p. ej. <dm-icon>).',
       },
       labels: {
         sampleMessage: 'Este campo es obligatorio',

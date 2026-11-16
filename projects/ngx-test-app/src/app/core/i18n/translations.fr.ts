@@ -618,7 +618,7 @@ export const FR: DashboardTranslations = {
       },
       v010: {
         title: 'Thèmes prêts à l’emploi, un générateur de thèmes et des templates partout',
-        lead: '0.10 fait du theming une affaire de deux minutes et ouvre presque chaque composant à du contenu personnalisé. Neuf palettes soignées sont publiées comme de minuscules fichiers CSS sur <code>@dmaster/ui/themes/*</code> — choisissez-en une pendant <code>ng add</code> et votre app se recolore en clair et sombre ; besoin de sur-mesure ? <code>ng generate @dmaster/ui:theme</code> l’échafaude. En prime : les boutons à icône seule deviennent des carrés compacts, et une douzaine de composants gagnent des templates projetés pour leurs lignes, cellules et slots.',
+        lead: '0.10 fait du theming une affaire de deux minutes et ouvre presque chaque composant à du contenu personnalisé. Neuf palettes soignées sont publiées comme de minuscules fichiers CSS sur @dmaster/ui/themes/* — choisissez-en une pendant ng add et votre app se recolore en clair et sombre ; besoin de sur-mesure ? ng generate @dmaster/ui:theme l’échafaude. En prime : les boutons à icône seule deviennent des carrés compacts, et une douzaine de composants gagnent des templates projetés pour leurs lignes, cellules et slots.',
         bullets: [
           'Thèmes prêts à l’emploi sur @dmaster/ui/themes/* — neuf palettes (Ocean … Slate) choisies à l’installation (invite ng add, ou --theme), recolorant clair ET sombre en surchargeant seulement --dm-primary ; la couleur de chaque libellé est vérifiée en WCAG AA par le build',
           'ng generate @dmaster/ui:theme <name> — échafaude un thème personnalisé (recolor global, ou --named pour un bloc data-dm-theme commutable) et le branche dans angular.json',
@@ -631,7 +631,7 @@ export const FR: DashboardTranslations = {
       },
       v09: {
         title: 'Un bouton et une directive de copie dans le presse-papiers',
-        lead: '0.9 ajoute deux façons petites et ciblées de copier du texte : le composant <code>dm-copy-button</code> et la directive <code>dmCopyToClipboard</code>. Le bouton enveloppe <code>dm-button</code> et change son icône de copie en une coche pour confirmer ; la directive ajoute le même comportement à n’importe quel bouton que vous avez déjà. Les deux sont SSR-safe et n’embarquent aucun texte.',
+        lead: '0.9 ajoute deux façons petites et ciblées de copier du texte : le composant dm-copy-button et la directive dmCopyToClipboard. Le bouton enveloppe dm-button et change son icône de copie en une coche pour confirmer ; la directive ajoute le même comportement à n’importe quel bouton que vous avez déjà. Les deux sont SSR-safe et n’embarquent aucun texte.',
         bullets: [
           'dm-copy-button — un bouton-icône qui copie sa value et passe à une coche un instant ; enveloppe dm-button, donc il se presse, se focalise et se thème comme tout bouton',
           'directive dmCopyToClipboard — posez-la sur n’importe quel bouton que vous avez déjà ; exportAs donne un signal isCopied() pour votre propre retour',
@@ -1037,8 +1037,7 @@ export const FR: DashboardTranslations = {
       ],
       api: {
         size: 'Échelle de texte : sm (xs) ou md (sm).',
-        content:
-          'Le message projeté — texte, balisage ou une icône (p. ex. <code>&lt;dm-icon&gt;</code>).',
+        content: 'Le message projeté — texte, balisage ou une icône (p. ex. <dm-icon>).',
       },
       labels: {
         sampleMessage: 'Ce champ est obligatoire',
