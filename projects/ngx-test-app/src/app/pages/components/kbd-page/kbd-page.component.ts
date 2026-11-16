@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmCardComponent, DmKbdComponent, DmKbdKey, DmKbdSize } from '@dmaster/ui';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmKbdComponent, DmKbdKey, DmKbdSize } from '@dmaster/ui/kbd';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -110,7 +111,7 @@ export class KbdPageComponent {
 
   protected readonly singleTs = [
     "import { Component } from '@angular/core';",
-    "import { DmKbdComponent } from '@dmaster/ui';",
+    "import { DmKbdComponent } from '@dmaster/ui/kbd';",
     '',
     '@Component({',
     "  selector: 'app-kbd-single-keys',",
@@ -130,7 +131,7 @@ export class KbdPageComponent {
 
   protected readonly combosTs = [
     "import { Component } from '@angular/core';",
-    "import { DmKbdComponent } from '@dmaster/ui';",
+    "import { DmKbdComponent } from '@dmaster/ui/kbd';",
     '',
     '@Component({',
     "  selector: 'app-kbd-combos',",
@@ -150,7 +151,7 @@ export class KbdPageComponent {
 
   protected readonly lettersTs = [
     "import { Component } from '@angular/core';",
-    "import { DmKbdComponent } from '@dmaster/ui';",
+    "import { DmKbdComponent } from '@dmaster/ui/kbd';",
     '',
     '@Component({',
     "  selector: 'app-kbd-letters',",
@@ -167,7 +168,7 @@ export class KbdPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmKbdComponent } from '@dmaster/ui';",
+    "import { DmKbdComponent } from '@dmaster/ui/kbd';",
     '',
     '@Component({',
     "  selector: 'app-kbd-sizes',",
@@ -193,7 +194,7 @@ export class KbdPageComponent {
 
   protected readonly inlineTs = [
     "import { Component } from '@angular/core';",
-    "import { DmKbdComponent } from '@dmaster/ui';",
+    "import { DmKbdComponent } from '@dmaster/ui/kbd';",
     '',
     '@Component({',
     "  selector: 'app-kbd-inline',",
@@ -223,7 +224,8 @@ export class KbdPageComponent {
 
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
-    "import { DmCardComponent, DmKbdComponent, DmKbdKey } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmKbdComponent, DmKbdKey } from '@dmaster/ui/kbd';",
     '',
     'interface Shortcut {',
     '  action: string;',
@@ -248,7 +250,7 @@ export class KbdPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideKbdDefaults } from '@dmaster/ui';",
+    "import { provideKbdDefaults } from '@dmaster/ui/kbd';",
     '',
     "providers: [provideKbdDefaults({ size: 'sm' })]",
   ].join('\n');

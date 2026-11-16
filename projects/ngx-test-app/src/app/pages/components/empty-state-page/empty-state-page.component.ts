@@ -1,15 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmDividerComponent,
-  DmEmptyStateComponent,
-  DmEmptyStateSize,
-  DmIconComponent,
-  DmSearchFieldComponent,
-} from '@dmaster/ui';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmDividerComponent } from '@dmaster/ui/divider';
+import { DmEmptyStateComponent, DmEmptyStateSize } from '@dmaster/ui/empty-state';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmSearchFieldComponent } from '@dmaster/ui/search-field';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -98,7 +95,7 @@ export class EmptyStatePageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmEmptyStateComponent } from '@dmaster/ui';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui/empty-state';",
     '',
     '@Component({',
     "  selector: 'app-inbox-empty',",
@@ -118,7 +115,8 @@ export class EmptyStatePageComponent {
 
   protected readonly actionsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmEmptyStateComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui/empty-state';",
     '',
     '@Component({',
     "  selector: 'app-no-projects',",
@@ -138,7 +136,9 @@ export class EmptyStatePageComponent {
 
   protected readonly customIconTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmEmptyStateComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui/empty-state';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-no-results',",
@@ -156,7 +156,7 @@ export class EmptyStatePageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmEmptyStateComponent } from '@dmaster/ui';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui/empty-state';",
     '',
     '@Component({',
     "  selector: 'app-empty-state-sizes',",
@@ -177,7 +177,7 @@ export class EmptyStatePageComponent {
 
   protected readonly noIconTs = [
     "import { Component } from '@angular/core';",
-    "import { DmEmptyStateComponent } from '@dmaster/ui';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui/empty-state';",
     '',
     '@Component({',
     "  selector: 'app-no-results-text',",
@@ -202,7 +202,9 @@ export class EmptyStatePageComponent {
 
   protected readonly inContextTs = [
     "import { Component } from '@angular/core';",
-    "import { DmCardComponent, DmDividerComponent, DmEmptyStateComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmDividerComponent } from '@dmaster/ui/divider';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui/empty-state';",
     '',
     '@Component({',
     "  selector: 'app-documents-panel',",
@@ -213,7 +215,7 @@ export class EmptyStatePageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideEmptyStateDefaults } from '@dmaster/ui';",
+    "import { provideEmptyStateDefaults } from '@dmaster/ui/empty-state';",
     '',
     'providers: [',
     "  provideEmptyStateDefaults({ size: 'lg' }),",
@@ -272,10 +274,14 @@ export class EmptyStatePageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    'import {',
-    '  DmAvatarComponent, DmBadgeComponent, DmButtonComponent, DmCardComponent,',
-    '  DmDividerComponent, DmEmptyStateComponent, DmIconComponent, DmSearchFieldComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmDividerComponent } from '@dmaster/ui/divider';",
+    "import { DmEmptyStateComponent } from '@dmaster/ui/empty-state';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui/search-field';",
     '',
     'const MEMBERS = [',
     "  { initials: 'AR', name: 'Ana Ruiz', role: 'Design', color: 'primary' },",

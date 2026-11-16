@@ -5,10 +5,10 @@ import {
   DmBadgeRadius,
   DmBadgeSize,
   DmBadgeVariant,
-  DmButtonComponent,
-  DmCardComponent,
-  DmIconComponent,
-} from '@dmaster/ui';
+} from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -114,7 +114,7 @@ export class BadgePageComponent {
 
   protected readonly colorsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBadgeColor, DmBadgeComponent } from '@dmaster/ui';",
+    "import { DmBadgeColor, DmBadgeComponent } from '@dmaster/ui/badge';",
     '',
     '@Component({',
     "  selector: 'app-badge-colors',",
@@ -136,7 +136,7 @@ export class BadgePageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBadgeComponent, DmBadgeVariant } from '@dmaster/ui';",
+    "import { DmBadgeComponent, DmBadgeVariant } from '@dmaster/ui/badge';",
     '',
     '@Component({',
     "  selector: 'app-badge-variants',",
@@ -164,7 +164,7 @@ export class BadgePageComponent {
 
   protected readonly sizesRadiusTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBadgeComponent } from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
     '',
     '@Component({',
     "  selector: 'app-badge-sizes',",
@@ -182,7 +182,7 @@ export class BadgePageComponent {
 
   protected readonly dotTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBadgeComponent } from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
     '',
     '@Component({',
     "  selector: 'app-badge-status',",
@@ -210,7 +210,8 @@ export class BadgePageComponent {
 
   protected readonly withIconTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBadgeComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-badge-with-icon',",
@@ -257,12 +258,10 @@ export class BadgePageComponent {
   // so no page state is needed. The class body is empty on purpose.
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
-    'import {',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmIconComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-project-card',",
@@ -273,7 +272,7 @@ export class BadgePageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideBadgeDefaults } from '@dmaster/ui';",
+    "import { provideBadgeDefaults } from '@dmaster/ui/badge';",
     '',
     "providers: [provideBadgeDefaults({ variant: 'bordered' })]",
   ].join('\n');

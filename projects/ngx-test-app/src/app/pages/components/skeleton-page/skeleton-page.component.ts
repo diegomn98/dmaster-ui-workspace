@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
 import {
-  DmButtonComponent,
-  DmCardComponent,
   DmSkeletonAnimation,
   DmSkeletonComponent,
   DmSkeletonRounded,
   DmSkeletonVariant,
-} from '@dmaster/ui';
+} from '@dmaster/ui/skeleton';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -132,7 +132,7 @@ export class SkeletonPageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    "import { DmSkeletonComponent } from '@dmaster/ui/skeleton';",
     '',
     '@Component({',
     "  selector: 'app-profile-card-skeleton',",
@@ -151,7 +151,7 @@ export class SkeletonPageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    "import { DmSkeletonComponent } from '@dmaster/ui/skeleton';",
     '',
     '@Component({',
     "  selector: 'app-skeleton-variants',",
@@ -174,7 +174,7 @@ export class SkeletonPageComponent {
 
   protected readonly animationsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    "import { DmSkeletonComponent } from '@dmaster/ui/skeleton';",
     '',
     '@Component({',
     "  selector: 'app-skeleton-animations',",
@@ -195,7 +195,7 @@ export class SkeletonPageComponent {
 
   protected readonly paragraphTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    "import { DmSkeletonComponent } from '@dmaster/ui/skeleton';",
     '',
     '@Component({',
     "  selector: 'app-article-card-skeleton',",
@@ -218,7 +218,7 @@ export class SkeletonPageComponent {
 
   protected readonly cardTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    "import { DmSkeletonComponent } from '@dmaster/ui/skeleton';",
     '',
     '@Component({',
     "  selector: 'app-metric-grid-skeleton',",
@@ -243,7 +243,7 @@ export class SkeletonPageComponent {
 
   protected readonly fluidTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSkeletonComponent } from '@dmaster/ui';",
+    "import { DmSkeletonComponent } from '@dmaster/ui/skeleton';",
     '',
     '@Component({',
     "  selector: 'app-list-skeleton',",
@@ -282,7 +282,8 @@ export class SkeletonPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmCardComponent, DmSkeletonComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmSkeletonComponent } from '@dmaster/ui/skeleton';",
     '',
     '@Component({',
     "  selector: 'app-profile-card',",
@@ -307,7 +308,7 @@ export class SkeletonPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideSkeletonDefaults } from '@dmaster/ui';",
+    "import { provideSkeletonDefaults } from '@dmaster/ui/skeleton';",
     '',
     'providers: [',
     "  provideSkeletonDefaults({ animation: 'wave', rounded: 'lg' }),",

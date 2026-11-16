@@ -1,18 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
-  DmFormFieldComponent,
-  DmIconComponent,
-  DmInputDirective,
-  DmSelectComponent,
-  DmSelectItem,
-  ThemeService,
-} from '@dmaster/ui';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';
+import { ThemeService } from '@dmaster/ui/core';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

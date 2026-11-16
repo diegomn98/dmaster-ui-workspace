@@ -1,11 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DmAlertColor,
-  DmAlertComponent,
-  DmAlertVariant,
-  DmButtonComponent,
-  DmCardComponent,
-} from '@dmaster/ui';
+import { DmAlertColor, DmAlertComponent, DmAlertVariant } from '@dmaster/ui/alert';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -101,7 +97,7 @@ export class AlertPageComponent {
 
   protected readonly basicTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmAlertComponent } from '@dmaster/ui';",
+    "import { DmAlertComponent } from '@dmaster/ui/alert';",
     '',
     '@Component({',
     "  selector: 'app-alert-basic',",
@@ -123,7 +119,7 @@ export class AlertPageComponent {
 
   protected readonly colorsTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmAlertComponent } from '@dmaster/ui';",
+    "import { DmAlertComponent } from '@dmaster/ui/alert';",
     '',
     '@Component({',
     "  selector: 'app-alert-colors',",
@@ -143,7 +139,7 @@ export class AlertPageComponent {
 
   protected readonly variantsTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmAlertComponent } from '@dmaster/ui';",
+    "import { DmAlertComponent } from '@dmaster/ui/alert';",
     '',
     '@Component({',
     "  selector: 'app-alert-variants',",
@@ -170,7 +166,7 @@ export class AlertPageComponent {
 
   protected readonly descriptionTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmAlertComponent } from '@dmaster/ui';",
+    "import { DmAlertComponent } from '@dmaster/ui/alert';",
     '',
     '@Component({',
     "  selector: 'app-alert-description',",
@@ -197,7 +193,8 @@ export class AlertPageComponent {
 
   protected readonly dismissibleTs = [
     "import { ChangeDetectionStrategy, Component, signal } from '@angular/core';",
-    "import { DmAlertComponent, DmButtonComponent } from '@dmaster/ui';",
+    "import { DmAlertComponent } from '@dmaster/ui/alert';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-dismissible-alert',",
@@ -219,7 +216,8 @@ export class AlertPageComponent {
 
   protected readonly actionTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmAlertComponent, DmButtonComponent } from '@dmaster/ui';",
+    "import { DmAlertComponent } from '@dmaster/ui/alert';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-alert-action',",
@@ -231,7 +229,7 @@ export class AlertPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideAlertDefaults } from '@dmaster/ui';",
+    "import { provideAlertDefaults } from '@dmaster/ui/alert';",
     '',
     'providers: [',
     "  provideAlertDefaults({ variant: 'faded', dismissLabel: 'Cerrar' }),",
@@ -295,7 +293,9 @@ export class AlertPageComponent {
 
   protected readonly compositionTs = [
     "import { ChangeDetectionStrategy, Component, signal } from '@angular/core';",
-    "import { DmAlertComponent, DmButtonComponent, DmCardComponent } from '@dmaster/ui';",
+    "import { DmAlertComponent } from '@dmaster/ui/alert';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
     '',
     '@Component({',
     "  selector: 'app-billing-panel',",

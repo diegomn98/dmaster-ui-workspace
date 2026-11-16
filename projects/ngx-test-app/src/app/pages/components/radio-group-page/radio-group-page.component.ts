@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
 import {
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
   DmRadioColor,
   DmRadioComponent,
   DmRadioGroupComponent,
   DmRadioOrientation,
   DmRadioSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/radio-group';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -163,7 +163,7 @@ export class RadioGroupPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui/radio-group';",
     '',
     '@Component({',
     "  selector: 'app-plan-select',",
@@ -193,7 +193,7 @@ export class RadioGroupPageComponent {
 
   protected readonly orientationTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui/radio-group';",
     '',
     '@Component({',
     "  selector: 'app-alignment',",
@@ -216,7 +216,7 @@ export class RadioGroupPageComponent {
 
   protected readonly colorsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui/radio-group';",
     '',
     '@Component({',
     "  selector: 'app-radio-colors',",
@@ -236,7 +236,7 @@ export class RadioGroupPageComponent {
 
   protected readonly sizesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui/radio-group';",
     '',
     '@Component({',
     "  selector: 'app-radio-sizes',",
@@ -266,7 +266,7 @@ export class RadioGroupPageComponent {
 
   protected readonly disabledTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui/radio-group';",
     '',
     '@Component({',
     "  selector: 'app-delivery-options',",
@@ -294,7 +294,8 @@ export class RadioGroupPageComponent {
 
   protected readonly formsTs = [
     "import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
-    "import { DmRadioGroupComponent, DmRadioComponent, DmErrorComponent } from '@dmaster/ui';",
+    "import { DmRadioGroupComponent, DmRadioComponent } from '@dmaster/ui/radio-group';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
     '',
     '@Component({',
     '  imports: [ReactiveFormsModule, DmRadioGroupComponent, DmRadioComponent, DmErrorComponent],',
@@ -362,10 +363,10 @@ export class RadioGroupPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    'import {',
-    '  DmBadgeComponent, DmButtonComponent, DmCardComponent,',
-    '  DmRadioComponent, DmRadioGroupComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmRadioComponent, DmRadioGroupComponent } from '@dmaster/ui/radio-group';",
     '',
     'interface Plan {',
     '  id: string;',
@@ -398,7 +399,7 @@ export class RadioGroupPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideRadioDefaults } from '@dmaster/ui';",
+    "import { provideRadioDefaults } from '@dmaster/ui/radio-group';",
     '',
     'providers: [',
     "  provideRadioDefaults({ color: 'success', size: 'lg' }),",

@@ -196,6 +196,7 @@ export const EN: DashboardTranslations = {
       styles: 'Styles setup',
       providers: 'Provide the library',
       firstComponent: 'First component',
+      imports: 'Imports & entry points',
       darkMode: 'Dark mode',
       colors: 'Colors & tokens',
       animation: 'Animation',
@@ -229,6 +230,18 @@ export const EN: DashboardTranslations = {
       'Add <code>provideDmasterUI</code> in your <code>ApplicationConfig</code>. The initial <code>theme</code> and <code>density</code> stamp themselves on <code>&lt;html&gt;</code> so the CSS tokens flip automatically.',
     firstComponentBody:
       'Every component is standalone: import it directly where you use it. No modules, no barrels to remember.',
+    importsBody:
+      'Each component is published as its own entry point, named after it — <code>@dmaster/ui/button</code>, <code>@dmaster/ui/menu</code>, <code>@dmaster/ui/toggle-group</code>… Import from there and your bundler can code-split the library: a component used only in a lazy route ships with that route, not in your initial bundle.',
+    importsItems: [
+      '<code>@dmaster/ui/core</code> — <code>provideDmasterUI</code>, <code>ThemeService</code>, <code>DensityService</code> and the shared types (<code>DmSize</code>, <code>DmTheme</code>…).',
+      '<code>@dmaster/ui/&lt;component&gt;</code> — the component, its types and its <code>provide…Defaults()</code> helper. Composites ship together: tabs, tab and tab panel all come from <code>@dmaster/ui/tabs</code>. Every component page shows its import at the top.',
+      '<code>@dmaster/ui/icon</code> vs <code>@dmaster/ui/icons</code> — <code>icon</code> is the component that draws icons (font ligature, registered name or projected SVG); <code>icons</code> is an optional set of SVG drawings to register with it.',
+    ],
+    migrationTitle: 'Upgrading from 0.11 or earlier',
+    migrationBody:
+      "The root import <code>import { … } from '@dmaster/ui'</code> still works — it re-exports every entry point, so upgrading breaks nothing — and it already code-splits like the subpaths. But it is <strong>deprecated</strong> and will be removed in a future version: replace each root import with one import per entry point.",
+    migrationNote:
+      'A codemod rewrites them for you: run <code>scripts/migrate-to-entry-points.mjs</code> (from the GitHub repo) at your project root. Then keep root imports out with an ESLint <code>no-restricted-imports</code> rule on <code>@dmaster/ui</code>. The full migration guide lives in the library README.',
     darkModeBody:
       'Dark mode is a first-class citizen. Every color, border and shadow token has a dark counterpart — flipping happens instantly via a data attribute on <code>&lt;html&gt;</code>.',
     darkModeItems: [
@@ -492,7 +505,7 @@ export const EN: DashboardTranslations = {
       inProgressMeta: 'the road to 1.0',
       doneMeta: 'shipped & stable',
       targetTitle: 'A stable API',
-      targetSub: 'Three things stand between here and there.',
+      targetSub: 'Four things stand between here and there.',
     },
     rail: {
       foundations: 'Foundations',
@@ -503,6 +516,7 @@ export const EN: DashboardTranslations = {
       copy: 'Copy to clipboard',
       themes: 'Prebuilt themes & templates',
       motion: 'Server-side table & motion',
+      entryPoints: 'Per-component entry points',
     },
     focusItems: {
       freezeTitle: 'API surface freeze',
@@ -510,6 +524,9 @@ export const EN: DashboardTranslations = {
         'Consistency pass across all {count} components — input/output names, injectable defaults, sibling parity.',
       deprecationTitle: 'Deprecation policy',
       deprecationDesc: 'One written rule for how the API evolves after 1.0.',
+      rootImportTitle: 'Retire the root import',
+      rootImportDesc:
+        'The root @dmaster/ui entry point is deprecated since 0.12 and will be removed in a future version — import from @dmaster/ui/<component>.',
       docsTitle: 'Docs & case study',
       docsDesc: 'Engineering write-up + copy-paste StackBlitz templates.',
     },
@@ -569,6 +586,19 @@ export const EN: DashboardTranslations = {
     articleNewer: 'Newer',
     articleOlder: 'Older',
     articles: {
+      v012: {
+        title: 'One entry point per component',
+        lead: '0.12 publishes every component as its own entry point — @dmaster/ui/button, @dmaster/ui/menu, @dmaster/ui/toggle-group… — so bundlers can finally code-split the library: a component that only a lazy route uses now ships with that route instead of your initial bundle. The root @dmaster/ui import keeps working, and splits too, but it is deprecated and will be removed in a future version. No new components this time: this release is about what your app pays at startup.',
+        bullets: [
+          'Per-component entry points — 46 components plus @dmaster/ui/core (provideDmasterUI, ThemeService, DensityService and the shared types), each its own module in the package; @dmaster/ui/styles, @dmaster/ui/themes and @dmaster/ui/icons are unchanged',
+          'Why it matters — bundlers split code by module, and until 0.11 the whole library was a single module, so anything a lazy route imported landed in the initial bundle, even with sideEffects: false. In a real Angular 22 app that uses 18 of the components, 10 of them (toggle group, checkbox, switch, progress, search field, form field…) moved out of the initial bundle into the lazy routes that use them: −72 kB raw, −6.6 kB transferred',
+          'The root @dmaster/ui import is deprecated — it still re-exports every entry point (same classes, same tokens) and code-splits like the subpaths, but it will be removed in a future version; the README and Getting Started carry a migration guide, a codemod that rewrites the imports for you, and an ESLint rule that keeps root imports out',
+          'icon vs icons — @dmaster/ui/icon is the dm-icon component, its registry and provideDmasterIcons(); @dmaster/ui/icons stays the optional set of curated SVG drawings',
+          'Per-component cost unchanged or lower — button ~3.6 kB gzip, card ~0.9 kB, select ~10.7 kB; npm run size now finds every entry point by itself and fails if the subpaths stop code-splitting',
+          'Docs, snippets, READMEs, the ng add messages and the StackBlitz starter (now on ^0.12 — it was stuck on 0.5) all import per component',
+          'Still 46 components across 8 categories, verified by axe (WCAG 2.1 AA) in light and dark, 840+ tests',
+        ],
+      },
       v011: {
         title: 'Server-side tables, toasts that wait for you, and a motion pass',
         lead: '0.11 teaches dm-table to talk to your API one page at a time, gives DmToastService a real queue that pauses while you read, and runs a design-and-motion pass across six components — chips, button groups, tables, toggle groups, icons and toasts — so state changes are felt, not noticed. One new component: dm-chip.',

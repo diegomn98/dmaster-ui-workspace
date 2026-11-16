@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { DmIconComponent, DmSelectComponent, DmSelectItem } from '@dmaster/ui';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { DashboardLocale } from '../../core/i18n/translations.types';

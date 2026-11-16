@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
 import {
-  DmBadgeComponent,
   DmBreadcrumbItemComponent,
   DmBreadcrumbsComponent,
   DmBreadcrumbsSize,
-  DmButtonComponent,
-  DmCardComponent,
-  DmIconComponent,
-} from '@dmaster/ui';
+} from '@dmaster/ui/breadcrumbs';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -87,7 +87,10 @@ export class BreadcrumbsPageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    'import {',
+    '  DmBreadcrumbItemComponent,',
+    '  DmBreadcrumbsComponent,',
+    "} from '@dmaster/ui/breadcrumbs';",
     '',
     '@Component({',
     "  selector: 'app-breadcrumbs-basic',",
@@ -107,7 +110,10 @@ export class BreadcrumbsPageComponent {
 
   protected readonly separatorTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    'import {',
+    '  DmBreadcrumbItemComponent,',
+    '  DmBreadcrumbsComponent,',
+    "} from '@dmaster/ui/breadcrumbs';",
     '',
     '@Component({',
     "  selector: 'app-breadcrumbs-separator',",
@@ -125,7 +131,10 @@ export class BreadcrumbsPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    'import {',
+    '  DmBreadcrumbItemComponent,',
+    '  DmBreadcrumbsComponent,',
+    "} from '@dmaster/ui/breadcrumbs';",
     '',
     '@Component({',
     "  selector: 'app-breadcrumbs-sizes',",
@@ -145,7 +154,10 @@ export class BreadcrumbsPageComponent {
 
   protected readonly disabledTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    'import {',
+    '  DmBreadcrumbItemComponent,',
+    '  DmBreadcrumbsComponent,',
+    "} from '@dmaster/ui/breadcrumbs';",
     '',
     '@Component({',
     "  selector: 'app-breadcrumbs-disabled',",
@@ -167,7 +179,10 @@ export class BreadcrumbsPageComponent {
 
   protected readonly collapseTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui';",
+    'import {',
+    '  DmBreadcrumbItemComponent,',
+    '  DmBreadcrumbsComponent,',
+    "} from '@dmaster/ui/breadcrumbs';",
     '',
     '@Component({',
     "  selector: 'app-breadcrumbs-collapse',",
@@ -210,14 +225,14 @@ export class BreadcrumbsPageComponent {
 
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
     'import {',
-    '  DmBadgeComponent,',
     '  DmBreadcrumbItemComponent,',
     '  DmBreadcrumbsComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmIconComponent,',
-    "} from '@dmaster/ui';",
+    "} from '@dmaster/ui/breadcrumbs';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-page-header',",
@@ -235,7 +250,7 @@ export class BreadcrumbsPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideBreadcrumbsDefaults } from '@dmaster/ui';",
+    "import { provideBreadcrumbsDefaults } from '@dmaster/ui/breadcrumbs';",
     '',
     'providers: [',
     "  provideBreadcrumbsDefaults({ ariaLabel: 'You are here', size: 'lg' }),",

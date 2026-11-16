@@ -23,6 +23,20 @@ module.exports = defineConfig([
           style: 'kebab-case',
         },
       ],
+      // Dogfood the per-component entry points (0.12+): the root `@dmaster/ui`
+      // is deprecated — import each symbol from its own `@dmaster/ui/<name>`.
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@dmaster/ui',
+              message:
+                "Deprecated root entry point — import from the component's entry point, e.g. '@dmaster/ui/button' or '@dmaster/ui/core'.",
+            },
+          ],
+        },
+      ],
     },
   },
   {

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, input, model } from '@angular/core';
-import { DmSelectComponent, DmSelectItem, DmSwitchComponent } from '@dmaster/ui';
+import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';
+import { DmSwitchComponent } from '@dmaster/ui/switch';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { PropControl, PropControlOption, PropValues } from './prop-signal.types';

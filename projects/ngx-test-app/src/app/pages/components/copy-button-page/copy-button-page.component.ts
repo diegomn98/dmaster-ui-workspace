@@ -1,14 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DmButtonColor,
-  DmButtonVariant,
-  DmCardComponent,
-  DmCopyButtonComponent,
-  DmCopyToClipboardDirective,
-  DmIconComponent,
-  DmSize,
-  DmToastService,
-} from '@dmaster/ui';
+import { DmButtonColor, DmButtonVariant } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmCopyButtonComponent, DmCopyToClipboardDirective } from '@dmaster/ui/copy-button';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmSize } from '@dmaster/ui/core';
+import { DmToastService } from '@dmaster/ui/toast';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -118,7 +114,7 @@ export class CopyButtonPageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmCopyButtonComponent } from '@dmaster/ui';",
+    "import { DmCopyButtonComponent } from '@dmaster/ui/copy-button';",
     '',
     '@Component({',
     "  selector: 'app-copy-basic',",
@@ -170,7 +166,8 @@ export class CopyButtonPageComponent {
 
   protected readonly directiveTs = [
     "import { Component } from '@angular/core';",
-    "import { DmCopyToClipboardDirective, DmIconComponent } from '@dmaster/ui';",
+    "import { DmCopyToClipboardDirective } from '@dmaster/ui/copy-button';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-copy-directive',",
@@ -206,7 +203,9 @@ export class CopyButtonPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, inject } from '@angular/core';",
-    "import { DmCardComponent, DmCopyButtonComponent, DmToastService } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmCopyButtonComponent } from '@dmaster/ui/copy-button';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-credentials-card',",
@@ -223,7 +222,7 @@ export class CopyButtonPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideCopyButtonDefaults } from '@dmaster/ui';",
+    "import { provideCopyButtonDefaults } from '@dmaster/ui/copy-button';",
     '',
     'providers: [',
     "  provideCopyButtonDefaults({ variant: 'bordered', resetDelay: 1200 }),",

@@ -1,15 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
-  DmOtpColor,
-  DmOtpComponent,
-  DmOtpMode,
-  DmOtpSize,
-  DmOtpVariant,
-} from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmOtpColor, DmOtpComponent, DmOtpMode, DmOtpSize, DmOtpVariant } from '@dmaster/ui/otp';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -153,7 +147,7 @@ export class OtpPageComponent {
 
   protected readonly numericTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmOtpComponent } from '@dmaster/ui';",
+    "import { DmOtpComponent } from '@dmaster/ui/otp';",
     '',
     '@Component({',
     "  selector: 'app-numeric-otp',",
@@ -176,7 +170,7 @@ export class OtpPageComponent {
 
   protected readonly alnumTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmOtpComponent } from '@dmaster/ui';",
+    "import { DmOtpComponent } from '@dmaster/ui/otp';",
     '',
     '@Component({',
     "  selector: 'app-coupon-otp',",
@@ -195,7 +189,7 @@ export class OtpPageComponent {
 
   protected readonly maskedTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmOtpComponent } from '@dmaster/ui';",
+    "import { DmOtpComponent } from '@dmaster/ui/otp';",
     '',
     '@Component({',
     "  selector: 'app-pin-otp',",
@@ -213,7 +207,7 @@ export class OtpPageComponent {
 
   protected readonly fourTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmOtpComponent } from '@dmaster/ui';",
+    "import { DmOtpComponent } from '@dmaster/ui/otp';",
     '',
     '@Component({',
     "  selector: 'app-otp-four',",
@@ -234,7 +228,7 @@ export class OtpPageComponent {
 
   protected readonly variantsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmOtpComponent } from '@dmaster/ui';",
+    "import { DmOtpComponent } from '@dmaster/ui/otp';",
     '',
     '@Component({',
     "  selector: 'app-otp-variants',",
@@ -256,7 +250,7 @@ export class OtpPageComponent {
 
   protected readonly separatedTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmOtpComponent } from '@dmaster/ui';",
+    "import { DmOtpComponent } from '@dmaster/ui/otp';",
     '',
     '@Component({',
     "  selector: 'app-otp-separated',",
@@ -276,7 +270,7 @@ export class OtpPageComponent {
 
   protected readonly sizesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmOtpComponent } from '@dmaster/ui';",
+    "import { DmOtpComponent } from '@dmaster/ui/otp';",
     '',
     '@Component({',
     "  selector: 'app-otp-sizes',",
@@ -341,7 +335,10 @@ export class OtpPageComponent {
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
-    "import { DmButtonComponent, DmCardComponent, DmErrorComponent, DmOtpComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmOtpComponent } from '@dmaster/ui/otp';",
     '',
     '@Component({',
     "  selector: 'app-verify-card',",
@@ -370,7 +367,7 @@ export class OtpPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideOtpDefaults } from '@dmaster/ui';",
+    "import { provideOtpDefaults } from '@dmaster/ui/otp';",
     '',
     'providers: [',
     "  provideOtpDefaults({ length: 4, mode: 'numeric' }),",

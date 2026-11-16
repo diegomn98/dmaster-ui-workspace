@@ -6,17 +6,13 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmKbdComponent,
-  DmSwitchComponent,
-  DmTreeComponent,
-  DmTreeNode,
-  DmTreeSelectionMode,
-} from '@dmaster/ui';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmKbdComponent } from '@dmaster/ui/kbd';
+import { DmSwitchComponent } from '@dmaster/ui/switch';
+import { DmTreeComponent, DmTreeNode, DmTreeSelectionMode } from '@dmaster/ui/tree';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -287,7 +283,7 @@ export class TreePageComponent {
   ].join('\n');
   protected readonly explorerTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui';",
+    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui/tree';",
     '',
     '@Component({',
     "  selector: 'app-file-explorer',",
@@ -347,7 +343,7 @@ export class TreePageComponent {
   ].join('\n');
   protected readonly multipleTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui';",
+    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui/tree';",
     '',
     '@Component({',
     "  selector: 'app-multi-tree',",
@@ -404,7 +400,8 @@ export class TreePageComponent {
   ].join('\n');
   protected readonly controlledTs = [
     "import { Component, signal, viewChild } from '@angular/core';",
-    "import { DmButtonComponent, DmTreeComponent, DmTreeNode } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui/tree';",
     '',
     '@Component({',
     "  selector: 'app-controlled-tree',",
@@ -440,7 +437,7 @@ export class TreePageComponent {
   ].join('\n');
   protected readonly guidesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui';",
+    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui/tree';",
     '',
     '@Component({',
     "  selector: 'app-tree-guides',",
@@ -468,7 +465,7 @@ export class TreePageComponent {
   ].join('\n');
   protected readonly disabledTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui';",
+    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui/tree';",
     '',
     '@Component({',
     "  selector: 'app-settings-tree',",
@@ -507,7 +504,7 @@ export class TreePageComponent {
   ].join('\n');
   protected readonly keyboardTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui';",
+    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui/tree';",
     '',
     '@Component({',
     "  selector: 'app-tree-keyboard',",
@@ -657,15 +654,12 @@ export class TreePageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    'import {',
-    '  DmAvatarComponent,',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmSwitchComponent,',
-    '  DmTreeComponent,',
-    '  DmTreeNode,',
-    "} from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
+    "import { DmTreeComponent, DmTreeNode } from '@dmaster/ui/tree';",
     '',
     "interface OrgMeta { kind: 'department' | 'team' | 'person'; role?: string; }",
     '',
@@ -724,7 +718,7 @@ export class TreePageComponent {
 
   // ---- Defaults ------------------------------------------------------------
   protected readonly defaultsCode = [
-    "import { provideTreeDefaults } from '@dmaster/ui';",
+    "import { provideTreeDefaults } from '@dmaster/ui/tree';",
     '',
     'providers: [',
     "  provideTreeDefaults({ selectionMode: 'multiple', showGuides: true, expandOnSelect: true }),",

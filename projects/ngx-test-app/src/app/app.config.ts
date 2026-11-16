@@ -5,7 +5,9 @@ import {
   provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
-import { DM_DATE_LOCALE, provideDmasterIcons, provideDmasterUI } from '@dmaster/ui';
+import { DM_DATE_LOCALE } from '@dmaster/ui/date-picker';
+import { provideDmasterIcons } from '@dmaster/ui/icon';
+import { provideDmasterUI } from '@dmaster/ui/core';
 import { DM_ICONS } from '@dmaster/ui/icons';
 
 import { routes } from './app.routes';

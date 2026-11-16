@@ -3,9 +3,9 @@ import {
   DmAccordionComponent,
   DmAccordionItemComponent,
   DmAccordionVariant,
-  DmCardComponent,
-  DmIconComponent,
-} from '@dmaster/ui';
+} from '@dmaster/ui/accordion';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -110,7 +110,7 @@ export class AccordionPageComponent {
 
   protected readonly singleTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui/accordion';",
     '',
     '@Component({',
     "  selector: 'app-faq',",
@@ -130,7 +130,7 @@ export class AccordionPageComponent {
 
   protected readonly multipleTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui/accordion';",
     '',
     '@Component({',
     "  selector: 'app-multi-accordion',",
@@ -151,7 +151,7 @@ export class AccordionPageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui/accordion';",
     '',
     '@Component({',
     "  selector: 'app-accordion-variants',",
@@ -172,7 +172,7 @@ export class AccordionPageComponent {
 
   protected readonly disabledTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui/accordion';",
     '',
     '@Component({',
     "  selector: 'app-accordion-disabled',",
@@ -218,7 +218,7 @@ export class AccordionPageComponent {
 
   protected readonly iconTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui/accordion';",
     '',
     '@Component({',
     "  selector: 'app-accordion-icon',",
@@ -284,12 +284,9 @@ export class AccordionPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
-    'import {',
-    '  DmAccordionComponent,',
-    '  DmAccordionItemComponent,',
-    '  DmCardComponent,',
-    '  DmIconComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmAccordionComponent, DmAccordionItemComponent } from '@dmaster/ui/accordion';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-help-faq',",
@@ -308,7 +305,7 @@ export class AccordionPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideAccordionDefaults } from '@dmaster/ui';",
+    "import { provideAccordionDefaults } from '@dmaster/ui/accordion';",
     '',
     'providers: [',
     "  provideAccordionDefaults({ variant: 'splitted', selectionMode: 'multiple' }),",

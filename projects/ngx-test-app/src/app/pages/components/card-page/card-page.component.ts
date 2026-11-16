@@ -1,13 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardAppearance,
-  DmCardComponent,
-  DmCardPadding,
-  DmIconComponent,
-} from '@dmaster/ui';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardAppearance, DmCardComponent, DmCardPadding } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -104,7 +100,7 @@ export class CardPageComponent {
 
   protected readonly appearancesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmCardComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
     '',
     '@Component({',
     "  selector: 'app-card-appearances',",
@@ -125,7 +121,7 @@ export class CardPageComponent {
 
   protected readonly paddingTs = [
     "import { Component } from '@angular/core';",
-    "import { DmCardComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
     '',
     '@Component({',
     "  selector: 'app-card-padding',",
@@ -146,7 +142,7 @@ export class CardPageComponent {
   protected readonly interactiveTs = [
     "import { Component } from '@angular/core';",
     "import { RouterLink } from '@angular/router';",
-    "import { DmCardComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
     '',
     '@Component({',
     "  selector: 'app-card-interactive',",
@@ -183,12 +179,10 @@ export class CardPageComponent {
 
   protected readonly sectionsTs = [
     "import { Component } from '@angular/core';",
-    'import {',
-    '  DmAvatarComponent,',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
     '',
     'const AVATAR_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" fill="#6366f1"/><circle cx="24" cy="18" r="8" fill="#fff" opacity="0.92"/><path d="M8 46c0-9 7-15 16-15s16 6 16 15" fill="#fff" opacity="0.92"/></svg>`;',
     '',
@@ -222,7 +216,8 @@ export class CardPageComponent {
 
   protected readonly mediaTs = [
     "import { Component } from '@angular/core';",
-    "import { DmBadgeComponent, DmCardComponent } from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
     '',
     '@Component({',
     "  selector: 'app-card-media',",
@@ -262,12 +257,10 @@ export class CardPageComponent {
 
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
-    'import {',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmIconComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-pricing-card',",
@@ -285,7 +278,7 @@ export class CardPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideCardDefaults } from '@dmaster/ui';",
+    "import { provideCardDefaults } from '@dmaster/ui/card';",
     '',
     "providers: [provideCardDefaults({ appearance: 'outlined', padding: 'lg' })]",
   ].join('\n');

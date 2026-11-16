@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { DmBadgeComponent, DmIconComponent } from '@dmaster/ui';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import {
   BlogCategory,

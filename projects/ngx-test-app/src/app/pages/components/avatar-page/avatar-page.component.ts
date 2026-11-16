@@ -1,11 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DmAvatarComponent,
-  DmAvatarShape,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-} from '@dmaster/ui';
+import { DmAvatarComponent, DmAvatarShape } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -118,7 +115,7 @@ export class AvatarPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAvatarComponent } from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
     '',
     '@Component({',
     "  selector: 'app-avatar-sizes',",
@@ -136,7 +133,7 @@ export class AvatarPageComponent {
 
   protected readonly shapesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAvatarComponent } from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
     '',
     '@Component({',
     "  selector: 'app-avatar-shapes',",
@@ -157,7 +154,7 @@ export class AvatarPageComponent {
 
   protected readonly fallbackTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAvatarComponent } from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
     '',
     '@Component({',
     "  selector: 'app-avatar-fallback',",
@@ -185,7 +182,7 @@ export class AvatarPageComponent {
 
   protected readonly groupTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAvatarComponent } from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
     '',
     '@Component({',
     "  selector: 'app-avatar-group',",
@@ -212,7 +209,7 @@ export class AvatarPageComponent {
 
   protected readonly statusTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAvatarComponent } from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
     '',
     '@Component({',
     "  selector: 'app-avatar-status',",
@@ -243,12 +240,10 @@ export class AvatarPageComponent {
 
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
-    'import {',
-    '  DmAvatarComponent,',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
     '',
     '@Component({',
     "  selector: 'app-member-card',",
@@ -265,7 +260,7 @@ export class AvatarPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideAvatarDefaults } from '@dmaster/ui';",
+    "import { provideAvatarDefaults } from '@dmaster/ui/avatar';",
     '',
     "providers: [provideAvatarDefaults({ shape: 'square' })]",
   ].join('\n');

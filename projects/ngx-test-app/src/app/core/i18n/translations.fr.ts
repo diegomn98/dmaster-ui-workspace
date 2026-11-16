@@ -196,6 +196,7 @@ export const FR: DashboardTranslations = {
       styles: 'Styles',
       providers: 'Fournir la librairie',
       firstComponent: 'Premier composant',
+      imports: 'Imports et points d’entrée',
       darkMode: 'Mode sombre',
       colors: 'Couleurs et tokens',
       animation: 'Animation',
@@ -229,6 +230,18 @@ export const FR: DashboardTranslations = {
       'Ajoutez <code>provideDmasterUI</code> dans votre <code>ApplicationConfig</code>. Le <code>theme</code> et la <code>density</code> initiaux se posent sur <code>&lt;html&gt;</code> pour que les tokens CSS bougent tout seuls.',
     firstComponentBody:
       'Tous les composants sont standalone : importez-les directement là où vous les utilisez. Pas de modules, pas de barrels à retenir.',
+    importsBody:
+      'Chaque composant est publié comme son propre point d’entrée, à son nom — <code>@dmaster/ui/button</code>, <code>@dmaster/ui/menu</code>, <code>@dmaster/ui/toggle-group</code>… Importez depuis là et votre bundler peut découper la bibliothèque : un composant utilisé seulement dans une route chargée à la demande part avec cette route, pas dans le bundle initial.',
+    importsItems: [
+      '<code>@dmaster/ui/core</code> — <code>provideDmasterUI</code>, <code>ThemeService</code>, <code>DensityService</code> et les types partagés (<code>DmSize</code>, <code>DmTheme</code>…).',
+      '<code>@dmaster/ui/&lt;composant&gt;</code> — le composant, ses types et son helper <code>provide…Defaults()</code>. Les composites voyagent ensemble : tabs, tab et tab panel viennent tous de <code>@dmaster/ui/tabs</code>. Chaque page de composant affiche son import en haut.',
+      '<code>@dmaster/ui/icon</code> ou <code>@dmaster/ui/icons</code> — <code>icon</code> est le composant qui dessine les icônes (ligature de police, nom enregistré ou SVG projeté) ; <code>icons</code> est un jeu optionnel de dessins SVG à y enregistrer.',
+    ],
+    migrationTitle: 'Mise à niveau depuis la 0.11 ou antérieure',
+    migrationBody:
+      "L’import racine <code>import { … } from '@dmaster/ui'</code> fonctionne toujours — il réexporte tous les points d’entrée, la mise à niveau ne casse donc rien — et il découpe déjà le code comme les subpaths. Mais il est <strong>obsolète</strong> et sera retiré dans une version future : remplacez chaque import racine par un import par point d’entrée.",
+    migrationNote:
+      'Un codemod les réécrit pour vous : lancez <code>scripts/migrate-to-entry-points.mjs</code> (du dépôt GitHub) à la racine de votre projet. Ensuite, empêchez-les de revenir avec une règle ESLint <code>no-restricted-imports</code> sur <code>@dmaster/ui</code>. Le guide de migration complet se trouve dans le README de la bibliothèque.',
     darkModeBody:
       'Le mode sombre est un citoyen de première classe. Chaque token de couleur, de bordure et d’ombre a son équivalent dark — le basculement est instantané via un attribut sur <code>&lt;html&gt;</code>.',
     darkModeItems: [
@@ -494,7 +507,7 @@ export const FR: DashboardTranslations = {
       inProgressMeta: 'route vers la 1.0',
       doneMeta: 'publié et stable',
       targetTitle: 'Une API stable',
-      targetSub: 'Trois choses nous en séparent.',
+      targetSub: 'Quatre choses nous en séparent.',
     },
     rail: {
       foundations: 'Fondations',
@@ -505,6 +518,7 @@ export const FR: DashboardTranslations = {
       copy: 'Copier dans le presse-papiers',
       themes: 'Thèmes prêts et templates',
       motion: 'Tableau server-side & motion',
+      entryPoints: 'Points d’entrée par composant',
     },
     focusItems: {
       freezeTitle: 'Gel de la surface d’API',
@@ -512,6 +526,9 @@ export const FR: DashboardTranslations = {
         'Passe de cohérence sur les {count} composants — noms des inputs/outputs, defaults injectables, parité entre composants frères.',
       deprecationTitle: 'Politique de dépréciation',
       deprecationDesc: 'Une règle écrite sur l’évolution de l’API après la 1.0.',
+      rootImportTitle: 'Retirer l’import racine',
+      rootImportDesc:
+        'Le point d’entrée racine @dmaster/ui est obsolète depuis la 0.12 et sera retiré dans une version future — importez depuis @dmaster/ui/<composant>.',
       docsTitle: 'Docs et étude de cas',
       docsDesc: 'Article d’ingénierie + modèles StackBlitz prêts à copier.',
     },
@@ -572,6 +589,19 @@ export const FR: DashboardTranslations = {
     articleNewer: 'Plus récent',
     articleOlder: 'Précédent',
     articles: {
+      v012: {
+        title: 'Un point d’entrée par composant',
+        lead: 'La 0.12 publie chaque composant comme son propre point d’entrée — @dmaster/ui/button, @dmaster/ui/menu, @dmaster/ui/toggle-group… — pour que les bundlers puissent enfin découper la bibliothèque : un composant utilisé seulement par une route chargée à la demande part désormais avec cette route, et non dans votre bundle initial. L’import racine @dmaster/ui fonctionne toujours, et découpe aussi le code, mais il est obsolète et sera retiré dans une version future. Pas de nouveau composant cette fois : cette release porte sur ce que votre app paie au démarrage.',
+        bullets: [
+          'Points d’entrée par composant — 46 composants plus @dmaster/ui/core (provideDmasterUI, ThemeService, DensityService et les types partagés), chacun son propre module dans le paquet ; @dmaster/ui/styles, @dmaster/ui/themes et @dmaster/ui/icons ne changent pas',
+          'Pourquoi c’est important — les bundlers découpent le code par module, et jusqu’à la 0.11 toute la bibliothèque était un seul module : tout ce qu’importait une route chargée à la demande finissait dans le bundle initial, même avec sideEffects: false. Dans une vraie app Angular 22 qui utilise 18 des composants, 10 d’entre eux (toggle group, checkbox, switch, progress, search field, form field…) sont sortis du bundle initial vers les routes à la demande qui les utilisent : −72 kB bruts, −6,6 kB transférés',
+          'L’import racine @dmaster/ui devient obsolète — il réexporte toujours tous les points d’entrée (mêmes classes, mêmes tokens) et découpe le code comme les subpaths, mais il sera retiré dans une version future ; le README et Getting Started proposent un guide de migration, un codemod qui réécrit les imports pour vous et une règle ESLint qui écarte les imports racine',
+          'icon ou icons — @dmaster/ui/icon est le composant dm-icon, son registre et provideDmasterIcons() ; @dmaster/ui/icons reste le jeu optionnel de dessins SVG soignés',
+          'Coût par composant inchangé ou réduit — button ~3,6 kB gzip, card ~0,9 kB, select ~10,7 kB ; npm run size trouve désormais chaque point d’entrée tout seul et échoue si les subpaths cessent de découper le code',
+          'La documentation, les snippets, les README, les messages de ng add et le starter StackBlitz (désormais en ^0.12 — il était bloqué sur la 0.5) importent tous par composant',
+          'Toujours 46 composants dans 8 catégories, vérifiés par axe (WCAG 2.1 AA) en clair et en sombre, 840+ tests',
+        ],
+      },
       v011: {
         title: 'Tableaux server-side, toasts qui vous attendent et une passe de motion',
         lead: '0.11 apprend à dm-table à dialoguer avec votre API page par page, donne à DmToastService une vraie file qui se met en pause pendant que vous lisez, et fait une passe de design et de motion sur six composants — chips, groupes de boutons, tableaux, toggle groups, icônes et toasts — pour que les changements d’état se ressentent sans se remarquer. Un nouveau composant : dm-chip.',

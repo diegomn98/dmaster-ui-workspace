@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmSwitchComponent } from '@dmaster/ui/switch';
 import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmCardComponent,
-  DmIconComponent,
-  DmSwitchComponent,
   DmTabComponent,
   DmTabPanelComponent,
   DmTabsColor,
@@ -13,7 +13,7 @@ import {
   DmTabsRadius,
   DmTabsSize,
   DmTabsVariant,
-} from '@dmaster/ui';
+} from '@dmaster/ui/tabs';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -177,7 +177,7 @@ export class TabsPageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui/tabs';",
     '',
     '@Component({',
     "  selector: 'app-tabs-variants',",
@@ -200,7 +200,7 @@ export class TabsPageComponent {
 
   protected readonly segmentTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui/tabs';",
     '',
     '@Component({',
     "  selector: 'app-segment-tabs',",
@@ -250,7 +250,7 @@ export class TabsPageComponent {
 
   protected readonly segmentIconTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui/tabs';",
     '',
     '@Component({',
     "  selector: 'app-segment-icon-tabs',",
@@ -272,7 +272,7 @@ export class TabsPageComponent {
 
   protected readonly colorsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui/tabs';",
     '',
     '@Component({',
     "  selector: 'app-tabs-colors',",
@@ -295,7 +295,7 @@ export class TabsPageComponent {
 
   protected readonly verticalTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui/tabs';",
     '',
     '@Component({',
     "  selector: 'app-vertical-tabs',",
@@ -308,7 +308,7 @@ export class TabsPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideTabsDefaults } from '@dmaster/ui';",
+    "import { provideTabsDefaults } from '@dmaster/ui/tabs';",
     '',
     'providers: [',
     "  provideTabsDefaults({ variant: 'underlined', color: 'primary' }),",
@@ -343,7 +343,7 @@ export class TabsPageComponent {
 
   protected readonly fullWidthTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui/tabs';",
     '',
     '@Component({',
     "  selector: 'app-full-width-tabs',",
@@ -365,7 +365,7 @@ export class TabsPageComponent {
 
   protected readonly disabledTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui/tabs';",
     '',
     '@Component({',
     "  selector: 'app-disabled-tabs',",
@@ -380,7 +380,7 @@ export class TabsPageComponent {
   // TS snippet for the basic example — shown in the demo-block "TS" tab.
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui';",
+    "import { DmTabsComponent, DmTabComponent, DmTabPanelComponent } from '@dmaster/ui/tabs';",
     '',
     '@Component({',
     "  selector: 'app-media-tabs',",
@@ -486,15 +486,11 @@ export class TabsPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
-    'import {',
-    '  DmAvatarComponent,',
-    '  DmBadgeComponent,',
-    '  DmCardComponent,',
-    '  DmSwitchComponent,',
-    '  DmTabComponent,',
-    '  DmTabPanelComponent,',
-    '  DmTabsComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
+    "import { DmTabComponent, DmTabPanelComponent, DmTabsComponent } from '@dmaster/ui/tabs';",
     '',
     '@Component({',
     "  selector: 'app-profile-section',",

@@ -5,11 +5,11 @@ import {
   DmDrawerService,
   DmDrawerPlacement,
   DmDrawerSize,
-  DmButtonComponent,
-  DmCardComponent,
-  DmDividerComponent,
-  DmSwitchComponent,
-} from '@dmaster/ui';
+} from '@dmaster/ui/drawer';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmDividerComponent } from '@dmaster/ui/divider';
+import { DmSwitchComponent } from '@dmaster/ui/switch';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -439,7 +439,8 @@ export class DrawerPageComponent {
 
   protected readonly placementsTs = [
     "import { Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmDrawerService, DmDrawerPlacement } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmDrawerService, DmDrawerPlacement } from '@dmaster/ui/drawer';",
     '',
     "import { SettingsDrawerComponent } from './settings-drawer.component';",
     '',
@@ -468,7 +469,8 @@ export class DrawerPageComponent {
 
   protected readonly sizesTs = [
     "import { Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmDrawerService, DmDrawerSize } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmDrawerService, DmDrawerSize } from '@dmaster/ui/drawer';",
     '',
     "import { SettingsDrawerComponent } from './settings-drawer.component';",
     '',
@@ -494,7 +496,8 @@ export class DrawerPageComponent {
 
   protected readonly persistentTs = [
     "import { Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmDrawerService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmDrawerService } from '@dmaster/ui/drawer';",
     '',
     "import { SettingsDrawerComponent } from './settings-drawer.component';",
     '',
@@ -514,7 +517,7 @@ export class DrawerPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideDrawerDefaults } from '@dmaster/ui';",
+    "import { provideDrawerDefaults } from '@dmaster/ui/drawer';",
     '',
     'providers: [',
     "  provideDrawerDefaults({ placement: 'left', size: 'lg' }),",

@@ -8,13 +8,10 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import {
-  DmCommandComponent,
-  DmCommandItem,
-  DmIconComponent,
-  DmKbdComponent,
-  ThemeService,
-} from '@dmaster/ui';
+import { DmCommandComponent, DmCommandItem } from '@dmaster/ui/command';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmKbdComponent } from '@dmaster/ui/kbd';
+import { ThemeService } from '@dmaster/ui/core';
 import { filter } from 'rxjs';
 
 import { LocaleService } from '../../core/i18n/locale.service';

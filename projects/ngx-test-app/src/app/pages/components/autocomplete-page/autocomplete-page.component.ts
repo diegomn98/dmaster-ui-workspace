@@ -6,13 +6,12 @@ import {
   DmAutocompleteOption,
   DmAutocompleteRadius,
   DmAutocompleteVariant,
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
-  DmFormFieldComponent,
-  DmInputDirective,
-  DmSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/autocomplete';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmSize } from '@dmaster/ui/core';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -173,7 +172,7 @@ export class AutocompletePageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui';",
+    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui/autocomplete';",
     '',
     '@Component({',
     "  selector: 'app-basic-autocomplete',",
@@ -211,7 +210,7 @@ export class AutocompletePageComponent {
 
   protected readonly openOnFocusTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui';",
+    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui/autocomplete';",
     '',
     '@Component({',
     "  selector: 'app-open-on-focus',",
@@ -241,7 +240,7 @@ export class AutocompletePageComponent {
 
   protected readonly eventsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui';",
+    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui/autocomplete';",
     '',
     '@Component({',
     "  selector: 'app-autocomplete-events',",
@@ -276,7 +275,7 @@ export class AutocompletePageComponent {
   protected readonly formsTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
-    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui';",
+    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui/autocomplete';",
     '',
     '@Component({',
     "  selector: 'app-autocomplete-forms',",
@@ -299,7 +298,7 @@ export class AutocompletePageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideAutocompleteDefaults } from '@dmaster/ui';",
+    "import { provideAutocompleteDefaults } from '@dmaster/ui/autocomplete';",
     '',
     "providers: [provideAutocompleteDefaults({ variant: 'bordered' })]",
   ].join('\n');
@@ -342,7 +341,8 @@ export class AutocompletePageComponent {
   protected readonly validationTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
-    "import { DmAutocompleteComponent, DmErrorComponent } from '@dmaster/ui';",
+    "import { DmAutocompleteComponent } from '@dmaster/ui/autocomplete';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
     '',
     '@Component({',
     '  imports: [DmAutocompleteComponent, DmErrorComponent, ReactiveFormsModule],',
@@ -415,15 +415,11 @@ export class AutocompletePageComponent {
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
-    'import {',
-    '  DmAutocompleteComponent,',
-    '  DmAutocompleteOption,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmErrorComponent,',
-    '  DmFormFieldComponent,',
-    '  DmInputDirective,',
-    "} from '@dmaster/ui';",
+    "import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui/autocomplete';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
     '',
     '@Component({',
     '  imports: [',

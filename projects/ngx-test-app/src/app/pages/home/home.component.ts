@@ -1,26 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmCheckboxComponent,
-  DmCopyButtonComponent,
-  DmFormFieldComponent,
-  DmIconComponent,
-  DmInputDirective,
-  DmRadioComponent,
-  DmRadioGroupComponent,
-  DmSelectComponent,
-  DmSelectItem,
-  DmSkeletonComponent,
-  DmSwitchComponent,
-  DmTabComponent,
-  DmTabPanelComponent,
-  DmTabsComponent,
-} from '@dmaster/ui';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmCheckboxComponent } from '@dmaster/ui/checkbox';
+import { DmCopyButtonComponent } from '@dmaster/ui/copy-button';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmRadioComponent, DmRadioGroupComponent } from '@dmaster/ui/radio-group';
+import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';
+import { DmSkeletonComponent } from '@dmaster/ui/skeleton';
+import { DmSwitchComponent } from '@dmaster/ui/switch';
+import { DmTabComponent, DmTabPanelComponent, DmTabsComponent } from '@dmaster/ui/tabs';
 
 import { COMPONENT_REGISTRY } from '../../core/component-registry';
 import { LocaleService } from '../../core/i18n/locale.service';

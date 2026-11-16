@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DmCardComponent } from '@dmaster/ui/card';
 import {
-  DmCardComponent,
   DmColorPickerColor,
   DmColorPickerComponent,
   DmColorPickerRadius,
   DmColorPickerVariant,
-  DmSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/color-picker';
+import { DmSize } from '@dmaster/ui/core';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -154,7 +154,7 @@ export class ColorPickerPageComponent {
     '<dm-color-picker label="Brand color" [(value)]="color" [clearable]="true" />';
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmColorPickerComponent } from '@dmaster/ui';",
+    "import { DmColorPickerComponent } from '@dmaster/ui/color-picker';",
     '',
     '@Component({',
     "  selector: 'app-basic-demo',",
@@ -169,7 +169,7 @@ export class ColorPickerPageComponent {
     '<dm-color-picker label="Overlay" [(value)]="color" [showAlpha]="true" />';
   protected readonly alphaTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmColorPickerComponent } from '@dmaster/ui';",
+    "import { DmColorPickerComponent } from '@dmaster/ui/color-picker';",
     '',
     '@Component({',
     "  selector: 'app-alpha-demo',",
@@ -184,7 +184,7 @@ export class ColorPickerPageComponent {
     '<dm-color-picker label="Accent" [(value)]="color" [swatches]="swatches" />';
   protected readonly swatchesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmColorPickerComponent } from '@dmaster/ui';",
+    "import { DmColorPickerComponent } from '@dmaster/ui/color-picker';",
     '',
     '@Component({',
     "  selector: 'app-swatches-demo',",
@@ -201,7 +201,7 @@ export class ColorPickerPageComponent {
     .join('\n');
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmColorPickerComponent } from '@dmaster/ui';",
+    "import { DmColorPickerComponent } from '@dmaster/ui/color-picker';",
     '',
     '@Component({',
     "  selector: 'app-sizes-demo',",
@@ -214,7 +214,7 @@ export class ColorPickerPageComponent {
   protected readonly formsTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
-    "import { DmColorPickerComponent } from '@dmaster/ui';",
+    "import { DmColorPickerComponent } from '@dmaster/ui/color-picker';",
     '',
     '@Component({',
     "  selector: 'app-forms-demo',",
@@ -226,7 +226,7 @@ export class ColorPickerPageComponent {
     '}',
   ].join('\n');
   protected readonly defaultsCode = [
-    "import { provideColorPickerDefaults } from '@dmaster/ui';",
+    "import { provideColorPickerDefaults } from '@dmaster/ui/color-picker';",
     '',
     'providers: [',
     "  provideColorPickerDefaults({ showAlpha: true, variant: 'bordered' })",
@@ -300,7 +300,8 @@ export class ColorPickerPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmCardComponent, DmColorPickerComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmColorPickerComponent } from '@dmaster/ui/color-picker';",
     '',
     '@Component({',
     "  selector: 'app-brand-card',",

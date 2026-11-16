@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeColor, DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
 import {
-  DmAvatarComponent,
-  DmBadgeColor,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmIconComponent,
   DmTimelineAlign,
   DmTimelineColor,
   DmTimelineComponent,
@@ -14,7 +13,7 @@ import {
   DmTimelineMarkerDirective,
   DmTimelineOrientation,
   DmTimelineSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/timeline';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -184,7 +183,7 @@ export class TimelinePageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui';",
+    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui/timeline';",
     '',
     '@Component({',
     "  selector: 'app-order-history',",
@@ -210,7 +209,7 @@ export class TimelinePageComponent {
 
   protected readonly statesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui';",
+    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui/timeline';",
     '',
     '@Component({',
     "  selector: 'app-pipeline-run',",
@@ -243,7 +242,7 @@ export class TimelinePageComponent {
 
   protected readonly outlinedTs = [
     "import { Component } from '@angular/core';",
-    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui';",
+    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui/timeline';",
     '',
     '@Component({',
     "  selector: 'app-incident-log',",
@@ -282,10 +281,13 @@ export class TimelinePageComponent {
 
   protected readonly markersTs = [
     "import { Component } from '@angular/core';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     'import {',
-    '  DmAvatarComponent, DmIconComponent,',
-    '  DmTimelineComponent, DmTimelineItemComponent, DmTimelineMarkerDirective,',
-    "} from '@dmaster/ui';",
+    '  DmTimelineComponent,',
+    '  DmTimelineItemComponent,',
+    '  DmTimelineMarkerDirective,',
+    "} from '@dmaster/ui/timeline';",
     '',
     '@Component({',
     "  selector: 'app-activity-feed',",
@@ -329,7 +331,7 @@ export class TimelinePageComponent {
 
   protected readonly alternateTs = [
     "import { Component } from '@angular/core';",
-    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui';",
+    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui/timeline';",
     '',
     '@Component({',
     "  selector: 'app-project-milestones',",
@@ -355,7 +357,7 @@ export class TimelinePageComponent {
 
   protected readonly horizontalTs = [
     "import { Component } from '@angular/core';",
-    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui';",
+    "import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui/timeline';",
     '',
     '@Component({',
     "  selector: 'app-release-roadmap',",
@@ -368,7 +370,7 @@ export class TimelinePageComponent {
   // ---- Global defaults ----------------------------------------------------
 
   protected readonly defaultsCode = [
-    "import { provideTimelineDefaults } from '@dmaster/ui';",
+    "import { provideTimelineDefaults } from '@dmaster/ui/timeline';",
     '',
     'providers: [',
     "  provideTimelineDefaults({ color: 'success', variant: 'outlined', size: 'sm' }),",
@@ -474,10 +476,14 @@ export class TimelinePageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
+    "import { DmBadgeColor, DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
     'import {',
-    '  DmBadgeColor, DmBadgeComponent, DmButtonComponent, DmCardComponent,',
-    '  DmTimelineComponent, DmTimelineItemComponent, DmTimelineItemState,',
-    "} from '@dmaster/ui';",
+    '  DmTimelineComponent,',
+    '  DmTimelineItemComponent,',
+    '  DmTimelineItemState,',
+    "} from '@dmaster/ui/timeline';",
     '',
     'interface OrderStep { title: string; body: string; datetime: string }',
     '',

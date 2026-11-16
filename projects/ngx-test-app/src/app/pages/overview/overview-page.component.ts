@@ -1,57 +1,43 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  DmAlertComponent,
-  DmAutocompleteComponent,
-  DmAutocompleteOption,
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmChipComponent,
-  DmBreadcrumbItemComponent,
-  DmBreadcrumbsComponent,
-  DmButtonComponent,
-  DmButtonGroupComponent,
-  DmCardComponent,
-  DmCheckboxComponent,
-  DmColorPickerComponent,
-  DmCopyButtonComponent,
-  DmDatePickerComponent,
-  DmDividerComponent,
-  DmErrorComponent,
-  DmFormFieldComponent,
-  DmIconComponent,
-  DmInputDirective,
-  DmKbdComponent,
-  DmPaginationComponent,
-  DmProgressComponent,
-  DmRadioComponent,
-  DmRadioGroupComponent,
-  DmSearchFieldComponent,
-  DmSelectComponent,
-  DmSelectItem,
-  DmTreeNode,
-  DmSkeletonComponent,
-  DmSliderComponent,
-  DmRatingComponent,
-  DmStepperComponent,
-  DmStepComponent,
-  DmTreeComponent,
-  DmEmptyStateComponent,
-  DmToggleGroupComponent,
-  DmToggleComponent,
-  DmOtpComponent,
-  DmFileUploadComponent,
-  DmNumberInputComponent,
-  DmTimelineComponent,
-  DmTimelineItemComponent,
-  DmSpinnerComponent,
-  DmSwitchComponent,
-  DmTabComponent,
-  DmTabPanelComponent,
-  DmTableColumn,
-  DmTableComponent,
-  DmTabsComponent,
-} from '@dmaster/ui';
+import { DmAlertComponent } from '@dmaster/ui/alert';
+import { DmAutocompleteComponent, DmAutocompleteOption } from '@dmaster/ui/autocomplete';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmChipComponent } from '@dmaster/ui/chip';
+import { DmBreadcrumbItemComponent, DmBreadcrumbsComponent } from '@dmaster/ui/breadcrumbs';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmButtonGroupComponent } from '@dmaster/ui/button-group';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmCheckboxComponent } from '@dmaster/ui/checkbox';
+import { DmColorPickerComponent } from '@dmaster/ui/color-picker';
+import { DmCopyButtonComponent } from '@dmaster/ui/copy-button';
+import { DmDatePickerComponent } from '@dmaster/ui/date-picker';
+import { DmDividerComponent } from '@dmaster/ui/divider';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmKbdComponent } from '@dmaster/ui/kbd';
+import { DmPaginationComponent } from '@dmaster/ui/pagination';
+import { DmProgressComponent } from '@dmaster/ui/progress';
+import { DmRadioComponent, DmRadioGroupComponent } from '@dmaster/ui/radio-group';
+import { DmSearchFieldComponent } from '@dmaster/ui/search-field';
+import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';
+import { DmTreeNode, DmTreeComponent } from '@dmaster/ui/tree';
+import { DmSkeletonComponent } from '@dmaster/ui/skeleton';
+import { DmSliderComponent } from '@dmaster/ui/slider';
+import { DmRatingComponent } from '@dmaster/ui/rating';
+import { DmStepperComponent, DmStepComponent } from '@dmaster/ui/stepper';
+import { DmEmptyStateComponent } from '@dmaster/ui/empty-state';
+import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui/toggle-group';
+import { DmOtpComponent } from '@dmaster/ui/otp';
+import { DmFileUploadComponent } from '@dmaster/ui/file-upload';
+import { DmNumberInputComponent } from '@dmaster/ui/number-input';
+import { DmTimelineComponent, DmTimelineItemComponent } from '@dmaster/ui/timeline';
+import { DmSpinnerComponent } from '@dmaster/ui/spinner';
+import { DmSwitchComponent } from '@dmaster/ui/switch';
+import { DmTabComponent, DmTabPanelComponent, DmTabsComponent } from '@dmaster/ui/tabs';
+import { DmTableColumn, DmTableComponent } from '@dmaster/ui/table';
 
 import { CATEGORY_ORDER, CategoryKey, COMPONENT_REGISTRY } from '../../core/component-registry';
 import { LocaleService } from '../../core/i18n/locale.service';

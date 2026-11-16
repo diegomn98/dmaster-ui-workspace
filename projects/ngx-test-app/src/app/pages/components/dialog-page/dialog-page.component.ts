@@ -1,17 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  DIALOG_DATA,
-  DialogRef,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmDialogService,
-  DmErrorComponent,
-  DmFormFieldComponent,
-  DmInputDirective,
-  DmSize,
-} from '@dmaster/ui';
+import { DIALOG_DATA, DialogRef, DmDialogService } from '@dmaster/ui/dialog';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmSize } from '@dmaster/ui/core';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -402,7 +397,8 @@ export class DialogPageComponent {
 
   protected readonly basicTs = [
     "import { Component, inject } from '@angular/core';",
-    "import { DIALOG_DATA, DialogRef, DmButtonComponent, DmDialogService } from '@dmaster/ui';",
+    "import { DIALOG_DATA, DialogRef, DmDialogService } from '@dmaster/ui/dialog';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-info-dialog',",
@@ -436,7 +432,8 @@ export class DialogPageComponent {
 
   protected readonly confirmTs = [
     "import { Component, inject, signal } from '@angular/core';",
-    "import { DIALOG_DATA, DialogRef, DmButtonComponent, DmDialogService } from '@dmaster/ui';",
+    "import { DIALOG_DATA, DialogRef, DmDialogService } from '@dmaster/ui/dialog';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     '',
     '// content component: resolves with a string',
     '@Component({',
@@ -469,7 +466,8 @@ export class DialogPageComponent {
 
   protected readonly confirmHelperTs = [
     "import { Component, inject, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmDialogService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmDialogService } from '@dmaster/ui/dialog';",
     '',
     '@Component({',
     "  selector: 'app-confirm-helper',",
@@ -515,14 +513,10 @@ export class DialogPageComponent {
   protected readonly formTs = [
     "import { Component, inject } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
-    'import {',
-    '  DIALOG_DATA,',
-    '  DialogRef,',
-    '  DmButtonComponent,',
-    '  DmErrorComponent,',
-    '  DmFormFieldComponent,',
-    '  DmInputDirective,',
-    "} from '@dmaster/ui';",
+    "import { DIALOG_DATA, DialogRef } from '@dmaster/ui/dialog';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
     '',
     '@Component({',
     "  selector: 'app-form-dialog',",
@@ -553,7 +547,9 @@ export class DialogPageComponent {
 
   protected readonly sizesTs = [
     "import { Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmDialogService, DmSize } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmDialogService } from '@dmaster/ui/dialog';",
+    "import { DmSize } from '@dmaster/ui/core';",
     '',
     '@Component({',
     "  selector: 'app-dialog-sizes',",
@@ -582,7 +578,8 @@ export class DialogPageComponent {
 
   protected readonly persistentTs = [
     "import { Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmDialogService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmDialogService } from '@dmaster/ui/dialog';",
     '',
     '@Component({',
     "  selector: 'app-dialog-persistent',",
@@ -655,7 +652,7 @@ export class DialogPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideDialogDefaults } from '@dmaster/ui';",
+    "import { provideDialogDefaults } from '@dmaster/ui/dialog';",
     '',
     'providers: [',
     "  provideDialogDefaults({ size: 'lg', disableClose: true }),",

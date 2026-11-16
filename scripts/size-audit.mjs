@@ -1,17 +1,29 @@
 /**
  * Size audit for @dmaster/ui — measures the real tree-shaken cost of each
- * public component, the way a consumer app pays for it.
+ * entry point (one per component since 0.12), the way a consumer app pays for
+ * it, and checks that the per-component entry points actually code-split.
  *
  * Pipeline (mirrors what the Angular CLI does with published libraries):
- *   1. Run the Angular linker over the built FESM (partial compilation
+ *   1. Run the Angular linker over every built FESM (partial compilation
  *      output is NOT tree-shakeable until linked).
  *   2. Apply the CLI's babel optimizations (adjust-static-class-members,
  *      elide-angular-metadata, pure-toplevel-functions) so static `ɵcmp`
  *      initializers are annotated as pure.
- *   3. Bundle a one-import entry per component with esbuild (minified,
- *      @angular/* + rxjs external) and gzip the result.
+ *   3. Bundle `export * from '@dmaster/ui/<entry>'` per entry point with
+ *      esbuild (minified, @angular/* + rxjs external; cross-entry imports
+ *      resolve to the other linked FESMs) and gzip the result — i.e. the most
+ *      that importing anything from that entry point can cost.
+ *   4. Code-splitting check: a synthetic app imports dm-button eagerly and
+ *      dm-checkbox only from a lazy chunk (esbuild `splitting`, Angular
+ *      bundled like in a real app), once through the subpaths and once through
+ *      the deprecated root `@dmaster/ui`. Fails (exit 1) if checkbox code lands
+ *      in the initial chunks — the regression the per-component entry points
+ *      exist to prevent (with 0.11's single FESM it always did).
  *
- * Skipping steps 1–2 makes every component appear to cost the whole library —
+ * Entry points are discovered from dist/dmaster-ui/package.json `exports`
+ * (no manual list: a new component is measured automatically).
+ *
+ * Skipping steps 1–2 makes every component appear to cost the whole entry —
  * that is an artifact of unlinked partial-compilation output, not a real
  * tree-shaking problem.
  *
@@ -26,7 +38,7 @@ import { createRequire } from 'node:module';
 import { gzipSync } from 'node:zlib';
 import { mkdtempSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve, sep, dirname } from 'node:path';
+import { join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -55,65 +67,47 @@ const adjustStaticClassMembers = loadPlugin('adjust-static-class-members');
 const elideAngularMetadata = loadPlugin('elide-angular-metadata');
 const pureTopLevelFunctions = loadPlugin('pure-toplevel-functions');
 
-const FESM = join(root, 'dist/dmaster-ui/fesm2022/dmaster-ui.mjs');
-const FESM_ICONS = join(root, 'dist/dmaster-ui/fesm2022/dmaster-ui-icons.mjs');
-const CSS = join(root, 'dist/dmaster-ui/styles/dmaster-ui.css');
+const DIST = join(root, 'dist/dmaster-ui');
+const CSS = join(DIST, 'styles/dmaster-ui.css');
+const EXTERNAL = ['@angular/*', 'rxjs', 'rxjs/*', 'tslib'];
 
-// One entry per user-facing import (composites grouped the way a consumer
-// would actually import them).
-const ENTRIES = {
-  skeleton: ['DmSkeletonComponent'],
-  spinner: ['DmSpinnerComponent'],
-  badge: ['DmBadgeComponent'],
-  chip: ['DmChipComponent', 'DmChipSetComponent'],
-  avatar: ['DmAvatarComponent'],
-  kbd: ['DmKbdComponent'],
-  icon: ['DmIconComponent'],
-  card: ['DmCardComponent'],
-  accordion: ['DmAccordionComponent', 'DmAccordionItemComponent'],
-  divider: ['DmDividerComponent'],
-  progress: ['DmProgressComponent'],
-  alert: ['DmAlertComponent'],
-  button: ['DmButtonComponent'],
-  'button-group': ['DmButtonGroupComponent'],
-  'copy-button': ['DmCopyButtonComponent', 'DmCopyToClipboardDirective'],
-  switch: ['DmSwitchComponent'],
-  checkbox: ['DmCheckboxComponent'],
-  'radio-group': ['DmRadioGroupComponent', 'DmRadioComponent'],
-  select: ['DmSelectComponent'],
-  autocomplete: ['DmAutocompleteComponent'],
-  'search-field': ['DmSearchFieldComponent'],
-  'date-picker': ['DmDatePickerComponent'],
-  'color-picker': ['DmColorPickerComponent'],
-  slider: ['DmSliderComponent'],
-  rating: ['DmRatingComponent'],
-  'number-input': ['DmNumberInputComponent'],
-  otp: ['DmOtpComponent'],
-  'toggle-group': ['DmToggleGroupComponent', 'DmToggleComponent'],
-  'file-upload': ['DmFileUploadComponent'],
-  error: ['DmErrorComponent'],
-  'form-field': ['DmFormFieldComponent', 'DmInputDirective'],
-  breadcrumbs: ['DmBreadcrumbsComponent', 'DmBreadcrumbItemComponent'],
-  tabs: ['DmTabsComponent', 'DmTabComponent', 'DmTabPanelComponent'],
-  pagination: ['DmPaginationComponent'],
-  stepper: ['DmStepperComponent', 'DmStepComponent'],
-  table: ['DmTableComponent'],
-  tree: ['DmTreeComponent'],
-  timeline: ['DmTimelineComponent', 'DmTimelineItemComponent'],
-  'empty-state': ['DmEmptyStateComponent'],
-  tooltip: ['DmTooltipDirective'],
-  dialog: ['DmDialogService'],
-  toast: ['DmToastService'],
-  menu: ['DmMenuComponent', 'DmMenuItemComponent', 'DmMenuTriggerDirective'],
-  popover: ['DmPopoverComponent', 'DmPopoverTriggerDirective'],
-  drawer: ['DmDrawerService'],
-  command: ['DmCommandComponent'],
-};
+/** { name -> FESM path } for the primary ('.' -> 'index') and every secondary entry point. */
+function discoverEntries() {
+  const pkg = JSON.parse(readFileSync(join(DIST, 'package.json'), 'utf8'));
+  const entries = {};
+  for (const [key, value] of Object.entries(pkg.exports ?? {})) {
+    const target = typeof value === 'object' ? value.default : value;
+    if (typeof target !== 'string' || !target.startsWith('./fesm2022/')) continue;
+    entries[key === '.' ? 'index' : key.slice(2)] = join(DIST, target);
+  }
+  if (!entries.index) {
+    throw new Error(
+      'No primary entry in dist/dmaster-ui/package.json — run "npm run build" first.',
+    );
+  }
+  return entries;
+}
 
 const gz = (buf) => gzipSync(buf, { level: 9 }).length;
 const kb = (n) => (n / 1024).toFixed(1).padStart(6) + ' kB';
 
-function linkFesm(fesmPath, outDir, outName) {
+/**
+ * Drop the `import … from "<external>"` statements before measuring the
+ * per-entry and full-library sizes. @angular/* and rxjs are external there, so
+ * esbuild keeps one import header per source module in the bundle — ~49 of
+ * them for the whole library (~2.8 kB gzip). In a real app Angular is bundled
+ * and those headers don't exist. (The split check bundles Angular instead.)
+ */
+const EXTERNAL_IMPORT =
+  /import\s*(?:[\w$]+\s*,?\s*)?(?:\*\s*as\s*[\w$]+|\{[^}]*\})?\s*(?:from\s*)?"[^"]+";?/g;
+const libraryCode = (contents) => {
+  const text = Buffer.from(contents).toString('utf8');
+  return Buffer.from(
+    text.replace(EXTERNAL_IMPORT, (m) => (/"(@angular\/|rxjs|tslib)/.test(m) ? '' : m)),
+  );
+};
+
+function linkFesm(fesmPath, outPath) {
   const linkerPlugin = createEs2015LinkerPlugin({
     fileSystem: new NodeJSFileSystem(),
     logger: new ConsoleLogger(LogLevel.error),
@@ -125,64 +119,183 @@ function linkFesm(fesmPath, outDir, outName) {
     configFile: false,
     babelrc: false,
   });
-  const outPath = join(outDir, outName);
   writeFileSync(outPath, out.code);
-  return outPath.split(sep).join('/');
 }
 
-async function bundleSize(resolveDir, source) {
+/**
+ * esbuild plugin: `@dmaster/ui` / `@dmaster/ui/<entry>` -> the linked FESM in tmp.
+ *
+ * `sideEffects: false` is REQUIRED here: esbuild only reads package.json's
+ * `sideEffects` for paths ITS resolver finds, never for paths a plugin returns.
+ * Without it every linked module counts as side-effectful, so everything the
+ * root's `export *` reaches gets force-included in the initial chunk — the root
+ * import looked like it couldn't code-split, while a real Angular build (which
+ * resolves the package through node_modules and honours `"sideEffects": false`)
+ * splits it fine. That artifact misled the first 0.12 analysis.
+ */
+const resolveLinked = (tmp) => ({
+  name: 'dmaster-ui-linked',
+  setup(build) {
+    build.onResolve({ filter: /^@dmaster\/ui(\/[^/]+)?$/ }, (args) => {
+      const entry = args.path === '@dmaster/ui' ? 'index' : args.path.slice('@dmaster/ui/'.length);
+      return { path: join(tmp, entry + '.mjs'), sideEffects: false };
+    });
+  },
+});
+
+async function bundleSize(tmp, source) {
   const result = await esbuild.build({
-    stdin: { contents: source, resolveDir, loader: 'js' },
+    stdin: { contents: source, resolveDir: tmp, loader: 'js' },
     bundle: true,
     minify: true,
     format: 'esm',
     write: false,
     logLevel: 'silent',
-    external: ['@angular/*', 'rxjs', 'rxjs/*', 'tslib'],
+    external: EXTERNAL,
+    plugins: [resolveLinked(tmp)],
   });
-  const out = result.outputFiles[0].contents;
-  return { min: out.length, gzip: gz(Buffer.from(out)) };
+  const out = libraryCode(result.outputFiles[0].contents);
+  return { min: out.length, gzip: gz(out) };
+}
+
+/**
+ * Synthetic app: dm-button in the initial chunk, dm-checkbox only behind a
+ * dynamic import. Returns how many minified bytes of @dmaster/ui code end up in
+ * the initial chunks and whether checkbox code is among them.
+ *
+ * Angular (and rxjs) are BUNDLED here, like in a real app — NOT external. esbuild
+ * assumes importing an external module has side effects, so with Angular
+ * external every library module reachable through the root's `export *` would
+ * be force-included in the initial chunk (each keeping its `import … from
+ * "@angular/core"`), and the root import would look like it can't code-split.
+ * With Angular bundled (`@angular/*` declare `"sideEffects": false`), unused
+ * re-exported modules are dropped, exactly as in an Angular CLI build — checked
+ * against a real app (Angular 22.2, with and without NG_BUILD_OPTIMIZE_CHUNKS).
+ */
+async function splitCheck(tmp, mode) {
+  const dir = mkdtempSync(join(tmp, `split-${mode}-`));
+  const spec = (entry) => (mode === 'root' ? '@dmaster/ui' : `@dmaster/ui/${entry}`);
+  writeFileSync(
+    join(dir, 'main.js'),
+    `import { DmButtonComponent } from '${spec('button')}';\n` +
+      `console.log(DmButtonComponent);\n` +
+      `export const lazy = () => import('./lazy.js');\n`,
+  );
+  writeFileSync(
+    join(dir, 'lazy.js'),
+    `import { DmCheckboxComponent } from '${spec('checkbox')}';\nconsole.log(DmCheckboxComponent);\n`,
+  );
+  const result = await esbuild.build({
+    entryPoints: [join(dir, 'main.js')],
+    absWorkingDir: dir,
+    bundle: true,
+    splitting: true,
+    minify: true,
+    format: 'esm',
+    outdir: join(dir, 'out'),
+    write: false,
+    metafile: true,
+    logLevel: 'silent',
+    nodePaths: [join(root, 'node_modules')], // resolve the bundled @angular/* and rxjs
+    plugins: [resolveLinked(tmp)],
+  });
+  // metafile keys are relative to absWorkingDir (= dir): the linked library
+  // files sit one level up, in tmp, as `../<entry>.mjs`.
+  const outputs = result.metafile.outputs;
+  const libraryInput = /^\.\.[\\/]([\w-]+)\.mjs$/;
+  const initial = new Set();
+  const visit = (key) => {
+    if (initial.has(key)) return;
+    initial.add(key);
+    for (const imp of outputs[key].imports) {
+      if (imp.kind === 'import-statement' && outputs[imp.path]) visit(imp.path);
+    }
+  };
+  visit(Object.keys(outputs).find((key) => outputs[key].entryPoint));
+  // Checkbox detection by module name AND by its selector in the emitted code —
+  // the content check still catches it if the library ever ships as one module
+  // again (with 0.11's single FESM there's no `checkbox.mjs` input to see).
+  const code = new Map(result.outputFiles.map((o) => [resolve(o.path), o.text]));
+  const CHECKBOX_SELECTOR = /selectors:\[\[["'`]dm-checkbox["'`]/;
+  let libraryBytes = 0;
+  let checkboxInInitial = false;
+  for (const key of initial) {
+    if (CHECKBOX_SELECTOR.test(code.get(resolve(dir, key)) ?? '')) checkboxInInitial = true;
+    for (const [input, { bytesInOutput }] of Object.entries(outputs[key].inputs)) {
+      const m = input.match(libraryInput);
+      if (!m || bytesInOutput === 0) continue;
+      libraryBytes += bytesInOutput;
+      if (m[1] === 'checkbox') checkboxInInitial = true;
+    }
+  }
+  return { initialChunks: initial.size, libraryBytes, checkboxInInitial };
 }
 
 const tmp = mkdtempSync(join(tmpdir(), 'dmui-size-'));
 try {
   writeFileSync(join(tmp, 'package.json'), JSON.stringify({ type: 'module', sideEffects: false }));
-  const linked = linkFesm(FESM, tmp, 'linked.mjs');
-  const linkedIcons = linkFesm(FESM_ICONS, tmp, 'linked-icons.mjs');
+  const entries = discoverEntries();
+  for (const [name, fesm] of Object.entries(entries)) linkFesm(fesm, join(tmp, name + '.mjs'));
 
   const rows = [];
-  for (const [name, exportsList] of Object.entries(ENTRIES)) {
-    const source = `export { ${exportsList.join(', ')} } from ${JSON.stringify(linked)};`;
-    const { min, gzip } = await bundleSize(tmp, source);
+  for (const name of Object.keys(entries)) {
+    if (name === 'index' || name === 'icons' || name === 'core') continue;
+    const { min, gzip } = await bundleSize(tmp, `export * from '@dmaster/ui/${name}';`);
     rows.push({ name, min, gzip });
   }
   rows.sort((a, b) => b.gzip - a.gzip);
 
-  const full = await bundleSize(tmp, `export * from ${JSON.stringify(linked)};`);
-  const icons = await bundleSize(tmp, `export * from ${JSON.stringify(linkedIcons)};`);
+  const full = await bundleSize(tmp, `export * from '@dmaster/ui';`);
+  const core = await bundleSize(tmp, `export * from '@dmaster/ui/core';`);
+  const icons = await bundleSize(tmp, `export * from '@dmaster/ui/icons';`);
   const cssBuf = readFileSync(CSS);
-  const fesmRaw = statSync(FESM).size;
+  const fesmRaw = Object.values(entries).reduce((sum, p) => sum + statSync(p).size, 0);
+  const split = {
+    subpath: await splitCheck(tmp, 'subpath'),
+    root: await splitCheck(tmp, 'root'),
+  };
+  // Both must code-split: the subpaths by construction, and the deprecated root
+  // because its `export *` re-exports side-effect-free modules that the bundler
+  // drops when unused (0.11's single FESM could not be split at all).
+  const splitOk = !split.subpath.checkboxInInitial && !split.root.checkboxInInitial;
 
   if (process.argv.includes('--json')) {
-    console.log(
-      JSON.stringify(
-        { components: rows, full, icons, css: { raw: cssBuf.length, gzip: gz(cssBuf) }, fesmRaw },
-        null,
-        2,
-      ),
-    );
+    const css = { raw: cssBuf.length, gzip: gz(cssBuf) };
+    console.log(JSON.stringify({ entries: rows, full, core, icons, css, fesmRaw, split }, null, 2));
   } else {
-    console.log('\nPer-component tree-shaken cost (linked + minified; @angular/rxjs external)\n');
-    console.log('  component            minified      gzip');
+    console.log(
+      `\nPer-entry-point tree-shaken cost — export * from '@dmaster/ui/<entry>'` +
+        ` (linked + minified; @angular/rxjs external)\n`,
+    );
+    console.log('  entry point          minified      gzip');
     console.log('  ' + '-'.repeat(44));
-    for (const r of rows) {
-      console.log(`  ${r.name.padEnd(18)} ${kb(r.min)}  ${kb(r.gzip)}`);
-    }
+    for (const r of rows) console.log(`  ${r.name.padEnd(18)} ${kb(r.min)}  ${kb(r.gzip)}`);
     console.log('  ' + '-'.repeat(44));
     console.log(`  ${'FULL LIBRARY'.padEnd(18)} ${kb(full.min)}  ${kb(full.gzip)}`);
+    console.log(`  ${'core entry'.padEnd(18)} ${kb(core.min)}  ${kb(core.gzip)}`);
     console.log(`  ${'icons entry'.padEnd(18)} ${kb(icons.min)}  ${kb(icons.gzip)}`);
     console.log(`  ${'global CSS'.padEnd(18)} ${kb(cssBuf.length)}  ${kb(gz(cssBuf))}`);
-    console.log(`\n  FESM raw on disk: ${kb(fesmRaw)} (pre-link, whole library)\n`);
+    console.log(
+      `\n  FESM raw on disk: ${kb(fesmRaw)} (pre-link, all ${Object.keys(entries).length} entry points)`,
+    );
+    console.log('\nCode-splitting — dm-button eager, dm-checkbox only in a lazy chunk:');
+    for (const [mode, r] of Object.entries(split)) {
+      const label =
+        mode === 'root' ? "root '@dmaster/ui' (deprecated)" : "subpaths '@dmaster/ui/<entry>'";
+      const verdict = r.checkboxInInitial
+        ? 'checkbox IN the initial chunks'
+        : 'checkbox stays lazy';
+      console.log(
+        `  ${r.checkboxInInitial ? '✖' : '✔'} ${label.padEnd(34)} library code at startup ${kb(r.libraryBytes)} (minified) — ${verdict}`,
+      );
+    }
+    console.log('');
+  }
+  if (!splitOk) {
+    console.error(
+      '✖ dm-checkbox leaked into the initial chunks — the per-component entry points are not code-splitting.',
+    );
+    process.exitCode = 1;
   }
 } finally {
   rmSync(tmp, { recursive: true, force: true });

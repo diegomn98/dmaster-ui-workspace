@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
-  DmFormFieldComponent,
-  DmIconComponent,
-  DmInputDirective,
-} from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -61,7 +58,7 @@ export class ErrorMessagePageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmErrorComponent } from '@dmaster/ui';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
     '',
     '@Component({',
     "  selector: 'app-error-basic',",
@@ -82,7 +79,8 @@ export class ErrorMessagePageComponent {
 
   protected readonly withIconTs = [
     "import { Component } from '@angular/core';",
-    "import { DmErrorComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-error-with-icon',",
@@ -100,7 +98,7 @@ export class ErrorMessagePageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmErrorComponent } from '@dmaster/ui';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
     '',
     '@Component({',
     "  selector: 'app-error-sizes',",
@@ -229,10 +227,11 @@ export class ErrorMessagePageComponent {
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
-    'import {',
-    '  DmButtonComponent, DmCardComponent, DmErrorComponent,',
-    '  DmFormFieldComponent, DmIconComponent, DmInputDirective,',
-    "} from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-checkout',",

@@ -7,7 +7,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { DmIconComponent } from '@dmaster/ui';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { PALETTE_PRESETS } from '../../core/palette/palette';

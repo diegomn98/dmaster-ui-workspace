@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DmIconComponent } from '@dmaster/ui';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import { findRelease } from '../../core/blog/releases';
 import { COMPONENT_REGISTRY } from '../../core/component-registry';
@@ -64,7 +64,8 @@ export class RoadmapPageComponent {
   protected readonly shipped = computed<ShippedCard[]>(() => {
     const t = this.i18n.t().roadmap;
     const rows: Omit<ShippedCard, 'date'>[] = [
-      { version: this.currentVersion, slug: 'v0-11', caption: t.rail.motion, isNow: true },
+      { version: this.currentVersion, slug: 'v0-12', caption: t.rail.entryPoints, isNow: true },
+      { version: 'v0.11', slug: 'v0-11', caption: t.rail.motion, isNow: false },
       { version: 'v0.10', slug: 'v0-10', caption: t.rail.themes, isNow: false },
       { version: 'v0.9', slug: 'v0-9', caption: t.rail.copy, isNow: false },
       { version: 'v0.8', slug: 'v0-8', caption: t.rail.theming, isNow: false },
@@ -79,7 +80,7 @@ export class RoadmapPageComponent {
   /** Live component total — never hand-maintained (see CLAUDE.md doc-sync rule). */
   private readonly componentCount = COMPONENT_REGISTRY.length;
 
-  /** Column 2 — the three goals between here and a stable 1.0. */
+  /** Column 2 — the goals between here and a stable 1.0. */
   protected readonly focusItems = computed<FocusCard[]>(() => {
     const f = this.i18n.t().roadmap.focusItems;
     return [
@@ -89,6 +90,9 @@ export class RoadmapPageComponent {
         status: 'doing',
       },
       { title: f.deprecationTitle, desc: f.deprecationDesc, status: 'queued' },
+      // The root `@dmaster/ui` entry point is deprecated since 0.12 (per-component
+      // entry points); its removal is the first application of that policy.
+      { title: f.rootImportTitle, desc: f.rootImportDesc, status: 'queued' },
       { title: f.docsTitle, desc: f.docsDesc, status: 'queued' },
     ];
   });

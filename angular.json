@@ -15,7 +15,7 @@
     "dmaster-ui": {
       "projectType": "library",
       "root": "projects/ngx-dmaster-ui",
-      "sourceRoot": "projects/ngx-dmaster-ui/src",
+      "sourceRoot": "projects/ngx-dmaster-ui",
       "prefix": "dm",
       "architect": {
         "build": {

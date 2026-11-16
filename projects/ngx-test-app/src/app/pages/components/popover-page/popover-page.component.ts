@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
 import {
-  DmAvatarComponent,
-  DmButtonComponent,
-  DmFormFieldComponent,
-  DmInputDirective,
   DmPopoverComponent,
   DmPopoverPlacement,
   DmPopoverTriggerDirective,
-} from '@dmaster/ui';
+} from '@dmaster/ui/popover';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -100,7 +99,8 @@ export class PopoverPageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui/popover';",
     '',
     '@Component({',
     "  selector: 'app-popover-basic',",
@@ -120,7 +120,8 @@ export class PopoverPageComponent {
 
   protected readonly placementsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui/popover';",
     '',
     '@Component({',
     "  selector: 'app-popover-placements',",
@@ -143,13 +144,9 @@ export class PopoverPageComponent {
 
   protected readonly richTs = [
     "import { Component } from '@angular/core';",
-    'import {',
-    '  DmButtonComponent,',
-    '  DmFormFieldComponent,',
-    '  DmInputDirective,',
-    '  DmPopoverComponent,',
-    '  DmPopoverTriggerDirective,',
-    "} from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
+    "import { DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui/popover';",
     '',
     '@Component({',
     "  selector: 'app-popover-form',",
@@ -177,7 +174,8 @@ export class PopoverPageComponent {
 
   protected readonly trapFocusTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmPopoverComponent, DmPopoverTriggerDirective } from '@dmaster/ui/popover';",
     '',
     '@Component({',
     "  selector: 'app-popover-actions',",
@@ -238,7 +236,7 @@ export class PopoverPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { providePopoverDefaults } from '@dmaster/ui';",
+    "import { providePopoverDefaults } from '@dmaster/ui/popover';",
     '',
     "providers: [providePopoverDefaults({ placement: 'top', showArrow: false })]",
   ].join('\n');
