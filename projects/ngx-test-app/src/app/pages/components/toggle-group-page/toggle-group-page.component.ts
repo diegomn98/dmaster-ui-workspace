@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmTableColumn, DmTableComponent } from '@dmaster/ui/table';
 import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmIconComponent,
-  DmTableColumn,
-  DmTableComponent,
   DmToggleComponent,
   DmToggleGroupColor,
   DmToggleGroupComponent,
   DmToggleGroupOrientation,
   DmToggleGroupSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/toggle-group';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -170,7 +169,7 @@ export class ToggleGroupPageComponent {
 
   protected readonly singleTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui/toggle-group';",
     '',
     '@Component({',
     "  selector: 'app-view-switcher',",
@@ -202,7 +201,7 @@ export class ToggleGroupPageComponent {
 
   protected readonly multipleTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui/toggle-group';",
     '',
     '@Component({',
     "  selector: 'app-format-toolbar',",
@@ -235,7 +234,8 @@ export class ToggleGroupPageComponent {
 
   protected readonly iconsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmToggleGroupComponent, DmToggleComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui/toggle-group';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-icon-toggles',",
@@ -256,7 +256,7 @@ export class ToggleGroupPageComponent {
 
   protected readonly colorsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui/toggle-group';",
     '',
     '@Component({',
     "  selector: 'app-toggle-colors',",
@@ -282,7 +282,8 @@ export class ToggleGroupPageComponent {
 
   protected readonly sizesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmToggleGroupComponent, DmToggleComponent, DmButtonComponent } from '@dmaster/ui';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui/toggle-group';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-toggle-sizes',",
@@ -312,7 +313,7 @@ export class ToggleGroupPageComponent {
 
   protected readonly layoutTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui/toggle-group';",
     '',
     '@Component({',
     "  selector: 'app-toggle-layouts',",
@@ -381,13 +382,10 @@ export class ToggleGroupPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
-    'import {',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmToggleComponent,',
-    '  DmToggleGroupComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmToggleComponent, DmToggleGroupComponent } from '@dmaster/ui/toggle-group';",
     '',
     '@Component({',
     "  selector: 'app-pricing',",
@@ -417,7 +415,7 @@ export class ToggleGroupPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideToggleGroupDefaults } from '@dmaster/ui';",
+    "import { provideToggleGroupDefaults } from '@dmaster/ui/toggle-group';",
     '',
     'providers: [',
     "  provideToggleGroupDefaults({ color: 'primary', size: 'lg' }),",
@@ -434,7 +432,7 @@ export class ToggleGroupPageComponent {
   protected readonly formTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
-    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui';",
+    "import { DmToggleGroupComponent, DmToggleComponent } from '@dmaster/ui/toggle-group';",
     '',
     '@Component({',
     "  selector: 'app-form-toggle',",

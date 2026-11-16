@@ -196,6 +196,7 @@ export const EN: DashboardTranslations = {
       styles: 'Styles setup',
       providers: 'Provide the library',
       firstComponent: 'First component',
+      imports: 'Imports & entry points',
       darkMode: 'Dark mode',
       colors: 'Colors & tokens',
       animation: 'Animation',
@@ -229,6 +230,18 @@ export const EN: DashboardTranslations = {
       'Add <code>provideDmasterUI</code> in your <code>ApplicationConfig</code>. The initial <code>theme</code> and <code>density</code> stamp themselves on <code>&lt;html&gt;</code> so the CSS tokens flip automatically.',
     firstComponentBody:
       'Every component is standalone: import it directly where you use it. No modules, no barrels to remember.',
+    importsBody:
+      'Each component is published as its own entry point, named after it — <code>@dmaster/ui/button</code>, <code>@dmaster/ui/menu</code>, <code>@dmaster/ui/toggle-group</code>… Import from there and your bundler can code-split the library: a component used only in a lazy route ships with that route, not in your initial bundle.',
+    importsItems: [
+      '<code>@dmaster/ui/core</code> — <code>provideDmasterUI</code>, <code>ThemeService</code>, <code>DensityService</code> and the shared types (<code>DmSize</code>, <code>DmTheme</code>…).',
+      '<code>@dmaster/ui/&lt;component&gt;</code> — the component, its types and its <code>provide…Defaults()</code> helper. Composites ship together: tabs, tab and tab panel all come from <code>@dmaster/ui/tabs</code>. Every component page shows its import at the top.',
+      '<code>@dmaster/ui/icon</code> vs <code>@dmaster/ui/icons</code> — <code>icon</code> is the component that draws icons (font ligature, registered name or projected SVG); <code>icons</code> is an optional set of SVG drawings to register with it.',
+    ],
+    migrationTitle: 'Upgrading from 0.11 or earlier',
+    migrationBody:
+      "The root import <code>import { … } from '@dmaster/ui'</code> still works — it re-exports every entry point, so upgrading breaks nothing. It is <strong>deprecated</strong> and will be removed in a future version: replace each root import with one import per entry point.",
+    migrationNote:
+      'Stop root imports from creeping back with ESLint: a <code>no-restricted-imports</code> rule on <code>@dmaster/ui</code>. The full migration guide lives in the library README.',
     darkModeBody:
       'Dark mode is a first-class citizen. Every color, border and shadow token has a dark counterpart — flipping happens instantly via a data attribute on <code>&lt;html&gt;</code>.',
     darkModeItems: [

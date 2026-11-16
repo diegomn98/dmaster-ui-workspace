@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DmButtonComponent, DmCardComponent, DmSpinnerComponent } from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmSpinnerComponent } from '@dmaster/ui/spinner';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -76,7 +78,7 @@ export class SpinnerPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSpinnerComponent } from '@dmaster/ui';",
+    "import { DmSpinnerComponent } from '@dmaster/ui/spinner';",
     '',
     '@Component({',
     "  selector: 'app-spinner-sizes',",
@@ -98,7 +100,7 @@ export class SpinnerPageComponent {
 
   protected readonly colorsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSpinnerComponent } from '@dmaster/ui';",
+    "import { DmSpinnerComponent } from '@dmaster/ui/spinner';",
     '',
     '@Component({',
     "  selector: 'app-spinner-colors',",
@@ -116,7 +118,7 @@ export class SpinnerPageComponent {
 
   protected readonly strokeTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSpinnerComponent } from '@dmaster/ui';",
+    "import { DmSpinnerComponent } from '@dmaster/ui/spinner';",
     '',
     '@Component({',
     "  selector: 'app-spinner-stroke',",
@@ -137,7 +139,7 @@ export class SpinnerPageComponent {
 
   protected readonly withLabelTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSpinnerComponent } from '@dmaster/ui';",
+    "import { DmSpinnerComponent } from '@dmaster/ui/spinner';",
     '',
     '@Component({',
     "  selector: 'app-spinner-label',",
@@ -157,7 +159,8 @@ export class SpinnerPageComponent {
 
   protected readonly inButtonTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmSpinnerComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmSpinnerComponent } from '@dmaster/ui/spinner';",
     '',
     '@Component({',
     "  selector: 'app-spinner-in-button',",
@@ -181,7 +184,8 @@ export class SpinnerPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmCardComponent, DmSpinnerComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmSpinnerComponent } from '@dmaster/ui/spinner';",
     '',
     '@Component({',
     "  selector: 'app-workspace',",
@@ -199,7 +203,7 @@ export class SpinnerPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideSpinnerDefaults } from '@dmaster/ui';",
+    "import { provideSpinnerDefaults } from '@dmaster/ui/spinner';",
     '',
     'providers: [provideSpinnerDefaults({ strokeWidth: 3 })]',
   ].join('\n');

@@ -196,6 +196,7 @@ export const ES: DashboardTranslations = {
       styles: 'Estilos',
       providers: 'Proveer la librería',
       firstComponent: 'Primer componente',
+      imports: 'Imports y puntos de entrada',
       darkMode: 'Modo oscuro',
       colors: 'Colores y tokens',
       animation: 'Animación',
@@ -229,6 +230,18 @@ export const ES: DashboardTranslations = {
       'Añade <code>provideDmasterUI</code> en tu <code>ApplicationConfig</code>. El <code>theme</code> y la <code>density</code> iniciales se estampan en <code>&lt;html&gt;</code> automáticamente para que los tokens CSS respondan.',
     firstComponentBody:
       'Todos los componentes son standalone: impórtalos directamente donde los uses. Sin módulos, sin barrels que recordar.',
+    importsBody:
+      'Cada componente se publica como su propio punto de entrada, con su nombre — <code>@dmaster/ui/button</code>, <code>@dmaster/ui/menu</code>, <code>@dmaster/ui/toggle-group</code>… Importa desde ahí y tu empaquetador podrá repartir la librería en chunks: un componente que solo usa una ruta diferida viaja con esa ruta, no en el bundle inicial.',
+    importsItems: [
+      '<code>@dmaster/ui/core</code> — <code>provideDmasterUI</code>, <code>ThemeService</code>, <code>DensityService</code> y los tipos compartidos (<code>DmSize</code>, <code>DmTheme</code>…).',
+      '<code>@dmaster/ui/&lt;componente&gt;</code> — el componente, sus tipos y su helper <code>provide…Defaults()</code>. Los compuestos van juntos: tabs, tab y tab panel salen todos de <code>@dmaster/ui/tabs</code>. Cada página de componente muestra su import arriba.',
+      '<code>@dmaster/ui/icon</code> frente a <code>@dmaster/ui/icons</code> — <code>icon</code> es el componente que dibuja iconos (ligadura de fuente, nombre registrado o SVG proyectado); <code>icons</code> es un set opcional de dibujos SVG para registrar en él.',
+    ],
+    migrationTitle: 'Si vienes de la 0.11 o anterior',
+    migrationBody:
+      "El import raíz <code>import { … } from '@dmaster/ui'</code> sigue funcionando — reexporta todos los puntos de entrada, así que actualizar no rompe nada. Está <strong>obsoleto</strong> y se retirará en una versión futura: cambia cada import raíz por un import por punto de entrada.",
+    migrationNote:
+      'Evita que vuelvan a colarse imports raíz con ESLint: una regla <code>no-restricted-imports</code> sobre <code>@dmaster/ui</code>. La guía de migración completa está en el README de la librería.',
     darkModeBody:
       'El modo oscuro es ciudadano de primera. Todos los tokens de color, borde y sombra tienen su equivalente en dark — el cambio ocurre al instante vía un atributo en <code>&lt;html&gt;</code>.',
     darkModeItems: [

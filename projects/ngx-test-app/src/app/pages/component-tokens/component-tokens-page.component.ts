@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DmButtonComponent } from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { CodeSnippetComponent } from '../../shared/code-snippet/code-snippet.component';

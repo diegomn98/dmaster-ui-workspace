@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DmButtonComponent } from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { CodeSnippetComponent } from '../../shared/code-snippet/code-snippet.component';
@@ -38,7 +38,7 @@ export class GettingStartedComponent {
   protected readonly providersCode = [
     '// src/app/app.config.ts',
     "import { ApplicationConfig } from '@angular/core';",
-    "import { provideDmasterUI } from '@dmaster/ui';",
+    "import { provideDmasterUI } from '@dmaster/ui/core';",
     '',
     'export const appConfig: ApplicationConfig = {',
     '  providers: [',
@@ -49,7 +49,7 @@ export class GettingStartedComponent {
 
   protected readonly firstComponentCode = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-save-form',",
@@ -66,9 +66,36 @@ export class GettingStartedComponent {
     '}',
   ].join('\n');
 
+  protected readonly importsCode = [
+    "import { provideDmasterUI, ThemeService } from '@dmaster/ui/core';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
+    "import { DmTabComponent, DmTabPanelComponent, DmTabsComponent } from '@dmaster/ui/tabs';",
+    "import { DmIconComponent, provideDmasterIcons } from '@dmaster/ui/icon'; // the component",
+    "import { DM_ICONS } from '@dmaster/ui/icons'; // optional curated SVG set",
+  ].join('\n');
+
+  protected readonly migrationCode = [
+    '// Before — deprecated root import (still works in 0.12)',
+    'import {',
+    '  provideDmasterUI,',
+    '  DmButtonComponent,',
+    '  DmToggleComponent,',
+    '  DmToggleGroupComponent,',
+    '  DmDialogService,',
+    '  DialogRef,',
+    "} from '@dmaster/ui';",
+    '',
+    '// After — one import per entry point',
+    "import { provideDmasterUI } from '@dmaster/ui/core';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmToggleComponent, DmToggleGroupComponent } from '@dmaster/ui/toggle-group';",
+    "import { DialogRef, DmDialogService } from '@dmaster/ui/dialog';",
+  ].join('\n');
+
   protected readonly darkModeCode = [
     "import { inject } from '@angular/core';",
-    "import { ThemeService } from '@dmaster/ui';",
+    "import { ThemeService } from '@dmaster/ui/core';",
     '',
     '@Component({ /* ... */ })',
     'export class ThemeToggle {',
@@ -131,12 +158,7 @@ export class GettingStartedComponent {
   ].join('\n');
 
   protected readonly typescriptCode = [
-    'import type {',
-    '  DmSize,',
-    '  DmTheme,',
-    '  DmDensity,',
-    '  DmButtonColor,',
-    '  DmButtonVariant,',
-    "} from '@dmaster/ui';",
+    "import type { DmSize, DmTheme, DmDensity } from '@dmaster/ui/core';",
+    "import type { DmButtonColor, DmButtonVariant } from '@dmaster/ui/button';",
   ].join('\n');
 }

@@ -6,14 +6,10 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import {
-  DmButtonComponent,
-  DmCardComponent,
-  DmIconComponent,
-  DmProgressColor,
-  DmProgressComponent,
-  DmProgressSize,
-} from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmProgressColor, DmProgressComponent, DmProgressSize } from '@dmaster/ui/progress';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -100,7 +96,7 @@ export class ProgressPageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmProgressComponent } from '@dmaster/ui';",
+    "import { DmProgressComponent } from '@dmaster/ui/progress';",
     '',
     '@Component({',
     "  selector: 'app-progress-basic',",
@@ -121,7 +117,7 @@ export class ProgressPageComponent {
 
   protected readonly colorsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmProgressComponent } from '@dmaster/ui';",
+    "import { DmProgressComponent } from '@dmaster/ui/progress';",
     '',
     '@Component({',
     "  selector: 'app-progress-colors',",
@@ -139,7 +135,7 @@ export class ProgressPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmProgressComponent } from '@dmaster/ui';",
+    "import { DmProgressComponent } from '@dmaster/ui/progress';",
     '',
     '@Component({',
     "  selector: 'app-progress-sizes',",
@@ -156,7 +152,7 @@ export class ProgressPageComponent {
 
   protected readonly indeterminateTs = [
     "import { Component } from '@angular/core';",
-    "import { DmProgressComponent } from '@dmaster/ui';",
+    "import { DmProgressComponent } from '@dmaster/ui/progress';",
     '',
     '@Component({',
     "  selector: 'app-progress-indeterminate',",
@@ -172,7 +168,7 @@ export class ProgressPageComponent {
 
   protected readonly stripedTs = [
     "import { Component } from '@angular/core';",
-    "import { DmProgressComponent } from '@dmaster/ui';",
+    "import { DmProgressComponent } from '@dmaster/ui/progress';",
     '',
     '@Component({',
     "  selector: 'app-progress-striped',",
@@ -194,7 +190,7 @@ export class ProgressPageComponent {
 
   protected readonly formatTs = [
     "import { Component } from '@angular/core';",
-    "import { DmProgressComponent } from '@dmaster/ui';",
+    "import { DmProgressComponent } from '@dmaster/ui/progress';",
     '',
     '@Component({',
     "  selector: 'app-progress-format',",
@@ -208,7 +204,7 @@ export class ProgressPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideProgressDefaults } from '@dmaster/ui';",
+    "import { provideProgressDefaults } from '@dmaster/ui/progress';",
     '',
     'providers: [',
     "  provideProgressDefaults({ color: 'success', size: 'lg' }),",
@@ -262,7 +258,10 @@ export class ProgressPageComponent {
 
   protected readonly compositionTs = [
     "import { afterNextRender, Component, computed, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmCardComponent, DmIconComponent, DmProgressComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
+    "import { DmProgressComponent } from '@dmaster/ui/progress';",
     '',
     '@Component({',
     "  selector: 'app-upload-card',",

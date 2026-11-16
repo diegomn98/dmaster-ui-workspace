@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DmButtonComponent } from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { PALETTE_PRESETS } from '../../core/palette/palette';
@@ -121,7 +121,7 @@ export class ThemingPageComponent {
 
   protected readonly themeServiceCode = [
     "import { inject } from '@angular/core';",
-    "import { ThemeService } from '@dmaster/ui';",
+    "import { ThemeService } from '@dmaster/ui/core';",
     '',
     '@Component({ /* ... */ })',
     'export class MyComponent {',
@@ -144,7 +144,7 @@ export class ThemingPageComponent {
 
   protected readonly namedThemeCode = [
     '// 1. Register the theme in your ApplicationConfig',
-    "import { provideDmasterUI } from '@dmaster/ui';",
+    "import { provideDmasterUI } from '@dmaster/ui/core';",
     '',
     'export const appConfig: ApplicationConfig = {',
     '  providers: [',
@@ -186,7 +186,7 @@ export class ThemingPageComponent {
     "provideDmasterUI({ density: 'compact' }),",
     '',
     '// Or change at runtime with DensityService',
-    "import { DensityService } from '@dmaster/ui';",
+    "import { DensityService } from '@dmaster/ui/core';",
     '',
     'const density = inject(DensityService);',
     "density.setDensity('spacious');",
@@ -211,7 +211,7 @@ export class ThemingPageComponent {
   ].join('\n');
 
   protected readonly reducedMotionCode = [
-    "import { ReducedMotionService } from '@dmaster/ui';",
+    "import { ReducedMotionService } from '@dmaster/ui/core';",
     '',
     'const motion = inject(ReducedMotionService);',
     '',
@@ -249,7 +249,7 @@ export class ThemingPageComponent {
     '// A subtree override will NOT reach them.',
     '// Use panelClass to scope styles inside an overlay:',
     '',
-    "import { DmDialogService } from '@dmaster/ui';",
+    "import { DmDialogService } from '@dmaster/ui/dialog';",
     '',
     'const dialog = inject(DmDialogService);',
     '',

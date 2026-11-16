@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
 import {
-  DmButtonComponent,
-  DmCardComponent,
   DmDividerComponent,
   DmDividerLabelPlacement,
   DmDividerOrientation,
-  DmFormFieldComponent,
-  DmInputDirective,
-} from '@dmaster/ui';
+} from '@dmaster/ui/divider';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -99,7 +98,7 @@ export class DividerPageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmDividerComponent } from '@dmaster/ui';",
+    "import { DmDividerComponent } from '@dmaster/ui/divider';",
     '',
     '@Component({',
     "  selector: 'app-divider-basic',",
@@ -117,7 +116,7 @@ export class DividerPageComponent {
 
   protected readonly withLabelTs = [
     "import { Component } from '@angular/core';",
-    "import { DmDividerComponent } from '@dmaster/ui';",
+    "import { DmDividerComponent } from '@dmaster/ui/divider';",
     '',
     '@Component({',
     "  selector: 'app-divider-labels',",
@@ -139,7 +138,7 @@ export class DividerPageComponent {
 
   protected readonly verticalTs = [
     "import { Component } from '@angular/core';",
-    "import { DmDividerComponent } from '@dmaster/ui';",
+    "import { DmDividerComponent } from '@dmaster/ui/divider';",
     '',
     '@Component({',
     "  selector: 'app-divider-vertical',",
@@ -179,13 +178,10 @@ export class DividerPageComponent {
 
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
-    'import {',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmDividerComponent,',
-    '  DmFormFieldComponent,',
-    '  DmInputDirective,',
-    "} from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmDividerComponent } from '@dmaster/ui/divider';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
     '',
     '@Component({',
     "  selector: 'app-sign-in',",
@@ -202,7 +198,7 @@ export class DividerPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideDividerDefaults } from '@dmaster/ui';",
+    "import { provideDividerDefaults } from '@dmaster/ui/divider';",
     '',
     'providers: [',
     "  provideDividerDefaults({ labelPlacement: 'start' }),",

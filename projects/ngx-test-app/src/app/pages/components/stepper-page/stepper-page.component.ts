@@ -1,21 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmCheckboxComponent } from '@dmaster/ui/checkbox';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';
 import {
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmCheckboxComponent,
-  DmErrorComponent,
-  DmFormFieldComponent,
-  DmInputDirective,
-  DmSelectComponent,
-  DmSelectItem,
   DmStepComponent,
   DmStepperColor,
   DmStepperComponent,
   DmStepperOrientation,
   DmStepperSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/stepper';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -140,7 +138,7 @@ export class StepperPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmStepperComponent, DmStepComponent } from '@dmaster/ui';",
+    "import { DmStepperComponent, DmStepComponent } from '@dmaster/ui/stepper';",
     '',
     '@Component({',
     "  selector: 'app-checkout-steps',",
@@ -170,7 +168,7 @@ export class StepperPageComponent {
 
   protected readonly verticalTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmStepperComponent, DmStepComponent } from '@dmaster/ui';",
+    "import { DmStepperComponent, DmStepComponent } from '@dmaster/ui/stepper';",
     '',
     '@Component({',
     "  selector: 'app-delivery-status',",
@@ -226,9 +224,9 @@ export class StepperPageComponent {
 
   protected readonly linearTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    'import {',
-    '  DmButtonComponent, DmCheckboxComponent, DmStepComponent, DmStepperComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCheckboxComponent } from '@dmaster/ui/checkbox';",
+    "import { DmStepComponent, DmStepperComponent } from '@dmaster/ui/stepper';",
     '',
     '@Component({',
     "  selector: 'app-onboarding',",
@@ -262,7 +260,7 @@ export class StepperPageComponent {
 
   protected readonly statesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmStepperComponent, DmStepComponent } from '@dmaster/ui';",
+    "import { DmStepperComponent, DmStepComponent } from '@dmaster/ui/stepper';",
     '',
     '@Component({',
     "  selector: 'app-step-states',",
@@ -296,7 +294,7 @@ export class StepperPageComponent {
 
   protected readonly colorsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmStepperColor, DmStepperComponent, DmStepComponent } from '@dmaster/ui';",
+    "import { DmStepperColor, DmStepperComponent, DmStepComponent } from '@dmaster/ui/stepper';",
     '',
     '@Component({',
     "  selector: 'app-stepper-colors',",
@@ -322,7 +320,7 @@ export class StepperPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmStepperSize, DmStepperComponent, DmStepComponent } from '@dmaster/ui';",
+    "import { DmStepperSize, DmStepperComponent, DmStepComponent } from '@dmaster/ui/stepper';",
     '',
     '@Component({',
     "  selector: 'app-stepper-sizes',",
@@ -337,7 +335,7 @@ export class StepperPageComponent {
   // ---- Global defaults ----------------------------------------------------
 
   protected readonly defaultsCode = [
-    "import { provideStepperDefaults } from '@dmaster/ui';",
+    "import { provideStepperDefaults } from '@dmaster/ui/stepper';",
     '',
     'providers: [',
     "  provideStepperDefaults({ orientation: 'vertical', color: 'success' }),",
@@ -550,11 +548,14 @@ export class StepperPageComponent {
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
-    'import {',
-    '  DmBadgeComponent, DmButtonComponent, DmCardComponent,',
-    '  DmCheckboxComponent, DmErrorComponent, DmFormFieldComponent, DmInputDirective,',
-    '  DmSelectComponent, DmSelectItem, DmStepComponent, DmStepperComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmCheckboxComponent } from '@dmaster/ui/checkbox';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
+    "import { DmStepComponent, DmStepperComponent } from '@dmaster/ui/stepper';",
     '',
     'const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;',
     '',

@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  DmCardComponent,
-  DmIconComponent,
-  DmSliderColor,
-  DmSliderComponent,
-  DmSliderSize,
-} from '@dmaster/ui';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmSliderColor, DmSliderComponent, DmSliderSize } from '@dmaster/ui/slider';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -96,7 +92,7 @@ export class SliderPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSliderComponent } from '@dmaster/ui';",
+    "import { DmSliderComponent } from '@dmaster/ui/slider';",
     '',
     '@Component({',
     "  selector: 'app-slider-basic',",
@@ -119,7 +115,7 @@ export class SliderPageComponent {
 
   protected readonly marksTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSliderComponent } from '@dmaster/ui';",
+    "import { DmSliderComponent } from '@dmaster/ui/slider';",
     '',
     '@Component({',
     "  selector: 'app-slider-marks',",
@@ -149,7 +145,7 @@ export class SliderPageComponent {
 
   protected readonly colorsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSliderComponent } from '@dmaster/ui';",
+    "import { DmSliderComponent } from '@dmaster/ui/slider';",
     '',
     '@Component({',
     "  selector: 'app-slider-colors',",
@@ -169,7 +165,7 @@ export class SliderPageComponent {
 
   protected readonly sizesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSliderComponent } from '@dmaster/ui';",
+    "import { DmSliderComponent } from '@dmaster/ui/slider';",
     '',
     '@Component({',
     "  selector: 'app-slider-sizes',",
@@ -189,7 +185,7 @@ export class SliderPageComponent {
   protected readonly formsTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
-    "import { DmSliderComponent } from '@dmaster/ui';",
+    "import { DmSliderComponent } from '@dmaster/ui/slider';",
     '',
     '@Component({',
     "  selector: 'app-slider-forms',",
@@ -214,7 +210,7 @@ export class SliderPageComponent {
 
   protected readonly formatTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSliderComponent } from '@dmaster/ui';",
+    "import { DmSliderComponent } from '@dmaster/ui/slider';",
     '',
     '@Component({',
     "  selector: 'app-slider-format',",
@@ -229,7 +225,7 @@ export class SliderPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideSliderDefaults } from '@dmaster/ui';",
+    "import { provideSliderDefaults } from '@dmaster/ui/slider';",
     '',
     'providers: [',
     "  provideSliderDefaults({ color: 'success', size: 'lg', showValueLabel: true }),",
@@ -343,7 +339,9 @@ export class SliderPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmCardComponent, DmIconComponent, DmSliderComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
+    "import { DmSliderComponent } from '@dmaster/ui/slider';",
     '',
     "type SettingKey = 'brightness' | 'volume' | 'textSize';",
     '',

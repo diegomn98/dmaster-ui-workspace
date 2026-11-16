@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
 import {
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
   DmSelectColor,
   DmSelectComponent,
   DmSelectItem,
@@ -12,8 +12,8 @@ import {
   DmSelectOptionOrGroup,
   DmSelectRadius,
   DmSelectVariant,
-  DmSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/select';
+import { DmSize } from '@dmaster/ui/core';
 import { delay, of } from 'rxjs';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
@@ -168,7 +168,7 @@ export class SelectPageComponent {
 
   protected readonly multipleTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-multi-select',",
@@ -202,7 +202,7 @@ export class SelectPageComponent {
 
   protected readonly filterableTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-filterable-select',",
@@ -233,7 +233,7 @@ export class SelectPageComponent {
 
   protected readonly groupedTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSelectComponent, DmSelectOptionOrGroup } from '@dmaster/ui';",
+    "import { DmSelectComponent, DmSelectOptionOrGroup } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-grouped-select',",
@@ -278,7 +278,7 @@ export class SelectPageComponent {
 
   protected readonly multiFilterTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSelectComponent, DmSelectOptionOrGroup } from '@dmaster/ui';",
+    "import { DmSelectComponent, DmSelectOptionOrGroup } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-multi-filter-select',",
@@ -409,7 +409,11 @@ export class SelectPageComponent {
 
   protected readonly optionTemplateTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSelectComponent, DmSelectItem, DmSelectOptionDirective } from '@dmaster/ui';",
+    'import {',
+    '  DmSelectComponent,',
+    '  DmSelectItem,',
+    '  DmSelectOptionDirective,',
+    "} from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-status-select',",
@@ -476,7 +480,7 @@ export class SelectPageComponent {
     "import { Component, inject, signal } from '@angular/core';",
     "import { HttpClient } from '@angular/common/http';",
     "import { map } from 'rxjs';",
-    "import { DmSelectComponent, DmSelectLoadFn } from '@dmaster/ui';",
+    "import { DmSelectComponent, DmSelectLoadFn } from '@dmaster/ui/select';",
     '',
     'interface User { id: string; name: string; email: string; }',
     '',
@@ -518,7 +522,7 @@ export class SelectPageComponent {
 
   protected readonly clearableTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-clearable-select',",
@@ -544,7 +548,7 @@ export class SelectPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-pet-select',",
@@ -570,7 +574,7 @@ export class SelectPageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-select-variants',",
@@ -606,7 +610,7 @@ export class SelectPageComponent {
   protected readonly formsTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
-    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-pet-form',",
@@ -632,7 +636,7 @@ export class SelectPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideSelectDefaults } from '@dmaster/ui';",
+    "import { provideSelectDefaults } from '@dmaster/ui/select';",
     '',
     "providers: [provideSelectDefaults({ variant: 'bordered' })]",
   ].join('\n');
@@ -668,7 +672,8 @@ export class SelectPageComponent {
   protected readonly validationTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
-    "import { DmErrorComponent, DmSelectComponent } from '@dmaster/ui';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmSelectComponent } from '@dmaster/ui/select';",
     '',
     '@Component({',
     '  imports: [DmSelectComponent, DmErrorComponent, ReactiveFormsModule],',
@@ -741,14 +746,14 @@ export class SelectPageComponent {
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
     'import {',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmErrorComponent,',
     '  DmSelectComponent,',
     '  DmSelectItem,',
     '  DmSelectOptionOrGroup,',
-    "} from '@dmaster/ui';",
+    "} from '@dmaster/ui/select';",
     '',
     '@Component({',
     '  imports: [',

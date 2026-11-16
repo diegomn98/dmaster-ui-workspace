@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
 import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmIconComponent,
   DmTableCellDirective,
   DmTableColumn,
   DmTableComponent,
@@ -13,8 +13,8 @@ import {
   DmTableLoadFn,
   DmTableSelectionMode,
   DmTableVariant,
-  DmToastService,
-} from '@dmaster/ui';
+} from '@dmaster/ui/table';
+import { DmToastService } from '@dmaster/ui/toast';
 import { delay, of, switchMap, throwError, timer } from 'rxjs';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
@@ -329,13 +329,9 @@ export class TablePageComponent {
 
   protected readonly fullTs = [
     "import { Component, computed, inject, signal } from '@angular/core';",
-    'import {',
-    '  DmButtonComponent,',
-    '  DmTableColumn,',
-    '  DmTableComponent,',
-    '  DmTableKey,',
-    '  DmToastService,',
-    "} from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmTableColumn, DmTableComponent, DmTableKey } from '@dmaster/ui/table';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     'interface Member {',
     '  id: number;',
@@ -407,13 +403,9 @@ export class TablePageComponent {
 
   protected readonly customCellsTs = [
     "import { Component, signal } from '@angular/core';",
-    'import {',
-    '  DmAvatarComponent,',
-    '  DmBadgeComponent,',
-    '  DmTableCellDirective,',
-    '  DmTableColumn,',
-    '  DmTableComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmTableCellDirective, DmTableColumn, DmTableComponent } from '@dmaster/ui/table';",
     '',
     'interface Member {',
     '  id: number;',
@@ -472,7 +464,7 @@ export class TablePageComponent {
 
   protected readonly selectionTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTableColumn, DmTableComponent, DmTableKey } from '@dmaster/ui';",
+    "import { DmTableColumn, DmTableComponent, DmTableKey } from '@dmaster/ui/table';",
     '',
     'interface Member {',
     '  id: number;',
@@ -516,7 +508,7 @@ export class TablePageComponent {
 
   protected readonly paginationTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui';",
+    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui/table';",
     '',
     'interface Member {',
     '  id: number;',
@@ -613,14 +605,14 @@ export class TablePageComponent {
     "import { Component, inject, signal } from '@angular/core';",
     "import { HttpClient } from '@angular/common/http';",
     "import { map } from 'rxjs';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     'import {',
-    '  DmButtonComponent,',
     '  DmTableColumn,',
     '  DmTableComponent,',
     '  DmTableKey,',
     '  DmTableLoadFn,',
-    '  DmToastService,',
-    "} from '@dmaster/ui';",
+    "} from '@dmaster/ui/table';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     'interface Member {',
     '  id: number;',
@@ -685,7 +677,7 @@ export class TablePageComponent {
 
   protected readonly stickyTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui';",
+    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui/table';",
     '',
     'interface Member {',
     '  id: number;',
@@ -736,7 +728,7 @@ export class TablePageComponent {
 
   protected readonly virtualScrollTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmTableColumn, DmTableComponent, DmTableKey } from '@dmaster/ui';",
+    "import { DmTableColumn, DmTableComponent, DmTableKey } from '@dmaster/ui/table';",
     '',
     'interface Member {',
     '  id: number;',
@@ -789,7 +781,7 @@ export class TablePageComponent {
 
   protected readonly densitiesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui';",
+    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui/table';",
     '',
     'interface Member {',
     '  id: number;',
@@ -826,7 +818,7 @@ export class TablePageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui';",
+    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui/table';",
     '',
     'interface Member {',
     '  id: number;',
@@ -869,7 +861,8 @@ export class TablePageComponent {
 
   protected readonly statesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmTableColumn, DmTableComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmTableColumn, DmTableComponent } from '@dmaster/ui/table';",
     '',
     'interface Member {',
     '  id: number;',
@@ -1027,17 +1020,17 @@ export class TablePageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     'import {',
-    '  DmAvatarComponent,',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmIconComponent,',
     '  DmTableCellDirective,',
     '  DmTableColumn,',
     '  DmTableComponent,',
     '  DmTableKey,',
-    "} from '@dmaster/ui';",
+    "} from '@dmaster/ui/table';",
     '',
     'interface Member {',
     '  id: number;',
@@ -1112,7 +1105,7 @@ export class TablePageComponent {
 
   // ---- Defaults ------------------------------------------------------------
   protected readonly defaultsCode = [
-    "import { provideTableDefaults } from '@dmaster/ui';",
+    "import { provideTableDefaults } from '@dmaster/ui/table';",
     '',
     'providers: [',
     "  provideTableDefaults({ density: 'compact', pageSize: 10, pageSizeOptions: [10, 25, 50] }),",

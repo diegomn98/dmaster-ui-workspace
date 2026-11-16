@@ -1,14 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DmButtonComponent,
-  DmCardComponent,
-  DmFormFieldComponent,
-  DmInputDirective,
-  DmSwitchComponent,
-  DmToastRef,
-  DmToastService,
-  DmToastVariant,
-} from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmSwitchComponent } from '@dmaster/ui/switch';
+import { DmToastRef, DmToastService, DmToastVariant } from '@dmaster/ui/toast';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -111,7 +106,8 @@ export class ToastPageComponent {
 
   protected readonly helpersTs = [
     "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-toast-helpers',",
@@ -146,7 +142,8 @@ export class ToastPageComponent {
 
   protected readonly durationTs = [
     "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-toast-duration',",
@@ -188,7 +185,8 @@ export class ToastPageComponent {
 
   protected readonly dismissibleTs = [
     "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-toast-dismissible',",
@@ -229,7 +227,8 @@ export class ToastPageComponent {
 
   protected readonly actionTs = [
     "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-toast-action',",
@@ -288,7 +287,8 @@ export class ToastPageComponent {
 
   protected readonly promiseTs = [
     "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-toast-promise',",
@@ -353,7 +353,8 @@ export class ToastPageComponent {
 
   protected readonly programmaticTs = [
     "import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmToastRef, DmToastService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmToastRef, DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-toast-programmatic',",
@@ -404,7 +405,8 @@ export class ToastPageComponent {
 
   protected readonly queueTs = [
     "import { ChangeDetectionStrategy, Component, inject } from '@angular/core';",
-    "import { DmButtonComponent, DmToastService } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-toast-queue',",
@@ -509,14 +511,11 @@ export class ToastPageComponent {
 
   protected readonly compositionTs = [
     "import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';",
-    'import {',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmFormFieldComponent,',
-    '  DmInputDirective,',
-    '  DmSwitchComponent,',
-    '  DmToastService,',
-    "} from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-notification-settings',",
@@ -570,7 +569,7 @@ export class ToastPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideToastDefaults } from '@dmaster/ui';",
+    "import { provideToastDefaults } from '@dmaster/ui/toast';",
     '',
     "providers: [provideToastDefaults({ duration: 6000, dismissLabel: 'Cerrar' })]",
   ].join('\n');

@@ -1,20 +1,17 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
 import {
-  DmBadgeComponent,
   DmButtonColor,
   DmButtonComponent,
-  DmButtonGroupComponent,
-  DmButtonGroupOrientation,
   DmButtonState,
   DmButtonVariant,
-  DmCardComponent,
-  DmIconComponent,
-  DmMenuComponent,
-  DmMenuItemComponent,
-  DmMenuTriggerDirective,
-  DmSize,
-  DmToastService,
-} from '@dmaster/ui';
+} from '@dmaster/ui/button';
+import { DmButtonGroupComponent, DmButtonGroupOrientation } from '@dmaster/ui/button-group';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmMenuComponent, DmMenuItemComponent, DmMenuTriggerDirective } from '@dmaster/ui/menu';
+import { DmSize } from '@dmaster/ui/core';
+import { DmToastService } from '@dmaster/ui/toast';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -233,7 +230,8 @@ export class ButtonGroupPageComponent {
 
   protected readonly attachedTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmButtonGroupComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmButtonGroupComponent } from '@dmaster/ui/button-group';",
     '',
     '@Component({',
     "  selector: 'app-attached-demo',",
@@ -265,7 +263,9 @@ export class ButtonGroupPageComponent {
 
   protected readonly alignmentTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmButtonGroupComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmButtonGroupComponent } from '@dmaster/ui/button-group';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-alignment-demo',",
@@ -292,7 +292,9 @@ export class ButtonGroupPageComponent {
 
   protected readonly solidTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmButtonGroupComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmButtonGroupComponent } from '@dmaster/ui/button-group';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-pager-demo',",
@@ -320,7 +322,8 @@ export class ButtonGroupPageComponent {
 
   protected readonly overrideTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmButtonGroupComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmButtonGroupComponent } from '@dmaster/ui/button-group';",
     '',
     '@Component({',
     "  selector: 'app-file-actions-demo',",
@@ -350,7 +353,9 @@ export class ButtonGroupPageComponent {
 
   protected readonly verticalTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmButtonGroupComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmButtonGroupComponent } from '@dmaster/ui/button-group';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-zoom-demo',",
@@ -375,7 +380,8 @@ export class ButtonGroupPageComponent {
 
   protected readonly fullWidthTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmButtonGroupComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmButtonGroupComponent } from '@dmaster/ui/button-group';",
     '',
     '@Component({',
     "  selector: 'app-full-width-demo',",
@@ -413,16 +419,15 @@ export class ButtonGroupPageComponent {
 
   protected readonly splitTs = [
     "import { Component, inject, signal } from '@angular/core';",
+    "import { DmButtonComponent, DmButtonState } from '@dmaster/ui/button';",
+    "import { DmButtonGroupComponent } from '@dmaster/ui/button-group';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     'import {',
-    '  DmButtonComponent,',
-    '  DmButtonGroupComponent,',
-    '  DmButtonState,',
-    '  DmIconComponent,',
     '  DmMenuComponent,',
     '  DmMenuItemComponent,',
     '  DmMenuTriggerDirective,',
-    '  DmToastService,',
-    "} from '@dmaster/ui';",
+    "} from '@dmaster/ui/menu';",
+    "import { DmToastService } from '@dmaster/ui/toast';",
     '',
     '@Component({',
     "  selector: 'app-save-split',",
@@ -511,13 +516,11 @@ export class ButtonGroupPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    'import {',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmButtonGroupComponent,',
-    '  DmCardComponent,',
-    '  DmIconComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmButtonGroupComponent } from '@dmaster/ui/button-group';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-photo-editor',",
@@ -579,7 +582,7 @@ export class ButtonGroupPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideButtonGroupDefaults } from '@dmaster/ui';",
+    "import { provideButtonGroupDefaults } from '@dmaster/ui/button-group';",
     '',
     'providers: [',
     "  provideButtonGroupDefaults({ orientation: 'vertical' }),",

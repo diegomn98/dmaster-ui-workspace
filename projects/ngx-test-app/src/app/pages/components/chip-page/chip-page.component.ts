@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
 import {
-  DmAvatarComponent,
-  DmButtonComponent,
-  DmCardComponent,
   DmChipColor,
   DmChipComponent,
   DmChipSetComponent,
   DmChipSize,
   DmChipVariant,
-  DmIconComponent,
-} from '@dmaster/ui';
+} from '@dmaster/ui/chip';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -128,7 +128,7 @@ export class ChipPageComponent {
 
   protected readonly inputTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmChipComponent, DmChipSetComponent } from '@dmaster/ui';",
+    "import { DmChipComponent, DmChipSetComponent } from '@dmaster/ui/chip';",
     '',
     '@Component({',
     "  selector: 'app-tag-chips',",
@@ -171,7 +171,7 @@ export class ChipPageComponent {
 
   protected readonly filterTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmChipComponent, DmChipSetComponent } from '@dmaster/ui';",
+    "import { DmChipComponent, DmChipSetComponent } from '@dmaster/ui/chip';",
     '',
     '@Component({',
     "  selector: 'app-filter-chips',",
@@ -221,7 +221,8 @@ export class ChipPageComponent {
 
   protected readonly actionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmChipComponent, DmChipSetComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmChipComponent, DmChipSetComponent } from '@dmaster/ui/chip';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-action-chips',",
@@ -257,7 +258,7 @@ export class ChipPageComponent {
 
   protected readonly colorsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmChipColor, DmChipComponent } from '@dmaster/ui';",
+    "import { DmChipColor, DmChipComponent } from '@dmaster/ui/chip';",
     '',
     '@Component({',
     "  selector: 'app-chip-colors',",
@@ -279,7 +280,7 @@ export class ChipPageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmChipComponent, DmChipVariant } from '@dmaster/ui';",
+    "import { DmChipComponent, DmChipVariant } from '@dmaster/ui/chip';",
     '',
     '@Component({',
     "  selector: 'app-chip-variants',",
@@ -309,7 +310,7 @@ export class ChipPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmChipComponent } from '@dmaster/ui';",
+    "import { DmChipComponent } from '@dmaster/ui/chip';",
     '',
     '@Component({',
     "  selector: 'app-chip-sizes',",
@@ -345,13 +346,10 @@ export class ChipPageComponent {
 
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
-    'import {',
-    '  DmAvatarComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmChipComponent,',
-    '  DmChipSetComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmChipComponent, DmChipSetComponent } from '@dmaster/ui/chip';",
     '',
     '@Component({',
     "  selector: 'app-member-card',",
@@ -368,7 +366,7 @@ export class ChipPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideChipDefaults } from '@dmaster/ui';",
+    "import { provideChipDefaults } from '@dmaster/ui/chip';",
     '',
     "providers: [provideChipDefaults({ variant: 'bordered', radius: 'md' })]",
   ].join('\n');

@@ -7,14 +7,11 @@ import {
   WritableSignal,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  DmButtonComponent,
-  DmCardComponent,
-  DmDividerComponent,
-  DmErrorComponent,
-  DmSwitchComponent,
-  DmSwitchSize,
-} from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmDividerComponent } from '@dmaster/ui/divider';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmSwitchComponent, DmSwitchSize } from '@dmaster/ui/switch';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -99,7 +96,7 @@ export class SwitchPageComponent {
 
   protected readonly withLabelTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSwitchComponent } from '@dmaster/ui';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
     '',
     '@Component({',
     "  selector: 'app-switch-labels',",
@@ -120,7 +117,7 @@ export class SwitchPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSwitchComponent } from '@dmaster/ui';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
     '',
     '@Component({',
     "  selector: 'app-switch-sizes',",
@@ -154,7 +151,7 @@ export class SwitchPageComponent {
 
   protected readonly colorsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSwitchComponent } from '@dmaster/ui';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
     '',
     '@Component({',
     "  selector: 'app-switch-colors',",
@@ -173,7 +170,7 @@ export class SwitchPageComponent {
 
   protected readonly statesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSwitchComponent } from '@dmaster/ui';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
     '',
     '@Component({',
     "  selector: 'app-switch-states',",
@@ -201,7 +198,8 @@ export class SwitchPageComponent {
   protected readonly formsTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
-    "import { DmButtonComponent, DmSwitchComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
     '',
     '@Component({',
     "  selector: 'app-switch-forms',",
@@ -245,7 +243,9 @@ export class SwitchPageComponent {
   protected readonly validationTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
-    "import { DmButtonComponent, DmErrorComponent, DmSwitchComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
     '',
     '@Component({',
     "  selector: 'app-consent',",
@@ -324,7 +324,9 @@ export class SwitchPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal, WritableSignal } from '@angular/core';",
-    "import { DmCardComponent, DmDividerComponent, DmSwitchComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmDividerComponent } from '@dmaster/ui/divider';",
+    "import { DmSwitchComponent } from '@dmaster/ui/switch';",
     '',
     'interface NotificationRow {',
     '  title: string;',
@@ -363,7 +365,7 @@ export class SwitchPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideSwitchDefaults } from '@dmaster/ui';",
+    "import { provideSwitchDefaults } from '@dmaster/ui/switch';",
     '',
     "providers: [provideSwitchDefaults({ size: 'sm' })]",
   ].join('\n');

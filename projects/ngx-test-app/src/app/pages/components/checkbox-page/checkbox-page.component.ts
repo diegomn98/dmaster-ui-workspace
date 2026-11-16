@@ -1,12 +1,10 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmCheckboxComponent,
-  DmErrorComponent,
-} from '@dmaster/ui';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmCheckboxComponent } from '@dmaster/ui/checkbox';
+import { DmErrorComponent } from '@dmaster/ui/error';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -101,7 +99,7 @@ export class CheckboxPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmCheckboxComponent } from '@dmaster/ui';",
+    "import { DmCheckboxComponent } from '@dmaster/ui/checkbox';",
     '',
     '@Component({',
     "  selector: 'app-checkbox-basic-demo',",
@@ -122,7 +120,7 @@ export class CheckboxPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmCheckboxComponent } from '@dmaster/ui';",
+    "import { DmCheckboxComponent } from '@dmaster/ui/checkbox';",
     '',
     '@Component({',
     "  selector: 'app-checkbox-sizes-demo',",
@@ -164,7 +162,7 @@ export class CheckboxPageComponent {
 
   protected readonly indeterminateTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmCheckboxComponent } from '@dmaster/ui';",
+    "import { DmCheckboxComponent } from '@dmaster/ui/checkbox';",
     '',
     '@Component({',
     "  selector: 'app-browser-picker',",
@@ -202,7 +200,7 @@ export class CheckboxPageComponent {
 
   protected readonly statesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmCheckboxComponent } from '@dmaster/ui';",
+    "import { DmCheckboxComponent } from '@dmaster/ui/checkbox';",
     '',
     '@Component({',
     "  selector: 'app-checkbox-states-demo',",
@@ -240,7 +238,9 @@ export class CheckboxPageComponent {
   protected readonly formsTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
-    "import { DmButtonComponent, DmCheckboxComponent, DmErrorComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCheckboxComponent } from '@dmaster/ui/checkbox';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
     '',
     '@Component({',
     "  selector: 'app-consent',",
@@ -305,7 +305,9 @@ export class CheckboxPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmBadgeComponent, DmCardComponent, DmCheckboxComponent } from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmCheckboxComponent } from '@dmaster/ui/checkbox';",
     '',
     'interface Task {',
     '  label: string;',
@@ -342,7 +344,7 @@ export class CheckboxPageComponent {
 
   // ---- Global defaults -----------------------------------------------------
   protected readonly defaultsCode = [
-    "import { provideCheckboxDefaults } from '@dmaster/ui';",
+    "import { provideCheckboxDefaults } from '@dmaster/ui/checkbox';",
     '',
     "providers: [provideCheckboxDefaults({ size: 'sm' })]",
   ].join('\n');

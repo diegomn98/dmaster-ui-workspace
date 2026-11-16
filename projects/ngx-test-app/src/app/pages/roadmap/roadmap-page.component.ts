@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DmIconComponent } from '@dmaster/ui';
+import { DmIconComponent } from '@dmaster/ui/icon';
 
 import { findRelease } from '../../core/blog/releases';
 import { COMPONENT_REGISTRY } from '../../core/component-registry';

@@ -1,16 +1,16 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
 import {
-  DmAvatarComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmIconComponent,
   DmMenuComponent,
   DmMenuDividerComponent,
   DmMenuItemComponent,
   DmMenuPlacement,
   DmMenuSectionComponent,
   DmMenuTriggerDirective,
-} from '@dmaster/ui';
+} from '@dmaster/ui/menu';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -113,12 +113,12 @@ export class MenuPageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     'import {',
-    '  DmButtonComponent,',
     '  DmMenuComponent,',
     '  DmMenuItemComponent,',
     '  DmMenuTriggerDirective,',
-    "} from '@dmaster/ui';",
+    "} from '@dmaster/ui/menu';",
     '',
     '@Component({',
     "  selector: 'app-basic-menu',",
@@ -147,7 +147,7 @@ export class MenuPageComponent {
 
   protected readonly iconsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmMenuComponent, DmMenuItemComponent } from '@dmaster/ui';",
+    "import { DmMenuComponent, DmMenuItemComponent } from '@dmaster/ui/menu';",
     '',
     '@Component({',
     "  selector: 'app-icon-menu',",
@@ -178,7 +178,7 @@ export class MenuPageComponent {
     '  DmMenuDividerComponent,',
     '  DmMenuItemComponent,',
     '  DmMenuSectionComponent,',
-    "} from '@dmaster/ui';",
+    "} from '@dmaster/ui/menu';",
     '',
     '@Component({',
     "  selector: 'app-sections-menu',",
@@ -208,7 +208,7 @@ export class MenuPageComponent {
     '  DmMenuComponent,',
     '  DmMenuDividerComponent,',
     '  DmMenuItemComponent,',
-    "} from '@dmaster/ui';",
+    "} from '@dmaster/ui/menu';",
     '',
     '@Component({',
     "  selector: 'app-danger-menu',",
@@ -231,7 +231,7 @@ export class MenuPageComponent {
 
   protected readonly persistentTs = [
     "import { Component } from '@angular/core';",
-    "import { DmMenuComponent, DmMenuItemComponent } from '@dmaster/ui';",
+    "import { DmMenuComponent, DmMenuItemComponent } from '@dmaster/ui/menu';",
     '',
     '@Component({',
     "  selector: 'app-persistent-menu',",
@@ -301,15 +301,15 @@ export class MenuPageComponent {
   protected readonly compositionTs = [
     "import { Component, inject } from '@angular/core';",
     "import { Router } from '@angular/router';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     'import {',
-    '  DmAvatarComponent,',
-    '  DmCardComponent,',
-    '  DmIconComponent,',
     '  DmMenuComponent,',
     '  DmMenuDividerComponent,',
     '  DmMenuItemComponent,',
     '  DmMenuTriggerDirective,',
-    "} from '@dmaster/ui';",
+    "} from '@dmaster/ui/menu';",
     '',
     '@Component({',
     "  selector: 'app-header',",
@@ -338,7 +338,7 @@ export class MenuPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideMenuDefaults } from '@dmaster/ui';",
+    "import { provideMenuDefaults } from '@dmaster/ui/menu';",
     '',
     'providers: [',
     "  provideMenuDefaults({ placement: 'bottom-end', closeOnSelect: false }),",

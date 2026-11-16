@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { DmIconComponent, ThemeService } from '@dmaster/ui';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { ThemeService } from '@dmaster/ui/core';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { PalettePickerComponent } from '../../layout/palette-picker/palette-picker.component';

@@ -1,19 +1,18 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
 import {
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
   DmDatePickerColor,
   DmDatePickerComponent,
   DmDatePickerRadius,
   DmDatePickerVariant,
   DmDateRange,
-  DmErrorComponent,
-  DmSelectComponent,
-  DmSelectItem,
-  DmSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/date-picker';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';
+import { DmSize } from '@dmaster/ui/core';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -189,7 +188,7 @@ export class DatePickerPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmDatePickerComponent } from '@dmaster/ui';",
+    "import { DmDatePickerComponent } from '@dmaster/ui/date-picker';",
     '',
     '@Component({',
     "  selector: 'app-date-picker-basic',",
@@ -212,7 +211,7 @@ export class DatePickerPageComponent {
 
   protected readonly rangeTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmDatePickerComponent, DmDateRange } from '@dmaster/ui';",
+    "import { DmDatePickerComponent, DmDateRange } from '@dmaster/ui/date-picker';",
     '',
     '@Component({',
     "  selector: 'app-date-picker-range',",
@@ -233,7 +232,8 @@ export class DatePickerPageComponent {
 
   protected readonly localizedTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmDatePickerComponent, DmSelectComponent, DmSelectItem } from '@dmaster/ui';",
+    "import { DmDatePickerComponent } from '@dmaster/ui/date-picker';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-date-picker-localized',",
@@ -265,7 +265,7 @@ export class DatePickerPageComponent {
 
   protected readonly constraintsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmDatePickerComponent } from '@dmaster/ui';",
+    "import { DmDatePickerComponent } from '@dmaster/ui/date-picker';",
     '',
     '@Component({',
     "  selector: 'app-date-picker-constraints',",
@@ -287,7 +287,7 @@ export class DatePickerPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmDatePickerComponent } from '@dmaster/ui';",
+    "import { DmDatePickerComponent } from '@dmaster/ui/date-picker';",
     '',
     '@Component({',
     "  selector: 'app-date-picker-sizes',",
@@ -304,7 +304,7 @@ export class DatePickerPageComponent {
   protected readonly formsTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
-    "import { DmDatePickerComponent } from '@dmaster/ui';",
+    "import { DmDatePickerComponent } from '@dmaster/ui/date-picker';",
     '',
     '@Component({',
     "  selector: 'app-date-picker-forms',",
@@ -331,7 +331,8 @@ export class DatePickerPageComponent {
   protected readonly validationTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
-    "import { DmDatePickerComponent, DmErrorComponent } from '@dmaster/ui';",
+    "import { DmDatePickerComponent } from '@dmaster/ui/date-picker';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
     '',
     '@Component({',
     "  selector: 'app-date-picker-validation',",
@@ -351,7 +352,7 @@ export class DatePickerPageComponent {
 
   protected readonly globalLocaleTs = [
     "import { ApplicationConfig, inject } from '@angular/core';",
-    "import { provideDateLocale } from '@dmaster/ui';",
+    "import { provideDateLocale } from '@dmaster/ui/date-picker';",
     "import { LocaleService } from './core/i18n/locale.service';",
     '',
     'export const appConfig: ApplicationConfig = {',
@@ -367,7 +368,7 @@ export class DatePickerPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideDatePickerDefaults } from '@dmaster/ui';",
+    "import { provideDatePickerDefaults } from '@dmaster/ui/date-picker';",
     '',
     'providers: [',
     "  provideDatePickerDefaults({ firstDayOfWeek: 1, variant: 'bordered' })",
@@ -412,13 +413,10 @@ export class DatePickerPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    'import {',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmDatePickerComponent,',
-    '  DmDateRange,',
-    "} from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmDatePickerComponent, DmDateRange } from '@dmaster/ui/date-picker';",
     '',
     '@Component({',
     "  selector: 'app-booking-card',",

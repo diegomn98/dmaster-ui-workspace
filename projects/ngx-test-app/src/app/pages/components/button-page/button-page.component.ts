@@ -12,10 +12,10 @@ import {
   DmButtonRadius,
   DmButtonState,
   DmButtonVariant,
-  DmCardComponent,
-  DmIconComponent,
-  DmSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmSize } from '@dmaster/ui/core';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -166,7 +166,7 @@ export class ButtonPageComponent {
 
   protected readonly colorsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonColor, DmButtonComponent } from '@dmaster/ui';",
+    "import { DmButtonColor, DmButtonComponent } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-button-colors',",
@@ -184,7 +184,7 @@ export class ButtonPageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmButtonVariant } from '@dmaster/ui';",
+    "import { DmButtonComponent, DmButtonVariant } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-button-variants',",
@@ -205,7 +205,7 @@ export class ButtonPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-button-sizes',",
@@ -225,7 +225,7 @@ export class ButtonPageComponent {
 
   protected readonly statesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-button-states',",
@@ -243,7 +243,7 @@ export class ButtonPageComponent {
 
   protected readonly asyncTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmButtonState } from '@dmaster/ui';",
+    "import { DmButtonComponent, DmButtonState } from '@dmaster/ui/button';",
     '',
     '@Component({',
     "  selector: 'app-async-button',",
@@ -282,7 +282,8 @@ export class ButtonPageComponent {
 
   protected readonly iconButtonsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-icon-buttons',",
@@ -322,11 +323,9 @@ export class ButtonPageComponent {
 
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
-    'import {',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmIconComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-note-card',",
@@ -341,7 +340,7 @@ export class ButtonPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideButtonDefaults } from '@dmaster/ui';",
+    "import { provideButtonDefaults } from '@dmaster/ui/button';",
     '',
     'providers: [',
     "  provideButtonDefaults({ variant: 'flat', radius: 'lg' }),",

@@ -60,6 +60,23 @@
     <app-code-snippet [code]="firstComponentCode" language="ts" />
   </section>
 
+  <!-- Imports & entry points -->
+  <section class="gs__section" aria-labelledby="imports">
+    <h2 class="gs__section-title" id="imports">{{ page().sections.imports }}</h2>
+    <p class="gs__section-body" [innerHTML]="page().importsBody"></p>
+    <ul class="gs__list">
+      @for (item of page().importsItems; track $index) {
+        <li [innerHTML]="item"></li>
+      }
+    </ul>
+    <app-code-snippet [code]="importsCode" language="ts" />
+
+    <h3 class="gs__section-subtitle">{{ page().migrationTitle }}</h3>
+    <p class="gs__section-body" [innerHTML]="page().migrationBody"></p>
+    <app-code-snippet [code]="migrationCode" language="ts" />
+    <aside class="gs__tip" [innerHTML]="page().migrationNote"></aside>
+  </section>
+
   <!-- Dark mode -->
   <section class="gs__section" aria-labelledby="dark-mode">
     <h2 class="gs__section-title" id="dark-mode">{{ page().sections.darkMode }}</h2>

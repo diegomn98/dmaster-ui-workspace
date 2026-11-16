@@ -6,7 +6,7 @@ import {
   inject,
   provideEnvironmentInitializer,
 } from '@angular/core';
-import { ThemeService } from '@dmaster/ui';
+import { ThemeService } from '@dmaster/ui/core';
 
 import { PALETTE_PRESETS } from '../palette/palette';
 import { PaletteService } from '../palette/palette.service';

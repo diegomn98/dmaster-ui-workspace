@@ -6,15 +6,10 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import {
-  DmButtonComponent,
-  DmCardComponent,
-  DmIconColor,
-  DmIconComponent,
-  DmIconFamily,
-  DmIconSize,
-  DmInputDirective,
-} from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmIconColor, DmIconComponent, DmIconFamily, DmIconSize } from '@dmaster/ui/icon';
+import { DmInputDirective } from '@dmaster/ui/form-field';
 import { DM_ICON_NAMES } from '@dmaster/ui/icons';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
@@ -310,7 +305,7 @@ export class IconPageComponent {
 
   protected readonly stylesTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmIconComponent } from '@dmaster/ui';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-icon-styles',",
@@ -331,7 +326,7 @@ export class IconPageComponent {
 
   protected readonly colorTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmIconComponent } from '@dmaster/ui';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-icon-color',",
@@ -351,7 +346,7 @@ export class IconPageComponent {
 
   protected readonly sizesTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmIconComponent } from '@dmaster/ui';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-icon-sizes',",
@@ -366,7 +361,7 @@ export class IconPageComponent {
 
   protected readonly spinTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmIconComponent } from '@dmaster/ui';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-icon-spin',",
@@ -388,7 +383,7 @@ export class IconPageComponent {
 
   protected readonly projectedTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmIconComponent } from '@dmaster/ui';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-icon-projected',",
@@ -421,7 +416,7 @@ export class IconPageComponent {
 
   protected readonly inlineTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmIconComponent } from '@dmaster/ui';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-icon-inline',",
@@ -447,7 +442,8 @@ export class IconPageComponent {
 
   protected readonly fillTs = [
     "import { ChangeDetectionStrategy, Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-like-button',",
@@ -482,7 +478,8 @@ export class IconPageComponent {
 
   protected readonly buttonsTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmButtonComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     '@Component({',
     "  selector: 'app-icon-buttons',",
@@ -500,7 +497,7 @@ export class IconPageComponent {
   ].join('\n');
 
   protected readonly registerCode = [
-    "import { provideDmasterIcons } from '@dmaster/ui';",
+    "import { provideDmasterIcons } from '@dmaster/ui/icon';",
     "import { DM_ICONS } from '@dmaster/ui/icons';",
     '',
     '// app.config.ts',
@@ -511,7 +508,7 @@ export class IconPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideIconDefaults } from '@dmaster/ui';",
+    "import { provideIconDefaults } from '@dmaster/ui/icon';",
     '',
     "providers: [provideIconDefaults({ size: 'sm', weight: 500 })]",
   ].join('\n');
@@ -546,7 +543,8 @@ export class IconPageComponent {
 
   protected readonly compositionTs = [
     "import { ChangeDetectionStrategy, Component } from '@angular/core';",
-    "import { DmCardComponent, DmIconComponent } from '@dmaster/ui';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     'interface Stat {',
     '  icon: string;',

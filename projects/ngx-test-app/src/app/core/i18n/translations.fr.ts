@@ -196,6 +196,7 @@ export const FR: DashboardTranslations = {
       styles: 'Styles',
       providers: 'Fournir la librairie',
       firstComponent: 'Premier composant',
+      imports: 'Imports et points d’entrée',
       darkMode: 'Mode sombre',
       colors: 'Couleurs et tokens',
       animation: 'Animation',
@@ -229,6 +230,18 @@ export const FR: DashboardTranslations = {
       'Ajoutez <code>provideDmasterUI</code> dans votre <code>ApplicationConfig</code>. Le <code>theme</code> et la <code>density</code> initiaux se posent sur <code>&lt;html&gt;</code> pour que les tokens CSS bougent tout seuls.',
     firstComponentBody:
       'Tous les composants sont standalone : importez-les directement là où vous les utilisez. Pas de modules, pas de barrels à retenir.',
+    importsBody:
+      'Chaque composant est publié comme son propre point d’entrée, à son nom — <code>@dmaster/ui/button</code>, <code>@dmaster/ui/menu</code>, <code>@dmaster/ui/toggle-group</code>… Importez depuis là et votre bundler peut découper la bibliothèque : un composant utilisé seulement dans une route chargée à la demande part avec cette route, pas dans le bundle initial.',
+    importsItems: [
+      '<code>@dmaster/ui/core</code> — <code>provideDmasterUI</code>, <code>ThemeService</code>, <code>DensityService</code> et les types partagés (<code>DmSize</code>, <code>DmTheme</code>…).',
+      '<code>@dmaster/ui/&lt;composant&gt;</code> — le composant, ses types et son helper <code>provide…Defaults()</code>. Les composites voyagent ensemble : tabs, tab et tab panel viennent tous de <code>@dmaster/ui/tabs</code>. Chaque page de composant affiche son import en haut.',
+      '<code>@dmaster/ui/icon</code> ou <code>@dmaster/ui/icons</code> — <code>icon</code> est le composant qui dessine les icônes (ligature de police, nom enregistré ou SVG projeté) ; <code>icons</code> est un jeu optionnel de dessins SVG à y enregistrer.',
+    ],
+    migrationTitle: 'Mise à niveau depuis la 0.11 ou antérieure',
+    migrationBody:
+      "L’import racine <code>import { … } from '@dmaster/ui'</code> fonctionne toujours — il réexporte tous les points d’entrée, la mise à niveau ne casse donc rien. Il est <strong>obsolète</strong> et sera retiré dans une version future : remplacez chaque import racine par un import par point d’entrée.",
+    migrationNote:
+      'Empêchez les imports racine de revenir avec ESLint : une règle <code>no-restricted-imports</code> sur <code>@dmaster/ui</code>. Le guide de migration complet se trouve dans le README de la bibliothèque.',
     darkModeBody:
       'Le mode sombre est un citoyen de première classe. Chaque token de couleur, de bordure et d’ombre a son équivalent dark — le basculement est instantané via un attribut sur <code>&lt;html&gt;</code>.',
     darkModeItems: [

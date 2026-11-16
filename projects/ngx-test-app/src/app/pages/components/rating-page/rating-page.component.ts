@@ -1,17 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  DmAvatarComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
-  DmFormFieldComponent,
-  DmInputDirective,
-  DmRatingColor,
-  DmRatingComponent,
-  DmRatingSize,
-} from '@dmaster/ui';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmRatingColor, DmRatingComponent, DmRatingSize } from '@dmaster/ui/rating';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -110,7 +105,7 @@ export class RatingPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRatingComponent } from '@dmaster/ui';",
+    "import { DmRatingComponent } from '@dmaster/ui/rating';",
     '',
     '@Component({',
     "  selector: 'app-rating-basic',",
@@ -130,7 +125,7 @@ export class RatingPageComponent {
 
   protected readonly halfTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRatingComponent } from '@dmaster/ui';",
+    "import { DmRatingComponent } from '@dmaster/ui/rating';",
     '',
     '@Component({',
     "  selector: 'app-rating-half',",
@@ -155,7 +150,7 @@ export class RatingPageComponent {
 
   protected readonly readonlyTs = [
     "import { Component } from '@angular/core';",
-    "import { DmRatingComponent } from '@dmaster/ui';",
+    "import { DmRatingComponent } from '@dmaster/ui/rating';",
     '',
     '@Component({',
     "  selector: 'app-rating-readonly',",
@@ -173,7 +168,7 @@ export class RatingPageComponent {
 
   protected readonly sizesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRatingComponent } from '@dmaster/ui';",
+    "import { DmRatingComponent } from '@dmaster/ui/rating';",
     '',
     '@Component({',
     "  selector: 'app-rating-sizes',",
@@ -196,7 +191,7 @@ export class RatingPageComponent {
 
   protected readonly colorsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRatingComponent } from '@dmaster/ui';",
+    "import { DmRatingComponent } from '@dmaster/ui/rating';",
     '',
     '@Component({',
     "  selector: 'app-rating-colors',",
@@ -217,7 +212,7 @@ export class RatingPageComponent {
 
   protected readonly characterTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmRatingComponent } from '@dmaster/ui';",
+    "import { DmRatingComponent } from '@dmaster/ui/rating';",
     '',
     '@Component({',
     "  selector: 'app-rating-character',",
@@ -232,7 +227,7 @@ export class RatingPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideRatingDefaults } from '@dmaster/ui';",
+    "import { provideRatingDefaults } from '@dmaster/ui/rating';",
     '',
     'providers: [',
     "  provideRatingDefaults({ max: 10, color: 'primary', allowHalf: true }),",
@@ -325,10 +320,12 @@ export class RatingPageComponent {
     "import { Component, computed, signal } from '@angular/core';",
     "import { toSignal } from '@angular/core/rxjs-interop';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
-    'import {',
-    '  DmAvatarComponent, DmButtonComponent, DmCardComponent,',
-    '  DmErrorComponent, DmFormFieldComponent, DmInputDirective, DmRatingComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
+    "import { DmRatingComponent } from '@dmaster/ui/rating';",
     '',
     "const HINTS = ['Poor', 'Fair', 'Good', 'Very good', 'Excellent'];",
     '',

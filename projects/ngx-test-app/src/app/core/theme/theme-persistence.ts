@@ -6,7 +6,7 @@ import {
   inject,
   provideEnvironmentInitializer,
 } from '@angular/core';
-import { DmTheme, ThemeService } from '@dmaster/ui';
+import { DmTheme, ThemeService } from '@dmaster/ui/core';
 
 const STORAGE_KEY = 'ngx-dmaster-theme';
 const THEMES: readonly DmTheme[] = ['light', 'dark', 'auto'];

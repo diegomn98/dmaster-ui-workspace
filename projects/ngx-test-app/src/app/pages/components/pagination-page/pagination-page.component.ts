@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DmBadgeColor,
-  DmBadgeComponent,
-  DmCardComponent,
-  DmPaginationColor,
-  DmPaginationComponent,
-  DmSize,
-} from '@dmaster/ui';
+import { DmBadgeColor, DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmPaginationColor, DmPaginationComponent } from '@dmaster/ui/pagination';
+import { DmSize } from '@dmaster/ui/core';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -160,7 +156,7 @@ export class PaginationPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmPaginationComponent } from '@dmaster/ui';",
+    "import { DmPaginationComponent } from '@dmaster/ui/pagination';",
     '',
     '@Component({',
     "  selector: 'app-pagination-basic',",
@@ -182,7 +178,7 @@ export class PaginationPageComponent {
 
   protected readonly windowTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmPaginationComponent } from '@dmaster/ui';",
+    "import { DmPaginationComponent } from '@dmaster/ui/pagination';",
     '',
     '@Component({',
     "  selector: 'app-pagination-window',",
@@ -202,7 +198,7 @@ export class PaginationPageComponent {
 
   protected readonly sizesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmPaginationComponent } from '@dmaster/ui';",
+    "import { DmPaginationComponent } from '@dmaster/ui/pagination';",
     '',
     '@Component({',
     "  selector: 'app-pagination-sizes',",
@@ -224,7 +220,7 @@ export class PaginationPageComponent {
 
   protected readonly colorsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmPaginationComponent } from '@dmaster/ui';",
+    "import { DmPaginationComponent } from '@dmaster/ui/pagination';",
     '',
     '@Component({',
     "  selector: 'app-pagination-colors',",
@@ -242,7 +238,7 @@ export class PaginationPageComponent {
 
   protected readonly noControlsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmPaginationComponent } from '@dmaster/ui';",
+    "import { DmPaginationComponent } from '@dmaster/ui/pagination';",
     '',
     '@Component({',
     "  selector: 'app-pagination-no-controls',",
@@ -260,7 +256,7 @@ export class PaginationPageComponent {
 
   protected readonly disabledTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmPaginationComponent } from '@dmaster/ui';",
+    "import { DmPaginationComponent } from '@dmaster/ui/pagination';",
     '',
     '@Component({',
     "  selector: 'app-pagination-disabled',",
@@ -273,7 +269,7 @@ export class PaginationPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { providePaginationDefaults } from '@dmaster/ui';",
+    "import { providePaginationDefaults } from '@dmaster/ui/pagination';",
     '',
     'providers: [',
     '  providePaginationDefaults({',
@@ -336,7 +332,9 @@ export class PaginationPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmBadgeComponent, DmCardComponent, DmPaginationComponent } from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmPaginationComponent } from '@dmaster/ui/pagination';",
     '',
     'const PAGE_SIZE = 5;',
     '',

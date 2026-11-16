@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 
-import { DmIconComponent, DmTabComponent, DmTabsComponent } from '@dmaster/ui';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmTabComponent, DmTabsComponent } from '@dmaster/ui/tabs';
 import { LocaleService } from '../../core/i18n/locale.service';
 import { CodeSnippetComponent } from '../code-snippet/code-snippet.component';
 

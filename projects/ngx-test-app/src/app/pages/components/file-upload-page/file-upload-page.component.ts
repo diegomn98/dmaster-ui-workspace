@@ -16,21 +16,19 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { DmAlertComponent } from '@dmaster/ui/alert';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
 import {
-  DmAlertComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
   DmFileRejection,
   DmFileUploadComponent,
   DmFileUploadMessages,
-  DmFormFieldComponent,
-  DmInputDirective,
-  DmSelectComponent,
-  DmSelectItem,
   formatFileSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/file-upload';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -163,7 +161,7 @@ export class FileUploadPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmFileUploadComponent } from '@dmaster/ui';",
+    "import { DmFileUploadComponent } from '@dmaster/ui/file-upload';",
     '',
     '@Component({',
     "  selector: 'app-single-upload',",
@@ -194,13 +192,13 @@ export class FileUploadPageComponent {
     '<!-- Summarise the selection with the exported helper -->',
     '<p>{{ files().length }} files · {{ total() }}</p>',
     '',
-    "// import { formatFileSize } from '@dmaster/ui';",
+    "// import { formatFileSize } from '@dmaster/ui/file-upload';",
     '// total = computed(() => formatFileSize(files().reduce((s, f) => s + f.size, 0)));',
   ].join('\n');
 
   protected readonly multipleTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmFileUploadComponent, formatFileSize } from '@dmaster/ui';",
+    "import { DmFileUploadComponent, formatFileSize } from '@dmaster/ui/file-upload';",
     '',
     '@Component({',
     "  selector: 'app-multiple-upload',",
@@ -231,7 +229,7 @@ export class FileUploadPageComponent {
 
   protected readonly imagesTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmFileUploadComponent } from '@dmaster/ui';",
+    "import { DmFileUploadComponent } from '@dmaster/ui/file-upload';",
     '',
     '@Component({',
     "  selector: 'app-image-upload',",
@@ -286,7 +284,8 @@ export class FileUploadPageComponent {
 
   protected readonly limitTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmAlertComponent, DmFileRejection, DmFileUploadComponent } from '@dmaster/ui';",
+    "import { DmAlertComponent } from '@dmaster/ui/alert';",
+    "import { DmFileRejection, DmFileUploadComponent } from '@dmaster/ui/file-upload';",
     '',
     '@Component({',
     "  selector: 'app-limited-upload',",
@@ -399,7 +398,8 @@ export class FileUploadPageComponent {
 
   protected readonly progressTs = [
     "import { Component, DestroyRef, inject, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmFileUploadComponent } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmFileUploadComponent } from '@dmaster/ui/file-upload';",
     '',
     '@Component({',
     "  selector: 'app-uploader',",
@@ -449,7 +449,7 @@ export class FileUploadPageComponent {
 
   protected readonly disabledTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmFileUploadComponent } from '@dmaster/ui';",
+    "import { DmFileUploadComponent } from '@dmaster/ui/file-upload';",
     '',
     '@Component({',
     "  selector: 'app-locked-upload',",
@@ -464,7 +464,7 @@ export class FileUploadPageComponent {
 
   // ---- Demo: global defaults ----------------------------------------------
   protected readonly defaultsCode = [
-    "import { provideFileUploadDefaults } from '@dmaster/ui';",
+    "import { provideFileUploadDefaults } from '@dmaster/ui/file-upload';",
     '',
     'providers: [',
     '  provideFileUploadDefaults({ multiple: true, maxSize: 5 * 1024 * 1024, maxFiles: 10 }),',
@@ -610,11 +610,12 @@ export class FileUploadPageComponent {
     '  AbstractControl, FormControl, FormGroup, ReactiveFormsModule,',
     '  ValidationErrors, ValidatorFn, Validators,',
     "} from '@angular/forms';",
-    'import {',
-    '  DmButtonComponent, DmCardComponent, DmErrorComponent,',
-    '  DmFileUploadComponent, DmFormFieldComponent, DmInputDirective,',
-    '  DmSelectComponent, DmSelectItem,',
-    "} from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmFileUploadComponent } from '@dmaster/ui/file-upload';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
     '',
     '/** The control must hold at least `min` files. */',
     'function minFiles(min: number): ValidatorFn {',

@@ -1,14 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmDividerComponent,
-  DmIconComponent,
-  DmTooltipDirective,
-  DmTooltipPosition,
-} from '@dmaster/ui';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmDividerComponent } from '@dmaster/ui/divider';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmTooltipDirective, DmTooltipPosition } from '@dmaster/ui/tooltip';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -83,7 +80,8 @@ export class TooltipPageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmTooltipDirective } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmTooltipDirective } from '@dmaster/ui/tooltip';",
     '',
     '@Component({',
     "  selector: 'app-tooltip-basics',",
@@ -102,7 +100,8 @@ export class TooltipPageComponent {
 
   protected readonly positionsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmTooltipDirective } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmTooltipDirective } from '@dmaster/ui/tooltip';",
     '',
     '@Component({',
     "  selector: 'app-tooltip-positions',",
@@ -135,7 +134,9 @@ export class TooltipPageComponent {
 
   protected readonly iconButtonsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmButtonComponent, DmIconComponent, DmTooltipDirective } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
+    "import { DmTooltipDirective } from '@dmaster/ui/tooltip';",
     '',
     '@Component({',
     "  selector: 'app-tooltip-icon-buttons',",
@@ -167,7 +168,9 @@ export class TooltipPageComponent {
 
   protected readonly conditionalTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmIconComponent, DmTooltipDirective } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
+    "import { DmTooltipDirective } from '@dmaster/ui/tooltip';",
     '',
     '@Component({',
     "  selector: 'app-favorite-toggle',",
@@ -213,7 +216,9 @@ export class TooltipPageComponent {
 
   protected readonly onContentTs = [
     "import { Component } from '@angular/core';",
-    "import { DmAvatarComponent, DmBadgeComponent, DmTooltipDirective } from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmTooltipDirective } from '@dmaster/ui/tooltip';",
     '',
     '@Component({',
     "  selector: 'app-tooltip-on-content',",
@@ -281,14 +286,12 @@ export class TooltipPageComponent {
 
   protected readonly compositionTs = [
     "import { Component } from '@angular/core';",
-    'import {',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmDividerComponent,',
-    '  DmIconComponent,',
-    '  DmTooltipDirective,',
-    "} from '@dmaster/ui';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmDividerComponent } from '@dmaster/ui/divider';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
+    "import { DmTooltipDirective } from '@dmaster/ui/tooltip';",
     '',
     '@Component({',
     "  selector: 'app-editor-toolbar',",
@@ -323,7 +326,7 @@ export class TooltipPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideTooltipDefaults } from '@dmaster/ui';",
+    "import { provideTooltipDefaults } from '@dmaster/ui/tooltip';",
     '',
     "providers: [provideTooltipDefaults({ position: 'bottom', showDelay: 150 })]",
   ].join('\n');

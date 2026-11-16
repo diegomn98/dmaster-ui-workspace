@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormArray, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmBadgeComponent } from '@dmaster/ui/badge';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmKbdComponent } from '@dmaster/ui/kbd';
 import {
-  DmAvatarComponent,
-  DmBadgeComponent,
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
-  DmKbdComponent,
   DmNumberInputColor,
   DmNumberInputComponent,
   DmNumberInputRadius,
   DmNumberInputVariant,
-  DmSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/number-input';
+import { DmSize } from '@dmaster/ui/core';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -216,7 +216,7 @@ export class NumberInputPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    "import { DmNumberInputComponent } from '@dmaster/ui/number-input';",
     '',
     '@Component({',
     "  selector: 'app-basic-demo',",
@@ -248,7 +248,7 @@ export class NumberInputPageComponent {
 
   protected readonly rangeTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    "import { DmNumberInputComponent } from '@dmaster/ui/number-input';",
     '',
     '@Component({',
     "  selector: 'app-range-demo',",
@@ -273,7 +273,7 @@ export class NumberInputPageComponent {
 
   protected readonly decimalsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    "import { DmNumberInputComponent } from '@dmaster/ui/number-input';",
     '',
     '@Component({',
     "  selector: 'app-decimals-demo',",
@@ -330,7 +330,7 @@ export class NumberInputPageComponent {
 
   protected readonly formatTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    "import { DmNumberInputComponent } from '@dmaster/ui/number-input';",
     '',
     '@Component({',
     "  selector: 'app-format-demo',",
@@ -350,7 +350,7 @@ export class NumberInputPageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    "import { DmNumberInputComponent } from '@dmaster/ui/number-input';",
     '',
     '@Component({',
     "  selector: 'app-variants-demo',",
@@ -366,7 +366,7 @@ export class NumberInputPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    "import { DmNumberInputComponent } from '@dmaster/ui/number-input';",
     '',
     '@Component({',
     "  selector: 'app-sizes-demo',",
@@ -391,7 +391,7 @@ export class NumberInputPageComponent {
 
   protected readonly keyboardTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    "import { DmNumberInputComponent } from '@dmaster/ui/number-input';",
     '',
     '@Component({',
     "  selector: 'app-keyboard-demo',",
@@ -412,7 +412,7 @@ export class NumberInputPageComponent {
 
   protected readonly statesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmNumberInputComponent } from '@dmaster/ui';",
+    "import { DmNumberInputComponent } from '@dmaster/ui/number-input';",
     '',
     '@Component({',
     "  selector: 'app-states-demo',",
@@ -423,7 +423,7 @@ export class NumberInputPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideNumberInputDefaults } from '@dmaster/ui';",
+    "import { provideNumberInputDefaults } from '@dmaster/ui/number-input';",
     '',
     'providers: [',
     '  provideNumberInputDefaults({',
@@ -550,14 +550,12 @@ export class NumberInputPageComponent {
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
     "import { FormArray, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';",
-    'import {',
-    '  DmAvatarComponent,',
-    '  DmBadgeComponent,',
-    '  DmButtonComponent,',
-    '  DmCardComponent,',
-    '  DmErrorComponent,',
-    '  DmNumberInputComponent,',
-    "} from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmBadgeComponent } from '@dmaster/ui/badge';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmNumberInputComponent } from '@dmaster/ui/number-input';",
     '',
     'const PRODUCTS = [',
     "  { id: 'hp', name: 'Wireless headphones', price: 89.9, stock: 5, qty: 1, src: '/img/hp.png' },",

@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DmAvatarComponent } from '@dmaster/ui/avatar';
+import { DmCardComponent } from '@dmaster/ui/card';
 import {
-  DmAvatarComponent,
-  DmCardComponent,
   DmSearchFieldColor,
   DmSearchFieldComponent,
   DmSearchFieldRadius,
   DmSearchFieldVariant,
-  DmSize,
-} from '@dmaster/ui';
+} from '@dmaster/ui/search-field';
+import { DmSize } from '@dmaster/ui/core';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -150,7 +150,7 @@ export class SearchFieldPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui/search-field';",
     '',
     '@Component({',
     "  selector: 'app-basic-search',",
@@ -168,7 +168,7 @@ export class SearchFieldPageComponent {
 
   protected readonly variantsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui/search-field';",
     '',
     '@Component({',
     "  selector: 'app-search-variants',",
@@ -184,7 +184,7 @@ export class SearchFieldPageComponent {
 
   protected readonly colorsTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui/search-field';",
     '',
     '@Component({',
     "  selector: 'app-search-colors',",
@@ -200,7 +200,7 @@ export class SearchFieldPageComponent {
 
   protected readonly sizesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui/search-field';",
     '',
     '@Component({',
     "  selector: 'app-search-sizes',",
@@ -222,7 +222,7 @@ export class SearchFieldPageComponent {
 
   protected readonly eventsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui/search-field';",
     '',
     '@Component({',
     "  selector: 'app-search-events',",
@@ -250,7 +250,7 @@ export class SearchFieldPageComponent {
   protected readonly formsTs = [
     "import { Component } from '@angular/core';",
     "import { FormControl, ReactiveFormsModule } from '@angular/forms';",
-    "import { DmSearchFieldComponent } from '@dmaster/ui';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui/search-field';",
     '',
     '@Component({',
     "  selector: 'app-search-forms',",
@@ -263,7 +263,7 @@ export class SearchFieldPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideSearchFieldDefaults } from '@dmaster/ui';",
+    "import { provideSearchFieldDefaults } from '@dmaster/ui/search-field';",
     '',
     "providers: [provideSearchFieldDefaults({ variant: 'bordered', radius: 'md' })]",
   ].join('\n');
@@ -335,7 +335,9 @@ export class SearchFieldPageComponent {
 
   protected readonly compositionTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmAvatarComponent, DmCardComponent, DmSearchFieldComponent } from '@dmaster/ui';",
+    "import { DmAvatarComponent } from '@dmaster/ui/avatar';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmSearchFieldComponent } from '@dmaster/ui/search-field';",
     '',
     '@Component({',
     "  selector: 'app-contact-list',",

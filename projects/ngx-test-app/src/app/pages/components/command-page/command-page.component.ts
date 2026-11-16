@@ -1,12 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import {
-  DmButtonComponent,
-  DmCardComponent,
-  DmCommandComponent,
-  DmCommandItem,
-  DmIconComponent,
-  DmKbdComponent,
-} from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmCommandComponent, DmCommandItem } from '@dmaster/ui/command';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmKbdComponent } from '@dmaster/ui/kbd';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -197,7 +194,8 @@ export class CommandPageComponent {
 
   protected readonly basicTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmCommandComponent, DmCommandItem } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCommandComponent, DmCommandItem } from '@dmaster/ui/command';",
     '',
     '@Component({',
     "  selector: 'app-basic-command-demo',",
@@ -229,7 +227,8 @@ export class CommandPageComponent {
 
   protected readonly shortcutsTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmButtonComponent, DmCommandComponent, DmCommandItem } from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCommandComponent, DmCommandItem } from '@dmaster/ui/command';",
     '',
     '@Component({',
     "  selector: 'app-shortcuts-command-demo',",
@@ -262,7 +261,7 @@ export class CommandPageComponent {
 
   protected readonly emptyTs = [
     "import { Component, signal } from '@angular/core';",
-    "import { DmCommandComponent, DmCommandItem } from '@dmaster/ui';",
+    "import { DmCommandComponent, DmCommandItem } from '@dmaster/ui/command';",
     '',
     '@Component({',
     "  selector: 'app-empty-command-demo',",
@@ -291,7 +290,7 @@ export class CommandPageComponent {
   ].join('\n');
 
   protected readonly defaultsCode = [
-    "import { provideCommandDefaults } from '@dmaster/ui';",
+    "import { provideCommandDefaults } from '@dmaster/ui/command';",
     '',
     'providers: [',
     "  provideCommandDefaults({ hotkey: 'mod+p', placeholder: 'Jump to…' }),",

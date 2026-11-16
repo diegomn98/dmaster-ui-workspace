@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { DmCopyButtonComponent } from '@dmaster/ui';
+import { DmCopyButtonComponent } from '@dmaster/ui/copy-button';
 
 import { LocaleService } from '../../core/i18n/locale.service';
 import { highlight } from './syntax-highlight';

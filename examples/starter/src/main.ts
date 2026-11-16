@@ -1,6 +1,7 @@
 import { provideZonelessChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideDmasterIcons, provideDmasterUI } from '@dmaster/ui';
+import { provideDmasterIcons } from '@dmaster/ui/icon';
+import { provideDmasterUI } from '@dmaster/ui/core';
 import { DM_ICONS } from '@dmaster/ui/icons';
 
 import { AppComponent } from './app/app.component';

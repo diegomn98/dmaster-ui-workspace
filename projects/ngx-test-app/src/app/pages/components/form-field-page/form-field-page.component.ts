@@ -1,15 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import {
-  DmButtonComponent,
-  DmCardComponent,
-  DmErrorComponent,
-  DmFormFieldComponent,
-  DmIconComponent,
-  DmInputDirective,
-  DmSelectComponent,
-  DmSelectItem,
-} from '@dmaster/ui';
+import { DmButtonComponent } from '@dmaster/ui/button';
+import { DmCardComponent } from '@dmaster/ui/card';
+import { DmErrorComponent } from '@dmaster/ui/error';
+import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';
+import { DmIconComponent } from '@dmaster/ui/icon';
+import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';
 
 import { LocaleService } from '../../../core/i18n/locale.service';
 import { ApiTableComponent } from '../../../shared/api-table/api-table.component';
@@ -95,7 +91,7 @@ export class FormFieldPageComponent {
 
   protected readonly basicTs = [
     "import { Component } from '@angular/core';",
-    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
     '',
     '@Component({',
     "  selector: 'app-basic-field',",
@@ -162,10 +158,9 @@ export class FormFieldPageComponent {
 
   protected readonly typesTs = [
     "import { Component, signal } from '@angular/core';",
-    'import {',
-    '  DmFormFieldComponent, DmInputDirective,',
-    '  DmIconComponent, DmSelectComponent, DmSelectItem,',
-    "} from '@dmaster/ui';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
+    "import { DmSelectComponent, DmSelectItem } from '@dmaster/ui/select';",
     '',
     '@Component({',
     "  selector: 'app-field-types',",
@@ -203,7 +198,7 @@ export class FormFieldPageComponent {
 
   protected readonly statesTs = [
     "import { Component } from '@angular/core';",
-    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
     '',
     '@Component({',
     "  selector: 'app-field-states',",
@@ -236,7 +231,7 @@ export class FormFieldPageComponent {
 
   protected readonly errorTs = [
     "import { Component, computed, signal } from '@angular/core';",
-    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
     '',
     'const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;',
     '',
@@ -367,10 +362,11 @@ export class FormFieldPageComponent {
   protected readonly compositionTs = [
     "import { Component, signal } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';",
-    'import {',
-    '  DmButtonComponent, DmCardComponent, DmErrorComponent,',
-    '  DmFormFieldComponent, DmIconComponent, DmInputDirective,',
-    "} from '@dmaster/ui';",
+    "import { DmButtonComponent } from '@dmaster/ui/button';",
+    "import { DmCardComponent } from '@dmaster/ui/card';",
+    "import { DmErrorComponent } from '@dmaster/ui/error';",
+    "import { DmFormFieldComponent, DmInputDirective } from '@dmaster/ui/form-field';",
+    "import { DmIconComponent } from '@dmaster/ui/icon';",
     '',
     'const EMAIL_PATTERN = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;',
     '',
