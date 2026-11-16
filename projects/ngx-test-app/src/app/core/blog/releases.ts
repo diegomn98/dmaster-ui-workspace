@@ -22,7 +22,7 @@ export const CATEGORY_GLYPHS: Record<BlogCategory, string> = {
 
 /** Clave del artículo en `DashboardTranslations['blog']['articles']`. */
 export type ReleaseArticleKey =
-  'v011' | 'v010' | 'v09' | 'v08' | 'v07' | 'v06' | 'v05' | 'v04' | 'v03' | 'v02' | 'v01';
+  'v012' | 'v011' | 'v010' | 'v09' | 'v08' | 'v07' | 'v06' | 'v05' | 'v04' | 'v03' | 'v02' | 'v01';
 
 export interface ReleaseEntry {
   /** Segmento de URL: /blog/<slug>. */
@@ -44,13 +44,23 @@ export interface ReleaseEntry {
 /** Orden: la release actual primero (featured), luego descendente. */
 export const RELEASES: ReleaseEntry[] = [
   {
+    slug: 'v0-12',
+    version: 'v0.12',
+    tag: 'v0.12.0',
+    date: '2026-11-16',
+    minutes: 4,
+    category: 'release',
+    kind: 'featured',
+    key: 'v012',
+  },
+  {
     slug: 'v0-11',
     version: 'v0.11',
     tag: 'v0.11.0',
     date: '2026-09-22',
     minutes: 5,
     category: 'release',
-    kind: 'featured',
+    kind: 'wide',
     key: 'v011',
   },
   {

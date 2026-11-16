@@ -506,7 +506,7 @@ export const ES: DashboardTranslations = {
       inProgressMeta: 'camino a la 1.0',
       doneMeta: 'publicado y estable',
       targetTitle: 'Una API estable',
-      targetSub: 'Tres cosas nos separan de ella.',
+      targetSub: 'Cuatro cosas nos separan de ella.',
     },
     rail: {
       foundations: 'Cimientos',
@@ -517,6 +517,7 @@ export const ES: DashboardTranslations = {
       copy: 'Copiar al portapapeles',
       themes: 'Temas prediseñados y plantillas',
       motion: 'Tabla server-side y motion',
+      entryPoints: 'Puntos de entrada por componente',
     },
     focusItems: {
       freezeTitle: 'Congelación de la API',
@@ -524,6 +525,9 @@ export const ES: DashboardTranslations = {
         'Pasada de consistencia por los {count} componentes — nombres de inputs/outputs, defaults inyectables, paridad entre hermanos.',
       deprecationTitle: 'Política de deprecación',
       deprecationDesc: 'Una regla escrita sobre cómo evoluciona la API después de la 1.0.',
+      rootImportTitle: 'Retirar el import raíz',
+      rootImportDesc:
+        'El punto de entrada raíz @dmaster/ui está obsoleto desde la 0.12 y se retirará en una versión futura — importa desde @dmaster/ui/<componente>.',
       docsTitle: 'Docs y caso de estudio',
       docsDesc: 'Artículo de ingeniería + plantillas StackBlitz listas para copiar.',
     },
@@ -584,6 +588,19 @@ export const ES: DashboardTranslations = {
     articleNewer: 'Más reciente',
     articleOlder: 'Anterior',
     articles: {
+      v012: {
+        title: 'Un punto de entrada por componente',
+        lead: 'La 0.12 publica cada componente como su propio punto de entrada — @dmaster/ui/button, @dmaster/ui/menu, @dmaster/ui/toggle-group… — para que los empaquetadores puedan por fin repartir la librería en chunks: un componente que solo usa una ruta diferida viaja ahora con esa ruta y no en tu bundle inicial. El import raíz @dmaster/ui sigue funcionando, pero está obsoleto, no reparte en chunks y se retirará en una versión futura. Esta vez no hay componentes nuevos: esta release va de lo que tu app paga al arrancar.',
+        bullets: [
+          'Puntos de entrada por componente — 46 componentes más @dmaster/ui/core (provideDmasterUI, ThemeService, DensityService y los tipos compartidos), cada uno un módulo propio dentro del paquete; @dmaster/ui/styles, @dmaster/ui/themes y @dmaster/ui/icons no cambian',
+          'Por qué importa — los empaquetadores reparten el código por módulo, y hasta la 0.11 toda la librería era un único módulo, así que cualquier cosa que importase una ruta diferida acababa en el bundle inicial, incluso con sideEffects: false. En una app sintética con dm-button al arrancar y dm-checkbox tras una ruta diferida, el checkbox se queda ahora en su chunk y el inicial baja de 4,9 a 3,5 kB gzip',
+          'El import raíz @dmaster/ui queda obsoleto — sigue reexportando todos los puntos de entrada (las mismas clases y los mismos tokens), pero no reparte en chunks y se retirará en una versión futura; el README y Getting Started incluyen una guía de migración y una regla de ESLint que mantiene fuera los imports raíz',
+          'icon frente a icons — @dmaster/ui/icon es el componente dm-icon, su registro y provideDmasterIcons(); @dmaster/ui/icons sigue siendo el set opcional de dibujos SVG curados',
+          'Coste por componente igual o menor — button ~3,6 kB gzip, card ~0,9 kB, select ~10,7 kB; npm run size encuentra ahora cada punto de entrada por sí solo y falla si los subpaths dejan de repartir en chunks',
+          'La documentación, los snippets, los READMEs, los mensajes de ng add y el starter de StackBlitz (ahora en ^0.12 — estaba anclado en la 0.5) importan por componente',
+          'Siguen siendo 46 componentes en 8 categorías, verificados con axe (WCAG 2.1 AA) en claro y oscuro, 840+ tests',
+        ],
+      },
       v011: {
         title: 'Tablas server-side, toasts que te esperan y una pasada de motion',
         lead: '0.11 enseña a dm-table a hablar con tu API página a página, da a DmToastService una cola real que se pausa mientras lees, y hace una pasada de diseño y motion por seis componentes — chips, grupos de botones, tablas, toggle groups, iconos y toasts — para que los cambios de estado se sientan, no se noten. Un componente nuevo: dm-chip.',

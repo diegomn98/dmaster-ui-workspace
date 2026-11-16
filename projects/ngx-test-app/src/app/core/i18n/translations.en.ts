@@ -505,7 +505,7 @@ export const EN: DashboardTranslations = {
       inProgressMeta: 'the road to 1.0',
       doneMeta: 'shipped & stable',
       targetTitle: 'A stable API',
-      targetSub: 'Three things stand between here and there.',
+      targetSub: 'Four things stand between here and there.',
     },
     rail: {
       foundations: 'Foundations',
@@ -516,6 +516,7 @@ export const EN: DashboardTranslations = {
       copy: 'Copy to clipboard',
       themes: 'Prebuilt themes & templates',
       motion: 'Server-side table & motion',
+      entryPoints: 'Per-component entry points',
     },
     focusItems: {
       freezeTitle: 'API surface freeze',
@@ -523,6 +524,9 @@ export const EN: DashboardTranslations = {
         'Consistency pass across all {count} components — input/output names, injectable defaults, sibling parity.',
       deprecationTitle: 'Deprecation policy',
       deprecationDesc: 'One written rule for how the API evolves after 1.0.',
+      rootImportTitle: 'Retire the root import',
+      rootImportDesc:
+        'The root @dmaster/ui entry point is deprecated since 0.12 and will be removed in a future version — import from @dmaster/ui/<component>.',
       docsTitle: 'Docs & case study',
       docsDesc: 'Engineering write-up + copy-paste StackBlitz templates.',
     },
@@ -582,6 +586,19 @@ export const EN: DashboardTranslations = {
     articleNewer: 'Newer',
     articleOlder: 'Older',
     articles: {
+      v012: {
+        title: 'One entry point per component',
+        lead: '0.12 publishes every component as its own entry point — @dmaster/ui/button, @dmaster/ui/menu, @dmaster/ui/toggle-group… — so bundlers can finally code-split the library: a component that only a lazy route uses now ships with that route instead of your initial bundle. The root @dmaster/ui import keeps working but is deprecated, does not code-split, and will be removed in a future version. No new components this time: this release is about what your app pays at startup.',
+        bullets: [
+          'Per-component entry points — 46 components plus @dmaster/ui/core (provideDmasterUI, ThemeService, DensityService and the shared types), each its own module in the package; @dmaster/ui/styles, @dmaster/ui/themes and @dmaster/ui/icons are unchanged',
+          'Why it matters — bundlers split code by module, and until 0.11 the whole library was a single module, so anything a lazy route imported landed in the initial bundle, even with sideEffects: false. In a synthetic app with dm-button at startup and dm-checkbox behind a lazy route, the checkbox now stays lazy and the initial chunk drops from 4.9 to 3.5 kB gzip',
+          'The root @dmaster/ui import is deprecated — it still re-exports every entry point (same classes, same tokens), but it does not code-split and it will be removed in a future version; the README and Getting Started carry a migration guide and an ESLint rule that keeps root imports out',
+          'icon vs icons — @dmaster/ui/icon is the dm-icon component, its registry and provideDmasterIcons(); @dmaster/ui/icons stays the optional set of curated SVG drawings',
+          'Per-component cost unchanged or lower — button ~3.6 kB gzip, card ~0.9 kB, select ~10.7 kB; npm run size now finds every entry point by itself and fails if the subpaths stop code-splitting',
+          'Docs, snippets, READMEs, the ng add messages and the StackBlitz starter (now on ^0.12 — it was stuck on 0.5) all import per component',
+          'Still 46 components across 8 categories, verified by axe (WCAG 2.1 AA) in light and dark, 840+ tests',
+        ],
+      },
       v011: {
         title: 'Server-side tables, toasts that wait for you, and a motion pass',
         lead: '0.11 teaches dm-table to talk to your API one page at a time, gives DmToastService a real queue that pauses while you read, and runs a design-and-motion pass across six components — chips, button groups, tables, toggle groups, icons and toasts — so state changes are felt, not noticed. One new component: dm-chip.',

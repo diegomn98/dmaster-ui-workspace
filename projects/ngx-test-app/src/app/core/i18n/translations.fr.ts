@@ -507,7 +507,7 @@ export const FR: DashboardTranslations = {
       inProgressMeta: 'route vers la 1.0',
       doneMeta: 'publié et stable',
       targetTitle: 'Une API stable',
-      targetSub: 'Trois choses nous en séparent.',
+      targetSub: 'Quatre choses nous en séparent.',
     },
     rail: {
       foundations: 'Fondations',
@@ -518,6 +518,7 @@ export const FR: DashboardTranslations = {
       copy: 'Copier dans le presse-papiers',
       themes: 'Thèmes prêts et templates',
       motion: 'Tableau server-side & motion',
+      entryPoints: 'Points d’entrée par composant',
     },
     focusItems: {
       freezeTitle: 'Gel de la surface d’API',
@@ -525,6 +526,9 @@ export const FR: DashboardTranslations = {
         'Passe de cohérence sur les {count} composants — noms des inputs/outputs, defaults injectables, parité entre composants frères.',
       deprecationTitle: 'Politique de dépréciation',
       deprecationDesc: 'Une règle écrite sur l’évolution de l’API après la 1.0.',
+      rootImportTitle: 'Retirer l’import racine',
+      rootImportDesc:
+        'Le point d’entrée racine @dmaster/ui est obsolète depuis la 0.12 et sera retiré dans une version future — importez depuis @dmaster/ui/<composant>.',
       docsTitle: 'Docs et étude de cas',
       docsDesc: 'Article d’ingénierie + modèles StackBlitz prêts à copier.',
     },
@@ -585,6 +589,19 @@ export const FR: DashboardTranslations = {
     articleNewer: 'Plus récent',
     articleOlder: 'Précédent',
     articles: {
+      v012: {
+        title: 'Un point d’entrée par composant',
+        lead: 'La 0.12 publie chaque composant comme son propre point d’entrée — @dmaster/ui/button, @dmaster/ui/menu, @dmaster/ui/toggle-group… — pour que les bundlers puissent enfin découper la bibliothèque : un composant utilisé seulement par une route chargée à la demande part désormais avec cette route, et non dans votre bundle initial. L’import racine @dmaster/ui fonctionne toujours, mais il est obsolète, ne découpe pas le code et sera retiré dans une version future. Pas de nouveau composant cette fois : cette release porte sur ce que votre app paie au démarrage.',
+        bullets: [
+          'Points d’entrée par composant — 46 composants plus @dmaster/ui/core (provideDmasterUI, ThemeService, DensityService et les types partagés), chacun son propre module dans le paquet ; @dmaster/ui/styles, @dmaster/ui/themes et @dmaster/ui/icons ne changent pas',
+          'Pourquoi c’est important — les bundlers découpent le code par module, et jusqu’à la 0.11 toute la bibliothèque était un seul module : tout ce qu’importait une route chargée à la demande finissait dans le bundle initial, même avec sideEffects: false. Dans une app synthétique avec dm-button au démarrage et dm-checkbox derrière une route à la demande, la case à cocher reste maintenant dans son chunk et le chunk initial passe de 4,9 à 3,5 kB gzip',
+          'L’import racine @dmaster/ui devient obsolète — il réexporte toujours tous les points d’entrée (mêmes classes, mêmes tokens), mais il ne découpe pas le code et sera retiré dans une version future ; le README et Getting Started proposent un guide de migration et une règle ESLint qui écarte les imports racine',
+          'icon ou icons — @dmaster/ui/icon est le composant dm-icon, son registre et provideDmasterIcons() ; @dmaster/ui/icons reste le jeu optionnel de dessins SVG soignés',
+          'Coût par composant inchangé ou réduit — button ~3,6 kB gzip, card ~0,9 kB, select ~10,7 kB ; npm run size trouve désormais chaque point d’entrée tout seul et échoue si les subpaths cessent de découper le code',
+          'La documentation, les snippets, les README, les messages de ng add et le starter StackBlitz (désormais en ^0.12 — il était bloqué sur la 0.5) importent tous par composant',
+          'Toujours 46 composants dans 8 catégories, vérifiés par axe (WCAG 2.1 AA) en clair et en sombre, 840+ tests',
+        ],
+      },
       v011: {
         title: 'Tableaux server-side, toasts qui vous attendent et une passe de motion',
         lead: '0.11 apprend à dm-table à dialoguer avec votre API page par page, donne à DmToastService une vraie file qui se met en pause pendant que vous lisez, et fait une passe de design et de motion sur six composants — chips, groupes de boutons, tableaux, toggle groups, icônes et toasts — pour que les changements d’état se ressentent sans se remarquer. Un nouveau composant : dm-chip.',

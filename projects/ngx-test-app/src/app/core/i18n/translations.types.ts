@@ -408,12 +408,15 @@ export interface DashboardTranslations {
       copy: string;
       themes: string;
       motion: string;
+      entryPoints: string;
     };
     focusItems: {
       freezeTitle: string;
       freezeDesc: string;
       deprecationTitle: string;
       deprecationDesc: string;
+      rootImportTitle: string;
+      rootImportDesc: string;
       docsTitle: string;
       docsDesc: string;
     };
@@ -475,6 +478,7 @@ export interface DashboardTranslations {
     articleNewer: string;
     articleOlder: string;
     articles: {
+      v012: BlogArticleTranslations;
       v011: BlogArticleTranslations;
       v010: BlogArticleTranslations;
       v09: BlogArticleTranslations;
