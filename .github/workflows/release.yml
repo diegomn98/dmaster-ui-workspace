@@ -7,8 +7,9 @@ on:
 
 permissions:
   contents: write # create the GitHub Release + push the source mirror
-  # The signed npm publish (and its OIDC/id-token) now runs in the dmaster-ui
-  # repo — see projects/ngx-dmaster-ui/.github/workflows/publish.yml.
+  # The signed npm publish (npm trusted publishing over OIDC — no npm token)
+  # runs in the dmaster-ui repo — see
+  # projects/ngx-dmaster-ui/.github/workflows/publish.yml.
 
 jobs:
   release:
