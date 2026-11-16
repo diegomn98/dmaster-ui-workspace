@@ -23,10 +23,15 @@
 # requires npm >= 11.5.1 (checked below). A NEW trusted-publisher config must
 # complete a publish within 2 days or it expires — create it on release day.
 #
-# Fallback (temporary, until the first OIDC publish succeeds and NPM_TOKEN is
-# revoked): run this workflow manually with `auth: token` to publish with the
-# NPM_TOKEN secret instead. The default path never sees the token, so a broken
-# trusted-publisher setup fails loudly instead of silently using the token.
+# There is NO token fallback (since 0.12.1, the first trusted publish): the
+# package has "Require two-factor authentication and disallow tokens" enabled
+# on npmjs.com and no NPM_TOKEN secret exists, so this workflow is the only way
+# to publish. If trusted publishing fails, fix the trusted-publisher config and
+# re-run manually (see workflow_dispatch below) — a token would be rejected.
+#
+# To confirm a release went out over OIDC, check the registry:
+# `npm view @dmaster/ui@X.Y.Z _npmUser` must be
+# `GitHub Actions <npm-oidc-no-reply@github.com>`.
 #
 # Triggered by a repository_dispatch from the monorepo's release.yml, which
 # passes the tag as client_payload.ref.
@@ -38,17 +43,12 @@ on:
   # Manual fallback: on the very first release the repository_dispatch can race
   # the arrival of this file on dmaster-ui's default branch, and any publish can
   # be safely re-run. Trigger from the Actions tab with the release tag:
-  #   gh workflow run publish.yml -R diegomn98/dmaster-ui -f ref=vX.Y.Z [-f auth=token]
+  #   gh workflow run publish.yml -R diegomn98/dmaster-ui -f ref=vX.Y.Z
   workflow_dispatch:
     inputs:
       ref:
         description: 'Release tag to build and publish (e.g. v0.12.1)'
         required: true
-      auth:
-        description: 'oidc = trusted publishing (default) · token = NPM_TOKEN fallback'
-        type: choice
-        options: [oidc, token]
-        default: oidc
 
 permissions:
   contents: read
@@ -69,6 +69,9 @@ jobs:
           ref: ${{ github.event.client_payload.ref || inputs.ref }}
           fetch-depth: 0
 
+      # `registry-url` makes setup-node write an .npmrc and export a dummy
+      # NODE_AUTH_TOKEN (`XXXXX-XXXXX-XXXXX-XXXXX` in the logs). It is a
+      # placeholder, not a credential: the publish authenticates over OIDC.
       - uses: actions/setup-node@v5
         with:
           node-version: '24'
@@ -101,15 +104,6 @@ jobs:
       - run: npm run build
       - run: npx publint dist/dmaster-ui
 
-      # Default path (repository_dispatch, or manual with auth=oidc): no token.
+      # No token: npm swaps this job's OIDC token for a one-time credential.
       - name: Publish to npm — trusted publishing (OIDC, signed provenance)
-        if: ${{ inputs.auth != 'token' }}
         run: cd dist/dmaster-ui && npm publish --provenance --access public
-
-      # Temporary fallback, manual runs only: remove together with the NPM_TOKEN
-      # secret once a release has gone out through trusted publishing.
-      - name: Publish to npm — NPM_TOKEN fallback (manual auth=token)
-        if: ${{ inputs.auth == 'token' }}
-        run: cd dist/dmaster-ui && npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
