@@ -241,7 +241,7 @@ export const EN: DashboardTranslations = {
     migrationBody:
       "The root import <code>import { … } from '@dmaster/ui'</code> still works — it re-exports every entry point, so upgrading breaks nothing — and it already code-splits like the subpaths. But it is <strong>deprecated</strong> and will be removed in a future version: replace each root import with one import per entry point.",
     migrationNote:
-      'Stop root imports from creeping back with ESLint: a <code>no-restricted-imports</code> rule on <code>@dmaster/ui</code>. The full migration guide lives in the library README.',
+      'A codemod rewrites them for you: run <code>scripts/migrate-to-entry-points.mjs</code> (from the GitHub repo) at your project root. Then keep root imports out with an ESLint <code>no-restricted-imports</code> rule on <code>@dmaster/ui</code>. The full migration guide lives in the library README.',
     darkModeBody:
       'Dark mode is a first-class citizen. Every color, border and shadow token has a dark counterpart — flipping happens instantly via a data attribute on <code>&lt;html&gt;</code>.',
     darkModeItems: [
@@ -592,7 +592,7 @@ export const EN: DashboardTranslations = {
         bullets: [
           'Per-component entry points — 46 components plus @dmaster/ui/core (provideDmasterUI, ThemeService, DensityService and the shared types), each its own module in the package; @dmaster/ui/styles, @dmaster/ui/themes and @dmaster/ui/icons are unchanged',
           'Why it matters — bundlers split code by module, and until 0.11 the whole library was a single module, so anything a lazy route imported landed in the initial bundle, even with sideEffects: false. In a real Angular 22 app that uses 18 of the components, 10 of them (toggle group, checkbox, switch, progress, search field, form field…) moved out of the initial bundle into the lazy routes that use them: −72 kB raw, −6.6 kB transferred',
-          'The root @dmaster/ui import is deprecated — it still re-exports every entry point (same classes, same tokens) and code-splits like the subpaths, but it will be removed in a future version; the README and Getting Started carry a migration guide and an ESLint rule that keeps root imports out',
+          'The root @dmaster/ui import is deprecated — it still re-exports every entry point (same classes, same tokens) and code-splits like the subpaths, but it will be removed in a future version; the README and Getting Started carry a migration guide, a codemod that rewrites the imports for you, and an ESLint rule that keeps root imports out',
           'icon vs icons — @dmaster/ui/icon is the dm-icon component, its registry and provideDmasterIcons(); @dmaster/ui/icons stays the optional set of curated SVG drawings',
           'Per-component cost unchanged or lower — button ~3.6 kB gzip, card ~0.9 kB, select ~10.7 kB; npm run size now finds every entry point by itself and fails if the subpaths stop code-splitting',
           'Docs, snippets, READMEs, the ng add messages and the StackBlitz starter (now on ^0.12 — it was stuck on 0.5) all import per component',

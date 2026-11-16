@@ -241,7 +241,7 @@ export const FR: DashboardTranslations = {
     migrationBody:
       "L’import racine <code>import { … } from '@dmaster/ui'</code> fonctionne toujours — il réexporte tous les points d’entrée, la mise à niveau ne casse donc rien — et il découpe déjà le code comme les subpaths. Mais il est <strong>obsolète</strong> et sera retiré dans une version future : remplacez chaque import racine par un import par point d’entrée.",
     migrationNote:
-      'Empêchez les imports racine de revenir avec ESLint : une règle <code>no-restricted-imports</code> sur <code>@dmaster/ui</code>. Le guide de migration complet se trouve dans le README de la bibliothèque.',
+      'Un codemod les réécrit pour vous : lancez <code>scripts/migrate-to-entry-points.mjs</code> (du dépôt GitHub) à la racine de votre projet. Ensuite, empêchez-les de revenir avec une règle ESLint <code>no-restricted-imports</code> sur <code>@dmaster/ui</code>. Le guide de migration complet se trouve dans le README de la bibliothèque.',
     darkModeBody:
       'Le mode sombre est un citoyen de première classe. Chaque token de couleur, de bordure et d’ombre a son équivalent dark — le basculement est instantané via un attribut sur <code>&lt;html&gt;</code>.',
     darkModeItems: [
@@ -595,7 +595,7 @@ export const FR: DashboardTranslations = {
         bullets: [
           'Points d’entrée par composant — 46 composants plus @dmaster/ui/core (provideDmasterUI, ThemeService, DensityService et les types partagés), chacun son propre module dans le paquet ; @dmaster/ui/styles, @dmaster/ui/themes et @dmaster/ui/icons ne changent pas',
           'Pourquoi c’est important — les bundlers découpent le code par module, et jusqu’à la 0.11 toute la bibliothèque était un seul module : tout ce qu’importait une route chargée à la demande finissait dans le bundle initial, même avec sideEffects: false. Dans une vraie app Angular 22 qui utilise 18 des composants, 10 d’entre eux (toggle group, checkbox, switch, progress, search field, form field…) sont sortis du bundle initial vers les routes à la demande qui les utilisent : −72 kB bruts, −6,6 kB transférés',
-          'L’import racine @dmaster/ui devient obsolète — il réexporte toujours tous les points d’entrée (mêmes classes, mêmes tokens) et découpe le code comme les subpaths, mais il sera retiré dans une version future ; le README et Getting Started proposent un guide de migration et une règle ESLint qui écarte les imports racine',
+          'L’import racine @dmaster/ui devient obsolète — il réexporte toujours tous les points d’entrée (mêmes classes, mêmes tokens) et découpe le code comme les subpaths, mais il sera retiré dans une version future ; le README et Getting Started proposent un guide de migration, un codemod qui réécrit les imports pour vous et une règle ESLint qui écarte les imports racine',
           'icon ou icons — @dmaster/ui/icon est le composant dm-icon, son registre et provideDmasterIcons() ; @dmaster/ui/icons reste le jeu optionnel de dessins SVG soignés',
           'Coût par composant inchangé ou réduit — button ~3,6 kB gzip, card ~0,9 kB, select ~10,7 kB ; npm run size trouve désormais chaque point d’entrée tout seul et échoue si les subpaths cessent de découper le code',
           'La documentation, les snippets, les README, les messages de ng add et le starter StackBlitz (désormais en ^0.12 — il était bloqué sur la 0.5) importent tous par composant',
