@@ -30,13 +30,13 @@ major to match CI.
 
 ## Project layout
 
-| Path                      | What it is                                                          |
-| ------------------------- | ------------------------------------------------------------------- |
-| `projects/ngx-dmaster-ui` | The library. Components live under `src/lib/components/<category>`. |
-| `projects/ngx-test-app`   | The docs dashboard (playgrounds, API tables, a11y notes, i18n).     |
-| `examples/starter`        | A standalone consumer app — the packaging smoke test + StackBlitz.  |
-| `e2e/`                    | Playwright: axe-core a11y gate + visual regression.                 |
-| `CLAUDE.md`               | The full architecture guide and conventions. **Read it first.**     |
+| Path                      | What it is                                                                                    |
+| ------------------------- | --------------------------------------------------------------------------------------------- |
+| `projects/ngx-dmaster-ui` | The library. One folder per component at its root = one entry point (`@dmaster/ui/<folder>`). |
+| `projects/ngx-test-app`   | The docs dashboard (playgrounds, API tables, a11y notes, i18n).                               |
+| `examples/starter`        | A standalone consumer app — the packaging smoke test + StackBlitz.                            |
+| `e2e/`                    | Playwright: axe-core a11y gate + visual regression.                                           |
+| `CLAUDE.md`               | The full architecture guide and conventions. **Read it first.**                               |
 
 ## The checks (run before every push)
 
@@ -82,10 +82,15 @@ The long version is in [`CLAUDE.md`](./CLAUDE.md); the essentials:
 Follow the "nuevo componente" checklist in `CLAUDE.md`. In short, a component is
 never "done" until the docs reflect it in the same PR:
 
-1. The component folder (8 files: `*.component.ts|html|scss|spec.ts`, `*.types.ts`,
-   `*.tokens.ts`, `index.ts`, `README.md`) under its category. Use
-   `components/primitives/skeleton/` as the template.
-2. Export it from `src/public-api.ts`.
+1. The component folder at the library root, `projects/ngx-dmaster-ui/<name>/`
+   (8 files: `*.component.ts|html|scss|spec.ts`, `*.types.ts`, `*.tokens.ts`,
+   `index.ts`, `README.md`, plus the `ng-package.json` that makes it the
+   `@dmaster/ui/<name>` entry point). Use `skeleton/` as the template. Import
+   other components and core by subpath (`@dmaster/ui/spinner`), never by a
+   relative path that leaves the folder.
+2. Add `export * from '@dmaster/ui/<name>'` to `src/public-api.ts` (the
+   deprecated primary entry still re-exports everything) — `npm run
+check:entry-points` fails the build if you forget.
 3. Tests (default render, each input, host a11y, injectable defaults).
 4. A docs page under `pages/components/<name>-page/` with a playground, ~6
    realistic demos including a composition recipe, an API table and a11y notes.
