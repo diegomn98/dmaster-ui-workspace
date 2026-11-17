@@ -1,0 +1,188 @@
+// Portada v0.12 — el paquete despiezado en isométrico (CSS 3D).
+// Medidas en px de lienzo (1200×630): es una imagen, se escala entera.
+@use 'cover-kit' as kit;
+
+:host {
+  display: contents;
+}
+
+// Caja = zona segura del lienzo (560×420, centrada): núcleo, pieza que sale y
+// anotación viven aquí. El anillo fantasma la desborda a propósito.
+.c12 {
+  position: relative;
+  width: 560px;
+  height: 420px;
+}
+
+.c12__scene {
+  position: absolute;
+  inset: 0;
+  perspective: 3200px;
+  perspective-origin: 50% 20%;
+  transform: translateY(var(--dm-c12-shift, 56px)) scale(0.8);
+}
+
+// Plano del suelo: rejilla 5×5 en isométrico (núcleo 3×3 + anillo). El orden
+// de transformaciones aplica primero el giro en Z (-45°) y luego la
+// inclinación en X. Sin mask/filter/opacity aquí: aplanarían el 3D.
+.c12__plane {
+  --dm-c12-lift: 104px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  grid-template-columns: repeat(5, 148px);
+  grid-template-rows: repeat(5, 112px);
+  gap: 16px;
+  transform: translate(-50%, -50%) rotateX(56deg) rotateZ(-45deg);
+  transform-style: preserve-3d;
+}
+
+// ---- Baldosas ------------------------------------------------------------------
+.c12__tile {
+  --dm-c12-edge: #101013;
+
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: 10px 12px 12px;
+  border-radius: 14px;
+  background: linear-gradient(150deg, #2e2e35, #212127 70%);
+
+  // Canto de la losa: sombras duras desplazadas (-d, +d) en el plano, que en
+  // pantalla caen en vertical — da grosor sin caras 3D extra.
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 8%),
+    inset 1px -1px 0 rgb(255 255 255 / 5%),
+    -1px 1px 0 var(--dm-c12-edge),
+    -2px 2px 0 var(--dm-c12-edge),
+    -3px 3px 0 var(--dm-c12-edge),
+    -4px 4px 0 var(--dm-c12-edge),
+    -5px 5px 0 var(--dm-c12-edge),
+    -6px 6px 0 var(--dm-c12-edge),
+    -14px 18px 26px rgb(0 0 0 / 55%);
+  transform: translateZ(var(--dm-c12-z, 0));
+}
+
+// Anillo: losas vacías, solo con su nombre, que se apagan hacia fuera.
+.c12__tile--ghost {
+  background: linear-gradient(150deg, #24242a, #1a1a1f 70%);
+  opacity: 0.42;
+}
+
+.c12__tile--far {
+  opacity: 0.18;
+}
+
+.c12__name {
+  font-family: var(--dm-font-mono);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: rgb(255 255 255 / 45%);
+}
+
+.c12__ui {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+// Jerarquía: los blancos puros de los componentes neutros (pomos del switch y
+// del slider) no deben competir con el foco — solo la pieza que sale brilla.
+.c12__tile:not(.c12__tile--lifted) .c12__ui {
+  opacity: 0.8;
+}
+
+.c12__ui--wide {
+  padding-inline: 4px;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.c12__ui--avatars {
+  gap: 0;
+
+  > * + * {
+    margin-left: -8px;
+  }
+}
+
+// ---- Entry point que sale del paquete ------------------------------------------
+// Hueco vacío en el suelo, con su propio resplandor: «de aquí salió».
+.c12__slot {
+  position: relative;
+  grid-area: 2 / 4;
+  border: 1.5px dashed kit.accent(75%);
+  border-radius: 14px;
+  background: kit.accent(9%);
+  box-shadow: 0 0 44px kit.accent(30%);
+  transform-style: preserve-3d;
+}
+
+// Líneas de despiece: de cada esquina del hueco a la baldosa, en vertical
+// (rotateX(90°) sobre su borde superior las pone de pie sobre el suelo).
+.c12__beam {
+  position: absolute;
+  width: 1.5px;
+  height: var(--dm-c12-lift);
+  background: repeating-linear-gradient(to bottom, kit.accent(70%) 0 5px, transparent 5px 10px);
+  transform-origin: top center;
+  transform: rotateX(90deg);
+}
+
+.c12__tile--lifted {
+  --dm-c12-edge: #{kit.accent-deep()};
+
+  grid-area: 2 / 4;
+  background: linear-gradient(
+    150deg,
+    color-mix(in oklch, #36333d, var(--dm-cover-accent) 16%),
+    color-mix(in oklch, #27242d, var(--dm-cover-accent) 6%) 70%
+  );
+  box-shadow:
+    inset 0 0 0 1.5px kit.accent(85%),
+    inset 1px -1px 0 rgb(255 255 255 / 8%),
+    -1px 1px 0 var(--dm-c12-edge),
+    -2px 2px 0 var(--dm-c12-edge),
+    -3px 3px 0 var(--dm-c12-edge),
+    -4px 4px 0 var(--dm-c12-edge),
+    -5px 5px 0 var(--dm-c12-edge),
+    -6px 6px 0 var(--dm-c12-edge),
+    0 0 72px kit.accent(50%);
+  transform: translateZ(var(--dm-c12-lift));
+
+  .c12__name {
+    color: var(--dm-cover-accent);
+  }
+}
+
+// ---- Anotación -----------------------------------------------------------------
+.c12__callout {
+  @include kit.callout;
+
+  position: absolute;
+  top: var(--dm-c12-callout-top, 14px);
+  left: calc(50% + 19px);
+  transform: translateX(-50%);
+
+  // Línea guía hasta la baldosa que sale.
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 1px;
+    height: var(--dm-c12-leader, 18px);
+    background: linear-gradient(to bottom, rgb(255 255 255 / 30%), kit.accent(80%));
+  }
+}
+
+.c12__callout-dot {
+  @include kit.callout-dot;
+}

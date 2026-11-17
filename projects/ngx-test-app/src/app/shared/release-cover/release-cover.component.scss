@@ -1,0 +1,186 @@
+// Portada de release — marco común de la serie. Guía: docs/release-covers.md.
+//
+// El lienzo es una IMAGEN de tamaño fijo (1200×630, el de la og:image): todo lo
+// de dentro se mide en px de lienzo a propósito, y el conjunto se escala entero.
+
+:host {
+  // Acento de la release: L y C fijos para toda la serie, solo cambia el tono
+  // (--dm-cover-hue llega inline desde el componente).
+  --dm-cover-accent: oklch(72% 0.12 var(--dm-cover-hue, 255));
+  --dm-cover-ink: oklch(14.5% 0.012 var(--dm-cover-hue, 255));
+
+  position: relative;
+  display: block;
+  overflow: hidden;
+
+  // object-fit: cover — el host mide lo que le dé su contenedor (alto y ancho
+  // definidos); el lienzo se escala con las unidades cq del propio host.
+  container-type: size;
+  background: var(--dm-cover-ink);
+  color: var(--dm-fg);
+  font-family: var(--dm-font-sans);
+  text-align: start;
+  user-select: none;
+}
+
+// `data-dm-theme="dark"` (host) ya re-declara aquí los tokens oscuros; la
+// especificidad extra garantiza que el acento gane a esa regla global.
+:host[data-dm-theme] {
+  --dm-primary: var(--dm-cover-accent);
+  --dm-primary-fg: var(--dm-cover-ink);
+
+  // Gotcha de herencia: estos tokens de componente se declaran SOLO en `:root`
+  // (_themes.scss, sección "Component tokens") y su var() se resuelve en
+  // <html>, así que con el sitio en claro llegarían aquí YA resueltos en claro
+  // (p. ej. la pista del slider salía blanca). Re-declararlos en el host los
+  // resuelve contra los tokens oscuros. Si la librería añade un token así en
+  // `:root`, añadirlo también aquí.
+  --dm-gradient-brand: linear-gradient(135deg, var(--dm-primary-hover), var(--dm-primary));
+  --dm-skeleton-bg: var(--dm-bg-muted);
+  --dm-tooltip-bg: var(--dm-fg);
+  --dm-tooltip-fg: var(--dm-bg);
+  --dm-slider-track-bg: var(--dm-bg-muted);
+  --dm-slider-thumb-bg: var(--dm-bg);
+  --dm-slider-bubble-bg: var(--dm-fg);
+  --dm-slider-bubble-fg: var(--dm-bg);
+  --dm-popover-bg: var(--dm-bg);
+  --dm-popover-border: var(--dm-border);
+  --dm-menu-bg: var(--dm-bg-elevated);
+  --dm-menu-border: var(--dm-border);
+  --dm-menu-shadow: var(--dm-shadow-lg);
+  --dm-menu-item-active-bg: var(--dm-default-subtle);
+  --dm-menu-divider-color: var(--dm-border);
+  --dm-kbd-bg: var(--dm-bg-muted);
+  --dm-kbd-fg: var(--dm-fg-muted);
+  --dm-kbd-border: var(--dm-border);
+  --dm-empty-state-icon-bg: var(--dm-bg-muted);
+  --dm-empty-state-icon-fg: var(--dm-fg-subtle);
+  --dm-button-group-divider: color-mix(in srgb, var(--dm-fg) 15%, transparent);
+  --dm-command-bg: var(--dm-bg-elevated);
+  --dm-command-border: var(--dm-border);
+  --dm-command-shadow: var(--dm-shadow-lg);
+  --dm-command-active-bg: var(--dm-default-subtle);
+  --dm-command-active-fg: var(--dm-fg);
+  --dm-datepicker-panel-bg: var(--dm-bg-elevated);
+}
+
+.rc__stage {
+  // Escala de cover: max(ancho/1200, alto/630). `tan(atan2(a, b))` = a/b como
+  // número sin unidad (dividir longitudes aún no tiene soporte amplio).
+  --dm-cover-scale: max(tan(atan2(100cqw, 1200px)), tan(atan2(100cqh, 630px)));
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1200px;
+  height: 630px;
+  transform: translate(-50%, -50%) scale(var(--dm-cover-scale));
+}
+
+// ---- Atmósfera ---------------------------------------------------------------
+.rc__glow,
+.rc__dots,
+.rc__grain,
+.rc__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+// Glow del acento detrás del motivo + un velo frío de luz cenital.
+.rc__glow {
+  background:
+    radial-gradient(
+      ellipse 34% 40% at 50% 54%,
+      oklch(72% 0.12 var(--dm-cover-hue, 255) / 34%),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 62% 70% at 50% 56%,
+      oklch(60% 0.1 var(--dm-cover-hue, 255) / 18%),
+      transparent 74%
+    ),
+    radial-gradient(ellipse 70% 46% at 50% -6%, rgb(255 255 255 / 5%), transparent 70%);
+}
+
+// Retícula de puntos de 24px que se desvanece hacia los bordes.
+.rc__dots {
+  background-image: radial-gradient(rgb(255 255 255 / 15%) 1.1px, transparent 1.6px);
+  background-position: 12px 3px;
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 58% 64% at 50% 52%, #000 12%, transparent 78%);
+}
+
+// Grano fino: rompe el banding de los degradados y da textura de foto.
+.rc__grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+}
+
+.rc__vignette {
+  background: radial-gradient(ellipse 75% 85% at 50% 50%, transparent 55%, rgb(0 0 0 / 45%));
+}
+
+// ---- Motivo ------------------------------------------------------------------
+.rc__motif {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+// ---- Esquinas (fuera de la zona segura) ---------------------------------------
+// Una sola línea en la franja superior (y 36–64): ningún recorte del blog
+// (destacada casi cuadrada, panorámicas 8:3, hero 12:5) llega hasta aquí.
+.rc__corner {
+  position: absolute;
+  top: 36px;
+  display: flex;
+  align-items: center;
+  height: 28px;
+  white-space: nowrap;
+}
+
+.rc__corner--start {
+  left: 40px;
+  gap: 10px;
+}
+
+.rc__corner--end {
+  right: 40px;
+  gap: 8px;
+  font-family: var(--dm-font-mono);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.rc__mark {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #fafafa;
+  color: #09090b;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.06em;
+}
+
+.rc__brand {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: rgb(255 255 255 / 88%);
+}
+
+.rc__version {
+  font-weight: 500;
+  color: rgb(255 255 255 / 88%);
+}
+
+.rc__sep,
+.rc__date {
+  color: rgb(255 255 255 / 48%);
+}

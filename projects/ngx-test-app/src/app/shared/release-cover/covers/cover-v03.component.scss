@@ -1,0 +1,222 @@
+// Portada v0.3 — la paleta ⌘K en tres planos de profundidad.
+// Medidas en px de lienzo (1200×630): es una imagen, se escala entera.
+@use 'cover-kit' as kit;
+
+:host {
+  display: contents;
+}
+
+// Caja = zona segura (560×420): paleta y teclas. La app del fondo la desborda.
+.c3 {
+  position: relative;
+  width: 560px;
+  height: 420px;
+}
+
+// ---- Fondo: la app bajo el velo del overlay ---------------------------------------
+.c3__app {
+  position: absolute;
+  top: -22px;
+  left: -230px;
+  display: flex;
+  gap: 28px;
+  width: 1020px;
+  height: 464px;
+  padding: 28px;
+  border-radius: 24px;
+  background: #19191e;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 6%);
+  opacity: 0.55;
+  filter: blur(3px);
+
+  i {
+    display: block;
+    border-radius: 8px;
+    background: rgb(255 255 255 / 9%);
+  }
+}
+
+.c3__app-side {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  width: 180px;
+
+  i {
+    height: 14px;
+  }
+
+  i:nth-child(odd) {
+    width: 70%;
+  }
+}
+
+.c3__app-main {
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: 26px;
+}
+
+.c3__app-title {
+  width: 260px;
+  height: 22px;
+}
+
+.c3__app-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+
+  i {
+    height: 140px;
+    border-radius: 16px;
+    background: rgb(255 255 255 / 6%);
+  }
+}
+
+.c3__app-row {
+  height: 16px;
+}
+
+// ---- La paleta (réplica de dm-command) -----------------------------------------------
+.c3__palette {
+  @include kit.panel(18px);
+
+  position: absolute;
+  top: 24px;
+  left: 40px;
+  display: grid;
+  width: 420px;
+  padding: 8px;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 10%),
+    inset 0 1px 0 rgb(255 255 255 / 7%),
+    0 40px 80px -20px rgb(0 0 0 / 85%);
+}
+
+.c3__search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 54px;
+  margin-bottom: 2px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--dm-border);
+  color: rgb(255 255 255 / 45%);
+}
+
+.c3__query {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  font-size: 17px;
+  color: rgb(255 255 255 / 94%);
+}
+
+.c3__caret {
+  width: 1.5px;
+  height: 20px;
+  margin-left: 1px;
+  background: var(--dm-cover-accent);
+}
+
+.c3__group {
+  padding: 12px 12px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 40%);
+}
+
+.c3__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  color: rgb(255 255 255 / 50%);
+}
+
+.c3__label {
+  flex: 1;
+  font-size: 15px;
+  color: rgb(255 255 255 / 80%);
+}
+
+// La acción activa: el foco de la portada.
+.c3__row--active {
+  background: kit.accent(15%);
+  box-shadow: inset 0 0 0 1px kit.accent(30%);
+  color: var(--dm-cover-accent);
+
+  .c3__label {
+    font-weight: 500;
+    color: rgb(255 255 255 / 97%);
+  }
+}
+
+.c3__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 42px;
+  margin-top: 4px;
+  padding: 0 10px;
+  border-top: 1px solid var(--dm-border);
+  font-size: 12px;
+  color: rgb(255 255 255 / 40%);
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+// ---- Primer plano: las teclas ⌘ y K ------------------------------------------------
+.c3__key {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #3b3b43, #27272d);
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1;
+  color: rgb(255 255 255 / 88%);
+
+  // Canto de la tecla (sombra dura debajo), filo de luz y retroiluminación.
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 20%),
+    inset 0 -3px 0 rgb(0 0 0 / 35%),
+    0 9px 0 #131317,
+    0 9px 0 1px rgb(255 255 255 / 5%),
+    0 30px 44px -6px rgb(0 0 0 / 70%),
+    0 0 48px kit.accent(22%);
+}
+
+.c3__key--cmd {
+  top: 270px;
+  left: 360px;
+  transform: rotate(-7deg);
+}
+
+// K, recién pulsada: hundida a medias, el canto más corto.
+.c3__key--k {
+  top: 300px;
+  left: 452px;
+  font-size: 38px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 18%),
+    inset 0 -2px 0 rgb(0 0 0 / 35%),
+    0 4px 0 #131317,
+    0 4px 0 1px rgb(255 255 255 / 5%),
+    0 22px 36px -6px rgb(0 0 0 / 70%),
+    0 0 48px kit.accent(30%);
+  transform: rotate(6deg) translateY(5px);
+}

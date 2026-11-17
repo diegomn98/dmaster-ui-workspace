@@ -1,7 +1,9 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DmIconComponent } from '@dmaster/ui/icon';
 
+import { findCover, ReleaseCover } from '../../core/blog/covers';
 import {
   BlogCategory,
   CATEGORY_GLYPHS,
@@ -10,6 +12,7 @@ import {
   ReleaseEntry,
 } from '../../core/blog/releases';
 import { LocaleService } from '../../core/i18n/locale.service';
+import { ReleaseCoverComponent } from '../../shared/release-cover/release-cover.component';
 import { RevealDirective } from '../../shared/reveal.directive';
 import { SiteTopbarComponent } from '../../shared/site-topbar/site-topbar.component';
 
@@ -18,7 +21,11 @@ interface BlogTile {
   readonly entry: ReleaseEntry;
   readonly glyph: string;
   readonly title: string;
+  /** Entradilla — HTML inline (`<code>`…), se enlaza con [innerHTML] saneado. */
   readonly lead: string;
+  /** Portada ilustrada (RELEASE_COVERS) o `undefined` → portada generada. */
+  readonly cover: ReleaseCover | undefined;
+  readonly coverAlt: string;
 }
 
 /** Un chip de la barra de filtros. */
@@ -40,13 +47,22 @@ const CATEGORY_ORDER: BlogCategory[] = [
 /**
  * /blog — índice del build log al estilo de los blogs de producto:
  * barra de filtros por categoría con contadores, un post destacado
- * grande y un grid uniforme de tarjetas, cada una con una PORTADA generada
+ * grande y un grid uniforme de tarjetas. Cada tarjeta lleva la PORTADA ilustrada
+ * de su release si la tiene (core/blog/covers.ts → app-release-cover, escalada
+ * tipo object-fit: cover + badge de versión) o, si no, la generada de siempre
  * (gradiente del color de la categoría + versión + glifo — sin fotos falsas).
  * Data-driven: un artículo por release (core/blog/releases.ts + i18n).
  */
 @Component({
   selector: 'app-blog-page',
-  imports: [RouterLink, DmIconComponent, RevealDirective, SiteTopbarComponent],
+  imports: [
+    NgTemplateOutlet,
+    RouterLink,
+    DmIconComponent,
+    ReleaseCoverComponent,
+    RevealDirective,
+    SiteTopbarComponent,
+  ],
   templateUrl: './blog-page.component.html',
   styleUrl: './blog-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,12 +81,15 @@ export class BlogPageComponent {
 
   /** Todos los tiles (recalcula al cambiar de idioma). */
   private readonly allTiles = computed<BlogTile[]>(() => {
-    const articles = this.i18n.t().blog.articles;
+    const { articles, coverAlts } = this.i18n.t().blog;
+    const alts: Partial<Record<string, string>> = coverAlts;
     return RELEASES.map((entry) => ({
       entry,
       glyph: CATEGORY_GLYPHS[entry.category],
       title: articles[entry.key].title,
       lead: articles[entry.key].lead,
+      cover: findCover(entry),
+      coverAlt: alts[entry.key] ?? '',
     }));
   });
 

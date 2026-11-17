@@ -1,0 +1,23 @@
+@use 'mixins';
+
+:host {
+  display: block;
+}
+
+// Lienzo completo centrado sobre negro; en viewports estrechos se ajusta
+// entero (misma proporción que el lienzo ⇒ cover = contain, sin recorte).
+.bc {
+  display: grid;
+  place-items: center;
+  min-height: 100dvh;
+  background: #000;
+}
+
+.bc__title {
+  @include mixins.visually-hidden;
+}
+
+.bc__cover {
+  width: min(1200px, 100vw);
+  aspect-ratio: 1200 / 630;
+}

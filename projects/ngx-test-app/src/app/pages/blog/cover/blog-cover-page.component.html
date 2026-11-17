@@ -1,0 +1,15 @@
+<main class="bc">
+  <h1 class="bc__title">{{ title() }}</h1>
+  @if (entry(); as e) {
+    @if (cover(); as c) {
+      <app-release-cover
+        class="bc__cover"
+        [version]="e.version"
+        [date]="e.date"
+        [hue]="c.hue"
+        [motif]="c.motif"
+        [label]="label()"
+      />
+    }
+  }
+</main>

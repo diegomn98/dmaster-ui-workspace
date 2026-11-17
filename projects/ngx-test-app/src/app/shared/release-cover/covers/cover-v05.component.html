@@ -1,0 +1,54 @@
+<div class="c5">
+  <!-- trigger multiple: chips dm-badge (como el select real) + el recién añadido -->
+  <div class="c5__trigger" data-safe="trigger">
+    <span class="c5__chips">
+      <dm-badge color="default" variant="flat" size="md"
+        >Angular <span class="c5__x">×</span></dm-badge
+      >
+      <dm-badge color="default" variant="flat" size="md"
+        >Vite <span class="c5__x">×</span></dm-badge
+      >
+      <span class="c5__new">
+        <dm-badge color="primary" variant="flat" size="md"
+          >Vitest <span class="c5__x">×</span></dm-badge
+        >
+      </span>
+    </span>
+    <svg class="c5__caret" viewBox="0 0 24 24"><path d="m6 15 6-6 6 6" /></svg>
+  </div>
+
+  <!-- panel abierto (réplica del overlay): filtro, grupo, opciones, acciones -->
+  <div class="c5__panel" data-safe="panel">
+    <div class="c5__filter">
+      <svg viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </svg>
+      <span class="c5__query">vit<span class="c5__caret-text"></span></span>
+      <span class="c5__clear">×</span>
+    </div>
+
+    <span class="c5__group">Tooling</span>
+    @for (o of options; track o.rest) {
+      <div class="c5__option" [class.c5__option--active]="o.active">
+        <dm-checkbox [checked]="o.checked" [color]="o.active ? 'primary' : 'default'" />
+        <span class="c5__label"
+          ><b>{{ o.match }}</b
+          >{{ o.rest }}</span
+        >
+      </div>
+    }
+
+    <div class="c5__actions">
+      <span>3 selected</span>
+      <span class="c5__actions-links">Select all · <b>Clear all</b></span>
+    </div>
+  </div>
+
+  <span class="c5__cursor" data-safe="cursor"></span>
+
+  <div class="c5__callout" data-safe="callout">
+    <span class="c5__callout-dot"></span>
+    <span>&lt;dm-select <b>multiple filterable</b>&gt;</span>
+  </div>
+</div>

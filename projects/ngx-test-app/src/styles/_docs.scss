@@ -177,7 +177,10 @@
 .page__lead code,
 .page__section-desc code,
 .page__list code,
-.home__card code {
+.home__card code,
+.bp__feat-excerpt code,
+.bp__card-excerpt code,
+.ba__lead code {
   padding: 0.1em 0.4em;
   border: 1px solid var(--dm-border);
   border-radius: var(--dm-radius-sm);

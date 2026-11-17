@@ -1,5 +1,32 @@
 <app-site-topbar active="blog" />
 
+<!-- Portada de una tarjeta: la ilustrada de la release (escalada tipo
+     object-fit: cover, con badge de versión) o la generada de siempre. -->
+<ng-template #cover let-tile let-feat="feat">
+  @if (tile.cover; as c) {
+    <span class="bp__cover bp__cover--art" [class.bp__cover--feat]="feat">
+      <app-release-cover
+        class="bp__cover-art"
+        [version]="tile.entry.version"
+        [date]="tile.entry.date"
+        [hue]="c.hue"
+        [motif]="c.motif"
+        [label]="tile.coverAlt"
+      />
+      <span class="bp__cover-badge">{{ tile.entry.version }}</span>
+    </span>
+  } @else {
+    <span
+      class="bp__cover"
+      [class.bp__cover--feat]="feat"
+      [attr.data-category]="tile.entry.category"
+    >
+      <span class="bp__cover-glyph" aria-hidden="true">{{ tile.glyph }}</span>
+      <span class="bp__cover-version">{{ tile.entry.version }}</span>
+    </span>
+  }
+</ng-template>
+
 <!-- ================================================================ -->
 <!-- CABECERA                                                         -->
 <!-- ================================================================ -->
@@ -31,10 +58,7 @@
 @if (featured(); as f) {
   <section class="bp__container" appReveal>
     <a class="bp__feat" [routerLink]="['/blog', f.entry.slug]">
-      <span class="bp__cover bp__cover--feat" [attr.data-category]="f.entry.category">
-        <span class="bp__cover-glyph" aria-hidden="true">{{ f.glyph }}</span>
-        <span class="bp__cover-version">{{ f.entry.version }}</span>
-      </span>
+      <ng-container *ngTemplateOutlet="cover; context: { $implicit: f, feat: true }" />
       <span class="bp__feat-body">
         <span class="bp__card-meta">
           <span class="bp__latest">{{ i18n.t().blog.latestLabel }}</span>
@@ -44,7 +68,7 @@
           <span class="bp__card-date">{{ f.entry.date }} · {{ f.entry.minutes }} min</span>
         </span>
         <span class="bp__feat-title">{{ f.title }}</span>
-        <span class="bp__feat-excerpt">{{ f.lead }}</span>
+        <span class="bp__feat-excerpt" [innerHTML]="f.lead"></span>
         <span class="bp__card-author">
           <span class="bp__avatar" aria-hidden="true">DM</span>
           Diego Maestro
@@ -60,10 +84,7 @@
 <section class="bp__grid bp__container" [attr.aria-label]="i18n.t().blog.title" appReveal>
   @for (tile of gridTiles(); track tile.entry.slug) {
     <a class="bp__card" [routerLink]="['/blog', tile.entry.slug]">
-      <span class="bp__cover" [attr.data-category]="tile.entry.category">
-        <span class="bp__cover-glyph" aria-hidden="true">{{ tile.glyph }}</span>
-        <span class="bp__cover-version">{{ tile.entry.version }}</span>
-      </span>
+      <ng-container *ngTemplateOutlet="cover; context: { $implicit: tile, feat: false }" />
       <span class="bp__card-body">
         <span class="bp__card-meta">
           <span class="bp__cat" [attr.data-category]="tile.entry.category">
@@ -72,7 +93,7 @@
           <span class="bp__card-date">{{ tile.entry.date }} · {{ tile.entry.minutes }} min</span>
         </span>
         <span class="bp__card-title">{{ tile.title }}</span>
-        <span class="bp__card-excerpt">{{ tile.lead }}</span>
+        <span class="bp__card-excerpt" [innerHTML]="tile.lead"></span>
         <span class="bp__card-author">
           <span class="bp__avatar" aria-hidden="true">DM</span>
           Diego Maestro

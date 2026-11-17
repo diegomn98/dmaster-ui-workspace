@@ -1,0 +1,159 @@
+// Portada v0.2 — terminal con `ng add` en perspectiva y el paquete flotando delante.
+// Medidas en px de lienzo (1200×630): es una imagen, se escala entera.
+@use 'cover-kit' as kit;
+
+:host {
+  display: contents;
+}
+
+// Caja = zona segura (560×420): terminal y piezas flotantes.
+.c2 {
+  position: relative;
+  width: 560px;
+  height: 420px;
+
+  i {
+    font-style: normal;
+  }
+}
+
+.c2__scene {
+  position: absolute;
+  inset: 0;
+  perspective: 1500px;
+  perspective-origin: 20% 45%;
+  transform-style: preserve-3d;
+}
+
+// ---- Terminal --------------------------------------------------------------------
+// Girado sobre su borde izquierdo: el texto arranca cerca (y legible) y el
+// lado derecho se aleja.
+.c2__term {
+  position: absolute;
+  top: 62px;
+  left: 0;
+  width: 490px;
+  border-radius: 16px;
+  background: linear-gradient(175deg, #18181d, #121216);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 9%),
+    inset 0 1px 0 rgb(255 255 255 / 6%),
+    0 40px 80px -20px rgb(0 0 0 / 80%);
+  transform: rotateY(20deg);
+  transform-origin: 0 50%;
+}
+
+.c2__bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-bottom: 1px solid rgb(255 255 255 / 7%);
+}
+
+.c2__dots {
+  display: flex;
+  gap: 8px;
+
+  i {
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 16%);
+  }
+}
+
+.c2__title {
+  @include kit.label;
+
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.c2__body {
+  display: grid;
+  gap: 12px;
+  padding: 22px 24px 24px;
+  font-family: var(--dm-font-mono);
+  font-size: 16px;
+  line-height: 1.25;
+  color: rgb(255 255 255 / 82%);
+  white-space: nowrap;
+}
+
+.c2__line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.c2__prompt {
+  color: rgb(255 255 255 / 35%);
+}
+
+.c2__ok {
+  color: var(--dm-cover-accent);
+}
+
+.c2__tag {
+  padding: 3px 6px;
+  border-radius: 5px;
+  background: rgb(255 255 255 / 10%);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgb(255 255 255 / 80%);
+}
+
+.c2__dim {
+  color: rgb(255 255 255 / 40%);
+}
+
+// La última línea: el foco.
+.c2__line--done {
+  margin-top: 6px;
+  font-weight: 600;
+  color: var(--dm-cover-accent);
+  text-shadow: 0 0 16px kit.accent(55%);
+}
+
+.c2__block {
+  width: 10px;
+  height: 19px;
+  background: rgb(255 255 255 / 70%);
+}
+
+// ---- Lo que trae el paquete, flotando delante ------------------------------------
+.c2__chip {
+  position: absolute;
+  top: calc(var(--dm-c2-y, 0) + 70px);
+  right: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 16px 0 12px;
+  border-radius: 999px;
+  background: linear-gradient(175deg, #2d2d34, #232329);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 10%),
+    inset 0 1px 0 rgb(255 255 255 / 7%),
+    0 18px 36px -10px rgb(0 0 0 / 70%);
+  font-family: var(--dm-font-mono);
+  font-size: 14px;
+  color: rgb(255 255 255 / 86%);
+  white-space: nowrap;
+  transform: translateZ(var(--dm-c2-z, 0)) rotateY(14deg);
+}
+
+.c2__chip-key {
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 8%);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 50%);
+}

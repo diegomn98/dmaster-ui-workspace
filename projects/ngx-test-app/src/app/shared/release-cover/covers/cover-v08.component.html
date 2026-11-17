@@ -1,0 +1,63 @@
+<div class="c8">
+  <!-- los ~300 tokens por componente, a los lados (solo en panorámicas) -->
+  <div class="c8__tokens c8__tokens--start">
+    @for (t of tokensStart; track t) {
+      <span>{{ t }}</span>
+    }
+  </div>
+  <div class="c8__tokens c8__tokens--end">
+    @for (t of tokensEnd; track t) {
+      <span>{{ t }}</span>
+    }
+  </div>
+
+  <!-- conectores: el override → la familia derivada → los componentes -->
+  <svg class="c8__wires" viewBox="0 0 560 420" aria-hidden="true">
+    <path d="M164 170 C192 170 186 74 214 74" />
+    <path d="M164 170 L214 170" />
+    <path d="M164 170 C192 170 186 266 214 266" />
+    <path d="M398 74 C422 74 416 126 440 126" />
+    <path d="M398 170 L440 170" />
+    <path d="M398 266 C422 266 416 214 440 214" />
+    <circle cx="164" cy="170" r="3.5" />
+    <circle cx="214" cy="74" r="3" />
+    <circle cx="214" cy="170" r="3" />
+    <circle cx="214" cy="266" r="3" />
+    <circle cx="440" cy="126" r="3" />
+    <circle cx="440" cy="170" r="3" />
+    <circle cx="440" cy="214" r="3" />
+  </svg>
+
+  <!-- el único override -->
+  <div class="c8__source" data-safe="source">
+    <span class="c8__swatch"></span>
+    <span class="c8__code">
+      <span class="c8__prop">--dm-primary</span>
+      <span class="c8__value">#7eb66b</span>
+    </span>
+  </div>
+
+  <!-- la familia, re-derivada en OKLCH (muestras = los tokens reales) -->
+  @for (d of derived; track d; let i = $index) {
+    <div class="c8__node" [style.top.px]="54 + i * 96" [attr.data-token]="d">
+      <span class="c8__dot"></span>
+      <span class="c8__node-name"
+        >--dm-primary-<b>{{ d }}</b></span
+      >
+    </div>
+  }
+
+  <!-- componentes reales, recoloreados -->
+  <div class="c8__card" data-safe="card">
+    <dm-badge color="primary" variant="flat" size="sm">Synced</dm-badge>
+    <dm-switch [checked]="true" color="primary" size="sm" />
+    <dm-checkbox [checked]="true" color="primary" />
+    <dm-button color="primary" size="sm">Publish</dm-button>
+  </div>
+
+  <!-- cómo se deriva: sintaxis de color relativo, como en _themes.scss -->
+  <div class="c8__callout" data-safe="callout">
+    <span class="c8__callout-dot"></span>
+    <span>oklch(<b>from var(--dm-primary)</b> L C h)</span>
+  </div>
+</div>

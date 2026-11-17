@@ -1,0 +1,192 @@
+// Portada v0.5 — dm-select multiple + filterable, abierto, de frente.
+// Medidas en px de lienzo (1200×630): es una imagen, se escala entera.
+@use 'cover-kit' as kit;
+
+:host {
+  display: contents;
+}
+
+// Caja = zona segura (560×420): trigger, panel, cursor y anotación.
+.c5 {
+  position: relative;
+  width: 560px;
+  height: 420px;
+}
+
+// ---- Trigger (contrato de la familia de campos: radio md, superficie elevada
+// y anillo primary al estar abierto) ------------------------------------------------
+.c5__trigger {
+  position: absolute;
+  top: 18px;
+  left: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 460px;
+  height: 52px;
+  padding: 0 14px 0 10px;
+  border-radius: 12px;
+  background: var(--dm-bg-elevated);
+  box-shadow:
+    inset 0 0 0 1px kit.accent(55%),
+    0 0 0 4px kit.accent(14%),
+    0 18px 36px -12px rgb(0 0 0 / 60%);
+}
+
+.c5__chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.c5__x {
+  margin-left: 3px;
+  opacity: 0.55;
+}
+
+// El chip recién añadido: el foco de la portada.
+.c5__new {
+  display: inline-flex;
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 1.5px kit.accent(80%),
+    0 0 18px kit.accent(55%);
+}
+
+.c5__caret {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: rgb(255 255 255 / 55%);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+// ---- Panel (réplica del overlay) ----------------------------------------------------
+.c5__panel {
+  position: absolute;
+  top: 82px;
+  left: 50px;
+  display: grid;
+  width: 460px;
+  padding: 6px;
+  border-radius: 14px;
+  background: var(--dm-bg-elevated);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 9%),
+    inset 0 1px 0 rgb(255 255 255 / 6%),
+    0 30px 60px -14px rgb(0 0 0 / 70%);
+}
+
+.c5__filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 46px;
+  margin-bottom: 4px;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--dm-border);
+  color: rgb(255 255 255 / 45%);
+
+  svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+}
+
+.c5__query {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  font-size: 15px;
+  color: rgb(255 255 255 / 92%);
+}
+
+// Cursor de texto, tras lo escrito.
+.c5__caret-text {
+  width: 1.5px;
+  height: 18px;
+  margin-left: 1px;
+  background: var(--dm-cover-accent);
+}
+
+.c5__clear {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.c5__group {
+  padding: 10px 12px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 40%);
+}
+
+.c5__option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 10px;
+}
+
+.c5__option--active {
+  background: kit.accent(13%);
+}
+
+.c5__label {
+  font-size: 15px;
+  color: rgb(255 255 255 / 72%);
+
+  // Coincidencia con el filtro.
+  b {
+    font-weight: 600;
+    color: rgb(255 255 255 / 96%);
+  }
+}
+
+.c5__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 42px;
+  margin-top: 4px;
+  padding: 0 12px;
+  border-top: 1px solid var(--dm-border);
+  font-size: 13px;
+  color: rgb(255 255 255 / 42%);
+
+  b {
+    font-weight: 500;
+    color: rgb(255 255 255 / 72%);
+  }
+}
+
+// ---- Cursor y anotación ---------------------------------------------------------------
+.c5__cursor {
+  @include kit.cursor;
+
+  top: 226px;
+  left: 214px;
+}
+
+.c5__callout {
+  @include kit.callout;
+
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.c5__callout-dot {
+  @include kit.callout-dot;
+}

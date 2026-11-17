@@ -1,3 +1,5 @@
+import { EN } from '../i18n/translations.en';
+
 /**
  * ÚNICA fuente de verdad de los artículos de release del blog.
  * La consumen: el índice /blog, el detalle /blog/:slug, las rutas de servidor
@@ -170,4 +172,13 @@ export const RELEASES_REPO_URL = 'https://github.com/diegomn98/dmaster-ui-worksp
 /** Busca una entrada por slug (para el detalle y el roadmap). */
 export function findRelease(slug: string): ReleaseEntry | undefined {
   return RELEASES.find((r) => r.slug === slug);
+}
+
+/**
+ * `<title>` de /blog/:slug — el titular del artículo, en inglés como el resto de
+ * títulos de ruta (idioma del prerender; EN ya va en el bundle inicial).
+ */
+export function releaseRouteTitle(slug: string | null): string {
+  const entry = slug ? findRelease(slug) : undefined;
+  return entry ? `${EN.blog.articles[entry.key].title} · @dmaster/ui` : 'Release · @dmaster/ui';
 }

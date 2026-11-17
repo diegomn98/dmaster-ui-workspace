@@ -1,0 +1,136 @@
+// Portada v0.6 — lupa de inspector de contraste sobre una tarjeta real.
+// Medidas en px de lienzo (1200×630): es una imagen, se escala entera.
+@use 'cover-kit' as kit;
+
+:host {
+  display: contents;
+}
+
+// Caja = zona segura (560×420): tarjeta, lupa y lectura.
+.c6 {
+  // Centro y radio del cristal (coordenadas de la caja). El contenido ampliado
+  // se escala ×2 alrededor de ese mismo punto, así que coincide con lo de fuera.
+  --dm-c6-lx: 278px;
+  --dm-c6-ly: 259px;
+  --dm-c6-r: 98px;
+
+  position: relative;
+  width: 560px;
+  height: 420px;
+}
+
+// ---- Tarjeta (se pinta dos veces: fuera y dentro de la lupa) -------------------
+.c6__card {
+  position: absolute;
+  top: 80px;
+  left: 30px;
+  display: grid;
+  gap: 26px;
+  width: 500px;
+  padding: 22px 24px 24px;
+  border-radius: 20px;
+  background: var(--dm-bg-elevated);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 8%),
+    inset 0 1px 0 rgb(255 255 255 / 6%),
+    0 28px 56px -14px rgb(0 0 0 / 65%);
+}
+
+.c6__item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 22px;
+  border-top: 1px solid var(--dm-border);
+}
+
+.c6__thumb {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 30% 25%, rgb(255 255 255 / 18%), transparent 55%),
+    linear-gradient(150deg, #4a4a53, #303036);
+}
+
+.c6__meta {
+  display: grid;
+  flex: 1;
+  gap: 8px;
+}
+
+.c6__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dm-fg);
+}
+
+.c6__rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+// El texto más débil de la tarjeta: el que la lupa inspecciona.
+.c6__caption {
+  font-size: 13px;
+  color: var(--dm-fg-subtle);
+  white-space: nowrap;
+}
+
+.c6__qty {
+  flex: none;
+  width: 124px;
+}
+
+// ---- Lupa ---------------------------------------------------------------------
+.c6__lens {
+  position: absolute;
+  top: calc(var(--dm-c6-ly) - var(--dm-c6-r));
+  left: calc(var(--dm-c6-lx) - var(--dm-c6-r));
+  width: calc(var(--dm-c6-r) * 2);
+  height: calc(var(--dm-c6-r) * 2);
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--dm-cover-ink);
+  box-shadow:
+    0 0 0 2.5px var(--dm-cover-accent),
+    0 0 0 10px rgb(20 20 24 / 82%),
+    0 0 0 11px rgb(255 255 255 / 10%),
+    0 30px 60px -10px rgb(0 0 0 / 70%),
+    0 0 80px kit.accent(35%);
+
+  // Reflejo del cristal.
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 30% 22%, rgb(255 255 255 / 14%), transparent 42%);
+    box-shadow: inset 0 0 18px rgb(0 0 0 / 45%);
+  }
+}
+
+.c6__lens-content {
+  position: absolute;
+  top: calc(var(--dm-c6-r) - var(--dm-c6-ly));
+  left: calc(var(--dm-c6-r) - var(--dm-c6-lx));
+  width: 560px;
+  height: 420px;
+  transform: scale(2);
+  transform-origin: var(--dm-c6-lx) var(--dm-c6-ly);
+}
+
+// ---- Lectura del inspector --------------------------------------------------------
+.c6__readout {
+  @include kit.callout;
+
+  position: absolute;
+  top: calc(var(--dm-c6-ly) + var(--dm-c6-r) + 18px);
+  left: calc(var(--dm-c6-lx) + 40px);
+}
+
+.c6__readout-dot {
+  @include kit.callout-dot;
+}

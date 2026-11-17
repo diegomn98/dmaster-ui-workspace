@@ -104,7 +104,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 8.5rem;
+
+  // Proporción FIJA (no altura fija): el recorte de la portada ilustrada es
+  // el mismo en cualquier ancho — ver la zona segura en docs/release-covers.md.
+  aspect-ratio: 8 / 3;
   flex: none;
   border-bottom: 1px solid var(--dm-border);
 
@@ -188,6 +191,49 @@
   user-select: none;
 }
 
+// ---- Portada ilustrada (core/blog/covers.ts) ----------------------------------
+// El lienzo 1200×630 cubre la caja entera (object-fit: cover, centrado); las
+// esquinas del lienzo quedan fuera del recorte y la versión la pinta el badge.
+.bp__cover--art {
+  display: block;
+  background: none;
+
+  &::before {
+    content: none;
+  }
+}
+
+.bp__cover-art {
+  position: absolute;
+  inset: 0;
+
+  @include mixins.transition(transform);
+}
+
+.bp__card:hover .bp__cover-art,
+.bp__feat:hover .bp__cover-art {
+  transform: scale(1.03);
+}
+
+// Siempre sobre la portada OSCURA (en claro y en oscuro): cristal oscuro con
+// texto claro — ~15:1 sobre el fondo de la portada.
+.bp__cover-badge {
+  position: absolute;
+  top: var(--dm-space-3);
+  left: var(--dm-space-3);
+  padding: 0.1875rem 0.5625rem;
+  border-radius: var(--dm-radius-full);
+  background: rgb(10 10 12 / 62%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 14%);
+  backdrop-filter: blur(8px);
+  color: #fafafa;
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
 // =============================================================================
 // TARJETA (grid) + DESTACADO comparten estilos base
 // =============================================================================
@@ -221,7 +267,9 @@
 
 @include mixins.reduced-motion {
   .bp__card:hover,
-  .bp__feat:hover {
+  .bp__feat:hover,
+  .bp__card:hover .bp__cover-art,
+  .bp__feat:hover .bp__cover-art {
     transform: none;
   }
 }
@@ -355,19 +403,28 @@
 
 // ---- Destacado --------------------------------------------------------------
 .bp__feat {
+  --dm-blog-feat-cover: 24rem;
+
   margin-top: var(--dm-space-6);
 
   @include mixins.respond-to(lg) {
     flex-direction: row;
+
+    // Alto mínimo = ancho de la portada ⇒ su proporción nunca pasa de 1:1,
+    // por corto que sea el texto de la release destacada: las esquinas del
+    // lienzo (firma, versión) quedan siempre fuera del recorte.
+    min-height: var(--dm-blog-feat-cover);
   }
 }
 
 .bp__cover--feat {
-  height: 12rem;
+  aspect-ratio: 12 / 5;
 
+  // Desde lg la portada es la columna izquierda, casi cuadrada: alto = el de
+  // la tarjeta (stretch), ancho fijo.
   @include mixins.respond-to(lg) {
-    height: auto;
-    width: 22rem;
+    aspect-ratio: auto;
+    width: var(--dm-blog-feat-cover);
     flex: none;
     border-bottom: 0;
     border-right: 1px solid var(--dm-border);

@@ -1,0 +1,30 @@
+<div class="c9">
+  <!-- el campo, tan cerca que el lienzo lo corta: solo cabe el final de la clave -->
+  <div class="c9__field">
+    <span class="c9__key">
+      @for (seg of keySegments; track seg.text) {
+        <span [style.filter]="seg.blur ? 'blur(' + seg.blur + 'px)' : null">{{ seg.text }}</span>
+      }
+    </span>
+    <span class="c9__copy" data-safe="button">
+      <dm-copy-button [value]="key" color="primary" variant="solid" size="lg" copyLabel="Copied">
+        <svg
+          dmCopyIcon
+          width="26"
+          height="26"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </dm-copy-button>
+    </span>
+  </div>
+
+  <span class="c9__ripple" data-safe="ripple"></span>
+  <span class="c9__cursor" data-safe="cursor"></span>
+</div>

@@ -1,0 +1,63 @@
+<div class="c11">
+  <div class="c11__scene">
+    <div class="c11__stack">
+      <!-- la cola: toasts que esperan su turno (maxVisible) -->
+      <div class="c11__queued c11__queued--3"></div>
+      <div class="c11__queued c11__queued--2"></div>
+      <div class="c11__queued c11__queued--1"></div>
+
+      <!-- informativo -->
+      <div class="c11__toast" style="--dm-c11-z: 0px">
+        <span class="c11__icon">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 11v5m0-8v.01" />
+          </svg>
+        </span>
+        <span class="c11__text">
+          <span class="c11__title">Invite sent</span>
+          <span class="c11__desc">alex&#64;acme.dev can now edit</span>
+        </span>
+      </div>
+
+      <!-- loading(): una operación en curso que se actualizará en el sitio -->
+      <div class="c11__toast" style="--dm-c11-z: 20px">
+        <span class="c11__icon c11__icon--loading">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8" class="c11__ring" />
+            <path d="M12 4a8 8 0 0 1 8 8" />
+          </svg>
+        </span>
+        <span class="c11__text">
+          <span class="c11__title">Uploading 3 files…</span>
+          <span class="c11__desc">2 of 3 · invoices.zip</span>
+        </span>
+      </div>
+
+      <!-- el más reciente: el cursor encima congela su temporizador -->
+      <div class="c11__toast c11__toast--focus" data-safe="toast">
+        <span class="c11__icon c11__icon--success">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="m8.5 12.5 2.4 2.4 4.6-5.3" />
+          </svg>
+        </span>
+        <span class="c11__text">
+          <span class="c11__title">Report exported</span>
+          <span class="c11__desc">q3-revenue.csv · 2.4 MB</span>
+        </span>
+        <span class="c11__action">Open</span>
+        <span class="c11__timer"><span class="c11__timer-fill"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <span class="c11__queue-label" data-safe="queue">+3 queued</span>
+
+  <span class="c11__cursor" data-safe="cursor"></span>
+
+  <div class="c11__callout" data-safe="callout">
+    <span class="c11__callout-dot"></span>
+    <span>timer <b>paused</b> · 2.6s left</span>
+  </div>
+</div>

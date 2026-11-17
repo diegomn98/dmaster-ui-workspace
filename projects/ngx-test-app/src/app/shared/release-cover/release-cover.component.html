@@ -1,0 +1,24 @@
+<div class="rc__stage">
+  <!-- atmósfera: glow del acento + retícula de puntos + grano + viñeta -->
+  <div class="rc__glow"></div>
+  <div class="rc__dots"></div>
+  <div class="rc__grain"></div>
+  <div class="rc__vignette"></div>
+
+  <!-- motivo de la release (zona segura, centro del lienzo) -->
+  <div class="rc__motif" inert>
+    <ng-container #motifHost />
+    <ng-content />
+  </div>
+
+  <!-- esquinas: solo visibles en la imagen completa (og:image) -->
+  <div class="rc__corner rc__corner--start">
+    <span class="rc__mark">dm</span>
+    <span class="rc__brand">&#64;dmaster/ui</span>
+  </div>
+  <div class="rc__corner rc__corner--end">
+    <span class="rc__version">{{ version() }}</span>
+    <span class="rc__sep">·</span>
+    <span class="rc__date">{{ date() }}</span>
+  </div>
+</div>

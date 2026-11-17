@@ -1,0 +1,248 @@
+// Portada v0.4 — color picker y date picker, dos paneles de pie en ángulo.
+// Medidas en px de lienzo (1200×630): es una imagen, se escala entera.
+@use 'cover-kit' as kit;
+
+:host {
+  display: contents;
+}
+
+// Caja = zona segura (560×420): los dos paneles y la anotación.
+.c4 {
+  position: relative;
+  width: 560px;
+  height: 420px;
+}
+
+.c4__scene {
+  position: absolute;
+  inset: 0;
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+  transform-style: preserve-3d;
+}
+
+// ---- Detrás: el calendario (desenfocado: plano lejano) --------------------------
+// `filter` en una pieza sin hijos 3D: desenfoca solo ese panel.
+.c4__calendar {
+  @include kit.panel(18px);
+
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 264px;
+  padding: 18px 18px 14px;
+  filter: blur(1.3px);
+  transform: rotateY(26deg) translateZ(-50px);
+}
+
+.c4__cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgb(255 255 255 / 75%);
+}
+
+.c4__cal-nav {
+  letter-spacing: 0.3em;
+  color: rgb(255 255 255 / 40%);
+}
+
+.c4__cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  text-align: center;
+}
+
+.c4__cal-wd {
+  padding-bottom: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgb(255 255 255 / 34%);
+}
+
+.c4__cal-day {
+  height: 30px;
+  border-radius: 999px;
+  font-size: 13px;
+  line-height: 30px;
+  font-variant-numeric: tabular-nums;
+  color: rgb(255 255 255 / 58%);
+}
+
+// El día de la release, marcado en neutro (el acento es del color picker).
+.c4__cal-day--on {
+  background: #e4e4e7;
+  font-weight: 600;
+  color: #18181b;
+}
+
+// Halo del acento detrás del panel, en 2D: una sombra difusa grande sobre una
+// pieza en 3D sale recortada en rectángulo (Chromium rasteriza la capa 3D con
+// sus propios límites).
+.c4__halo {
+  position: absolute;
+  top: 0;
+  right: -40px;
+  width: 400px;
+  height: 420px;
+  background: radial-gradient(closest-side, kit.accent(24%), transparent);
+}
+
+// ---- Al frente: el panel del color picker -------------------------------------------
+.c4__picker {
+  @include kit.panel(20px);
+
+  position: absolute;
+  top: 22px;
+  right: 6px;
+  display: grid;
+  width: 304px;
+  padding: 14px;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 9%),
+    inset 0 1px 0 rgb(255 255 255 / 7%),
+    0 36px 70px -16px rgb(0 0 0 / 75%);
+  transform: rotateY(-16deg) rotateX(4deg) translateZ(30px);
+}
+
+// Área S/V con el tono del acento en HSV (272°); el tirador cae en S 36 % · V 87 %.
+.c4__sv {
+  position: relative;
+  height: 180px;
+  border-radius: 12px;
+  background:
+    linear-gradient(to top, #000, transparent),
+    linear-gradient(to right, #fff, hsl(272deg 100% 50%));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 8%);
+}
+
+.c4__sv-thumb,
+.c4__rail-thumb {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 25%),
+    0 4px 10px rgb(0 0 0 / 50%);
+  transform: translate(-50%, -50%);
+}
+
+.c4__sv-thumb {
+  top: 13%;
+  left: 35.6%;
+  width: 24px;
+  height: 24px;
+  background: var(--dm-cover-accent);
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 25%),
+    0 4px 10px rgb(0 0 0 / 50%),
+    0 0 22px kit.accent(80%);
+}
+
+.c4__rail {
+  position: relative;
+  height: 12px;
+  margin-top: 16px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 8%);
+}
+
+.c4__rail--hue {
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+
+  .c4__rail-thumb {
+    top: 50%;
+    left: 75.5%;
+    background: hsl(272deg 100% 50%);
+  }
+}
+
+.c4__rail--alpha {
+  margin-top: 14px;
+  background:
+    linear-gradient(to right, transparent, var(--dm-cover-accent)),
+    repeating-conic-gradient(#3a3a40 0 25%, #2a2a30 0 50%) 0 0 / 10px 10px;
+
+  .c4__rail-thumb {
+    top: 50%;
+    left: calc(100% - 10px);
+    background: var(--dm-cover-accent);
+  }
+}
+
+.c4__fields {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.c4__preview {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--dm-cover-accent);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 18%);
+}
+
+.c4__hex,
+.c4__alpha {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 10px;
+  background: #1b1b20;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 9%);
+  font-family: var(--dm-font-mono);
+  font-size: 15px;
+  color: rgb(255 255 255 / 90%);
+}
+
+.c4__hex {
+  flex: 1;
+
+  i {
+    margin-right: 2px;
+    font-style: normal;
+    color: rgb(255 255 255 / 38%);
+  }
+}
+
+.c4__alpha {
+  font-size: 14px;
+  color: rgb(255 255 255 / 55%);
+}
+
+.c4__swatches {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.c4__swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--dm-c4-swatch, #888) 55%, #26262c);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 10%);
+}
+
+// ---- Anotación -----------------------------------------------------------------------
+.c4__callout {
+  @include kit.callout;
+
+  position: absolute;
+  bottom: 2px;
+  left: 30px;
+}
+
+.c4__callout-dot {
+  @include kit.callout-dot;
+}

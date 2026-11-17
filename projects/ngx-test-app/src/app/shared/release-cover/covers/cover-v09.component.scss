@@ -1,0 +1,84 @@
+// Portada v0.9 — macro del botón de copiar, con profundidad de campo tilt-shift.
+// Medidas en px de lienzo (1200×630): es una imagen, se escala entera.
+@use 'cover-kit' as kit;
+
+:host {
+  display: contents;
+}
+
+// Caja = zona segura (560×420): botón, onda y cursor, con el botón cerca del
+// centro (el foco no se va a un lado en las panorámicas). El campo desborda la
+// zona por la izquierda y se sale del lienzo: es un primer plano.
+.c9 {
+  position: relative;
+  width: 560px;
+  height: 420px;
+}
+
+// ---- El campo ----------------------------------------------------------------------
+.c9__field {
+  position: absolute;
+  top: 146px;
+  right: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 28px;
+  width: 1000px;
+  height: 128px;
+  padding: 0 24px 0 0;
+  border-radius: 34px;
+  background: linear-gradient(175deg, #303037, #26262c);
+  box-shadow:
+    inset 0 0 0 1.5px rgb(255 255 255 / 11%),
+    inset 0 2px 0 rgb(255 255 255 / 7%),
+    0 50px 90px -24px rgb(0 0 0 / 80%);
+
+  // Se aleja hacia la izquierda (el extremo del botón queda delante) y su
+  // extremo lejano se disuelve en el fondo.
+  mask-image: linear-gradient(to right, transparent 4%, #000 46%);
+  transform: perspective(2600px) rotateY(-13deg);
+  transform-origin: 100% 50%;
+}
+
+.c9__key {
+  font-family: var(--dm-font-mono);
+  font-size: 44px;
+  letter-spacing: -0.01em;
+  color: rgb(255 255 255 / 90%);
+  white-space: nowrap;
+}
+
+// dm-copy-button real a tamaño macro, con sus tokens públicos (los de dm-button).
+.c9__copy {
+  display: flex;
+  filter: drop-shadow(0 0 28px kit.accent(50%));
+
+  dm-copy-button {
+    --dm-button-height: 80px;
+    --dm-button-padding-inline: 32px;
+    --dm-button-gap: 12px;
+    --dm-button-font-weight: 600;
+    --dm-text-base: 26px;
+  }
+}
+
+// ---- Clic: onda y cursor -------------------------------------------------------------
+.c9__ripple {
+  position: absolute;
+  top: 252px;
+  left: 380px;
+  width: 64px;
+  height: 64px;
+  border: 2px solid kit.accent(60%);
+  border-radius: 999px;
+  box-shadow: 0 0 0 14px kit.accent(10%);
+  transform: translate(-50%, -50%);
+}
+
+.c9__cursor {
+  @include kit.cursor(36px);
+
+  top: 252px;
+  left: 380px;
+}

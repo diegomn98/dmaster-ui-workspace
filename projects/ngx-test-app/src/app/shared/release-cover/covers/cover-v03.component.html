@@ -1,0 +1,47 @@
+<div class="c3">
+  <!-- fondo: la app, desenfocada bajo el velo del overlay -->
+  <div class="c3__app">
+    <span class="c3__app-side"> <i></i><i></i><i></i><i></i><i></i> </span>
+    <span class="c3__app-main">
+      <i class="c3__app-title"></i>
+      <span class="c3__app-cards"><i></i><i></i><i></i></span>
+      <i class="c3__app-row"></i>
+      <i class="c3__app-row"></i>
+    </span>
+  </div>
+
+  <!-- la paleta de comandos -->
+  <div class="c3__palette" data-safe="palette">
+    <div class="c3__search">
+      <dm-icon name="search" size="18px" />
+      <span class="c3__query">theme<span class="c3__caret"></span></span>
+      <dm-kbd keys="escape" />
+    </div>
+
+    <span class="c3__group">Appearance</span>
+    @for (a of appearance; track a.label) {
+      <div class="c3__row" [class.c3__row--active]="a.active">
+        <dm-icon [name]="a.icon" size="18px" />
+        <span class="c3__label">{{ a.label }}</span>
+        @if (a.active) {
+          <dm-kbd keys="enter" />
+        }
+      </div>
+    }
+
+    <span class="c3__group">Docs</span>
+    <div class="c3__row">
+      <dm-icon name="palette" size="18px" />
+      <span class="c3__label">Theming guide</span>
+    </div>
+
+    <div class="c3__footer">
+      <span><dm-kbd keys="up" /><dm-kbd keys="down" /> navigate</span>
+      <span><dm-kbd keys="enter" /> select</span>
+    </div>
+  </div>
+
+  <!-- primer plano: las teclas que la abrieron -->
+  <span class="c3__key c3__key--cmd" data-safe="key-cmd">⌘</span>
+  <span class="c3__key c3__key--k" data-safe="key-k">K</span>
+</div>

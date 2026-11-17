@@ -1,0 +1,170 @@
+// Portada v0.8 — grafo de derivación de tokens: un override, una familia entera.
+// Medidas en px de lienzo (1200×630): es una imagen, se escala entera.
+@use 'cover-kit' as kit;
+
+:host {
+  display: contents;
+}
+
+// Caja = zona segura (560×420): fuente, nodos derivados y componentes.
+.c8 {
+  position: relative;
+  width: 560px;
+  height: 420px;
+}
+
+// ---- Tokens por componente (extensión fuera de la zona segura) -----------------
+.c8__tokens {
+  @include kit.label;
+
+  position: absolute;
+  top: 44px;
+  display: grid;
+  gap: 22px;
+  color: rgb(255 255 255 / 30%);
+}
+
+.c8__tokens--start {
+  right: calc(100% + 64px);
+  text-align: end;
+  mask-image: linear-gradient(to left, #000 30%, transparent);
+}
+
+.c8__tokens--end {
+  left: calc(100% + 64px);
+  mask-image: linear-gradient(to right, #000 30%, transparent);
+}
+
+// ---- Conectores ----------------------------------------------------------------
+.c8__wires {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  filter: drop-shadow(0 0 6px kit.accent(45%));
+
+  path {
+    fill: none;
+    stroke: kit.accent(55%);
+    stroke-width: 1.5;
+  }
+
+  circle {
+    fill: var(--dm-cover-accent);
+  }
+}
+
+// ---- El override -----------------------------------------------------------------
+.c8__source {
+  @include kit.panel(18px);
+
+  position: absolute;
+  top: 92px;
+  left: 0;
+  display: grid;
+  gap: 22px;
+  width: 164px;
+  padding: 18px;
+  box-shadow:
+    inset 0 0 0 1px kit.accent(45%),
+    inset 0 1px 0 rgb(255 255 255 / 7%),
+    0 24px 48px -12px rgb(0 0 0 / 60%),
+    0 0 56px kit.accent(22%);
+}
+
+.c8__swatch {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: var(--dm-primary);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 18%),
+    0 0 24px kit.accent(50%);
+}
+
+.c8__code {
+  display: grid;
+  gap: 6px;
+  font-family: var(--dm-font-mono);
+  font-size: 14px;
+  line-height: 1;
+}
+
+.c8__prop {
+  color: rgb(255 255 255 / 88%);
+}
+
+.c8__value {
+  color: var(--dm-cover-accent);
+}
+
+// ---- Familia derivada ------------------------------------------------------------
+.c8__node {
+  @include kit.panel(999px);
+
+  position: absolute;
+  left: 214px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 184px;
+  height: 40px;
+  padding: 0 14px 0 12px;
+  font-family: var(--dm-font-mono);
+  font-size: 12px;
+  color: rgb(255 255 255 / 50%);
+  white-space: nowrap;
+
+  b {
+    font-weight: 500;
+    color: rgb(255 255 255 / 90%);
+  }
+}
+
+.c8__dot {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 16%);
+}
+
+// Las muestras SON los tokens: la cascada de la librería los deriva del acento.
+.c8__node[data-token='hover'] .c8__dot {
+  background: var(--dm-primary-hover);
+}
+
+.c8__node[data-token='text'] .c8__dot {
+  background: var(--dm-primary-text);
+}
+
+.c8__node[data-token='subtle'] .c8__dot {
+  background: var(--dm-primary-subtle);
+}
+
+// ---- Componentes recoloreados ---------------------------------------------------
+.c8__card {
+  @include kit.panel(18px);
+
+  position: absolute;
+  top: 83px;
+  left: 440px;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  width: 120px;
+  padding: 18px 0;
+}
+
+// ---- Anotación -------------------------------------------------------------------
+.c8__callout {
+  @include kit.callout;
+
+  position: absolute;
+  top: 330px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.c8__callout-dot {
+  @include kit.callout-dot;
+}

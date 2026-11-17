@@ -1,0 +1,38 @@
+<!-- la tarjeta se pinta dos veces: tal cual y, ampliada, dentro de la lupa -->
+<ng-template #order>
+  <div class="c6__card">
+    <dm-stepper class="c6__stepper" [activeStep]="1" size="sm" color="default" ariaLabel="Checkout">
+      <dm-step label="Cart" completed />
+      <dm-step label="Shipping" />
+      <dm-step label="Payment" />
+    </dm-stepper>
+
+    <div class="c6__item">
+      <span class="c6__thumb"></span>
+      <span class="c6__meta">
+        <span class="c6__name">Trail runner 2</span>
+        <span class="c6__rating">
+          <dm-rating [value]="4" readonly size="sm" color="default" ariaLabel="Rated 4 of 5" />
+          <span class="c6__caption">128 reviews</span>
+        </span>
+      </span>
+      <dm-number-input class="c6__qty" [value]="2" [min]="1" size="sm" ariaLabel="Quantity" />
+    </div>
+  </div>
+</ng-template>
+
+<div class="c6">
+  <ng-container [ngTemplateOutlet]="order" />
+
+  <!-- la lupa del inspector: la misma tarjeta ×2, recortada en el cristal -->
+  <div class="c6__lens" data-safe="lens">
+    <div class="c6__lens-content">
+      <ng-container [ngTemplateOutlet]="order" />
+    </div>
+  </div>
+
+  <div class="c6__readout" data-safe="readout">
+    <span class="c6__readout-dot"></span>
+    <span>4.55:1 · <b>AA</b></span>
+  </div>
+</div>
