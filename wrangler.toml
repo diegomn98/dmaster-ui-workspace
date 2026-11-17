@@ -4,3 +4,10 @@ compatibility_date = "2025-01-01"
 [assets]
 directory = "./dist/ngx-test-app/browser"
 not_found_handling = "single-page-application"
+# The prerender writes every route as <route>/index.html. The default
+# ("auto-trailing-slash") answers /blog/v0-3 with a 307 to /blog/v0-3/, which
+# contradicts the canonical/og:url/sitemap (all slash-less). This serves
+# /blog/v0-3 with a 200 straight from blog/v0-3/index.html. Its own redirect for
+# /blog/v0-3/ is a 307 (not configurable); public/_redirects runs first and
+# makes it a permanent 301.
+html_handling = "drop-trailing-slash"

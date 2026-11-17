@@ -1,0 +1,6 @@
+# Canonical URLs carry no trailing slash (canonical, og:url, sitemap, routerLinks).
+# html_handling = "drop-trailing-slash" (wrangler.toml) already serves /route with
+# a 200, but answers /route/ with a TEMPORARY 307. _redirects runs before asset
+# matching, so this rule turns it into a permanent 301. The root "/" cannot match
+# "/*/" (that needs two slashes), so it keeps serving index.html.
+/*/  /:splat  301
