@@ -21,8 +21,8 @@ import {
 } from '../../../core/blog/releases';
 import { BlogArticleTranslations } from '../../../core/i18n/translations.types';
 import { LocaleService } from '../../../core/i18n/locale.service';
+import { canonicalUrl } from '../../../core/seo/canonical-url';
 import { htmlToText, SocialMetaService, truncate } from '../../../core/seo/social-meta.service';
-import { SITE_ORIGIN } from '../../../core/site';
 import { ReleaseCoverComponent } from '../../../shared/release-cover/release-cover.component';
 import { SiteTopbarComponent } from '../../../shared/site-topbar/site-topbar.component';
 
@@ -105,7 +105,7 @@ export class BlogArticlePageComponent {
       social.apply({
         title: article.title,
         description: truncate(htmlToText(article.lead)),
-        url: `${SITE_ORIGIN}/blog/${entry.slug}`,
+        url: canonicalUrl(`/blog/${entry.slug}`),
         type: 'article',
         publishedTime: entry.date,
         image: this.cover()

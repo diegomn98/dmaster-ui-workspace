@@ -47,6 +47,11 @@ const MANAGED: readonly MetaKey[] = [
  * crawlers (no ejecutan JS) — y a `reset()` al destruirse, que devuelve las
  * del sitio para la siguiente ruta de la navegación en cliente.
  *
+ * canonical y og:url de CADA ruta los pone `provideCanonicalUrl()`
+ * (canonical-url.ts) en cada NavigationEnd — después del `reset()` de la ruta
+ * saliente — así que aquí solo cuentan para las páginas que llaman a `apply()`,
+ * y deben pasar `canonicalUrl(...)` para que coincidan.
+ *
  * Toca el DOM vía `inject(DOCUMENT)` (SSR-safe) y NO usa `Meta` de
  * @angular/platform-browser a propósito: ese módulo ya va en el chunk inicial
  * y usar `Meta` desde una ruta diferida metía su código (~1,6 kB) en el

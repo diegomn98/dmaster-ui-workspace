@@ -12,6 +12,7 @@ import { DM_ICONS } from '@dmaster/ui/icons';
 
 import { routes } from './app.routes';
 import { LocaleService } from './core/i18n/locale.service';
+import { provideCanonicalUrl } from './core/seo/canonical-url';
 import { provideFaviconTheme } from './core/theme/favicon-theme';
 import { provideThemePersistence } from './core/theme/theme-persistence';
 
@@ -34,5 +35,7 @@ export const appConfig: ApplicationConfig = {
     { provide: DM_DATE_LOCALE, useFactory: () => inject(LocaleService).locale },
     provideThemePersistence(),
     provideFaviconTheme(),
+    // Per-route canonical + og:url (index.html only carries the home page's).
+    provideCanonicalUrl(),
   ],
 };
