@@ -31,6 +31,8 @@ yarn-error.log
 # Miscellaneous
 /.angular/cache
 .sass-cache/
+# Local state of `npx wrangler dev` (checking _headers/_redirects/html_handling)
+/.wrangler/
 # Claude Design canvas scratch (design-tool working files, not source)
 .design/
 /connect.lock
