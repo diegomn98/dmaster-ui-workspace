@@ -1,0 +1,41 @@
+<div class="c10">
+  <div class="c10__fan">
+    @for (b of blades; track b.name) {
+      @if (b.name === picked) {
+        <!-- la elegida: fuera del abanico, con el acento y la UI recoloreada -->
+        <div
+          class="c10__blade c10__blade--picked"
+          [style.--dm-c10-angle.deg]="b.angle"
+          data-safe="picked"
+        >
+          <span class="c10__swatch">
+            <span class="c10__name">{{ b.name }}</span>
+          </span>
+          <span class="c10__ui">
+            <dm-switch [checked]="true" color="primary" size="sm" />
+            <dm-badge color="primary" variant="flat" size="sm">New</dm-badge>
+            <dm-button color="primary" size="sm">Save</dm-button>
+          </span>
+        </div>
+      } @else {
+        <div
+          class="c10__blade"
+          [style.--dm-c10-angle.deg]="b.angle"
+          [style.--dm-c10-color]="b.color"
+        >
+          <span class="c10__swatch">
+            <span class="c10__name">{{ b.name }}</span>
+          </span>
+        </div>
+      }
+    }
+    <span class="c10__rivet"></span>
+  </div>
+
+  <div class="c10__callout" data-safe="callout">
+    <span class="c10__callout-dot"></span>
+    <span
+      >ng add &#64;dmaster/ui --theme=<b>{{ picked }}</b></span
+    >
+  </div>
+</div>

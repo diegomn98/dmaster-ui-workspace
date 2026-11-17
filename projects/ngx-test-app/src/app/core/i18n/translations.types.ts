@@ -1,3 +1,5 @@
+import type { CoveredReleaseKey } from '../blog/covers';
+
 /** Idiomas soportados por el dashboard. Inglés es el idioma por defecto. */
 export type DashboardLocale = 'en' | 'es' | 'fr';
 
@@ -477,6 +479,12 @@ export interface DashboardTranslations {
     articleViewChangelog: string;
     articleNewer: string;
     articleOlder: string;
+    /**
+     * Texto alternativo de cada portada ilustrada (aria-label del role="img").
+     * Las claves salen de RELEASE_COVERS: una portada nueva sin su texto aquí
+     * no compila.
+     */
+    coverAlts: Record<CoveredReleaseKey, string>;
     articles: {
       v012: BlogArticleTranslations;
       v011: BlogArticleTranslations;

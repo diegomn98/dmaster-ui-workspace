@@ -1,0 +1,86 @@
+<div class="c12">
+  <div class="c12__scene">
+    <div class="c12__plane">
+      <!-- anillo exterior: más entry points, desvaneciéndose -->
+      @for (g of ring; track g.name) {
+        <div
+          class="c12__tile c12__tile--ghost"
+          [class.c12__tile--far]="(g.row === 1 || g.row === 5) && (g.col === 1 || g.col === 5)"
+          [style.grid-area]="g.row + ' / ' + g.col"
+        >
+          <span class="c12__name">/{{ g.name }}</span>
+        </div>
+      }
+
+      <!-- hueco que deja /toggle-group al salir + líneas de despiece (sin la de la
+           esquina trasera: la tapa la baldosa — línea oculta, se omite) -->
+      <div class="c12__slot">
+        <span class="c12__beam" style="left: 8px; top: 8px"></span>
+        <span class="c12__beam" style="left: 8px; top: calc(100% - 8px)"></span>
+        <span class="c12__beam" style="right: 8px; top: calc(100% - 8px)"></span>
+      </div>
+
+      <!-- núcleo: componentes reales -->
+      <div class="c12__tile" style="grid-area: 2 / 2; --dm-c12-z: 14px">
+        <span class="c12__name">/avatar</span>
+        <span class="c12__ui c12__ui--avatars">
+          <dm-avatar initials="DM" size="sm" color="default" />
+          <dm-avatar initials="AL" size="sm" color="default" />
+        </span>
+      </div>
+      <div class="c12__tile" style="grid-area: 2 / 3; --dm-c12-z: 24px">
+        <span class="c12__name">/switch</span>
+        <span class="c12__ui"><dm-switch [checked]="true" color="default" /></span>
+      </div>
+      <div class="c12__tile" style="grid-area: 3 / 2; --dm-c12-z: 6px">
+        <span class="c12__name">/badge</span>
+        <span class="c12__ui">
+          <dm-badge color="default" variant="flat" size="sm">Beta</dm-badge>
+        </span>
+      </div>
+      <div class="c12__tile" style="grid-area: 3 / 3; --dm-c12-z: 18px">
+        <span class="c12__name">/button</span>
+        <span class="c12__ui"><dm-button color="default" size="sm">Save</dm-button></span>
+      </div>
+      <div class="c12__tile" style="grid-area: 3 / 4; --dm-c12-z: 30px">
+        <span class="c12__name">/checkbox</span>
+        <span class="c12__ui"
+          ><dm-checkbox [checked]="true" color="default">Sync</dm-checkbox></span
+        >
+      </div>
+      <div class="c12__tile" style="grid-area: 4 / 2; --dm-c12-z: 2px">
+        <span class="c12__name">/kbd</span>
+        <span class="c12__ui">
+          <dm-kbd keys="command" />
+          <dm-kbd>K</dm-kbd>
+        </span>
+      </div>
+      <div class="c12__tile" style="grid-area: 4 / 3; --dm-c12-z: 10px">
+        <span class="c12__name">/progress</span>
+        <span class="c12__ui c12__ui--wide"><dm-progress [value]="64" color="default" /></span>
+      </div>
+      <div class="c12__tile" style="grid-area: 4 / 4; --dm-c12-z: 20px">
+        <span class="c12__name">/slider</span>
+        <span class="c12__ui c12__ui--wide"><dm-slider [value]="42" color="default" /></span>
+      </div>
+
+      <!-- el entry point que sale del paquete -->
+      <div class="c12__tile c12__tile--lifted" data-safe="lifted">
+        <span class="c12__name">/toggle-group</span>
+        <span class="c12__ui">
+          <dm-toggle-group [value]="'1w'" size="sm" color="primary">
+            <dm-toggle value="1d">1D</dm-toggle>
+            <dm-toggle value="1w">1W</dm-toggle>
+            <dm-toggle value="1m">1M</dm-toggle>
+          </dm-toggle-group>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- anotación en pantalla: el subpath del entry point que sale -->
+  <div class="c12__callout" data-safe="callout">
+    <span class="c12__callout-dot"></span>
+    <span>&#64;dmaster/ui/<b>toggle-group</b></span>
+  </div>
+</div>

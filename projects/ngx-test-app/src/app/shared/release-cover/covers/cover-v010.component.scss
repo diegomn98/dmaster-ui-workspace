@@ -1,0 +1,140 @@
+// Portada v0.10 — abanico de muestras con los nueve temas precompilados.
+// Medidas en px de lienzo (1200×630): es una imagen, se escala entera.
+@use 'cover-kit' as kit;
+
+:host {
+  display: contents;
+}
+
+// Caja = zona segura (560×420). El remache del abanico cae abajo en el centro.
+.c10 {
+  position: relative;
+  width: 560px;
+  height: 420px;
+}
+
+.c10__fan {
+  // Pivote (remache) en coordenadas de la caja; las láminas giran sobre él.
+  --dm-c10-pivot-x: 280px;
+  --dm-c10-pivot-y: 386px;
+  --dm-c10-w: 112px;
+  --dm-c10-h: 318px;
+  --dm-c10-tail: 26px;
+
+  position: absolute;
+  inset: 0;
+}
+
+// ---- Lámina --------------------------------------------------------------------
+.c10__blade {
+  position: absolute;
+  top: calc(var(--dm-c10-pivot-y) - var(--dm-c10-h) + var(--dm-c10-tail));
+  left: calc(var(--dm-c10-pivot-x) - var(--dm-c10-w) / 2);
+  display: flex;
+  flex-direction: column;
+  width: var(--dm-c10-w);
+  height: var(--dm-c10-h);
+  padding: 8px;
+  border-radius: 16px;
+  background: linear-gradient(175deg, #2b2b31, #1e1e23 80%);
+
+  // Cada lámina tapa a la de su izquierda: su sombra cae sobre ella.
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 8%),
+    inset 1px 0 0 rgb(255 255 255 / 5%),
+    -10px 0 22px -6px rgb(0 0 0 / 55%);
+  transform: rotate(var(--dm-c10-angle, 0deg));
+  transform-origin: 50% calc(100% - var(--dm-c10-tail));
+}
+
+.c10__swatch {
+  position: relative;
+  flex: none;
+  height: 112px;
+  border-radius: 10px;
+
+  // El color del tema, en tinte apagado: se reconoce sin competir con el foco.
+  background: linear-gradient(
+    160deg,
+    color-mix(in oklch, var(--dm-c10-color, #888) 58%, #24242a),
+    color-mix(in oklch, var(--dm-c10-color, #888) 40%, #1c1c21)
+  );
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 7%);
+}
+
+.c10__name {
+  @include kit.label;
+
+  // Arriba a la izquierda: lejos del remache es donde la lámina vecina tapa
+  // menos (más abajo, el nombre quedaría cortado).
+  position: absolute;
+  top: 11px;
+  left: 11px;
+  color: rgb(255 255 255 / 72%);
+}
+
+// ---- La elegida: fuera del abanico, con el acento ------------------------------
+.c10__blade--picked {
+  z-index: 10;
+  background: linear-gradient(
+    175deg,
+    color-mix(in oklch, #303037, var(--dm-cover-accent) 10%),
+    #222227 80%
+  );
+  box-shadow:
+    inset 0 0 0 1.5px kit.accent(70%),
+    inset 1px 0 0 rgb(255 255 255 / 8%),
+    -12px 0 28px -6px rgb(0 0 0 / 65%),
+    0 0 64px kit.accent(30%);
+  transform: rotate(var(--dm-c10-angle, 0deg)) translateY(-44px);
+
+  .c10__swatch {
+    background: linear-gradient(
+      160deg,
+      oklch(80% 0.11 var(--dm-cover-hue, 255)),
+      var(--dm-cover-accent) 70%
+    );
+  }
+
+  .c10__name {
+    font-weight: 600;
+    color: var(--dm-cover-ink);
+  }
+}
+
+.c10__ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+}
+
+// Remache: el eje del abanico, por encima de todas las láminas.
+.c10__rivet {
+  position: absolute;
+  z-index: 20;
+  top: calc(var(--dm-c10-pivot-y) - 12px);
+  left: calc(var(--dm-c10-pivot-x) - 12px);
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 40% 35%, #55555e, #2a2a30 60%, #18181c);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 14%),
+    0 4px 10px rgb(0 0 0 / 60%);
+}
+
+// ---- Anotación -----------------------------------------------------------------
+.c10__callout {
+  @include kit.callout;
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.c10__callout-dot {
+  @include kit.callout-dot;
+}

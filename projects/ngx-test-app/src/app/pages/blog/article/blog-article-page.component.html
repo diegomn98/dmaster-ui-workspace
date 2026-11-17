@@ -7,12 +7,27 @@
     {{ i18n.t().blog.articleBack }}
   </a>
 
-  <!-- portada: misma identidad que el índice (color de categoría + versión
-       gigante + glifo watermark), como hero del artículo -->
-  <div class="ba__cover">
-    <span class="ba__cover-version">{{ entry().version }}</span>
-    <span class="ba__cover-glyph" aria-hidden="true">{{ glyph() }}</span>
-  </div>
+  <!-- portada: la ilustrada de la release (recorte 12:5 del lienzo 1200×630,
+       esquinas fuera; la versión la pinta el badge) o, si no tiene, la generada
+       con la identidad del índice (color de categoría + versión + glifo) -->
+  @if (cover(); as c) {
+    <div class="ba__cover ba__cover--art">
+      <app-release-cover
+        class="ba__cover-art"
+        [version]="entry().version"
+        [date]="entry().date"
+        [hue]="c.hue"
+        [motif]="c.motif"
+        [label]="coverAlt()"
+      />
+      <span class="ba__cover-badge">{{ entry().version }}</span>
+    </div>
+  } @else {
+    <div class="ba__cover">
+      <span class="ba__cover-version">{{ entry().version }}</span>
+      <span class="ba__cover-glyph" aria-hidden="true">{{ glyph() }}</span>
+    </div>
+  }
 
   <!-- cabecera del artículo -->
   <header class="ba__head">
@@ -23,7 +38,7 @@
       <span class="ba__date">{{ entry().date }} · {{ entry().minutes }} min</span>
     </div>
     <h1 class="ba__title">{{ article().title }}</h1>
-    <p class="ba__lead">{{ article().lead }}</p>
+    <p class="ba__lead" [innerHTML]="article().lead"></p>
   </header>
 
   <hr class="ba__rule" />

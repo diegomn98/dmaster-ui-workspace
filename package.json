@@ -27,6 +27,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "size": "node scripts/size-audit.mjs",
+    "covers": "node scripts/render-release-covers.mjs",
     "verify:package": "node scripts/verify-package.mjs",
     "verify:schematics": "node scripts/verify-schematics.mjs",
     "e2e": "playwright test",

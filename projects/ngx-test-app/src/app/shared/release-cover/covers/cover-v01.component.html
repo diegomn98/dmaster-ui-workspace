@@ -1,0 +1,55 @@
+<div class="c1">
+  <!-- líneas de construcción (coordenadas de la caja: el botón mide 300×96 en 130,142) -->
+  <svg class="c1__guides" viewBox="0 0 560 420" aria-hidden="true">
+    <path class="c1__axis" d="M60 190 H500" />
+    <path class="c1__axis" d="M130 112 V268 M430 112 V268" />
+    <circle class="c1__radius" cx="178" cy="190" r="48" />
+    <circle class="c1__radius" cx="382" cy="190" r="48" />
+    <path class="c1__dim" d="M462 142 V238 M455 142 H469 M455 238 H469" />
+    <path class="c1__leader" d="M382 142 L404 108 H440" />
+    <path class="c1__leader" d="M150 104 L196 146" />
+    <path class="c1__leader" d="M146 316 L196 236" />
+    <path class="c1__leader" d="M410 316 L366 236" />
+  </svg>
+
+  <span class="c1__note c1__note--radius">radius="<b>full</b>"</span>
+  <span class="c1__note c1__note--height">3rem</span>
+
+  <!-- el héroe: un dm-button real, a tamaño de lámina -->
+  <span class="c1__hero" data-safe="button">
+    <dm-button color="primary" size="lg" radius="full">Get started</dm-button>
+  </span>
+
+  <!-- fichas -->
+  <div class="c1__card c1__card--fill" data-safe="fill">
+    <span class="c1__swatch"></span>
+    <span class="c1__spec">
+      <span class="c1__key">fill</span>
+      <span class="c1__val">--dm-primary</span>
+    </span>
+  </div>
+
+  <div class="c1__card c1__card--theme" data-safe="theme">
+    <span class="c1__key">data-dm-theme</span>
+    <span class="c1__themes">
+      <dm-badge color="default" variant="flat" size="sm">light</dm-badge>
+      <dm-badge color="default" variant="solid" size="sm">dark</dm-badge>
+      <dm-badge color="default" variant="flat" size="sm">auto</dm-badge>
+    </span>
+  </div>
+
+  <div class="c1__card c1__card--press" data-safe="press">
+    <svg class="c1__curve" viewBox="-0.08 -0.08 1.16 1.16" aria-hidden="true">
+      <path class="c1__curve-frame" d="M0 0 H1 V1 H0 Z" />
+      <path class="c1__curve-handle" d="M0 1 L0.2 1 M1 0 L0 0" />
+      <path class="c1__curve-line" d="M0 1 C0.2 1 0 0 1 0" />
+      <circle cx="0.2" cy="1" r="0.045" />
+      <circle cx="0" cy="0" r="0.045" />
+    </svg>
+    <span class="c1__spec">
+      <span class="c1__key">:active</span>
+      <span class="c1__val">scale(0.97)</span>
+      <span class="c1__key c1__key--ease">--dm-ease-snappy</span>
+    </span>
+  </div>
+</div>

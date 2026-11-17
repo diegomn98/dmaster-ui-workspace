@@ -1,0 +1,40 @@
+<div class="c7">
+  <!-- peldaño 1: la página -->
+  <div class="c7__surface c7__surface--subtle">
+    <span class="c7__token">--dm-bg-<b>subtle</b></span>
+
+    <!-- peldaño 2: el panel -->
+    <div class="c7__surface c7__surface--muted">
+      <span class="c7__token">--dm-bg-<b>muted</b></span>
+      <dm-toggle-group class="c7__channel" [value]="'sms'" size="sm" color="default">
+        <dm-toggle value="sms">SMS</dm-toggle>
+        <dm-toggle value="email">Email</dm-toggle>
+        <dm-toggle value="app">App</dm-toggle>
+      </dm-toggle-group>
+
+      <!-- peldaño 3: la tarjeta, con el código recién pegado -->
+      <div class="c7__surface c7__surface--elevated" data-safe="card">
+        <span class="c7__token">--dm-bg-<b>elevated</b></span>
+        <div class="c7__head">
+          <span class="c7__title">Verification code</span>
+          <span class="c7__hint">Sent to •••• 4417</span>
+        </div>
+        <!-- las seis celdas entraron de golpe: marco de pegado + badge -->
+        <div class="c7__paste" data-safe="paste">
+          <dm-otp
+            class="c7__otp"
+            [length]="6"
+            [groupSize]="3"
+            value="482916"
+            color="primary"
+            ariaLabel="Verification code"
+          />
+          <dm-badge class="c7__pasted" color="primary" variant="solid" size="sm">
+            <dm-icon name="clipboard" size="12px" />
+            Pasted
+          </dm-badge>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

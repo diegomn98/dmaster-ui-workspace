@@ -585,10 +585,24 @@ export const EN: DashboardTranslations = {
     articleViewChangelog: 'Full changelog',
     articleNewer: 'Newer',
     articleOlder: 'Older',
+    coverAlts: {
+      v012: 'Illustration: the @dmaster/ui package exploded into separate tiles, one per entry point — avatar, switch, badge, button, checkbox, kbd, progress and slider — while the toggle-group tile lifts out of its slot, leaving it empty.',
+      v011: 'Illustration: a stack of toasts floating in perspective. The newest one, “Report exported”, has the mouse pointer resting on it and its countdown bar frozen halfway — timer paused, 2.6 s left — while an upload toast and an invite toast sit behind it and two more wait in the queue.',
+      v010: 'Illustration: a paint-swatch fan with the nine prebuilt themes — ocean, cobalt, iris, grape, rose, ember, sunset, forest and slate — spread around its rivet. The sunset blade slides out of the fan, carrying a switch, a badge and a Save button recolored in its tone, under the command ng add @dmaster/ui --theme=sunset.',
+      v09: 'Illustration: a close-up of an API key field, sharp against a blurred settings card. The copy button at the end of the field has just been clicked — it now reads “Copied” with a check mark — and the mouse pointer is still on it, inside the ring of the click.',
+      v08: 'Illustration: a token graph. A single override, --dm-primary set to a green, feeds three derived tokens — --dm-primary-hover, --dm-primary-text and --dm-primary-subtle — which in turn recolor a card of components: a Synced badge, a switch, a checkbox and a Publish button. Faded component token names line both sides.',
+      v07: 'Illustration: three surfaces nested one inside another, each labeled with its token — --dm-bg-subtle, --dm-bg-muted and --dm-bg-elevated — and clearly distinguishable from the next. The middle panel holds an SMS / Email / App toggle group; the innermost card holds a six-cell one-time-code input with the pasted code 482 916 spread across its cells and a “Pasted” badge.',
+      v06: 'Illustration: an order card built with a stepper (Cart, Shipping, Payment), a star rating and a quantity input. An inspector’s magnifying lens sits over the card’s faintest text, “128 reviews”, enlarging it, with a readout below: 4.55:1 · AA.',
+      v05: 'Illustration: a multiple select, open. The filter reads “vit”; under a Tooling group, Vite and Vitest are checked and VitePress is not. The mouse pointer has just checked Vitest, which appears as a new highlighted chip in the trigger next to Angular and Vite. Below, the markup: <dm-select multiple filterable>.',
+      v04: 'Illustration: two picker panels standing at an angle. In front, a color picker — saturation/value area, hue and alpha rails, hex field reading B98FDE and preset swatches — has its handle on this cover’s own lilac accent. Behind it, slightly out of focus, a calendar for August 2026 with the 18th, the release day, selected.',
+      v03: 'Illustration: a command palette open over a dimmed, blurred app. The search reads “theme”; under Appearance, “Dark theme” is highlighted with an Enter hint, above Light theme and Match system theme, and a Docs group offers the Theming guide. In the foreground, two large physical keys, ⌘ and K — the K just pressed — show what opened it.',
+      v02: 'Illustration: a terminal window seen at an angle, right after running ng add @dmaster/ui: it installed @angular/cdk, updated angular.json with the overlay styles and src/styles.scss with the library styles, and its last line, highlighted, says “@dmaster/ui is ready”. Three tags float in front of it: the ./styles/* export, the precompiled dmaster-ui.css and an SSR-safe ThemeService.',
+      v01: 'Illustration: a specification sheet for the library’s design language. In the center, a large pill-shaped “Get started” button, with construction lines tracing its full radius and a 3rem height dimension. Around it, three spec cards: a flat --dm-primary fill swatch, the data-dm-theme attribute with light, dark and auto, and the press — scale(0.97) on the --dm-ease-snappy curve.',
+    },
     articles: {
       v012: {
         title: 'One entry point per component',
-        lead: '0.12 publishes every component as its own entry point — @dmaster/ui/button, @dmaster/ui/menu, @dmaster/ui/toggle-group… — so bundlers can finally code-split the library: a component that only a lazy route uses now ships with that route instead of your initial bundle. The root @dmaster/ui import keeps working, and splits too, but it is deprecated and will be removed in a future version. No new components this time: this release is about what your app pays at startup.',
+        lead: '0.12 publishes every component as its own entry point — <code>@dmaster/ui/button</code>, <code>@dmaster/ui/menu</code>, <code>@dmaster/ui/toggle-group</code>… — so bundlers can finally code-split the library: a component that only a lazy route uses now ships with that route instead of your initial bundle. The root <code>@dmaster/ui</code> import keeps working, and splits too, but it is deprecated and will be removed in a future version. No new components this time: this release is about what your app pays at startup.',
         bullets: [
           'Per-component entry points — 46 components plus @dmaster/ui/core (provideDmasterUI, ThemeService, DensityService and the shared types), each its own module in the package; @dmaster/ui/styles, @dmaster/ui/themes and @dmaster/ui/icons are unchanged',
           'Why it matters — bundlers split code by module, and until 0.11 the whole library was a single module, so anything a lazy route imported landed in the initial bundle, even with sideEffects: false. In a real Angular 22 app that uses 18 of the components, 10 of them (toggle group, checkbox, switch, progress, search field, form field…) moved out of the initial bundle into the lazy routes that use them: −72 kB raw, −6.6 kB transferred',
@@ -615,7 +629,7 @@ export const EN: DashboardTranslations = {
       },
       v010: {
         title: 'Prebuilt themes, a theme generator, and templates for everything',
-        lead: '0.10 makes theming a two-minute job and opens nearly every component to custom content. Nine curated palettes ship as tiny CSS files on @dmaster/ui/themes/* — pick one during ng add and your app recolors in light and dark; need a bespoke one, ng generate @dmaster/ui:theme scaffolds it. Alongside: icon-only buttons become compact squares, and a dozen components gain projected templates for their rows, cells and slots.',
+        lead: '0.10 makes theming a two-minute job and opens nearly every component to custom content. Nine curated palettes ship as tiny CSS files on <code>@dmaster/ui/themes/*</code> — pick one during <code>ng add</code> and your app recolors in light and dark; need a bespoke one, <code>ng generate @dmaster/ui:theme</code> scaffolds it. Alongside: icon-only buttons become compact squares, and a dozen components gain projected templates for their rows, cells and slots.',
         bullets: [
           'Prebuilt color themes on @dmaster/ui/themes/* — nine palettes (Ocean … Slate) picked at install (ng add prompt, or --theme), recoloring light AND dark by overriding only --dm-primary; every label colour is gated at WCAG AA by the build',
           'ng generate @dmaster/ui:theme <name> — scaffolds a custom theme (global recolor, or --named for a switchable data-dm-theme block) and wires it into angular.json',
@@ -628,7 +642,7 @@ export const EN: DashboardTranslations = {
       },
       v09: {
         title: 'A copy-to-clipboard button and directive',
-        lead: '0.9 adds two small, focused ways to copy text: the dm-copy-button component and the dmCopyToClipboard directive. The button wraps dm-button and flips its icon from copy to a check as confirmation; the directive drops the same behaviour onto any button you already have. Both are SSR-safe and ship no built-in copy.',
+        lead: '0.9 adds two small, focused ways to copy text: the <code>dm-copy-button</code> component and the <code>dmCopyToClipboard</code> directive. The button wraps <code>dm-button</code> and flips its icon from copy to a check as confirmation; the directive drops the same behaviour onto any button you already have. Both are SSR-safe and ship no built-in copy.',
         bullets: [
           'dm-copy-button — an icon button that copies its value and flips to a check for a moment; wraps dm-button, so it presses, focuses and themes like every other button',
           'dmCopyToClipboard directive — put it on any button you already have; exportAs gives an isCopied() signal to drive your own feedback',

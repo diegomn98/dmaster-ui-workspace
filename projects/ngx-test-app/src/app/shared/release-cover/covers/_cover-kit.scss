@@ -1,0 +1,84 @@
+// Kit común de los motivos de portada (docs/release-covers.md §7).
+//
+// Piezas que se repiten en la serie y que deben verse IGUAL en todas: el acento
+// con alfa, la superficie de panel, las etiquetas internas, la anotación
+// (píldora mono con punto de acento) y el cursor. Cada motivo lo importa con
+// `@use 'cover-kit' as kit;` y sigue midiendo en px de lienzo.
+
+// Acento de la release con alfa (L y C fijos de la serie; el tono llega del host).
+@function accent($alpha: 100%) {
+  @return oklch(72% 0.12 var(--dm-cover-hue, 255) / $alpha);
+}
+
+// Canto/tinta oscura teñida del tono (bordes de losa, sombras de color).
+@function accent-deep($lightness: 32%, $alpha: 100%) {
+  @return oklch($lightness 0.06 var(--dm-cover-hue, 255) / $alpha);
+}
+
+// Superficie de panel «producto»: degradado frío casi plano, filo de luz
+// arriba, hairline interior y sombra larga y difusa (la portada flota sobre la
+// tinta, no sobre una página).
+@mixin panel($radius: 16px) {
+  border-radius: $radius;
+  background: linear-gradient(170deg, #26262c, #1c1c21 72%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 8%),
+    inset 0 1px 0 rgb(255 255 255 / 6%),
+    0 2px 4px rgb(0 0 0 / 30%),
+    0 24px 48px -12px rgb(0 0 0 / 60%);
+}
+
+// Etiqueta interna del motivo: mono 11 px, blanco 45 %.
+@mixin label {
+  font-family: var(--dm-font-mono);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: rgb(255 255 255 / 45%);
+  white-space: nowrap;
+}
+
+// Anotación: píldora de cristal oscuro, mono 15 px, el dato en acento (<b>) y un
+// punto de acento delante (`.…-dot` con el mixin callout-dot).
+@mixin callout {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 16px 0 14px;
+  border-radius: 999px;
+  background: rgb(18 18 22 / 86%);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 10%),
+    0 8px 24px rgb(0 0 0 / 45%);
+  font-family: var(--dm-font-mono);
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  color: rgb(255 255 255 / 62%);
+  white-space: nowrap;
+
+  b {
+    font-weight: 500;
+    color: var(--dm-cover-accent);
+  }
+}
+
+@mixin callout-dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--dm-cover-accent);
+  box-shadow: 0 0 10px var(--dm-cover-accent);
+}
+
+// Cursor de sistema (flecha blanca con filo oscuro). La punta está en (0, 0)
+// del elemento: posicionarlo por su esquina superior izquierda.
+@mixin cursor($size: 26px) {
+  position: absolute;
+  width: $size;
+  height: $size * 1.25;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 25'%3E%3Cpath d='M1.5 1.5v18.6l4.9-4.6 3.1 7.2 3.3-1.4-3.1-7.1h6.8z' fill='%23fff' stroke='%2309090b' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E")
+    no-repeat 0 0 / contain;
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 45%));
+}

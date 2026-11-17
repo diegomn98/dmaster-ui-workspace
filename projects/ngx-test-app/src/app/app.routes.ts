@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 
 import { ShellComponent } from './layout/shell/shell.component';
 
@@ -26,6 +26,14 @@ export const routes: Routes = [
       import('./pages/blog/blog-page.component').then((m) => m.BlogPageComponent),
     title: 'Blog · @dmaster/ui',
   },
+  // Portada ilustrada a tamaño completo (1200×630, fuente de la og:image).
+  // Solo las releases con entrada en RELEASE_COVERS (core/blog/covers.ts).
+  {
+    path: 'blog/:slug/cover',
+    loadComponent: () =>
+      import('./pages/blog/cover/blog-cover-page.component').then((m) => m.BlogCoverPageComponent),
+    title: 'Release cover · @dmaster/ui',
+  },
   // Detalle de release del build log (slugs prerenderizados desde RELEASES).
   {
     path: 'blog/:slug',
@@ -33,7 +41,10 @@ export const routes: Routes = [
       import('./pages/blog/article/blog-article-page.component').then(
         (m) => m.BlogArticlePageComponent,
       ),
-    title: 'Release · @dmaster/ui',
+    // Título por artículo, en inglés como el resto de rutas (idioma del prerender).
+    // Import diferido: RELEASES no debe entrar en el bundle inicial.
+    title: (route: ActivatedRouteSnapshot) =>
+      import('./core/blog/releases').then((m) => m.releaseRouteTitle(route.paramMap.get('slug'))),
   },
   {
     path: '',

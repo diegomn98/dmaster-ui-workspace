@@ -117,6 +117,43 @@
   }
 }
 
+// Portada ilustrada (core/blog/covers.ts): proporción fija 12:5 — recorte del
+// lienzo 1200×630 que deja fuera las esquinas (ver docs/release-covers.md).
+.ba__cover--art {
+  display: block;
+  height: auto;
+  aspect-ratio: 12 / 5;
+  padding: 0;
+  border-color: rgb(255 255 255 / 8%);
+  background: none;
+
+  &::before {
+    content: none;
+  }
+}
+
+.ba__cover-art {
+  position: absolute;
+  inset: 0;
+}
+
+// Siempre sobre la portada OSCURA: cristal oscuro con texto claro.
+.ba__cover-badge {
+  position: absolute;
+  top: var(--dm-space-4);
+  left: var(--dm-space-4);
+  padding: 0.1875rem 0.625rem;
+  border-radius: var(--dm-radius-full);
+  background: rgb(10 10 12 / 62%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 14%);
+  backdrop-filter: blur(8px);
+  color: #fafafa;
+  font-family: var(--dm-font-mono);
+  font-size: var(--dm-text-xs);
+  font-weight: var(--dm-font-medium);
+  font-variant-numeric: tabular-nums;
+}
+
 .ba__cover-version {
   position: relative;
   z-index: 1;

@@ -1,0 +1,44 @@
+<div class="c4">
+  <span class="c4__halo"></span>
+  <div class="c4__scene">
+    <!-- detrás, desenfocado: el calendario del date picker -->
+    <div class="c4__calendar">
+      <div class="c4__cal-head">
+        <span>August 2026</span>
+        <span class="c4__cal-nav">‹ ›</span>
+      </div>
+      <div class="c4__cal-grid">
+        @for (w of weekdays; track $index) {
+          <span class="c4__cal-wd">{{ w }}</span>
+        }
+        @for (c of cells; track c.key) {
+          <span class="c4__cal-day" [class.c4__cal-day--on]="c.day === 18">{{ c.day }}</span>
+        }
+      </div>
+    </div>
+
+    <!-- al frente: el panel del color picker, eligiendo el acento de la portada -->
+    <div class="c4__picker" data-safe="picker">
+      <div class="c4__sv">
+        <span class="c4__sv-thumb"></span>
+      </div>
+      <div class="c4__rail c4__rail--hue"><span class="c4__rail-thumb"></span></div>
+      <div class="c4__rail c4__rail--alpha"><span class="c4__rail-thumb"></span></div>
+      <div class="c4__fields">
+        <span class="c4__preview"></span>
+        <span class="c4__hex"><i>#</i>B98FDE</span>
+        <span class="c4__alpha">100%</span>
+      </div>
+      <div class="c4__swatches">
+        @for (s of swatches; track s) {
+          <span class="c4__swatch" [style.--dm-c4-swatch]="s"></span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="c4__callout" data-safe="callout">
+    <span class="c4__callout-dot"></span>
+    <span>value: '<b>#b98fde</b>'</span>
+  </div>
+</div>
